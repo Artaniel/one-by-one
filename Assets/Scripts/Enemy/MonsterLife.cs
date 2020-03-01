@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
+
+using Game.Events;
 
 public class MonsterLife : MonoBehaviour
 {
@@ -95,6 +98,7 @@ public class MonsterLife : MonoBehaviour
             {
                 // Trigger an event for those who listen to it (if any)
                 OnEnemyDead?.Invoke();
+                EventManager.OnMonsterDead?.Invoke(transform.position);
                 PreDestroyEffect();
                 
                 Destroy(gameObject);
