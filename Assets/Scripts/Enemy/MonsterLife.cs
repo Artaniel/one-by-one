@@ -99,6 +99,7 @@ public class MonsterLife : MonoBehaviour
                 // Trigger an event for those who listen to it (if any)
                 OnEnemyDead?.Invoke();
                 EventManager.OnMonsterDead?.Invoke(transform.position);
+                
                 PreDestroyEffect();
                 
                 Destroy(gameObject);

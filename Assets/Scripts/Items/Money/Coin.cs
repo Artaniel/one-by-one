@@ -7,8 +7,9 @@ public class Coin : PickupableItem
     
     protected override void PickUp(Collider2D player)
     {
-        Debug.Log("Picked up");
         EventManager.OnCoinPickup.Invoke(transform.position, Amount);
+        
+        AudioManager.Play("CoinPickup", GetComponent<AudioSource>());
         Destroy(transform.gameObject);
     }
 }
