@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Game.Events;
 using UnityEngine;
 
@@ -8,22 +6,26 @@ public class BuyableItem : PickupableItem
 {
     public SkillBase itemAsset;
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void Awake()
     {
-        EventManager.OnNotify.Invoke("Exited", 2);
+        gameObject.tag = "BuyableItem";
     }
 
     protected override void PickUp(Collider2D player)
     {
         if (MoneyManager.MoneyAmount > 0)
         {
-            Debug.Log("Bought item");
             EventManager.OnMoneyChange.Invoke(-1);
+            EventManager.Notify($"Bought item \"{itemAsset.name}\"", 10);
         }
         else
         {
-            // Debug.Log("You can't buy this item");
-            EventManager.OnNotify.Invoke("You can't buy this item", 1);
+            EventManager.Notify("You can't buy this item", 1);
         }
+    }
+
+    private void OnMouseOver()
+    {
+        EventManager.Notify(itemAsset.description, 2);
     }
 }

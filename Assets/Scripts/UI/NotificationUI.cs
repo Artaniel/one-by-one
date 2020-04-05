@@ -6,33 +6,56 @@ using UnityEngine;
 
 public class NotificationUI : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI notificationText = null;
-    [SerializeField]
-    private RectTransform notificationUICenter = null;
-    [SerializeField]
-    private float transitionTime = 0.35f;
+    [SerializeField] private TextMeshProUGUI notificationText = null;
+    [SerializeField] private RectTransform notificationUICenter = null;
+    [SerializeField] private float transitionTime = 0.35f;
+    [SerializeField] private float fadeInTime = 0.1f;
+    [SerializeField] private float fadeOutTime = 0.1f;
+    [SerializeField] private float showTime = 2f;
+
+    public void HideImmediate()
+    {
+        AnimationState.FadeInProgress = false;
+        AnimationState.AnimInProgress = false;
+        AnimationState.AnimationTime = 0f;
+        AnimationState.OnScreenTime = 0f;
+        AnimationState.AlphaValue = 0f;
+        AnimationState.Urgency = 0;
+
+        transparencyManager.AlphaValue = 0f;
+    }
+
+    private TransparencySetterUI transparencyManager = null;
 
     private static class AnimationState
     {
         public static int Urgency = 0;
-        public static Vector2 oldSize = new Vector2(0, 0);
-        public static Vector2 newSize = new Vector2(0, 0);
-        public static float animationTime = 0f;
-        public static bool inProgress = false;
+        public static Vector2 OldSize = new Vector2(0, 0);
+        public static Vector2 NewSize = new Vector2(0, 0);
+        
+        public static float AnimationTime = 0f;
+        public static bool AnimInProgress = false;
+
+        public static float OnScreenTime = 0f;
+        public static float AlphaValue = 0f;
+        public static bool FadeInProgress = false;
     }
 
     private void Start()
     {
         EventManager.OnNotify.AddListener(OnNotify);
+        transparencyManager = GetComponent<TransparencySetterUI>();
+        transparencyManager.AlphaValue = 0f;
     }
 
     private void OnNotify(string text, int urgency)
     {
-        if (urgency > AnimationState.Urgency)
+        if (AnimationState.OnScreenTime > fadeInTime + showTime || urgency > AnimationState.Urgency)
         {
             AnimationState.Urgency = urgency;
-            AnimationState.inProgress = true;
+            AnimationState.AnimInProgress = true;
+            AnimationState.FadeInProgress = true;
+            AnimationState.OnScreenTime = 0f;
             
             var newWidth = Mathf.Min(text.Length * 10f, 640f);
             var newHeight = notificationUICenter.sizeDelta.y;
@@ -40,51 +63,56 @@ public class NotificationUI : MonoBehaviour
             
             notificationText.text = text;
         } 
-        else Debug.Log("Not changing notification because urgency is lower than current");
+        // else Debug.Log("Not changing notification because urgency is lower than current");
         
     }
 
     private void Update()
     {
-        if (AnimationState.inProgress)
+        if (AnimationState.AnimInProgress)
         {
-            var progress = Mathf.Clamp01(AnimationState.animationTime / transitionTime);
-            AnimationState.animationTime += Time.deltaTime;
+            var progress = Mathf.Clamp01(AnimationState.AnimationTime / transitionTime);
+            AnimationState.AnimationTime += Time.deltaTime;
             
-            var newW = Mathf.Lerp(AnimationState.oldSize.x, AnimationState.newSize.x, progress);
-            var newH = Mathf.Lerp(AnimationState.oldSize.y, AnimationState.newSize.y, progress);
+            var newW = Mathf.Lerp(AnimationState.OldSize.x, AnimationState.NewSize.x, progress);
+            var newH = Mathf.Lerp(AnimationState.OldSize.y, AnimationState.NewSize.y, progress);
             notificationUICenter.sizeDelta = new Vector2(newW, newH);
             
             if (progress >= 1)
             {
-                AnimationState.inProgress = false;
-                AnimationState.Urgency = 0;
-                AnimationState.animationTime = 0f;
+                AnimationState.AnimInProgress = false;
+                AnimationState.AnimationTime = 0f;
             }
         }
+        
+        if (AnimationState.FadeInProgress)
+            AnimationState.OnScreenTime += Time.deltaTime;
+
+        if (AnimationState.FadeInProgress && AnimationState.OnScreenTime < fadeInTime + showTime + fadeOutTime + 0.1)
+        {
+            if (AnimationState.OnScreenTime < fadeInTime + showTime)
+                AnimationState.AlphaValue = Mathf.Max(
+                    Mathf.Clamp01(AnimationState.OnScreenTime / fadeInTime),
+                    AnimationState.AlphaValue
+                );
+            else if (AnimationState.OnScreenTime >= fadeOutTime + showTime)
+            {
+                AnimationState.AlphaValue =
+                    1 - Mathf.Clamp01((AnimationState.OnScreenTime - showTime - fadeInTime) / fadeOutTime);
+                AnimationState.Urgency = 0;
+            }
+                
+
+            transparencyManager.AlphaValue = AnimationState.AlphaValue;
+        }
+        else AnimationState.FadeInProgress = false;
     }
-    
-    void ChangeUISize(float newWidth, float newHeight)
+
+    private void ChangeUISize(float newWidth, float newHeight)
     {
-        AnimationState.oldSize = notificationUICenter.sizeDelta;
+        AnimationState.OldSize = notificationUICenter.sizeDelta;
 
-        AnimationState.newSize.x = newWidth;
-        AnimationState.newSize.y = newHeight;
+        AnimationState.NewSize.x = newWidth;
+        AnimationState.NewSize.y = newHeight;
     }
-
-    // IEnumerator ChangeUISize(float newWidth)
-    // {
-    //     var oldWidth = notificationUICenter.sizeDelta.x;
-    //     var oldHeight = notificationUICenter.sizeDelta.y;
-    //
-    //     var n = 10;
-    //     var t1 = Time.fixedTime;
-    //     for (int i = 0; i < n; i++)
-    //     {
-    //         var newW = Mathf.Lerp(oldWidth, newWidth, Mathf.Clamp01((float) i / n));
-    //         notificationUICenter.sizeDelta = new Vector2(newW, oldHeight);
-    //         yield return new WaitForSeconds(transitionTime / n);
-    //     }
-    //     Debug.Log(Time.fixedTime - t1);
-    // }
 }

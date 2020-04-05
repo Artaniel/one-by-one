@@ -22,5 +22,7 @@ namespace Game.Events
         public static readonly MonsterDeathEvent OnMonsterDead = new MonsterDeathEvent();
         public static readonly MoneyChangeEvent OnMoneyChange = new MoneyChangeEvent(); 
         public static readonly NotificationEvent OnNotify = new NotificationEvent();
+
+        public static void Notify(string message, int urgency) => OnNotify.Invoke(message, urgency);
     }
 }

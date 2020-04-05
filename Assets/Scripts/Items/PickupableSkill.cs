@@ -13,8 +13,8 @@ public class PickupableSkill : PickupableItem
         base.Update();
         if ( sprite != skill.pickupSprite)
         {
-        GetComponent<SpriteRenderer>().sprite = skill.pickupSprite;
-        sprite = skill.pickupSprite;
+            GetComponent<SpriteRenderer>().sprite = skill.pickupSprite;
+            sprite = skill.pickupSprite;
         }
     }
     protected override void PickUp(Collider2D player)
