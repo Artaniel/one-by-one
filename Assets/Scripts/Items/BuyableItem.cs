@@ -6,8 +6,13 @@ public class BuyableItem : PickupableItem
 {
     public SkillBase itemAsset;
 
-    private void Awake()
+    private SkillManager skills;
+
+    private void Start()
     {
+        var player = GameObject.FindGameObjectWithTag("Player");
+        skills = player.GetComponent<SkillManager>();
+        
         gameObject.tag = "BuyableItem";
     }
 
@@ -17,6 +22,7 @@ public class BuyableItem : PickupableItem
         {
             EventManager.OnMoneyChange.Invoke(-1);
             EventManager.Notify($"Bought item \"{itemAsset.name}\"", 10);
+            skills.AddSkill(itemAsset);
         }
         else
         {
