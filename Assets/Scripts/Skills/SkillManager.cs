@@ -7,6 +7,7 @@ using System.IO;
 
 public class SkillManager : MonoBehaviour
 {
+    public static List<BulletModifier> temporaryBulletMods = new List<BulletModifier>();
     public EquippedWeapon equippedWeapon = null;
 
     [SerializeField, Header("Important")]
@@ -129,7 +130,7 @@ public class SkillManager : MonoBehaviour
     #endregion
 
     [Serializable]
-    private class EquippedActiveSkill
+    public class EquippedActiveSkill
     {
         public ActiveSkill skill;
         public float cooldown;
@@ -173,13 +174,46 @@ public class SkillManager : MonoBehaviour
     List<WeaponSkill> inventoryWeaponSkills = new List<WeaponSkill>();
     List<ActiveSkill> inventoryActiveSkills = new List<ActiveSkill>();
 
+    public List<WeaponSkill> InventoryWeaponSkill 
+    { 
+      get { return inventoryWeaponSkills; } 
+      set { inventoryWeaponSkills = value; }
+    }
+    
+    public List<ActiveSkill> InventoryActiveSkills
+    {
+        get { return inventoryActiveSkills; }
+        set { inventoryActiveSkills = value; }
+    }
+
+    public List<EquippedWeapon> EquippedWeapons
+    {
+        get { return equippedWeapons; }
+        set { equippedWeapons = value; }
+    }
+
+    public List<EquippedActiveSkill> ActiveSkills
+    {
+        get { return activeSkills; }
+        set { activeSkills = value; }
+    }
+
+    public void ClearWeapons()
+    {
+        equippedWeapons.ForEach(weapon => skills.Remove(weapon.logic));
+        equippedWeapon = null;
+        attackManager.currentWeapon = null;
+        equippedWeapons.Clear();
+        equippedWeapons = new List<EquippedWeapon>();
+    }
+
     public void AddSkill(SkillBase skill)
     {
         skills.Add(skill);
         skill.InitializeSkill();
         if (skill is ActiveSkill)
         {
-            if (activeSkills.Count >= 5)
+            if (activeSkills.Count >= maxEquippedActiveCount)
             {
                 inventoryActiveSkills.Add(skill as ActiveSkill);
             }
@@ -188,23 +222,29 @@ public class SkillManager : MonoBehaviour
                 activeSkills.Add(new EquippedActiveSkill(skill as ActiveSkill));
             }
         }
-        else
+        else if (skill is WeaponSkill)
         {
-            if (equippedWeapons.Count >= 3)
+            if (equippedWeapons.Count >= maxEquippedWeaponCount)
             {
                 inventoryWeaponSkills.Add(skill as WeaponSkill);
             }
             else
             {
                 equippedWeapons.Add(new EquippedWeapon(skill as WeaponSkill, equippedWeapons.Count));
+                if(equippedWeapon == null)
+                {
+                    equippedWeapon = equippedWeapons[0];
+                    attackManager.LoadNewWeapon(equippedWeapon, equippedWeapon.logic.timeBetweenAttacks);
+                }
             }
 
         }
-        InitializeUI();
+        RefreshUI();
     }
 
     private void Start()
     {
+        temporaryBulletMods = new List<BulletModifier>();
         FillRegisteredSkills();
         //PrintRegisteredSkills();
 
@@ -232,7 +272,7 @@ public class SkillManager : MonoBehaviour
                     activeSkills.Add(new EquippedActiveSkill(s as ActiveSkill));
                 }
             }
-            else
+            else if (s is WeaponSkill)
             {
                 if (equippedWeapons.Count >= 3)
                 {
@@ -247,7 +287,7 @@ public class SkillManager : MonoBehaviour
         }
         equippedWeapon = equippedWeapons[0];
 
-        InitializeUI();
+        RefreshUI();
     }
 
     private List<KeyCode> keys = new List<KeyCode>() {
@@ -278,6 +318,7 @@ public class SkillManager : MonoBehaviour
 
         // Update effect, cooldown and active time left for active skill
         float[] skillCooldownsProportion = new float[SkillsUI.skillCount];
+        bool[] isActiveSkill = new bool[SkillsUI.skillCount];
         for (int i = 0; i < activeSkills.Count; i++)
         {
             activeSkills[i].cooldown = Mathf.Max(0, activeSkills[i].cooldown - Time.deltaTime);
@@ -292,11 +333,13 @@ public class SkillManager : MonoBehaviour
                 }
             }
             skillCooldownsProportion[i] = activeSkills[i].cooldown / activeSkills[i].skill.cooldownDuration;
+
+            isActiveSkill[i] = activeSkills[i].activeTimeLeft > 0;
         }
-        skillsUI.UpdateSkillRecoverVisualCooldown(skillCooldownsProportion);
+        skillsUI.UpdateSkillRecoverVisualCooldown(skillCooldownsProportion, isActiveSkill);
 
         // Switch weapon
-        if (Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight))
+        if ((Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight)) && equippedWeapon != null)
         {
             var newWeaponIndex = 0;
             if (Input.GetKeyDown(rotateWeaponLeft))
@@ -329,10 +372,9 @@ public class SkillManager : MonoBehaviour
             weapon.logic.UpdateEffect();
             j++;
         }
-        skillsUI.UpdateWeaponReloadVisualCooldown(weaponCooldownsProportion, equippedWeapon.weaponIndex);
-
-        if (equippedWeapon.logic != null)
+        if (equippedWeapon != null)
         {
+            skillsUI.UpdateWeaponReloadVisualCooldown(weaponCooldownsProportion, equippedWeapon.weaponIndex);
             equippedWeapon.logic.UpdateEquippedEffect();
         }
 
@@ -342,6 +384,17 @@ public class SkillManager : MonoBehaviour
             if (s is PassiveSkill)
             {
                 s.UpdateEffect();
+            }
+        }
+
+        // Update temporary weapon mods
+        for (int i = 0; i < temporaryBulletMods.Count; i++)
+        {
+            temporaryBulletMods[i].modifierTime -= Time.deltaTime;
+            if (temporaryBulletMods[i].modifierTime <= 0)
+            {
+                temporaryBulletMods.RemoveAt(i);
+                i--;
             }
         }
     }
@@ -356,23 +409,23 @@ public class SkillManager : MonoBehaviour
     }
 
     #region UI block
-    private void InitializeUI()
+    public void RefreshUI()
     {
         ApplyWeaponSprites();
         ApplySkillSprites();
     }
 
-    private void ApplyWeaponSprites()
+    public void ApplyWeaponSprites()
     {
         var weaponIcons = new Sprite[SkillsUI.weaponsCount];
         for (int i = 0; i < equippedWeapons.Count; i++)
         {
             weaponIcons[i] = equippedWeapons[i].logic.pickupSprite;
         }
-        skillsUI.SetWeaponSprites(weaponIcons, equippedWeapon.weaponIndex);
+        skillsUI.SetWeaponSprites(weaponIcons, equippedWeapon != null ? equippedWeapon.weaponIndex : 0);
     }
 
-    private void ApplySkillSprites()
+    public void ApplySkillSprites()
     {
         var skillIcons = new Sprite[SkillsUI.skillCount];
         for (int i = 0; i < activeSkills.Count; i++)
@@ -385,6 +438,9 @@ public class SkillManager : MonoBehaviour
         skillsUI.SetSkillSprites(skillIcons);
     }
     #endregion
+
+    public int maxEquippedActiveCount = 5;
+    public int maxEquippedWeaponCount = 3;
 
     public List<SkillBase> skills = new List<SkillBase>();
 
