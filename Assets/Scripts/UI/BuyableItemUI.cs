@@ -14,7 +14,7 @@ public class BuyableItemUI : MonoBehaviour
     {
         itemAsset = transform.parent.GetComponent<BuyableItem>().itemAsset;
 
-        outputTextField.text = "100";
+        outputTextField.text = itemAsset.price.ToString();
         itemSprite.sprite = itemAsset.pickupSprite;
     }
 }

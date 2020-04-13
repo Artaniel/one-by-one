@@ -14,7 +14,10 @@ namespace Game.Events
     public class MoneyChangeEvent : UnityEvent<int> {}
     
     [Serializable]
-    public class NotificationEvent: UnityEvent<string, int> {}
+    public class NotificationEvent : UnityEvent<string, int> {}
+    
+    [Serializable]
+    public class ItemBoughtEvent : UnityEvent<SkillBase> {}
     
     public class EventManager : MonoBehaviour
     {
@@ -22,6 +25,7 @@ namespace Game.Events
         public static readonly MonsterDeathEvent OnMonsterDead = new MonsterDeathEvent();
         public static readonly MoneyChangeEvent OnMoneyChange = new MoneyChangeEvent(); 
         public static readonly NotificationEvent OnNotify = new NotificationEvent();
+        public static readonly ItemBoughtEvent OnItemBought = new ItemBoughtEvent();
 
         public static void Notify(string message, int urgency) => OnNotify.Invoke(message, urgency);
     }

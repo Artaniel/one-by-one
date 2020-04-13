@@ -10,6 +10,7 @@ public abstract class SkillBase : ScriptableObject
     [Multiline]
     public string description;
     public Sprite pickupSprite;
+    public int price = 0;
 
     public string SkillName() => $"{GetType()}:{this.name.Substring(0, this.name.IndexOf("(Clone)") == -1 ? this.name.Length : (this.name.IndexOf("(Clone)")))}";
 

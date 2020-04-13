@@ -49,7 +49,7 @@ public class TransparencySetterUI : MonoBehaviour
         return children;
     }
 
-    void SetAlpha(float val)
+    public void SetAlpha(float val)
     {
         foreach (var t in images)
         {

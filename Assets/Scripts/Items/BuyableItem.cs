@@ -18,15 +18,15 @@ public class BuyableItem : PickupableItem
 
     protected override void PickUp(Collider2D player)
     {
-        if (MoneyManager.MoneyAmount > 0)
-        {
-            EventManager.OnMoneyChange.Invoke(-1);
-            EventManager.Notify($"Bought item \"{itemAsset.name}\"", 10);
-            skills.AddSkill(itemAsset);
-        }
+        if (MoneyManager.MoneyAmount < itemAsset.price) 
+            EventManager.Notify("You don't have enough money", 1);
         else
         {
-            EventManager.Notify("You can't buy this item", 1);
+            EventManager.OnMoneyChange.Invoke(-itemAsset.price);
+            EventManager.OnItemBought.Invoke(itemAsset);
+            EventManager.Notify($"Bought item \"{itemAsset.name}\"", 10);
+            skills.AddSkill(itemAsset);
+            Destroy(gameObject);
         }
     }
 
