@@ -101,8 +101,7 @@ public class NotificationUI : MonoBehaviour
                     1 - Mathf.Clamp01((AnimationState.OnScreenTime - showTime - fadeInTime) / fadeOutTime);
                 AnimationState.Urgency = 0;
             }
-                
-
+            
             transparencyManager.AlphaValue = AnimationState.AlphaValue;
         }
         else AnimationState.FadeInProgress = false;

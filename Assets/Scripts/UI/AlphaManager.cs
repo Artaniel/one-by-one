@@ -1,9 +1,12 @@
 using System;
+using Game.Events;
 using UnityEngine;
 
 [Serializable]
 public class AlphaManager
 {
+    [SerializeField] 
+    private string managerName = "";
     [SerializeField]
     private TransparencySetterUI transparencySetter;
     [SerializeField]
@@ -12,59 +15,94 @@ public class AlphaManager
     private float showTime = 2f;
     [SerializeField]
     private float fadeOutTime = 0f;
+    [SerializeField] 
+    private bool autoHide = true;
+    
+    private AnimationProgress animationState;
+    
+    private enum AnimationState
+    { IDLE, FADEIN, SHOW, FADEOUT }
 
-    private AnimationState state;
-
-    private class AnimationState
+    private class AnimationProgress
     {
         public float OnScreenTime = 0f;
         public float AlphaValue = 0f;
         public bool FadeInProgress = false;
+        public AnimationState state = AnimationState.IDLE;
     }
 
     public AlphaManager()
     {
-        state = new AnimationState();
+        animationState = new AnimationProgress();
+    }
+
+    public AlphaManager(TransparencySetterUI setter, float fadeInTime, float showTime, float fadeOutTime, bool autoHide)
+    {
+        this.transparencySetter = setter;
+        this.fadeInTime = fadeInTime;
+        this.showTime = showTime;
+        this.fadeOutTime = fadeOutTime;
+        this.autoHide = autoHide;
     }
 
     public void Show()
     {
-        state.FadeInProgress = true;
+        animationState.FadeInProgress = true;
+        animationState.state = AnimationState.FADEIN;
     }
 
     public void Hide()
     {
-        state.OnScreenTime = Mathf.Max(state.OnScreenTime, fadeInTime + showTime);
+        animationState.FadeInProgress = true;
+        animationState.OnScreenTime = Mathf.Max(animationState.OnScreenTime, fadeInTime + showTime);
+        animationState.state = AnimationState.FADEOUT;
     }
 
     public void HideImmediate()
     {
-        state.OnScreenTime = 0f;
-        state.AlphaValue = 0f;
-        state.FadeInProgress = false;
+        animationState.OnScreenTime = 0f;
+        animationState.AlphaValue = 0f;
+        animationState.FadeInProgress = false;
+        animationState.state = AnimationState.IDLE;
 
         transparencySetter.AlphaValue = 0f;
     }
 
     public void Update(float deltaTime)
     {
-        if (state.FadeInProgress)
-            state.OnScreenTime += deltaTime;
+        if (animationState.FadeInProgress)
+            animationState.OnScreenTime += deltaTime;
 
-        if (state.FadeInProgress && state.OnScreenTime < fadeInTime + showTime + fadeOutTime + 0.1)
+        if (animationState.FadeInProgress)// && animationState.OnScreenTime <= fadeInTime + showTime + fadeOutTime)
         {
-            if (state.OnScreenTime < fadeInTime + showTime)
-                state.AlphaValue = Mathf.Max(
-                    Mathf.Clamp01(state.OnScreenTime / fadeInTime),
-                    state.AlphaValue
+            if (animationState.OnScreenTime <= fadeInTime)
+            {
+                animationState.AlphaValue = Mathf.Max(
+                    Mathf.Clamp01(animationState.OnScreenTime / fadeInTime),
+                    animationState.AlphaValue
                 );
-            else if (state.OnScreenTime >= fadeOutTime + showTime)
-                state.AlphaValue = 1 - Mathf.Clamp01((state.OnScreenTime - showTime - fadeInTime) / fadeOutTime);
-
-            transparencySetter.AlphaValue = state.AlphaValue;
+                animationState.state = AnimationState.FADEIN;
+            }
+            else if (animationState.OnScreenTime <= fadeInTime + showTime)
+            {
+                if (!autoHide) animationState.FadeInProgress = false;
+                animationState.state = AnimationState.SHOW;
+            }
+            else if (animationState.OnScreenTime <= fadeInTime + showTime + fadeOutTime)
+            {
+                animationState.AlphaValue = 1 - Mathf.Clamp01((animationState.OnScreenTime - showTime - fadeInTime) / fadeOutTime);
+                animationState.state = AnimationState.FADEOUT;
+            }
+            else
+            {
+                HideImmediate();
+                EventManager.OnAlphaManagerComplete.Invoke(managerName);
+                return;
+            }
+            
+            transparencySetter.AlphaValue = animationState.AlphaValue;
         }
-        else HideImmediate();
 
-        transparencySetter.AlphaValue = state.AlphaValue;
+        transparencySetter.AlphaValue = animationState.AlphaValue;
     }
 }
