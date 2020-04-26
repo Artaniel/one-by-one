@@ -131,9 +131,9 @@ public class CharacterLife : MonoBehaviour
 
     public void Heal(int healAmmount) {
         if (!isDeath) {
-            hpChangedEvent.Invoke();
             hp += healAmmount;
             if (hp > maxHp) hp = maxHp;
+            hpChangedEvent.Invoke();
         }
     }
 
