@@ -22,6 +22,7 @@ public class MagleMonsterLife : MonsterLife
         if (shieldOperational && isBoy())
         {
             spriteAnimation.Play("Maggle-start-run");
+            shadowAnimation.Play("Maggle-shad-start-roll");
             shieldReflect.enabled = false;
             shieldOperational = false;
             var aiAgent = GetComponent<AIAgent>();
@@ -32,6 +33,7 @@ public class MagleMonsterLife : MonsterLife
         else if (!shieldOperational && !isBoy())
         {
             spriteAnimation.Play("Maggle-stop-roll");
+            spriteAnimation.Play("Maggle-shad-stop-roll");
             shieldReflect.enabled = true;
             shieldOperational = true;
             shieldReflect.gameObject.SetActive(true);
