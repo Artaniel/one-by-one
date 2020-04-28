@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class MirrorBossEncounter : BossEncounter
 {
+    public GameObject bossPrefab = null;
+    public Transform bossSpawnPosition = null;
+    public GameObject bossSpawnEffect = null;
     public GameObject explosionProjectile = null;
-    [SerializeField] public GameObject bossPrefab = null;
+
     [HideInInspector] public Transform player;
     [HideInInspector] public Transform bossInstance;
+    [HideInInspector] public List<Transform> avoidBTP = new List<Transform>(); // backtrack projectiles
 
     private class SpawnBossAttack : BossAttack
     {
         public SpawnBossAttack(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) : base(bossData, attackLength, allowInterruption, ended)
         {
-            this.bossData = bossData as MirrorBossEncounter;
+            BD = bossData as MirrorBossEncounter;
         }
 
         protected override void AttackStart()
         {
-            Instantiate(bossData.bossPrefab, bossData.transform.position, Quaternion.identity);
+            Instantiate(BD.bossSpawnEffect, BD.transform.position, Quaternion.identity);
         }
 
-        private MirrorBossEncounter bossData;
+        protected override void AttackEnd()
+        {
+            BD.bossInstance = Instantiate(BD.bossPrefab, BD.transform.position, Quaternion.identity).transform;
+        }
+
+        private MirrorBossEncounter BD;
     }
 
     private class ExplosionAttack : BossAttack
@@ -30,30 +39,29 @@ public class MirrorBossEncounter : BossEncounter
             : base(bossData, attackLength, allowInterruption, ended)
         {
             this.projectilesCount = projectilesCount; 
-            this.bossData = bossData as MirrorBossEncounter;
+            this.BD = bossData as MirrorBossEncounter;
         }
 
         protected override void AttackStart()
         {
-            projectilePrefab = bossData.explosionProjectile;
-            bossInstance = bossData.bossInstance;
+            projectilePrefab = BD.explosionProjectile;
+            bossInstance = BD.bossInstance;
 
             base.AttackStart();
 
-            Vector3 toPlayer = bossData.transform.position - bossData.player.position.normalized;
-            Quaternion rotationToPlayer = Quaternion.LookRotation(toPlayer, Vector3.forward);
-            Vector3 rotationEulerAngles = new Vector3(0, 0, rotationToPlayer.eulerAngles.z);
+            Vector3 toPlayer = bossInstance.transform.position - BD.player.position;
+            float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+            Quaternion rotationEuler = Quaternion.AngleAxis(180 + angle, Vector3.forward);
 
             for (int i = 0; i < projectilesCount; i++)
             {
-                projectiles.Add(Instantiate(bossData.explosionProjectile, bossInstance.position, Quaternion.Euler(rotationEulerAngles)).transform);
+                BD.avoidBTP.Add(Instantiate(projectilePrefab, bossInstance.position, rotationEuler).transform);
             }
         }
 
         private int projectilesCount = 0;
         private GameObject projectilePrefab;
-        private List<Transform> projectiles;
-        private MirrorBossEncounter bossData;
+        private MirrorBossEncounter BD;
         private Transform bossInstance;
     }
 
@@ -62,12 +70,26 @@ public class MirrorBossEncounter : BossEncounter
         public InitialPhase(BossEncounter bossData) : base(bossData)
         {
             phaseName = "Initial phase";
-            phaseLength = 19;
+            phaseLength = 3;
             phaseType = PhaseType.TimeBased;
             attackOrder = AttackOrder.Sequence;
             attacks = new List<BossAttack>()
             {
-                new SpawnBossAttack(bossData, 1),
+                new SpawnBossAttack(bossData, phaseLength)
+            };
+        }
+    }
+
+    public class AvoidancePhase : BossPhase
+    {
+        public AvoidancePhase(BossEncounter bossData) : base(bossData)
+        {
+            phaseName = "Avoidance";
+            phaseLength = 10f;
+            phaseType = PhaseType.TimeBased;
+            attackOrder = AttackOrder.Sequence;
+            attacks = new List<BossAttack>()
+            {
                 new ExplosionAttack(bossData, 1.5f, 32),
                 new ExplosionAttack(bossData, 1.5f, 32),
                 new ExplosionAttack(bossData, 1.5f, 32, returnBack: false),
@@ -79,7 +101,8 @@ public class MirrorBossEncounter : BossEncounter
     {
         bossPhases = new List<BossPhase>()
         {
-            new InitialPhase(this)
+            new InitialPhase(this),
+            new AvoidancePhase(this)
         };
 
         player = GameObject.FindGameObjectWithTag("Player").transform;

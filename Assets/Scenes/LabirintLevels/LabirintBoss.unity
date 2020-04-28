@@ -466,6 +466,7 @@ PrefabInstance:
     - {fileID: 8085750755484261575, guid: 634c80fae62a0e1419f3fd3e54e94ce8, type: 3}
     - {fileID: 5789336459788838021, guid: 634c80fae62a0e1419f3fd3e54e94ce8, type: 3}
     - {fileID: 1406055447064117518, guid: 634c80fae62a0e1419f3fd3e54e94ce8, type: 3}
+    - {fileID: 3532020413303026908, guid: 634c80fae62a0e1419f3fd3e54e94ce8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 634c80fae62a0e1419f3fd3e54e94ce8, type: 3}
 --- !u!1 &211087776 stripped
 GameObject:
@@ -563,12 +564,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startFromPhase: 0
-  explosionProjectile: {fileID: 1671438991049873951, guid: 7d4327cf053de9a4797acf15c9a12277,
-    type: 3}
   bossPrefab: {fileID: 4165841188981252901, guid: 306ec4e7589b35947a7c4f97bf941493,
+    type: 3}
+  bossSpawnPosition: {fileID: 2108275992}
+  bossSpawnEffect: {fileID: 7668204213015730388, guid: 96defb8a66b0d5e4eb747f52876c28dc,
+    type: 3}
+  explosionProjectile: {fileID: 1671438991049873951, guid: 7d4327cf053de9a4797acf15c9a12277,
     type: 3}
   player: {fileID: 0}
   bossInstance: {fileID: 0}
+  avoidBTP: []
+--- !u!4 &397626913 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8175731138718100992, guid: 634c80fae62a0e1419f3fd3e54e94ce8,
+    type: 3}
+  m_PrefabInstance: {fileID: 211087775}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &609508204
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,11 +2269,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2892025730854006915, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7693468083533358811, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2286,6 +2292,11 @@ PrefabInstance:
     - target: {fileID: 1456598429588633067, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2892025730854006915, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2324,6 +2335,36 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 3
   m_ColliderType: 1
+--- !u!1 &2108275991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2108275992}
+  m_Layer: 0
+  m_Name: BossSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2108275992
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108275991}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 17.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 397626913}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4416926558902857306
 PrefabInstance:
   m_ObjectHideFlags: 0
