@@ -10,6 +10,12 @@ public class Metrics : MonoBehaviour
     [SerializeField]
     private static MetricsRecords metrics = null;
 
+    public static MetricsRecords MetricsContainer
+    {
+        get => metrics;
+        private set => metrics = value;
+    }
+
     private static string fileName = "metrics.bin";
     private static int sceneIndex;
     private static bool levelIsRuning = true;
