@@ -111,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4165841188981252901}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.3113303, y: 11.218205, z: 0}
+  m_LocalPosition: {x: 2.207, y: 11.218205, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2440625827878744747}
@@ -238,7 +238,7 @@ MonoBehaviour:
   maxRotation: 200
   maxAngularAccel: 10000
   velocityFallBackPower: 3
-  knockBackStability: 1
+  knockBackStability: 99999
   orientation: 0
   rotation: 0
   velocity: {x: 0, y: 0}
@@ -5414,11 +5414,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2247092661878191898}
     m_Modifications:
-    - target: {fileID: 2882529184434149381, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_Name
-      value: Text
-      objectReference: {fileID: 0}
     - target: {fileID: 2882529184434149380, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5523,6 +5518,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149381, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_Name
+      value: Text
       objectReference: {fileID: 0}
     - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}

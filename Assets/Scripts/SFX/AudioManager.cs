@@ -172,9 +172,9 @@ public class AudioManager : MonoBehaviour
         sorce.Play();
     }
 
-    public static void PauseMusic(AudioSource sorce)
-    { 
-        sorce.Pause();
+    public static void PauseMusic()
+    {
+        audioSourceMusic.Pause();
     }
 
     private static AudioSource audioSourceSFX;

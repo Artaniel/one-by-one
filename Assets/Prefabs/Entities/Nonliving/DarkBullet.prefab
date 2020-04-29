@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 7189403762500233049}
   - component: {fileID: 2266605478189019358}
   - component: {fileID: 6698468056623906582}
+  - component: {fileID: -4951576055592718639}
   m_Layer: 0
   m_Name: DarkBullet
   m_TagString: Untagged
@@ -187,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c876ea4611f7e65459cf4db151b181c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletSpeed: 8
+  BulletSpeed: 12
   BulletLifeLength: 6
   ignoreCollisionTime: 0.35
 --- !u!114 &7189403762500233049
@@ -259,3 +260,20 @@ MonoBehaviour:
   FlickerValueRange: {x: -0.15, y: 0.25}
   FlickerPeriodRange: {x: 0.05, y: 0.1}
   SinFactor: 0
+  sinSpeed: 1
+  lightFlicker: 1
+  spriteFlicker: 0
+--- !u!114 &-4951576055592718639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671438991049873951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1799820f2c015544ca135062b492c6d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stopTimeRange: {x: 0.5, y: 1.5}
+  minSpeed: 0.2

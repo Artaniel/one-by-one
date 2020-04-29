@@ -22,12 +22,14 @@ public class MirrorBossEncounter : BossEncounter
 
         protected override void AttackStart()
         {
-            Instantiate(BD.bossSpawnEffect, BD.transform.position, Quaternion.identity);
+            AudioManager.PauseMusic();
+            Instantiate(BD.bossSpawnEffect, BD.bossSpawnPosition.position, Quaternion.identity);
         }
 
         protected override void AttackEnd()
         {
-            BD.bossInstance = Instantiate(BD.bossPrefab, BD.transform.position, Quaternion.identity).transform;
+            AudioManager.PlayMusic(BD.GetComponent<AudioSource>());
+            BD.bossInstance = Instantiate(BD.bossPrefab, BD.bossSpawnPosition.position, Quaternion.identity).transform;
         }
 
         private MirrorBossEncounter BD;
@@ -35,34 +37,77 @@ public class MirrorBossEncounter : BossEncounter
 
     private class ExplosionAttack : BossAttack
     {
-        public ExplosionAttack(BossEncounter bossData, float attackLength, int projectilesCount, bool returnBack = true, bool allowInterruption = true, bool ended = false) 
+        public ExplosionAttack(BossEncounter bossData, float attackLength, int projectilesCount, float waitBefore = 0, bool returnBack = true, bool allowInterruption = true, bool ended = false) 
             : base(bossData, attackLength, allowInterruption, ended)
         {
             this.projectilesCount = projectilesCount; 
             this.BD = bossData as MirrorBossEncounter;
+            wait = waitBefore;
         }
 
         protected override void AttackStart()
         {
             projectilePrefab = BD.explosionProjectile;
+            normalBulletSpeed = projectilePrefab.GetComponent<EnemyBulletLife>().BulletSpeed;
             bossInstance = BD.bossInstance;
 
             base.AttackStart();
+        }
 
-            Vector3 toPlayer = bossInstance.transform.position - BD.player.position;
-            float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
-            Quaternion rotationEuler = Quaternion.AngleAxis(180 + angle, Vector3.forward);
-
-            for (int i = 0; i < projectilesCount; i++)
+        protected override void AttackUpdate()
+        {
+            base.AttackUpdate();
+            if (wait <= 0)
             {
-                BD.avoidBTP.Add(Instantiate(projectilePrefab, bossInstance.position, rotationEuler).transform);
+                wait = Mathf.Infinity;
+                ExplodeTowardsPlayer();
+            }
+            wait -= Time.deltaTime;
+        }
+
+        private void MagnetAvoidBTPToBoss()
+        {
+            
+        }
+
+        private void AdjustBulletSpeed()
+        {
+            var timeParamter = attackLength - attackTimeLeft;
+            var factor = normalBulletSpeed * Mathf.Max(minSpeed, (1 - Mathf.Pow(Mathf.InverseLerp(stopTimeRange.x, stopTimeRange.y, timeParamter), 3)));
+            foreach (var bullet in bullets)
+            {
+                bullet.BulletSpeed = factor;
             }
         }
 
+        private void ExplodeTowardsPlayer()
+        {
+            Vector3 toPlayer = bossInstance.transform.position - BD.player.position;
+            float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+
+            for (int i = 0; i < projectilesCount; i++)
+            {
+                var randomAngle = Random.Range(-angleVariation, angleVariation);
+                var bullet = Instantiate(projectilePrefab, bossInstance.position, Quaternion.Euler(0, 0, angle + 180 + randomAngle));
+                BD.avoidBTP.Add(bullet.transform);
+                bullets.Add(bullet.GetComponent<EnemyBulletLife>());
+            }
+        }
+
+        
+
+        private float wait = 0;
         private int projectilesCount = 0;
         private GameObject projectilePrefab;
         private MirrorBossEncounter BD;
         private Transform bossInstance;
+        private List<Transform> bulletsTransform = new List<Transform>();
+        private List<EnemyBulletLife> bullets = new List<EnemyBulletLife>();
+
+        private const float angleVariation = 75f;
+        private float normalBulletSpeed = 0;
+        private float minSpeed = 0.2f;
+        private Vector2 stopTimeRange = new Vector2(0.5f, 1.5f);
     }
 
     public class InitialPhase : BossPhase
@@ -90,9 +135,9 @@ public class MirrorBossEncounter : BossEncounter
             attackOrder = AttackOrder.Sequence;
             attacks = new List<BossAttack>()
             {
-                new ExplosionAttack(bossData, 1.5f, 32),
-                new ExplosionAttack(bossData, 1.5f, 32),
-                new ExplosionAttack(bossData, 1.5f, 32, returnBack: false),
+                new ExplosionAttack(bossData, 2.5f, 18, waitBefore: 1),
+                new ExplosionAttack(bossData, 1.5f, 18),
+                new ExplosionAttack(bossData, 1.5f, 18, returnBack: false),
             };
         }
     }

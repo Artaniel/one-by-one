@@ -32,7 +32,7 @@ public class Ch1BossLevelScript : MonoBehaviour
     {
         Pause.AllowPause = false;
         Player = GameObject.FindGameObjectWithTag("Player");
-        AudioManager.PauseMusic(GetComponent<AudioSource>());
+        AudioManager.PauseMusic();
         CurrentEnemyUI.SetCurrentEnemy("???");
         camera = Camera.main.transform;
     }
