@@ -16,6 +16,7 @@ public class Room : MonoBehaviour
     public RoomType roomType;
 
     public Transform possibleContainerPosition;
+    public bool containerAlreadySpawned = false;
 
     [HideInInspector] public MonsterManager monsterManager;
     [HideInInspector] public List<MonsterRoomModifier> externalMRMods = new List<MonsterRoomModifier>();
@@ -114,7 +115,7 @@ public class Room : MonoBehaviour
         {
             GetComponent<ArenaEnemySpawner>()?.KillThemAll();
         }
-        Labirint.instance.blueprints[roomID].visited = true;
+        Labirint.instance.blueprints[roomID].visited = true;        
     }
 
     public void LightCheck() {
