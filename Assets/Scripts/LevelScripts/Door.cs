@@ -17,8 +17,6 @@ public class Door : MonoBehaviour
     [SerializeField] public Direction.Side direction;
 
     public string sceneName=""; // name of scene to change on enter this door
-    public Sprite openSprite;
-    public Sprite closedSprite;
 
     private bool isSpawned = false;
 
@@ -80,9 +78,14 @@ public class Door : MonoBehaviour
         if (locked && isSpawned)
         {
             locked = false;
-            if (spriteRenderer.sprite != null && openSprite !=null)
-                spriteRenderer.sprite = openSprite;
-            //animation?
+            foreach (var animation in GetComponentsInChildren<Animation>())
+            {
+                animation.Play();
+            }
+            foreach (var animation in GetComponentsInChildren<Animator>())
+            {
+                animation.Play("Open");
+            }
         }
     }
 
@@ -91,8 +94,6 @@ public class Door : MonoBehaviour
         if (isSpawned)
         {
             locked = true;
-            if (spriteRenderer.sprite != null && closedSprite != null)
-                spriteRenderer.sprite = closedSprite;
             //animation?
             timer = 1f;
         }
@@ -103,11 +104,6 @@ public class Door : MonoBehaviour
         {
             isSpawned = true;
             doorVisual.gameObject.SetActive(true);
-            
-            if (locked)
-                spriteRenderer.sprite = closedSprite;
-            else
-                spriteRenderer.sprite = openSprite;
         }
     }
 

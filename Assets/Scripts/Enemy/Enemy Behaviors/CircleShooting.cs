@@ -15,6 +15,7 @@ public class CircleShooting : MonoBehaviour
     private int bulletsWasShootCounter = 0;
     [SerializeField] private float ramdomAngleRange = 10f;
 
+    [SerializeField] private Transform monsterSpriteObject = null;
     [SerializeField] private Animator spriteAnimation = null;
     [SerializeField] private Animator shadowAnimation = null;
 
@@ -30,6 +31,9 @@ public class CircleShooting : MonoBehaviour
         agent = GetComponent<AIAgent>();
         status = Status.move;
         agent.moveSpeedMult = 1;
+        agentSavedMaxRotation = agent.maxRotation;
+        agentSavedVelocityFallback = agent.velocityFallBackPower;
+        agentSavedKnockBackStability = agent.knockBackStability;
     }
 
     private void Update()
@@ -39,7 +43,7 @@ public class CircleShooting : MonoBehaviour
             {
                 timer -= Time.deltaTime;
                 while ((shootTime - timer) / shootTime >= (float)bulletsWasShootCounter / (float)bulletsNumber)
-                    ShootBullet();
+                    ShootBullet(monsterSpriteObject);
                 if (timer <= 0)
                 {
                     //ainmation swich to close?
@@ -57,7 +61,8 @@ public class CircleShooting : MonoBehaviour
                     //ainmation swich to shoot?
                     status = Status.move;
                     timer = moveTime;
-                    agent.moveSpeedMult = 1;
+                    Unburrow();
+                    spriteAnimation.Play("Pelmen-walking");
                 }
             }
             else if (status == Status.move)
@@ -80,15 +85,32 @@ public class CircleShooting : MonoBehaviour
                     //ainmation swich to move?
                     status = Status.shoot;
                     timer = moveTime;
+                    Burrow();
+                    spriteAnimation.Play("Attack");
                 }
             }
     }
 
-    private void ShootBullet() {
-        Vector3 dirrectionToPlayer = player.transform.position - transform.position;
-        float rotatingAngle = (360f / bulletsNumber) * bulletsWasShootCounter + Random.Range(-ramdomAngleRange, ramdomAngleRange)+180;        
+    private void Burrow()
+    {
+        agent.maxRotation = 0;
+        agent.velocityFallBackPower *= 3f;
+        agent.knockBackStability *= 3f;
+    }
 
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
+    private void Unburrow()
+    {
+        agent.moveSpeedMult = 1;
+        agent.maxRotation = agentSavedMaxRotation;
+        agent.velocityFallBackPower = agentSavedVelocityFallback;
+    }
+
+    private void ShootBullet(Transform from = null) {
+        Vector3 dirrectionToPlayer = player.transform.position - transform.position;
+        float rotatingAngle = (360f / bulletsNumber) * bulletsWasShootCounter + Random.Range(-ramdomAngleRange, ramdomAngleRange)+180;
+
+        var spawnPos = from != null ? from.position : transform.position;
+        GameObject bullet = Instantiate(bulletPrefab, spawnPos, new Quaternion());
 
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("MonsterShot", audio);
@@ -97,4 +119,8 @@ public class CircleShooting : MonoBehaviour
         bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
         bulletsWasShootCounter++;        
     }
+
+    private float agentSavedMaxRotation = 0;
+    private float agentSavedVelocityFallback = 0;
+    private float agentSavedKnockBackStability = 0;
 }

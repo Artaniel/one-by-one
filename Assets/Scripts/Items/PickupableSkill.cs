@@ -18,6 +18,7 @@ public class PickupableSkill : PickupableItem
             sprite = skill.pickupSprite;
         }
     }
+
     protected override void PickUp(Collider2D player)
     {
         var skillInstance = Instantiate(skill);
