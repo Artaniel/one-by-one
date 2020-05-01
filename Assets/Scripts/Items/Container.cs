@@ -15,10 +15,12 @@ public class Container : MonoBehaviour
     private GameObject itemToDrop = null;
     [HideInInspector]
     public RoomBlueprint blueprint;
+    private SkillManager playerSkillManager;
 
     protected virtual void Awake()
     {
-        GetItem();
+        playerSkillManager = GameObject.FindWithTag("Player").GetComponent<SkillManager>();
+        //GetItem();
     }
 
     private void GetItem()
@@ -40,19 +42,75 @@ public class Container : MonoBehaviour
                     i++;
                 }
                 itemToDrop = itemList[i - 1];
+                if (DuplicateCheck(itemToDrop))
+                {
+                    itemChances = DeleteFromArray(itemChances, i-1);
+                    itemList = DeleteFromArrayGameObject(itemList, i-1);
+                    itemToDrop = null;
+                    GetItem(); //рекурсия чтобы повторить после удаления, надо чтобы правильно пересчитать вероятности без удаленного итема
+                }
             }
         }
+        else {
+            Debug.Log("Empty Drop List. Maybe after duplicate exclution.");
+        }
+    }
+
+    bool DuplicateCheck(GameObject itemToDrop) {
+        bool result = false;
+        if (itemToDrop != null) // for empty list
+            if (itemToDrop.GetComponent<PickupableSkill>() != null) // for non-skill items
+            {
+                string SkillToDropName = itemToDrop.GetComponent<PickupableSkill>().skill.name + "(Clone)";
+                foreach (SkillBase skill in playerSkillManager.skills)
+                {
+                    if (skill.name == SkillToDropName)
+                    {
+                        result = true;
+                    }
+                }
+            }
+        return result;
+    }
+
+    float[] DeleteFromArray(float[] array, int indexToDelete)
+    {
+        float[] result = new float[array.Length - 1];
+        for (int i = 0; i < array.Length - 1; i++)
+        {
+            if (i < indexToDelete)
+                result[i] = array[i];
+            else
+                result[i] = array[i + 1];
+        }
+        return result;
+    }
+
+    GameObject[] DeleteFromArrayGameObject(GameObject[] array, int indexToDelete)
+    {        
+        GameObject[] result = new GameObject[array.Length - 1];
+        for (int i = 0; i < array.Length - 1; i++)
+        {
+            if (i < indexToDelete)
+                result[i] = array[i];
+            else
+                result[i] = array[i + 1];
+        }
+        return result;
     }
 
     public void Open()
     {
+        GetItem();
         if (itemToDrop != null)
             Instantiate(itemToDrop, transform.position, transform.rotation);
-        else { 
+        else
+        {
             //Debug.Log("Error on container open. Empty drop list");
             //null drop is possible now, for not 100% mob drop, so not a error now
         }
-        if (blueprint != null) {
+        if (blueprint != null)
+        {
             blueprint.containerWasOpened = true;
         }
     }

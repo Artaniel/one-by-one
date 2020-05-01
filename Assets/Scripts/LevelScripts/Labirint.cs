@@ -227,11 +227,13 @@ public class Labirint : MonoBehaviour
     }
 
     void ContainerCheck() {
-        if (blueprints[currentRoomID].contanerPrefab != null && !blueprints[currentRoomID].containerWasOpened) {
+        if (blueprints[currentRoomID].contanerPrefab != null && !blueprints[currentRoomID].containerWasOpened &&
+            !blueprints[currentRoomID].instance.GetComponent<Room>().containerAlreadySpawned) {
             GameObject container = Instantiate(blueprints[currentRoomID].contanerPrefab, 
                 blueprints[currentRoomID].instance.GetComponent<Room>().possibleContainerPosition.position, Quaternion.identity);
             container.transform.parent = blueprints[currentRoomID].instance.transform;
             container.GetComponent<Container>().blueprint = blueprints[currentRoomID];
+            blueprints[currentRoomID].instance.GetComponent<Room>().containerAlreadySpawned = true;
         }
     }
 
