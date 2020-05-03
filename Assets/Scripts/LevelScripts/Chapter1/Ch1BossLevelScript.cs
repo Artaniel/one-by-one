@@ -289,9 +289,9 @@ public class Ch1BossLevelScript : MonoBehaviour
     private float GlassFadeOutDuration = 1f;
     private float GlassFadeOutPassed;
     [SerializeField]
-    private SpawnZoneScript leftSpawnZone = null;
+    private ZoneScript leftSpawnZone = null;
     [SerializeField]
-    private SpawnZoneScript rightSpawnZone = null;
+    private ZoneScript rightSpawnZone = null;
 
     private void StartPhase2()
     {
@@ -331,7 +331,7 @@ public class Ch1BossLevelScript : MonoBehaviour
                 if (Phase2TimeToMonsterSpawn <= 0)
                 {
                     // Choosing spawn zone
-                    SpawnZoneScript spawnZone = null;
+                    ZoneScript spawnZone = null;
                     var dice = Random.Range(-1.0f, 1.0f); // -1 or 0
                     spawnZone = dice < 0 ? leftSpawnZone : rightSpawnZone;
                     monsterSpawner.SpawnZone = spawnZone;

@@ -8,8 +8,9 @@ public class HomingEnemyBullet : EnemyBulletLife
     [SerializeField, Range(0, 1)] private float minimumMagneticPower = 0.2f;
     [SerializeField] private Vector2 boostedAnglesForSecondsAtStart = new Vector2(0, 0);
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 

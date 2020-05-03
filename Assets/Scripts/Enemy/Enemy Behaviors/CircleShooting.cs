@@ -17,7 +17,7 @@ public class CircleShooting : MonoBehaviour
 
     [SerializeField] private Transform monsterSpriteObject = null;
     [SerializeField] private Animator spriteAnimation = null;
-    [SerializeField] private Animator shadowAnimation = null;
+    //[SerializeField] private Animator shadowAnimation = null;
 
     private enum Status { move, open, shoot, close };
     private Status status = Status.move;

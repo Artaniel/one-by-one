@@ -18,7 +18,7 @@ public class ArenaEnemySpawner : MonoBehaviour
 
 
 
-    public SpawnZoneScript SpawnZone = null;
+    public ZoneScript SpawnZone = null;
 
     [SerializeField]
     protected bool AllowEarlySpawns = true;
@@ -43,7 +43,7 @@ public class ArenaEnemySpawner : MonoBehaviour
             GameObject SpawnSquare = GameObject.FindGameObjectWithTag("SpawnZone");
             if (SpawnSquare)
             {
-                SpawnZone = SpawnSquare.GetComponent<SpawnZoneScript>();
+                SpawnZone = SpawnSquare.GetComponent<ZoneScript>();
             }
         }
     }
@@ -152,7 +152,7 @@ public class ArenaEnemySpawner : MonoBehaviour
             }
             else
             {
-                enemy.transform.position = SpawnZone.SpawnPosition();
+                enemy.transform.position = SpawnZone.RandomZonePosition();
             }
 
             sequenceIndex++;
@@ -236,7 +236,7 @@ public class ArenaEnemySpawner : MonoBehaviour
         }
         else
         {
-            enemy.transform.position = SpawnZone.SpawnPosition();
+            enemy.transform.position = SpawnZone.RandomZonePosition();
         }
 
         sequenceIndex++;

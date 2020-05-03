@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnZoneScript : MonoBehaviour
+public class ZoneScript : MonoBehaviour
 {
     private bool used = false;
     private SpriteRenderer sprite;
 
     private void Start()
     {
-        if (!used) Debug.LogWarning("SpawnZone is not attached to MonsterManager! Add it in inspector");
+        if (!used) Debug.LogWarning("Is Zone attached to anything? Ping it or add it in inspector.");
         sprite = GetComponent<SpriteRenderer>();
         Color color1 = sprite.color;
         color1.a = 0f;
         sprite.color = color1;
     }
 
-    public Vector2 SpawnPosition()
+    public Vector2 RandomZonePosition()
     {
         Vector2 vector = new Vector2(Random.Range(-gameObject.transform.localScale.x/2, 
             gameObject.transform.localScale.x/2) + gameObject.transform.position.x,
@@ -26,7 +26,7 @@ public class SpawnZoneScript : MonoBehaviour
         return vector;
     }
 
-    public void UseSpawnZone()
+    public void UseZone()
     {
         used = true;
     }

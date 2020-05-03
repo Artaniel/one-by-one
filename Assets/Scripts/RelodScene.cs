@@ -29,7 +29,7 @@ public class RelodScene : MonoBehaviour
         CharacterLife.isDeath = false;
         Canvas = GameObject.FindGameObjectWithTag("Canvas");
         var arena = GetComponent<ArenaEnemySpawner>();
-        maxvalue = arena.EnemyCount();
+        if (arena) maxvalue = arena.EnemyCount();
 
         Canvas.transform.GetChild(0).gameObject.SetActive(false);
         isVictory = false;

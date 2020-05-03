@@ -6,7 +6,8 @@ public abstract class BossEncounter : MonoBehaviour
 {
     public int startFromPhase = 0;
 
-    public abstract class BossAttack
+    [System.Serializable]
+    public class BossAttack
     {
         protected float attackLength = 5f;
         public bool allowInterruption = true;
@@ -32,6 +33,7 @@ public abstract class BossEncounter : MonoBehaviour
         public void BaseAttackUpdate()
         {
             attackTimeLeft -= Time.deltaTime;
+            //print(attackTimeLeft);
             if (attackTimeLeft <= 0)
             {
                 ended = true;
@@ -42,14 +44,9 @@ public abstract class BossEncounter : MonoBehaviour
 
         protected virtual void AttackUpdate() { }
 
-        protected virtual void AttackEnd()
-        {
+        protected virtual void AttackEnd() { }
 
-        }
-
-        public void BaseAttackEnd() {
-            AttackEnd();
-        }
+        public void BaseAttackEnd() => AttackEnd();
 
         public virtual void AttackInterrupt()
         {
@@ -60,6 +57,7 @@ public abstract class BossEncounter : MonoBehaviour
         protected BossEncounter baseBossData;
     }
     
+    [System.Serializable]
     public class BossPhase
     {
         public enum PhaseType { Unknown, TimeBased, HpBased, TimeOrHpBased, Trigger }
