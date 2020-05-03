@@ -68,6 +68,7 @@ public class Door : MonoBehaviour
             if (sceneName == "") {
                 connectedDoor.room.MoveToRoom(connectedDoor);
             } else {
+                Metrics.OnWin();
                 RelodScene.OnSceneChange?.Invoke();
                 SceneManager.LoadScene(sceneName);
             }

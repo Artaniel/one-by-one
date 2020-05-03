@@ -64,6 +64,7 @@ public class CharacterLife : MonoBehaviour
         isDeath = true;
         audio = GetComponent<AudioSource>();
         AudioManager.Pause("Walk", audio);
+        Metrics.OnDeath();
     }
 
     private void VisualDeathBlock()
