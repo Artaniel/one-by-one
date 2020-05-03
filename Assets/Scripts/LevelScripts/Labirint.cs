@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomBlueprint
 {
@@ -282,5 +283,14 @@ public class Labirint : MonoBehaviour
         }
 
         return result;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftControl)) // ctrl+R => reboot
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        if (CharacterLife.isDeath && Input.GetKeyDown(KeyCode.R)) // death && R => reboot
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
