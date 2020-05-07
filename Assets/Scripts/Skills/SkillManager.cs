@@ -8,7 +8,7 @@ using System.IO;
 public class SkillManager : MonoBehaviour
 {
     public static List<BulletModifier> temporaryBulletMods = new List<BulletModifier>();
-    public EquippedWeapon equippedWeapon = null;
+    public EquippedWeapon equippedWeapon;
 
     [SerializeField, Header("Important")]
     private bool forceSkillRewrite = false;
@@ -231,7 +231,7 @@ public class SkillManager : MonoBehaviour
             else
             {
                 equippedWeapons.Add(new EquippedWeapon(skill as WeaponSkill, equippedWeapons.Count));
-                if(equippedWeapon == null)
+                if (equippedWeapons.Count == 1) // There was no other weapons before we added this
                 {
                     equippedWeapon = equippedWeapons[0];
                     attackManager.LoadNewWeapon(equippedWeapon, instant: true);
@@ -251,14 +251,10 @@ public class SkillManager : MonoBehaviour
         LoadSkills();
         InitializeSkills();
         attackManager = GetComponent<CharacterShooting>();
-        if (attackManager != null)
-        {
-            attackManager.LoadNewWeapon(equippedWeapon, instant: true);
-        }
     }
 
     private void InitializeSkills()
-    {        
+    {
         foreach (var s in skills)
         {
             if (s is ActiveSkill)
@@ -339,7 +335,7 @@ public class SkillManager : MonoBehaviour
         skillsUI.UpdateSkillRecoverVisualCooldown(skillCooldownsProportion, isActiveSkill);
 
         // Switch weapon
-        if ((Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight)) && equippedWeapon != null)
+        if ((Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight)) && equippedWeapons.Count != 0)
         {
             var newWeaponIndex = 0;
             if (Input.GetKeyDown(rotateWeaponLeft))
@@ -372,7 +368,7 @@ public class SkillManager : MonoBehaviour
             weapon.logic.UpdateEffect();
             j++;
         }
-        if (equippedWeapon != null)
+        if (equippedWeapons.Count != 0)
         {
             skillsUI.UpdateWeaponReloadVisualCooldown(weaponCooldownsProportion, equippedWeapon.weaponIndex);
             equippedWeapon.logic?.UpdateEquippedEffect();
@@ -422,7 +418,7 @@ public class SkillManager : MonoBehaviour
         {
             weaponIcons[i] = equippedWeapons[i].logic.pickupSprite;
         }
-        skillsUI.SetWeaponSprites(weaponIcons, equippedWeapon != null ? equippedWeapon.weaponIndex : 0);
+        skillsUI.SetWeaponSprites(weaponIcons, equippedWeapons.Count != 0 ? equippedWeapon.weaponIndex : 0);
     }
 
     public void ApplySkillSprites()
