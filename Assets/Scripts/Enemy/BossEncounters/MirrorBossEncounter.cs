@@ -22,6 +22,7 @@ public class MirrorBossEncounter : BossEncounter
     [HideInInspector] public Transform player;
     [HideInInspector] public Transform bossInstance;
     [HideInInspector] public List<Transform> avoidBTP = new List<Transform>(); // backtrack projectiles
+    [HideInInspector] public List<EnemyBulletLife> miniBombBullets = new List<EnemyBulletLife>();
 
     private class SpawnBossAttack : BossAttack
     {
@@ -216,17 +217,21 @@ public class MirrorBossEncounter : BossEncounter
 
     protected class MultibombAttack : BossAttack
     {
-        public MultibombAttack(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) 
+        public MultibombAttack(BossEncounter bossData, float attackLength, float additionalSpeed = 0, bool allowInterruption = true, bool ended = false) 
             : base(bossData, attackLength, allowInterruption, ended)
         {
             BD = bossData as MirrorBossEncounter;
             miniProjectilePrefab = BD.miniBombProjectile;
+            player = BD.player;
             teleportZone = BD.miniBombTeleportPos;
             teleportZone.UseZone();
+            projectileAdditionalSpeed = additionalSpeed;
         }
 
         protected override void AttackStart()
         {
+            miniBombBullets = BD.miniBombBullets;
+            miniBombBullets.Clear();
             base.AttackStart();
             bossInstance = BD.bossInstance;
         }
@@ -245,20 +250,43 @@ public class MirrorBossEncounter : BossEncounter
             base.AttackUpdate();
         }
 
+        protected override void AttackEnd()
+        {
+            foreach (var bullet in miniBombBullets)
+            {
+                Vector3 toPlayer = bullet.transform.position - BD.player.position;
+                float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+                bullet.transform.rotation = Quaternion.Euler(0, 0, 270 + angle);
+                bullet.BulletSpeed = 25f;
+            }
+        }
+
         protected void MinibombExplosion()
         {
             for (int i = 0; i < bombProjectileCount; i++)
             {
                 var angle = 360 / bombProjectileCount * i;
                 var bullet = Instantiate(miniProjectilePrefab, bossInstance.position, Quaternion.Euler(0, 0, angle));
-                miniBombBullets.Add(bullet.GetComponent<EnemyBulletLife>());
+                var bulletComp = bullet.GetComponent<EnemyBulletLife>();
+                bulletComp.BulletSpeed += projectileAdditionalSpeed;
+                miniBombBullets.Add(bulletComp);
             }
             RandomTeleportInZone();
         }
 
         protected void RandomTeleportInZone()
         {
-            bossInstance.transform.position = teleportZone.RandomZonePosition();
+            int triesLimit = 0;
+            while (triesLimit < 15)
+            {
+                Vector2 newPosition = teleportZone.RandomZonePosition();
+                if (Vector2.Distance(player.position, newPosition) >= 4.5f)
+                {
+                    bossInstance.transform.position = newPosition;
+                    break;
+                }
+            }
+
         }
 
         protected void UpdateIncreaseSpeed()
@@ -273,13 +301,15 @@ public class MirrorBossEncounter : BossEncounter
         protected GameObject miniProjectilePrefab;
         protected MirrorBossEncounter BD;
         protected Transform bossInstance;
+        protected Transform player;
 
         protected float bombPlacePeriod = 0.3f;
         protected float bombPlaceTL = 0;
         protected int bombProjectileCount = 8;
+        protected float projectileAdditionalSpeed = 0;
         protected float increasePercentPerSecond = 0.5f;
         protected ZoneScript teleportZone = null;
-        protected List<EnemyBulletLife> miniBombBullets = new List<EnemyBulletLife>();
+        protected List<EnemyBulletLife> miniBombBullets = null;
     }
 
     private class EllipseToCenterChaos : BossAttack
@@ -304,45 +334,121 @@ public class MirrorBossEncounter : BossEncounter
             roomCenter = BD.roomCenter.position;
         }
 
+        public class EllipseBulletData
+        {
+            public Transform transform;
+            float R;
+            float xPos;
+            bool rightSemisphere;
+            bool topSemisphere;
+            bool direction;
+
+            public EllipseBulletData(Transform transform, float r, float xPos, bool leftSemisphere, bool topSemisphere, bool direction)
+            {
+                this.transform = transform;
+                R = r;
+                this.xPos = xPos;
+                this.rightSemisphere = leftSemisphere;
+                this.topSemisphere = topSemisphere;
+                this.direction = direction;
+            }
+
+            public void MoveToCenter(Vector3 roomCenter, float diff)
+            {
+                R = R - diff;
+                xPos = xPos - diff * (xPos / R); // decrease proportionally to maintain symmetry
+
+                var yPos = Mathf.Sqrt(4 * (R * R - xPos * xPos) / 9);
+                transform.position = roomCenter + new Vector3(rightSemisphere ? xPos : -xPos, topSemisphere ? yPos : -yPos, 0);
+            }
+
+            public void Orbit(float diff)
+            {
+                float semisphereSign = topSemisphere ? 1 : -1;
+                semisphereSign *= rightSemisphere ? 1 : -1;
+                float directionSign = direction ? 1 : -1;
+                xPos = Mathf.Clamp(xPos + 0.5f * semisphereSign * directionSign * diff * R, 0, R - 0.001f);
+                if (xPos >= R - 0.005f && rightSemisphere)
+                {
+                    topSemisphere = !direction;
+                }
+                else if (-xPos <= -R + 0.005f && !rightSemisphere)
+                {
+                    topSemisphere = direction;
+                }
+                else if (xPos <= 0.01f)
+                {
+                    rightSemisphere = topSemisphere;
+                    if (!direction) rightSemisphere = !rightSemisphere;
+                }
+            }
+        }
+
         protected override void AttackStart()
         {
             base.AttackStart();
             TestEllipse();
-            Camera.main.GetComponent<CameraFocusOn>().FocusOn(roomCenter, attackLength, 2f);
+            Camera.main.GetComponent<CameraFocusOn>().FocusOn(roomCenter, attackLength, 4f);
         }
 
         protected override void AttackUpdate()
         {
             base.AttackUpdate();
+            foreach (var bullet in ellipseBullets)
+            {
+                bullet.Orbit(Time.deltaTime);
+                bullet.MoveToCenter(roomCenter, 8.75f * Time.deltaTime);
+            }
         }
 
         protected override void AttackEnd()
         {
             base.AttackEnd();
+            DirectBulletsOut();
             Camera.main.GetComponent<CameraFocusOn>().UnFocus(2);
         }
 
         private void TestEllipse()
         {
-            var iCount = 17;
+            var iCount = 30;
             for (float i = 0; i < iCount; i++)
             {
-                SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR, ellipseStartR, true);
+                ellipseBullets.Add(
+                    SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR, ellipseStartR, true, i % 2 == 1));
             }
-            for (float i = 0; i < 17; i++)
+            for (float i = 0; i < iCount; i++)
             {
-                SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR, ellipseStartR, false);
+                ellipseBullets.Add(
+                    SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR, ellipseStartR, false, i % 2 == 1));
             }
-            for (float i = 0; i < 17; i++)
-            {
-                SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR * 0.5f, ellipseStartR / 2, true);
-            }
+            //for (float i = 0; i < 17; i++)
+            //{
+            //    ellipseBullets.Add(
+            //        SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR * 0.5f, ellipseStartR / 2, true, i % 2 == 1));
+            //}
         }
 
-        private void SpawnBulletOnEllipseEdge(float xPos, float R, bool topSemisphere)
+        private EllipseBulletData SpawnBulletOnEllipseEdge(float xPos, float R, bool leftSemisphere, bool topSemisphere)
         {
+            R = R + Random.Range(rRange.x, rRange.y);
             var yPos = Mathf.Sqrt(9 * (R * R - xPos * xPos) / 4);
-            Instantiate(ellipseProjectilePrefab, roomCenter + new Vector3(topSemisphere ? yPos : -yPos, xPos, 0), Quaternion.identity);
+            Transform newBullet = Instantiate(ellipseProjectilePrefab, 
+                roomCenter + new Vector3(leftSemisphere ? yPos : -yPos, topSemisphere ? xPos : -xPos, 0), Quaternion.identity).transform;
+            return new EllipseBulletData(newBullet, R, xPos, leftSemisphere, topSemisphere, Random.Range(0, 2) == 1 ? true : false);
+        }
+
+        protected void DirectBulletsOut()
+        {
+            foreach (var bullet in ellipseBullets)
+            {
+                Vector3 toPlayer = bullet.transform.position - BD.player.position;
+                float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                var bulletComp = bullet.transform.GetComponent<EnemyBulletLife>();
+                bulletComp.BulletSpeed = 15f;
+            }
+
         }
 
         private GameObject ellipseProjectilePrefab;
@@ -353,9 +459,11 @@ public class MirrorBossEncounter : BossEncounter
         private Vector2 upRightDistance;
         private GameObject ellipseInstance;
         private Vector2 ellipse = new Vector2(9, 4);
-        private float ellipseStartR = 10;
+        private Vector2 rRange = new Vector2(-0.5f, 4);
+        private float ellipseStartR = 24;
         private Dictionary<Transform, float> bulletEllipseParameters = new Dictionary<Transform, float>();
         private Dictionary<Transform, bool> bulletEllipseSemisphere = new Dictionary<Transform, bool>();
+        private List<EllipseBulletData> ellipseBullets = new List<EllipseBulletData>();
     }
 
     public class InitialPhase : BossPhase
@@ -386,11 +494,11 @@ public class MirrorBossEncounter : BossEncounter
                 new ExplosionAttack(bossData, 2.4f, 9, waitBefore: 0.9f),
                 new ExplosionAttack(bossData, 1.5f, 9),
                 new ExplosionAttack(bossData, 1.5f, 9, returnBack: false),
-                new MultibombAttack(bossData, 2.15f),  // 6 ticks
+                new MultibombAttack(bossData, 2.15f, additionalSpeed: 4f),  // 6 ticks
                 new ExplosionAttack(bossData, 1.5f, 9),
                 new ExplosionAttack(bossData, 1.5f, 9),
                 new ExplosionAttack(bossData, 1.5f, 9, returnBack: false),
-                new MultibombAttack(bossData, 4.1f),   // 10 ticks + end
+                new MultibombAttack(bossData, 3.8f, additionalSpeed: 1f),   // 10 ticks + end
                 new EllipseToCenterChaos(bossData, 2.5f),
             };
         }
@@ -398,13 +506,14 @@ public class MirrorBossEncounter : BossEncounter
 
     protected override void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         bossPhases = new List<BossPhase>()
         {
             new InitialPhase(this),
             new AvoidancePhase(this)
         };
-
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);
     }
 

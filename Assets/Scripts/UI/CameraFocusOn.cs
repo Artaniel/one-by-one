@@ -14,16 +14,17 @@ public class CameraFocusOn : MonoBehaviour
     void Update()
     {
         timeLeft -= Time.deltaTime;
+        doubleSpeedTimeLeft -= 2 * Time.deltaTime;
         if (focusing && timeLeft > 0)
         {
             mainCam.transform.position =
-                Vector3.Lerp(focusEndPosition, focusStartPosition, timeLeft / length);
+                Vector3.Lerp(focusEndPosition, focusStartPosition, doubleSpeedTimeLeft / length);
             cineCamera.m_Lens.OrthographicSize = Mathf.Lerp(lensOrthoEnd, lensOrthoStart, timeLeft / length);
         }
         else if (focusEndPosition != Vector3.zero && timeLeft > 0)
         {
             mainCam.transform.position =
-                Vector3.Lerp(focusStartPosition, focusEndPosition, timeLeft / length);
+                Vector3.Lerp(focusStartPosition, focusEndPosition, doubleSpeedTimeLeft / length);
             cineCamera.m_Lens.OrthographicSize = Mathf.Lerp(lensOrthoStart, lensOrthoEnd, timeLeft / length);
         }
     }
@@ -50,6 +51,7 @@ public class CameraFocusOn : MonoBehaviour
         focusing = true;
         length = focusDuration;
         timeLeft = focusDuration;
+        doubleSpeedTimeLeft = focusDuration;
 
         focusStartPosition = transform.position;
         focusEndPosition = new Vector3(focusOn.x, focusOn.y, transform.position.z);
@@ -62,6 +64,7 @@ public class CameraFocusOn : MonoBehaviour
         EnableOtherScripts();
         length = unfocusDuration;
         timeLeft = unfocusDuration;
+        doubleSpeedTimeLeft = unfocusDuration;
         focusing = false;
     }
 
@@ -76,4 +79,5 @@ public class CameraFocusOn : MonoBehaviour
 
     private float length = 0;
     private float timeLeft = 0;
+    private float doubleSpeedTimeLeft = 0;
 }
