@@ -61,7 +61,13 @@ public class CameraFocusOn : MonoBehaviour
 
     public void UnFocus(float unfocusDuration)
     {
+        UnFocus(unfocusDuration, focusStartPosition);
+    }
+
+    public void UnFocus(float unfocusDuration, Vector3 unfocusTo)
+    {
         EnableOtherScripts();
+        focusStartPosition = new Vector3(unfocusTo.x, unfocusTo.y, transform.position.z);
         length = unfocusDuration;
         timeLeft = unfocusDuration;
         doubleSpeedTimeLeft = unfocusDuration;

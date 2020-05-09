@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MirrorBossEncounter : BossEncounter
 {
+    [HideInInspector] public Transform player;
+    [HideInInspector] public Transform bossInstance;
+
     [Header("General references")]
     public GameObject bossPrefab = null;
     public Transform bossSpawnPosition = null;
@@ -11,18 +14,27 @@ public class MirrorBossEncounter : BossEncounter
     [Header("Phase 1 Attack 1 & 3")]
     public GameObject explosionProjectile = null;
     public Transform[] phase1MovePositions = null;
+    [HideInInspector] public List<Transform> avoidBTP = new List<Transform>(); // backtrack projectiles
     [Header("Phase 1 Attack 2 & 4")]
     public GameObject miniBombProjectile = null;
     public ZoneScript miniBombTeleportPos = null;
+    [HideInInspector] public List<EnemyBulletLife> miniBombBullets = new List<EnemyBulletLife>();
     [Header("Phase 1 Attack 5")]
     public GameObject ellipseBulletPrefab = null;
     public Transform roomCenter = null;
     public Vector2 distanceFromCenterToUpRight = new Vector2(10, 10);
-
-    [HideInInspector] public Transform player;
-    [HideInInspector] public Transform bossInstance;
-    [HideInInspector] public List<Transform> avoidBTP = new List<Transform>(); // backtrack projectiles
-    [HideInInspector] public List<EnemyBulletLife> miniBombBullets = new List<EnemyBulletLife>();
+    [Header("Pre-phase 2")]
+    public SpriteRenderer glassEffect = null;
+    [Header("Phase 2")]
+    public ZoneScript[] spawnZones = null;
+    public GameObject shootingMonsterPrefab = null;
+    public GameObject zombiePrefab = null;
+    public GameObject ghostPrefab = null;
+    public GameObject teleportMonsterPrefab = null;
+    public GameObject chaosMonsterPrefab = null;
+    public GameObject tankPrefab = null;
+    public GameObject ricochetPrefab = null;
+    [HideInInspector] public List<MonsterLife> spawnedMonsters = new List<MonsterLife>();
 
     private class SpawnBossAttack : BossAttack
     {
@@ -41,6 +53,7 @@ public class MirrorBossEncounter : BossEncounter
         {
             AudioManager.PlayMusic(BD.GetComponent<AudioSource>());
             BD.bossInstance = Instantiate(BD.bossPrefab, BD.bossSpawnPosition.position, Quaternion.identity).transform;
+            BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(0.35f);
         }
 
         private MirrorBossEncounter BD;
@@ -405,7 +418,7 @@ public class MirrorBossEncounter : BossEncounter
         {
             base.AttackEnd();
             DirectBulletsOut();
-            Camera.main.GetComponent<CameraFocusOn>().UnFocus(2);
+            Camera.main.GetComponent<CameraFocusOn>().UnFocus(2, roomCenter);
         }
 
         private void TestEllipse()
@@ -466,12 +479,34 @@ public class MirrorBossEncounter : BossEncounter
         private List<EllipseBulletData> ellipseBullets = new List<EllipseBulletData>();
     }
 
+    private class PreMirrorScreen : BossAttack
+    {
+        public PreMirrorScreen(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) 
+            : base(bossData, attackLength, allowInterruption, ended)
+        {
+            MirrorBossEncounter BD = bossData as MirrorBossEncounter;
+            glassEffect = BD.glassEffect;
+            startingColor = glassEffect.color;
+            targetColor = glassEffect.color;
+            targetColor.a = 0.5f;
+        }
+
+        protected override void AttackUpdate()
+        {
+            glassEffect.color = Color.Lerp(targetColor, startingColor, attackTimeLeft / attackLength);
+        }
+
+        private SpriteRenderer glassEffect = null;
+        private Color startingColor;
+        private Color targetColor;
+    }
+
     public class InitialPhase : BossPhase
     {
         public InitialPhase(BossEncounter bossData) : base(bossData)
         {
             phaseName = "Initial phase";
-            phaseLength = 3;
+            phaseLength = 1.5f;
             phaseType = PhaseType.TimeBased;
             attackOrder = AttackOrder.Sequence;
             attacks = new List<BossAttack>()
@@ -486,8 +521,8 @@ public class MirrorBossEncounter : BossEncounter
         public AvoidancePhase(BossEncounter bossData) : base(bossData)
         {
             phaseName = "Avoidance";
-            phaseLength = 50f;
-            phaseType = PhaseType.TimeBased;
+            phaseLength = 19f;
+            phaseType = PhaseType.AttackBased;
             attackOrder = AttackOrder.Sequence;
             attacks = new List<BossAttack>()
             {
@@ -498,10 +533,116 @@ public class MirrorBossEncounter : BossEncounter
                 new ExplosionAttack(bossData, 1.5f, 9),
                 new ExplosionAttack(bossData, 1.5f, 9),
                 new ExplosionAttack(bossData, 1.5f, 9, returnBack: false),
-                new MultibombAttack(bossData, 3.8f, additionalSpeed: 1f),   // 10 ticks + end
+                new MultibombAttack(bossData, 3.2f, additionalSpeed: 1.5f),   // 9 ticks + end
                 new EllipseToCenterChaos(bossData, 2.5f),
+                new PreMirrorScreen(bossData, 0.7f), // Change with mirror turn-on
             };
         }
+
+        protected override void PhaseUpdate()
+        {
+            base.PhaseUpdate();
+        }
+    }
+
+    public class MirrorSpawnEnemy : BossAttack
+    {
+        public MirrorSpawnEnemy(BossEncounter bossData, float attackLength, GameObject enemyToSpawn, bool allowInterruption = true, bool ended = false) 
+            : base(bossData, attackLength, allowInterruption, ended)
+        {
+            BD = bossData as MirrorBossEncounter;
+            spawnZones = BD.spawnZones;
+            this.enemyToSpawn = enemyToSpawn;
+        }
+
+        protected override void AttackStart()
+        {
+            base.AttackStart();
+            int zoneIndex = Random.Range(0, spawnZones.Length);
+            Vector2 randomPosition = spawnZones[zoneIndex].RandomZonePosition();
+            var monster = Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
+            var monsterAttack = monster.GetComponent<Attack>();
+            if (monsterAttack) monsterAttack.ForceAttack();
+            monster.GetComponent<MonsterDrop>().anyDropChance = 0;
+            BD.spawnedMonsters.Add(monster.GetComponent<MonsterLife>());
+        }
+
+        GameObject enemyToSpawn = null;
+        MirrorBossEncounter BD = null;
+        ZoneScript[] spawnZones;
+    }
+
+    public class MirrorPhase : BossPhase
+    {
+        public MirrorPhase(BossEncounter bossData) : base(bossData)
+        {
+            phaseName = "MirrorPhase";
+            phaseLength = 14.8f;
+            phaseType = PhaseType.TimeBased;
+            attackOrder = AttackOrder.Sequence;
+            BD = bossData as MirrorBossEncounter;
+            attacks = new List<BossAttack>()
+            {
+                new MirrorSpawnEnemy(bossData, 1, BD.zombiePrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.shootingMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.teleportMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.zombiePrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.ghostPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.tankPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.chaosMonsterPrefab), // 7
+                new MirrorSpawnEnemy(bossData, 1, BD.ghostPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.teleportMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.tankPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.chaosMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.5f, BD.shootingMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.5f, BD.zombiePrefab),
+                new MirrorSpawnEnemy(bossData, 0.5f, BD.shootingMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),
+                new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),
+                new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),  // perfect
+                new BossAttack(bossData, 100) // increase chromatic abberation
+            };
+            foreach (var spawnZone in BD.spawnZones)
+            {
+                spawnZone.UseZone();
+            }
+        }
+
+        protected override void OnNextAttackStart()
+        {
+            base.OnNextAttackStart();
+            print(currentAttackNumber);
+        }
+
+        public override void StartPhase()
+        {
+            base.StartPhase();
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<CurrentEnemySelector>().enableScanning = true;
+            BD.GetComponentInChildren<ContiniousOutlineAppear>().Activate();
+            if (BD.bossInstance) // in debug mode there is no boss
+            {
+                BD.bossInstance.gameObject.SetActive(false);
+            }
+        }
+
+        protected override void EndPhase()
+        {
+            base.EndPhase();
+            foreach (var monster in BD.spawnedMonsters)
+            {
+                monster.Damage(null, 99999, true);
+            }
+        }
+
+        public override void DebugStartPhase()
+        {
+            AudioManager.PlayMusic(BD.GetComponent<AudioSource>(), 18.5f);
+            base.DebugStartPhase();
+        }
+
+        private MirrorBossEncounter BD;
     }
 
     protected override void Start()
@@ -511,7 +652,8 @@ public class MirrorBossEncounter : BossEncounter
         bossPhases = new List<BossPhase>()
         {
             new InitialPhase(this),
-            new AvoidancePhase(this)
+            new AvoidancePhase(this),
+            new MirrorPhase(this),
         };
         
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);

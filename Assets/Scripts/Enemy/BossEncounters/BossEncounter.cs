@@ -34,9 +34,8 @@ public abstract class BossEncounter : MonoBehaviour
         {
             attackTimeLeft -= Time.deltaTime;
             //print(attackTimeLeft);
-            if (attackTimeLeft <= 0)
+            if (attackTimeLeft <= 0 && !ended)
             {
-                ended = true;
                 BaseAttackEnd();
             }
             AttackUpdate();
@@ -46,7 +45,12 @@ public abstract class BossEncounter : MonoBehaviour
 
         protected virtual void AttackEnd() { }
 
-        public void BaseAttackEnd() => AttackEnd();
+        public void BaseAttackEnd()
+        {
+            if (ended) return;
+            ended = true;
+            AttackEnd();
+        }
 
         public virtual void AttackInterrupt()
         {
@@ -60,7 +64,7 @@ public abstract class BossEncounter : MonoBehaviour
     [System.Serializable]
     public class BossPhase
     {
-        public enum PhaseType { Unknown, TimeBased, HpBased, TimeOrHpBased, Trigger }
+        public enum PhaseType { Unknown, TimeBased, AttackBased, HpBased, TimeOrHpBased, Trigger }
         public enum AttackOrder { Random, RandomRepeatable, Sequence, SequenceWithLoop }
 
         protected string phaseName = "Unnamed Phase";
@@ -91,7 +95,7 @@ public abstract class BossEncounter : MonoBehaviour
 
         public virtual void StartPhase() => StartNextAttack();
 
-        protected virtual void PhaseUpdate() => phaseTimer += Time.deltaTime;
+        protected virtual void PhaseUpdate() { }
 
         private void StartNextAttack()
         {
@@ -111,10 +115,6 @@ public abstract class BossEncounter : MonoBehaviour
                     nextAttackNumber = Random.Range(0, attacks.Count);
                     break;
                 case AttackOrder.Sequence:
-                    if (nextAttackNumber == attacks.Count)
-                    {
-                        phaseEnded = true;
-                    }
                     nextAttackNumber = currentAttackNumber + 1;
                     break;
                 case AttackOrder.SequenceWithLoop:
@@ -126,12 +126,12 @@ public abstract class BossEncounter : MonoBehaviour
             if (currentAttackNumber != -1)
             {
                 attacks[currentAttackNumber].BaseAttackEnd();
-                attacks[currentAttackNumber].ended = false;
             }
-
-            if (phaseEnded || nextAttackNumber > attacks.Count) return;
+            
+            if (phaseEnded || nextAttackNumber >= attacks.Count) return;
 
             currentAttackNumber = nextAttackNumber;
+            
             attacks[currentAttackNumber].BaseAttackStart();
 
             OnNextAttackStart();
@@ -148,6 +148,8 @@ public abstract class BossEncounter : MonoBehaviour
                     return true;
                 case PhaseType.TimeBased:
                     return phaseTimer >= phaseLength;
+                case PhaseType.AttackBased:
+                    return attacks[currentAttackNumber].ended && currentAttackNumber >= attacks.Count - 1;
                 case PhaseType.HpBased:
                     return bossData.BossHealthPercentage() <= endHpPercentage;
                 case PhaseType.TimeOrHpBased:
@@ -169,7 +171,9 @@ public abstract class BossEncounter : MonoBehaviour
 
         protected virtual void EndPhase() { }
 
-        public virtual void DebugStartPhase() { }
+        public virtual void DebugStartPhase() {
+            StartPhase();
+        }
 
         protected float phaseTimer = 0;
         private BossEncounter bossData;
@@ -207,8 +211,7 @@ public abstract class BossEncounter : MonoBehaviour
             NextPhaseOrFinish();
         else
             bossPhases[phaseID].PhaseBaseUpdate();
-
-
+        
         EncounterUpdate();
     }
 

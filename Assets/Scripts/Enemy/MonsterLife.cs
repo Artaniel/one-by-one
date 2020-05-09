@@ -65,6 +65,7 @@ public class MonsterLife : MonoBehaviour
 
         foreach (var sprite in sprites)
         {
+            if (!sprite) continue;
             var newColor = sprite.color;
             newColor.a = Mathf.Lerp(1, 0, fadeInLeft / fadeInTime);
             sprite.color = newColor;

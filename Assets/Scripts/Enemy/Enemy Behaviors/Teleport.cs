@@ -38,11 +38,12 @@ public class Teleport : TimedAttack
             {
                 inbounds = Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
             }
-            else
+            else if (arena)
             {
                 inbounds = (arena.RoomBounds.x > Mathf.Abs(target.transform.position.x + NVector.x) &&
                 arena.RoomBounds.y > Mathf.Abs(target.transform.position.y + NVector.y));
             }
+            else inbounds = true;
 
             if (inbounds)
             {
