@@ -8,7 +8,7 @@ public class Door : MonoBehaviour
 {
     [HideInInspector] public Room room;
     [HideInInspector] public Door connectedDoor;
-    [HideInInspector] public bool locked = false; 
+    public bool locked = false; 
     private GameObject player;
 
     [HideInInspector] public bool unlockOnTimer = false;
@@ -18,7 +18,7 @@ public class Door : MonoBehaviour
 
     public string sceneName=""; // name of scene to change on enter this door
 
-    private bool isSpawned = false;
+    public bool isSpawned = false;
 
     void Awake()
     {

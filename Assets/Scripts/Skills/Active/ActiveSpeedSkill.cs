@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ActiveSpeedSkill", menuName = "ScriptableObject/ActiveSkill/ActiveSpeedSkill", order = 1)]
+[CreateAssetMenu(fileName = "ActiveSpeedSkill", menuName = "ScriptableObject/ActiveSkill/ActiveSpeedSkill", order = 7)]
 public class ActiveSpeedSkill : ActiveSkill
 {
     private CharacterMovement character;
