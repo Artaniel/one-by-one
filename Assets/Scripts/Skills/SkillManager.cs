@@ -251,6 +251,11 @@ public class SkillManager : MonoBehaviour
         LoadSkills();
         InitializeSkills();
         attackManager = GetComponent<CharacterShooting>();
+
+        if (attackManager && equippedWeapons.Count != 0)
+        {
+            attackManager.LoadNewWeapon(equippedWeapon, instant: true);
+        }
     }
 
     private void InitializeSkills()
