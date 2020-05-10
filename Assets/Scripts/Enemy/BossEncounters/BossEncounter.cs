@@ -24,6 +24,7 @@ public abstract class BossEncounter : MonoBehaviour
 
         public void BaseAttackStart()
         {
+            ended = false;
             attackTimeLeft = attackLength;
             AttackStart();
         }

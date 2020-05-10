@@ -37,6 +37,10 @@ public class MirrorBossEncounter : BossEncounter
     [Header("Post-phase 2")]
     public GameObject glassShards = null;
     public GameObject mirrorCracks = null;
+    [Header("Phase 3")]
+    public ZoneScript movePosition = null;
+    public Color mirrorColor = Color.white;
+    public GameObject outrageBullet = null;
     [HideInInspector] public List<MonsterLife> spawnedMonsters = new List<MonsterLife>();
 
     private class SpawnBossAttack : BossAttack
@@ -685,6 +689,65 @@ public class MirrorBossEncounter : BossEncounter
         private MirrorBossEncounter BD;
     }
 
+    public class MirrorOutrage : BossAttack
+    {
+        public MirrorOutrage(MirrorBossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) : base(bossData, attackLength, allowInterruption, ended)
+        {
+            BD = bossData;
+            movePosition = BD.movePosition;
+            movePosition.UseZone();
+            projectile = BD.outrageBullet;
+        }
+
+        protected override void AttackStart()
+        {
+            base.AttackStart();
+            moveTo = movePosition.RandomZonePosition();
+            moveFrom = BD.bossInstance.position;
+            float distanceToMove = Vector3.Distance(moveFrom, moveTo);
+            moveTime = Mathf.Lerp(minMoveTime, maxPossibleMoveTime, 
+                (Mathf.Clamp(distanceToMove, minnDTimeFactor, maxDTimeFactor) - minnDTimeFactor) / (maxDTimeFactor - minnDTimeFactor));
+            moveTimeLeft = moveTime;
+        }
+
+        protected override void AttackUpdate()
+        {
+            if (!BD.bossInstance) return;
+            base.AttackUpdate();
+            if (moveTimeLeft >= 0) Move();
+            else if (timeToNextShot <= 0) Attack();
+            else timeToNextShot -= Time.deltaTime;
+        }
+
+        protected void Move()
+        {
+            BD.bossInstance.position = Vector3.Lerp(moveTo, moveFrom, moveTimeLeft / moveTime);
+            moveTimeLeft -= Time.deltaTime;
+        }
+
+        protected void Attack()
+        {
+            var newBullet = Instantiate(projectile, BD.bossInstance.position, Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + Random.Range(-10f, 10f)));
+            newBullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+            newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+            timeToNextShot = Random.Range(timeToShot.x, timeToShot.y);
+        }
+
+        MirrorBossEncounter BD;
+        ZoneScript movePosition;
+        GameObject projectile;
+        private float maxDTimeFactor = 5f;
+        private float minnDTimeFactor = 1f;
+        private float timeToNextShot = 0;
+        private float minMoveTime = 0.2f;
+        private float maxPossibleMoveTime = 1f;
+        private float moveTime;
+        private float moveTimeLeft;
+        private Vector3 moveFrom;
+        private Vector3 moveTo;
+        private Vector2 timeToShot = new Vector2(0.15f, 0.5f);
+    }
+
     public class ConfrontPhase : BossPhase
     {
         public ConfrontPhase(BossEncounter bossData) : base(bossData)
@@ -697,7 +760,7 @@ public class MirrorBossEncounter : BossEncounter
             BD = bossData as MirrorBossEncounter;
             attacks = new List<BossAttack>()
             {
-                new BossAttack(bossData, 2)
+                new MirrorOutrage(BD, 2)
             };
         }
 
@@ -713,6 +776,7 @@ public class MirrorBossEncounter : BossEncounter
         public override void DebugStartPhase()
         {
             base.DebugStartPhase();
+            AudioManager.PlayMusic(BD.GetComponent<AudioSource>(), 33f);
         }
 
         MirrorBossEncounter BD;
@@ -731,6 +795,12 @@ public class MirrorBossEncounter : BossEncounter
         };
         
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);
+    }
+
+    protected override void EncounterUpdate()
+    {
+        if (CharacterLife.isDeath) return;
+        base.EncounterUpdate();
     }
 
     public void StartFight()
