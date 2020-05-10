@@ -50,7 +50,8 @@ namespace Game.Network
 
             var www = new UnityWebRequest(url, "POST")
             {
-                uploadHandler = new UploadHandlerRaw(jsonToSend), downloadHandler = new DownloadHandlerBuffer()
+                uploadHandler = new UploadHandlerRaw(jsonToSend),
+                downloadHandler = new DownloadHandlerBuffer()
             };
             www.SetRequestHeader("Content-Type", "application/json");
             yield return www.SendWebRequest();

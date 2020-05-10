@@ -64,6 +64,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
             manager.HideImmediate();
         
         EventManager.OnAlphaManagerComplete.AddListener(OnEndFadeout);
+        StartCoroutine(ShowInput());
     }
 
     void Update()
@@ -74,9 +75,6 @@ public class ScoreboardsManagerUI : MonoBehaviour
         foreach (var manager in inputAlphaManagers)
             manager.Update(Time.deltaTime);
 
-        if (!pressed && Input.GetKeyDown(KeyCode.Space))
-            StartCoroutine(ShowInput());
-        
         if (normalBoardRetrieved && hardcoreBoardRetrieved && !boardsShown)
             ShowScoreboards();
     }
