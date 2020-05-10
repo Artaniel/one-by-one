@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3387014766477757506}
   - component: {fileID: 3387014766477757507}
-  - component: {fileID: 3387014766477757505}
   - component: {fileID: 3387014766477757504}
   - component: {fileID: 3387014766477757519}
   - component: {fileID: 1265481833}
@@ -51,25 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571cb27ee3d1c7e47a8f3b0e7d3821dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomPrefabs:
-  - {fileID: 3146444567738145081, guid: 3d32cac3ae6465640b521f0080c36b98, type: 3}
-  - {fileID: 7565249538646017459, guid: 77d132abd73810140a18e778831dbadd, type: 3}
-  - {fileID: 7468587428815444035, guid: d399a25c2895607438626ecb0e5da14b, type: 3}
-  - {fileID: 3823071593393842718, guid: bb5c81b31f9ed6642b92933fbd87a2e3, type: 3}
   currentRoomID: 0
---- !u!114 &3387014766477757505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387014766477757508}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 566114f985a21e1438d21600338cfa11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugMode: 0
+  difficultySetting: 1
+  commonMRMods: []
 --- !u!114 &3387014766477757504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +133,9 @@ MonoBehaviour:
   containersPrefabs:
   - {fileID: 7707546310412048069, guid: 8af54454003590b44a5ef12609e9741f, type: 3}
   - {fileID: 7707546310412048069, guid: 8af54454003590b44a5ef12609e9741f, type: 3}
+  roomRepeatAllowed: 0
+  treasureRoomsNumber: 0
+  treasureRoomPrefabs: []
 --- !u!1 &4194236523386335293
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3405156877955156990}
   - component: {fileID: 8480220369447440366}
+  - component: {fileID: 1776661699162750189}
   m_Layer: 0
   m_Name: Metrics
   m_TagString: Untagged
@@ -258,8 +245,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8480220369447440367}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e01edcef864dd74dafac1acbadbdb1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1776661699162750189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8480220369447440367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566114f985a21e1438d21600338cfa11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugMode: 0

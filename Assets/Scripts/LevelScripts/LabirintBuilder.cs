@@ -60,7 +60,7 @@ public class LabirintBuilder : MonoBehaviour
         FillRoomPrefabs();
         //FillContainers();
         FillTreasureRooms();
-        DrawMap();
+        //DrawMap();
     }
 
     void MakeCorrectPath() {
@@ -148,6 +148,7 @@ public class LabirintBuilder : MonoBehaviour
     void DrawMap() {// for debug only
         Color lineColor;
         for (int i = 0; i < allRoomsPositions.Count; i++) {
+            Vector3 playerPosition = GameObject.FindWithTag("Player").transform.position;
             if (correctPathRoomsPositions.Contains(allRoomsPositions[i]))
                 lineColor = Color.green;
             else                
@@ -157,15 +158,15 @@ public class LabirintBuilder : MonoBehaviour
                 if (Labirint.instance.blueprints[i].rooms.ContainsKey(side))
                     if (Labirint.instance.blueprints[i].rooms[side] != -1)
                     {
-                        Debug.DrawRay(new Vector3(allRoomsPositions[i].x - numberOfRooms+0.5f, allRoomsPositions[i].y - numberOfRooms + 0.5f, 0), 
-                            Direction.SideToVector3(side), lineColor,9999f);
+                        Debug.DrawRay(playerPosition + new Vector3(allRoomsPositions[i].x - numberOfRooms+0.5f, allRoomsPositions[i].y - numberOfRooms + 0.5f, 0),
+                            Direction.SideToVector3(side), lineColor,5f);
                     }
             }
             if (Labirint.instance.blueprints[i].contanerPrefab != null) {
                 lineColor = Color.blue;
-                Vector3 point = new Vector3(allRoomsPositions[i].x - numberOfRooms + 0.5f, allRoomsPositions[i].y - numberOfRooms + 0.5f, 0);
-                Debug.DrawLine(point + 0.25f * Vector3.up + 0.25f * Vector3.left, point + 0.25f * Vector3.down + 0.25f * Vector3.right, lineColor, 9999f);
-                Debug.DrawLine(point + 0.25f * Vector3.down + 0.25f * Vector3.left, point + 0.25f * Vector3.up + 0.25f * Vector3.right, lineColor, 9999f);
+                Vector3 point = playerPosition + new Vector3(allRoomsPositions[i].x - numberOfRooms + 0.5f, allRoomsPositions[i].y - numberOfRooms + 0.5f, 0);
+                Debug.DrawLine(point + 0.25f * Vector3.up + 0.25f * Vector3.left, point + 0.25f * Vector3.down + 0.25f * Vector3.right, lineColor, 5f);
+                Debug.DrawLine(point + 0.25f * Vector3.down + 0.25f * Vector3.left, point + 0.25f * Vector3.up + 0.25f * Vector3.right, lineColor, 5f);
             }
         }
     }
@@ -247,5 +248,11 @@ public class LabirintBuilder : MonoBehaviour
                 if (!repeatTreasureRoomPrefabs) trasureRoomPrefabsList.Remove(trsureRoomPrefab);
                 containerAvailableRooms.Remove(randomRoomID); // to prevent 2 treasure room placement in same room
             }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) // Alt+M => DrawMap
+            DrawMap();
     }
 }

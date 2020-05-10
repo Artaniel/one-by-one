@@ -107,6 +107,7 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
     public void OnPointerClick(PointerEventData eventData)
     {
         if(!onDrag)
-           inventory.OnCellClick(currentSkill, transform);
+            if (inventory != null)
+                inventory.OnCellClick(currentSkill, transform);
     }
 }
