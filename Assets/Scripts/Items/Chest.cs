@@ -6,10 +6,10 @@ public class Chest : Container
 {
     private GameObject player = null;
 
-    protected override void Awake()
+    protected override void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        base.Awake();
+        base.Start();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

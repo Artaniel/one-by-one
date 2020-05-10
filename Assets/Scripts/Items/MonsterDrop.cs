@@ -7,13 +7,13 @@ public class MonsterDrop : Container
     public float anyDropChance = 1f;
     private MonsterLife monsterLife;
 
-    protected override void Awake()
+    protected override void Start()
     {
         monsterLife = GetComponent<MonsterLife>();
         if (Random.Range(0, 1f) <= anyDropChance)
         {
             monsterLife.hpChangedEvent.AddListener(DeathCheck);
-            base.Awake();
+            base.Start();
         }
     }
 

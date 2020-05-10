@@ -248,5 +248,5 @@ public abstract class BossEncounter : MonoBehaviour
     protected int phaseID = -1;
     protected bool encounterStarted = false;
     protected bool encounterOver = false;
-    protected MonsterLife bossHP = null;
+    public MonsterLife bossHP = null;
 }
