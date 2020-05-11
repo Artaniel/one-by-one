@@ -29,7 +29,7 @@ public class RelodScene : MonoBehaviour
         CharacterLife.isDeath = false;
         Canvas = GameObject.FindGameObjectWithTag("Canvas");
         var arena = GetComponent<ArenaEnemySpawner>();
-        maxvalue = arena.EnemyCount();
+        if (arena) maxvalue = arena.EnemyCount();
 
         Canvas.transform.GetChild(0).gameObject.SetActive(false);
         isVictory = false;
@@ -58,15 +58,9 @@ public class RelodScene : MonoBehaviour
     {
         if (CharacterLife.isDeath) PressR();
 
-        ArenaEnemySpawner arena = GetComponent<ArenaEnemySpawner>();
-        if (isVictory) {
-            if (!arena.labirintMode) { ProcessVictory(); }
-            else { ProcessRoomVictory(); }
-        }
-
         if (Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftControl) || CharacterLife.isDeath))
         {
-            Metrics.OnDeath();
+            //Metrics.OnDeath();
             if (experimentalReloadRoom)
                 Labirint.instance.ReloadRoom();
             else
@@ -76,7 +70,6 @@ public class RelodScene : MonoBehaviour
 
     protected virtual void ProcessVictory()
     {
-        CurrentEnemyUI.SetCurrentEnemy(" ");
         isVictory = true;
         Canvas.transform.GetChild(0).gameObject.SetActive(true);
         if (Input.GetKeyDown(KeyCode.F) && !CharacterLife.isDeath)

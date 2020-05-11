@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using Game.Events;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
+using UnityEngine.Events;
 
 public class CharacterLife : MonoBehaviour
 {
     public static bool isDeath = false;
-    [SerializeField]
-    private GameObject ShadowObject = null;
+    [SerializeField] private GameObject ShadowObject = null;
+    [SerializeField] private GameObject hitEffect = null;
     new private AudioSource audio;
+
+    public UnityEvent hpChangedEvent = new UnityEvent();
 
     public void Damage(int damage = 1)
     {
         if (isDeath || invulTimeLeft > 0) return; // Already died
 
+        if (hitEffect)
+        {
+            var hitEff = Instantiate(hitEffect, transform.position, Quaternion.identity).GetComponent<PlayerDamagedVFX>();
+            hitEff.player = transform;
+        }
         hp -= damage;
-        
+        hpChangedEvent.Invoke();
 
         if (hp <= 0)
         {
@@ -58,6 +66,7 @@ public class CharacterLife : MonoBehaviour
         audio = GetComponent<AudioSource>();
         AudioManager.Pause("Walk", audio);
         EventManager.OnMoneyChange.Invoke((int) (-MoneyManager.MoneyAmount * 0.05f));
+        Metrics.OnDeath();
     }
 
     private void VisualDeathBlock()
@@ -82,8 +91,8 @@ public class CharacterLife : MonoBehaviour
         GetComponent<Rigidbody2D>().drag = 10;
         GetComponent<Rigidbody2D>().mass = 100;
 
-        var CameraFollow = Camera.main.GetComponent<CameraFollowScript>();
-        if (!CameraFollow) Camera.main.gameObject.AddComponent<CameraFollowScript>();
+        //var CameraFollow = Camera.main.GetComponent<CameraFollowScript>();
+        //if (!CameraFollow) Camera.main.gameObject.AddComponent<CameraFollowScript>();
     }
 
     private IEnumerator StopGlow()
@@ -95,13 +104,18 @@ public class CharacterLife : MonoBehaviour
             
             // Also move camera "forward" together with glow fadeout
             mainCam.orthographicSize = Mathf.Lerp(cameraScale / 2, cameraScale, glowFadeTime);
-            //mainCam.gameObject.transform.position = Vector3.Lerp(cameraMovePosition, cameraStartPosition, glowFadeTime);
+            cameraMovePosition = gameObject.transform.position + new Vector3(0, 0, -20);
+            mainCam.gameObject.transform.position = Vector3.Lerp(cameraMovePosition, cameraStartPosition, glowFadeTime);
 
             //ShadowObject.transform.localEulerAngles = 
 
             yield return new WaitForFixedUpdate();
         }
         circleCollider.radius = 0.4f;
+        while (isDeath) { // still tracking camera after zoom
+            mainCam.gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, -20);
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     public void Alive()
@@ -119,11 +133,34 @@ public class CharacterLife : MonoBehaviour
     }
 
     public void Heal(int healAmmount) {
-        if (!isDeath) { 
+        if (!isDeath) {
             hp += healAmmount;
             if (hp > maxHp) hp = maxHp;
+            hpChangedEvent.Invoke();
         }
     }
+
+    public int GetHp()
+    {
+        return hp;
+    }
+
+    public int GetMaxHp()
+    {
+        return maxHp;
+    }
+
+    public float GetHpDropChanceAmplifier()
+    {
+        return HPDropChanceAmplifier;
+    }
+
+    public void AddToHPDropChanceAmp(float addValue)
+    {
+        HPDropChanceAmplifier += addValue;
+    }
+
+    private float HPDropChanceAmplifier = 1f;
 
     private int hp = 3;
     private int maxHp=3;

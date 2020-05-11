@@ -14,10 +14,10 @@ public class CharacterShooting : MonoBehaviour
     [SerializeField]
     private GameObject mouseCursorObj = null;
     
-    public void LoadNewWeapon(SkillManager.EquippedWeapon weapon, float punishmentReload)
+    public void LoadNewWeapon(SkillManager.EquippedWeapon weapon, bool instant = false)
     {
         currentWeapon = weapon;
-        timeBetweenAttacks = punishmentReload;
+        timeBetweenAttacks = instant ? 0 : weapon.logic.timeBetweenAttacks;
     }
 
     private void Start()
@@ -28,6 +28,11 @@ public class CharacterShooting : MonoBehaviour
         Cursor.visible = false;
         GameObject.Instantiate(mouseCursorObj);
         skillManager = GetComponent<SkillManager>();
+    }
+
+    private void FixedUpdate()
+    {
+        RotateCharacterTowardsCursor();
     }
 
     private void Update()
@@ -45,7 +50,7 @@ public class CharacterShooting : MonoBehaviour
         {
             timeBetweenAttacks -= Time.deltaTime;
         }
-        else if (currentWeapon == null) return;
+        else if (currentWeapon == null || currentWeapon.logic == null) return;
         else if (Input.GetButton("Fire1"))
         {
             
@@ -54,7 +59,7 @@ public class CharacterShooting : MonoBehaviour
             var ammoNeeded = currentWeapon.logic.AmmoConsumption();
             if (currentWeapon.ammoLeft >= ammoNeeded)
             {
-                timeBetweenAttacks = currentWeapon.logic.timeBetweenAttacks;
+                timeBetweenAttacks = currentWeapon.logic.timeBetweenAttacks / attackSpeedMult;
                 currentWeapon.reloadTimeLeft = 0;
                 currentWeapon.ammoLeft -= ammoNeeded;
                 currentWeapon.logic.Attack(this, mousePos);
@@ -80,10 +85,27 @@ public class CharacterShooting : MonoBehaviour
         }
     }
 
+    private void RotateCharacterTowardsCursor()
+    {
+        var mousepos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Quaternion rot = Quaternion.LookRotation(transform.position - mousepos, Vector3.forward);
+        transform.eulerAngles = new Vector3(0, 0, rot.eulerAngles.z);
+        Vector3 vectorToTarget = weaponTip.position - mousepos;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        weaponTip.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+    }
+
+    public void AddToAttackSpeed(float addToAttackSpeedValue)
+    {
+        attackSpeedMult += addToAttackSpeedValue;
+    }
+
     private float timeBetweenAttacks = 0;
 
     private Camera mainCamera;
     private CameraShaker cameraShaker;
+
+    private float attackSpeedMult = 1f;
 
     private GunfireAnimator gunfireAnimator;
 

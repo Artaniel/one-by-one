@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomBlueprint
 {
@@ -25,6 +26,8 @@ public class Labirint : MonoBehaviour
     private const float distanceToNewDoor = 10f; // distance from old door no new door, defines distance between rooms
     static public Labirint instance;
     private Vector3 respawnPoint;
+    public int difficultySetting = 1;
+    public List<MonsterRoomModifier> commonMRMods;
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class Labirint : MonoBehaviour
     void Start()
     {
         instance = this;
+        DifficultyLoad();
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
         {
@@ -86,6 +90,7 @@ public class Labirint : MonoBehaviour
             SpawnRoom(0);
             OnRoomChanged(0);
             blueprints[0].instance.GetComponent<Room>().ArenaInitCheck();
+            blueprints[0].instance.GetComponent<Room>().LightCheck();
         }
         else { // for start from choisen room, add prefab, set roomID, and connected room will be spawned
             Room startingRoom = GameObject.FindGameObjectWithTag("Room").GetComponent<Room>();
@@ -155,7 +160,8 @@ public class Labirint : MonoBehaviour
                         newDoor = newRoom.doorsSided[Direction.InvertSide(side)];
                         oldDoor.SpawnDoor();
                         newDoor.SpawnDoor();
-                        offset = Direction.SideToVector3(side) * distanceToNewDoor;
+                        //offset = Direction.SideToVector3(side) * distanceToNewDoor;
+                        offset = OffsetFromRoomBounds(oldDoor, newDoor, side);
                     }
                 }
                 ConnectDoors(oldDoor, newDoor);
@@ -186,7 +192,7 @@ public class Labirint : MonoBehaviour
         blueprints[id].instance.GetComponent<Room>().DoorsInit();
     }
 
-    public void ReloadRoom() {
+    public void ReloadRoom() { // сейчас не используется. делалось для перерождения игрока в этой же комнате
         Vector3 savedPosition = blueprints[currentRoomID].instance.transform.position;
         blueprints[currentRoomID].instance.GetComponent<ArenaEnemySpawner>()?.KillThemAll();
         blueprints[currentRoomID].instance.GetComponent<Room>().DisconnectRoom();
@@ -216,18 +222,75 @@ public class Labirint : MonoBehaviour
                     Door exitDoor = blueprints[currentRoomID].instance.GetComponent<Room>().doorsSided[Direction.InvertSide(side)];
                     exitDoor.SpawnDoor();
                     exitDoor.sceneName = blueprints[currentRoomID].exitSceneName;
-                    //Debug.Log(exitDoor);
                 }
             }
         }
     }
 
     void ContainerCheck() {
-        if (blueprints[currentRoomID].contanerPrefab != null && !blueprints[currentRoomID].containerWasOpened) {
+        if (blueprints[currentRoomID].contanerPrefab != null && !blueprints[currentRoomID].containerWasOpened &&
+            !blueprints[currentRoomID].instance.GetComponent<Room>().containerAlreadySpawned) {
             GameObject container = Instantiate(blueprints[currentRoomID].contanerPrefab, 
                 blueprints[currentRoomID].instance.GetComponent<Room>().possibleContainerPosition.position, Quaternion.identity);
             container.transform.parent = blueprints[currentRoomID].instance.transform;
             container.GetComponent<Container>().blueprint = blueprints[currentRoomID];
+            blueprints[currentRoomID].instance.GetComponent<Room>().containerAlreadySpawned = true;
         }
+    }
+
+    public static GameObject GetCurrentRoom() {
+        return instance.blueprints[instance.currentRoomID].instance;
+    }
+
+    private void DifficultyLoad()
+    {
+        difficultySetting = PlayerPrefs.GetInt("Difficulty");
+        if (difficultySetting == 1)
+        {
+            //Debug.Log("Normal mode loaded");
+        }
+        else if (difficultySetting == 2)
+        {
+            //Debug.Log("Hard mode loaded");
+        }
+        else
+        {
+            Debug.Log("Error on difficulty load, difficultySetting = " + difficultySetting.ToString());
+            difficultySetting = 1; // to avoid errors on user side, better to load wrong difficulty than to crash
+        }
+    }
+
+    private Vector3 OffsetFromRoomBounds(Door oldDoor, Door newDoor, Direction.Side side) {
+        Vector3 result = Direction.SideToVector3(side) * distanceToNewDoor;
+        float distanceDoorToBorderOld;
+        float distanceDoorToBorderNew;
+        if (side == Direction.Side.UP || side == Direction.Side.DOWN)
+        {
+            distanceDoorToBorderOld = Mathf.Abs(oldDoor.room.GetBordersFromTilemap()[side] - oldDoor.transform.position.y);
+            distanceDoorToBorderNew = Mathf.Abs(newDoor.room.GetBordersFromTilemap()[Direction.InvertSide(side)] - newDoor.transform.position.y);
+        }
+        else
+        {
+            distanceDoorToBorderOld = Mathf.Abs(oldDoor.room.GetBordersFromTilemap()[side] - oldDoor.transform.position.x);
+            distanceDoorToBorderNew = Mathf.Abs(newDoor.room.GetBordersFromTilemap()[Direction.InvertSide(side)] - newDoor.transform.position.x);
+        }
+        if (distanceDoorToBorderOld + distanceDoorToBorderNew > distanceToNewDoor)
+        {
+            result = Direction.SideToVector3(side) * (distanceDoorToBorderOld + distanceDoorToBorderNew);
+        }
+        else {
+            result = Direction.SideToVector3(side) * distanceToNewDoor;
+        }
+
+        return result;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftControl)) // ctrl+R => reboot
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        if (CharacterLife.isDeath && Input.GetKeyDown(KeyCode.R)) // death && R => reboot
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -6,7 +6,7 @@ public abstract class EnemyBehavior : MonoBehaviour
 {
     // public float priority = 1.0f;
     public float weight = 1.0f;
-    protected GameObject target;
+    public GameObject target;
     protected bool isActive = false;
     protected AIAgent agent;
 
@@ -165,6 +165,11 @@ public abstract class EnemyBehavior : MonoBehaviour
         }
     }
 
+    protected void RotateRandomlyAtStart()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
+    }
+
     protected bool ProximityCheck()
     {
         timeToProximityCheck = Mathf.Max(0, timeToProximityCheck - Time.deltaTime);
@@ -213,7 +218,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     }
 
     private float proximityCheckPeriod = 0.5f;
-    private float timeToProximityCheck = 0.5f;
+    private float timeToProximityCheck = 0.01f;
     [System.NonSerialized]
     public bool isGroupeAggroed;
     private float currentTimeBeforeGroupeAgroOff;

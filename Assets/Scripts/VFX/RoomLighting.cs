@@ -12,38 +12,41 @@ public class RoomLighting : MonoBehaviour
     [SerializeField, Tooltip("Leave empty if not needed")]
     private GameObject swampPrefab = null;
 
-    [SerializeField]
-    bool StandartLightIncrease = true;
-    [SerializeField]
-    private float maxvalue = 0;
+    [SerializeField] bool StandartLightIncrease = true;
+    [SerializeField] private float maxvalue = 0;
+    [SerializeField] private float roomClearedLight = 0.8f;
     public float DefaultLight = 0.13f;
 
     private void Start()
     {
         var arena = GetComponent<ArenaEnemySpawner>();
-        if (arena.labirintMode)
+        if (Labirint.instance != null)
         {
-            sceneLight =  Labirint.instance.GetComponentInChildren<Light2D>();
+            sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
+            if (swampPrefab)
+            {
+                SetSwampMaterial();
+            }
         }
         else
         {
             sceneLight = GetComponentInChildren<Light2D>();
-        }
-        Light = DefaultLight;
-        if (arena && StandartLightIncrease)
-        {
-            maxvalue = arena.EnemyCount();
-            RecalculateLight();
-        }
-        NewLight(Light);
+            Light = DefaultLight;
+            if (arena && StandartLightIncrease)
+            {
+                maxvalue = arena.EnemyCount();
+                RecalculateLight();
+            }
+            NewLight(Light);
 
-        if (swampPrefab)
-        {
-            SetSwampMaterial();
-        }
-        
+            if (swampPrefab)
+            {
+                SetSwampMaterial();
+            }
 
-        MonsterLife.OnEnemyDead.AddListener(AddOneToLight);
+
+            MonsterLife.OnEnemyDead.AddListener(AddOneToLight);
+        }
     }
 
     /// <summary>
@@ -82,7 +85,7 @@ public class RoomLighting : MonoBehaviour
 
     private void RecalculateLight()
     {
-        Light = DefaultLight + Mathf.Pow(Mathf.Clamp01(TotalValue / maxvalue), 1.7f) * (1 - DefaultLight);
+        Light = Mathf.Lerp(DefaultLight, roomClearedLight, Mathf.Pow(Mathf.Clamp01(TotalValue / maxvalue), 1.7f));
        // Debug.Log(Light);
     }
 
@@ -92,7 +95,7 @@ public class RoomLighting : MonoBehaviour
         {
             if (EXPERIMENTAL)
             {
-                CurrentVal = Mathf.Lerp(sceneLight.color.g, Light, t);
+                CurrentVal = Mathf.Lerp(sceneLight.intensity, Light, t);
 
             }
 
@@ -112,7 +115,7 @@ public class RoomLighting : MonoBehaviour
     {
         if (EXPERIMENTAL)
         {
-            sceneLight.color = new Color(light, light, light);
+            sceneLight.intensity = light;
         }
     }
 
@@ -122,20 +125,34 @@ public class RoomLighting : MonoBehaviour
     private void SetSwampMaterial()
     {
         swampMat = new Material(swampMatPrefab);
-        swampInstance = Instantiate(swampPrefab);
-        if (Labirint.instance != null) { // in labirint mode, to delete with parent
-            swampInstance.transform.parent = transform;
-            swampInstance.transform.localPosition = Vector3.zero;
+        if (Labirint.instance != null)
+        { // in labirint mode, to delete with parent
+            var borders = GetComponent<Room>()?.GetBordersFromTilemap();
+            if (borders != null)
+            {
+                if (Mathf.Abs(borders[Direction.Side.LEFT] - borders[Direction.Side.RIGHT]) < 46 &&
+                    Mathf.Abs(borders[Direction.Side.UP] - borders[Direction.Side.DOWN]) < 30)
+                {
+                    swampInstance = Instantiate(swampPrefab);
+                    swampInstance.transform.parent = transform;
+                    swampInstance.transform.localPosition = Vector3.zero;
+                }
+            }
         }
-        var sprites = swampInstance.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var sprite in sprites)
+        else
+            swampInstance = Instantiate(swampPrefab);
+        if (swampInstance != null)
         {
-            sprite.sharedMaterial = swampMat;
-        }
-        var emitters = swampInstance.GetComponentsInChildren<ParticleSystemRenderer>();
-        foreach (var emitter in emitters)
-        {
-            emitter.sharedMaterial = swampMat;
+            var sprites = swampInstance.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var sprite in sprites)
+            {
+                sprite.sharedMaterial = swampMat;
+            }
+            var emitters = swampInstance.GetComponentsInChildren<ParticleSystemRenderer>();
+            foreach (var emitter in emitters)
+            {
+                emitter.sharedMaterial = swampMat;
+            }
         }
     }
     
@@ -156,5 +173,24 @@ public class RoomLighting : MonoBehaviour
     private float CurrentVal;
     float t = 0.0f;
     static float Light;
-    
+
+    public void LabirintRoomEnterDark(int enemyCount)
+    {
+        t = 0.0f;
+        Light = DefaultLight;
+        maxvalue = enemyCount;
+        TotalValue = 0;
+        RecalculateLight();
+    }
+
+    public void LabirintRoomEnterBright() 
+    {
+        Light = roomClearedLight;
+    }
+
+    public void LabirintRoomAddLight()
+    {
+        AddToLight(1);
+    }
+
 }

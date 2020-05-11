@@ -5,12 +5,11 @@ using UnityEngine;
 public class Chest : Container
 {
     private GameObject player = null;
-    public float destanceToOpen = 5f;
 
-    protected override void Awake()
+    protected override void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        base.Awake();
+        base.Start();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

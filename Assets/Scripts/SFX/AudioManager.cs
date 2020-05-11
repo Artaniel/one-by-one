@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
     private static float userPrefSound = 0.5f;
-    private static float userPrefMusic = 0.5f;
+    public static float userPrefMusic { get; private set; } = 0.5f;
 
     // Name -> (time since last sound, maximum value)
     public static Dictionary<string, Vector2> Clips = new Dictionary<string, Vector2>();
@@ -165,15 +165,17 @@ public class AudioManager : MonoBehaviour
 #endif
     }
 
-    public static void PlayMusic(AudioSource sorce)// for externall audio sorce with music volume, like on boss
+    public static void PlayMusic(AudioSource sorce, float time = 0)// for externall audio sorce with music volume, like on boss
     {
         sorce.volume = userPrefMusic;
+        sorce.time = time;
+        audioSourceMusic = sorce;
         sorce.Play();
     }
 
-    public static void PauseMusic(AudioSource sorce)
-    { 
-        sorce.Pause();
+    public static void PauseMusic()
+    {
+        audioSourceMusic.Pause();
     }
 
     private static AudioSource audioSourceSFX;

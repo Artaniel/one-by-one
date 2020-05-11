@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 704161730719489484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.46, y: -0.03, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 1671438991049873950}
   m_RootOrder: 0
@@ -153,7 +153,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.2, y: -0.05}
   serializedVersion: 2
-  m_Radius: 0.33
+  m_Radius: 0.28
 --- !u!50 &7605615853457004032
 Rigidbody2D:
   serializedVersion: 4
@@ -187,9 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c876ea4611f7e65459cf4db151b181c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletSpeed: 8
+  BulletSpeed: 12
   BulletLifeLength: 6
-  ignoreCollisionTime: 0.35
+  ignoreCollisionTime: 0.05
 --- !u!114 &7189403762500233049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_LightType: 0
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.75
-  m_Color: {r: 0.39900002, g: 0.36852086, b: 0.39900002, a: 1}
+  m_Color: {r: 0.48627454, g: 0.14901961, b: 0.9490197, a: 1}
   m_Intensity: 0.39
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
@@ -259,3 +259,6 @@ MonoBehaviour:
   FlickerValueRange: {x: -0.15, y: 0.25}
   FlickerPeriodRange: {x: 0.05, y: 0.1}
   SinFactor: 0
+  sinSpeed: 1
+  lightFlicker: 1
+  spriteFlicker: 0

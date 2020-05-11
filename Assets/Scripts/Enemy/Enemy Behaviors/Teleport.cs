@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Teleport : TimedAttack
 {
@@ -15,7 +16,7 @@ public class Teleport : TimedAttack
             .GetComponent<ArenaEnemySpawner>();
         }
         else {
-            arena = Labirint.instance.blueprints[Labirint.instance.currentRoomID].instance.GetComponent<ArenaEnemySpawner>();
+            arena = Labirint.GetCurrentRoom().GetComponent<ArenaEnemySpawner>();
         }
         maxspeedSaved = agent.maxSpeed;
     }
@@ -33,15 +34,16 @@ public class Teleport : TimedAttack
             vect *= Scatter;
             Vector3 NVector = new Vector3(vect.x, vect.y);
             bool inbounds = false;
-            if (Labirint.instance != null) {
-                Transform roomTransform = Labirint.instance.blueprints[Labirint.instance.currentRoomID].instance.transform;
-                inbounds = (arena.RoomBounds.x + roomTransform.position.x > Mathf.Abs(target.transform.position.x + NVector.x) &&
-                arena.RoomBounds.y + roomTransform.position.y > Mathf.Abs(target.transform.position.y + NVector.y));
+            if (Labirint.instance != null)
+            {
+                inbounds = Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
             }
-            else {
+            else if (arena)
+            {
                 inbounds = (arena.RoomBounds.x > Mathf.Abs(target.transform.position.x + NVector.x) &&
                 arena.RoomBounds.y > Mathf.Abs(target.transform.position.y + NVector.y));
             }
+            else inbounds = true;
 
             if (inbounds)
             {

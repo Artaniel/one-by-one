@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Chapter1BossMonsterLife : MonsterLife
 {
+    public bool hitNonMirror = true;
+
     protected override bool SpecialConditions(GameObject source)
     {
-        return source.GetComponent<Chapter1BossInfusedBullet>() != null;
+        var mirrorComp = source.GetComponent<Chapter1BossInfusedBullet>();
+        if (!hitNonMirror && !mirrorComp) source.GetComponent<BulletLife>().piercing = true;
+
+        return hitNonMirror || mirrorComp;
     }
 
     protected override void PreDestroyEffect()
@@ -22,8 +27,5 @@ public class Chapter1BossMonsterLife : MonsterLife
     protected override void HitEffect()
     {
         base.HitEffect();
-        var lightController = GameObject.FindGameObjectWithTag("GameController")
-            .GetComponent<RoomLighting>();
-        lightController.AddToLight(28);
     }
 }
