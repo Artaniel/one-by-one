@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Game.Events;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
 using UnityEngine.Events;
@@ -64,6 +65,7 @@ public class CharacterLife : MonoBehaviour
         isDeath = true;
         audio = GetComponent<AudioSource>();
         AudioManager.Pause("Walk", audio);
+        EventManager.OnMoneyChange.Invoke((int) (-MoneyManager.MoneyAmount * 0.05f));
         Metrics.OnDeath();
     }
 

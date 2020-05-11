@@ -18,7 +18,7 @@ public abstract class PickupableItem : MonoBehaviour
         } 
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (active && collision.CompareTag("Player"))
            PickUp(collision);
