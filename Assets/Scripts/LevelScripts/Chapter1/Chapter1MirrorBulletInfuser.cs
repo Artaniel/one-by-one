@@ -5,6 +5,7 @@ using UnityEngine.Experimental.Rendering.LWRP;
 
 public class Chapter1MirrorBulletInfuser : MonoBehaviour
 {
+    public bool infuseEnemyBullets = false;
     public Color enemyBulletColor = Color.magenta;
 
     private void OnTriggerEnter2D(Collider2D coll)
@@ -20,7 +21,7 @@ public class Chapter1MirrorBulletInfuser : MonoBehaviour
         else
         {
             var eBulletLife = coll.gameObject.GetComponent<EnemyBulletLife>();
-            if (eBulletLife)
+            if (infuseEnemyBullets && eBulletLife)
             {
                 eBulletLife.ignoreCollisionTime = 0;
                 eBulletLife.GetComponentInChildren<SpriteRenderer>().color = enemyBulletColor;

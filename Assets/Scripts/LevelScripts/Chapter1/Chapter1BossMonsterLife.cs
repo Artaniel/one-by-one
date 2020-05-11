@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Chapter1BossMonsterLife : MonsterLife
 {
+    public bool hitNonMirror = true;
+
     protected override bool SpecialConditions(GameObject source)
     {
         var mirrorComp = source.GetComponent<Chapter1BossInfusedBullet>();
-        if (!mirrorComp) source.GetComponent<BulletLife>().piercing = true;
+        if (!hitNonMirror && !mirrorComp) source.GetComponent<BulletLife>().piercing = true;
 
-        return mirrorComp;
+        return hitNonMirror || mirrorComp;
     }
 
     protected override void PreDestroyEffect()

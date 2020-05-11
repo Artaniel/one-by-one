@@ -23,6 +23,7 @@ public class MirrorBossEncounter : BossEncounter
     public GameObject ellipseBulletPrefab = null;
     public Transform roomCenter = null;
     public Vector2 distanceFromCenterToUpRight = new Vector2(10, 10);
+    public Chapter1MirrorBulletInfuser mirrorBulletInfuser = null;
     [Header("Pre-phase 2")]
     public SpriteRenderer glassEffect = null;
     [Header("Phase 2")]
@@ -205,8 +206,18 @@ public class MirrorBossEncounter : BossEncounter
 
         private void ChooseEndMovePosition()
         {
-            // TODO: Сделать хитрее, чтобы не брались дистанции дальше X метров
-            endPosition = BD.phase1MovePositions[Random.Range(0, BD.phase1MovePositions.Length)].position;
+            // TODO: Сделать хитрее, чтобы не брались дистанции дальше X метров и ближе Y метров
+            int counter = 0;
+            while (counter < 10)
+            {
+                endPosition = BD.phase1MovePositions[Random.Range(0, BD.phase1MovePositions.Length)].position;
+                float distance = Vector3.Distance(endPosition, BD.player.position);
+                if (distance >= 5 && distance <= 17) {
+                    break;
+                }
+                Debug.Log("Reconsidering");
+                counter++;
+            }
         }
 
         private void BossFadeAway()
@@ -312,7 +323,7 @@ public class MirrorBossEncounter : BossEncounter
             while (triesLimit < 15)
             {
                 Vector2 newPosition = teleportZone.RandomZonePosition();
-                if (Vector2.Distance(player.position, newPosition) >= 4.5f)
+                if (Vector2.Distance(player.position, newPosition) >= 6f)
                 {
                     bossInstance.transform.position = newPosition;
                     break;
@@ -437,6 +448,7 @@ public class MirrorBossEncounter : BossEncounter
         {
             base.AttackEnd();
             DirectBulletsOut();
+            BD.mirrorBulletInfuser.infuseEnemyBullets = true;
             Camera.main.GetComponent<CameraFocusOn>().UnFocus(2, roomCenter);
         }
 
@@ -589,6 +601,13 @@ public class MirrorBossEncounter : BossEncounter
             if (monsterAttack) monsterAttack.ForceAttack();
             monster.GetComponent<MonsterDrop>().anyDropChance = 0;
             BD.spawnedMonsters.Add(monster.GetComponent<MonsterLife>());
+            foreach (var obj in monster.GetComponentsInChildren<SpriteRenderer>())
+            {
+                if (obj.gameObject.name.StartsWith("Eye"))
+                {
+                    obj.color = BD.mirrorColor;
+                }
+            }
         }
 
         GameObject enemyToSpawn = null;
@@ -730,6 +749,12 @@ public class MirrorBossEncounter : BossEncounter
             var newBullet = Instantiate(projectile, BD.bossInstance.position, Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + Random.Range(-10f, 10f)));
             newBullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+
+            var newBullet2 = Instantiate(projectile, BD.bossInstance.position, 
+                Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + (Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f)));
+            newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+            newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+
             timeToNextShot = Random.Range(timeToShot.x, timeToShot.y);
         }
 
@@ -771,6 +796,14 @@ public class MirrorBossEncounter : BossEncounter
             BD.bossHP = BD.bossInstance.GetComponent<MonsterLife>();
             BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(0);
             BD.bossInstance.GetComponent<Face>().target = BD.mirrorCracks;
+            BD.bossInstance.GetComponent<Chapter1BossMonsterLife>().hitNonMirror = false;
+            foreach (var obj in BD.bossInstance.GetComponentsInChildren<SpriteRenderer>())
+            {
+                if (obj.gameObject.name.StartsWith("Eye"))
+                {
+                    obj.color = BD.mirrorColor;
+                }
+            }
         }
 
         public override void DebugStartPhase()
@@ -797,9 +830,18 @@ public class MirrorBossEncounter : BossEncounter
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);
     }
 
+    protected override void Update()
+    {
+        if (encounterOver)
+        {
+            AudioManager.SetVolumeMusic(AudioManager.userPrefMusic - (Time.deltaTime * 0.1f));
+        }
+        base.Update();
+    }
+
     protected override void EncounterUpdate()
     {
-        if (CharacterLife.isDeath) return;
+        encounterOver = encounterOver || CharacterLife.isDeath;
         base.EncounterUpdate();
     }
 

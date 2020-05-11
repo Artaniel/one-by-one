@@ -204,7 +204,7 @@ public abstract class BossEncounter : MonoBehaviour
     } 
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (encounterOver || !encounterStarted) return;
 
