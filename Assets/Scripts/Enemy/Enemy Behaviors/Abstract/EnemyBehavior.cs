@@ -6,7 +6,7 @@ public abstract class EnemyBehavior : MonoBehaviour
 {
     // public float priority = 1.0f;
     public float weight = 1.0f;
-    protected GameObject target;
+    public GameObject target;
     protected bool isActive = false;
     protected AIAgent agent;
 

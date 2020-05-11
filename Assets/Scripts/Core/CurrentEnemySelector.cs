@@ -33,7 +33,7 @@ public class CurrentEnemySelector : MonoBehaviour
 
     public void SelectRandomEnemy()
     {
-        if (currentBoy != null)
+        if (!currentBoy)
         {
             GameObject copyReferenceOfCurrentEnemy = currentBoy;
             StartCoroutine(DeactivateMonsterOverTime(0.4f, copyReferenceOfCurrentEnemy));
@@ -52,7 +52,7 @@ public class CurrentEnemySelector : MonoBehaviour
     private IEnumerator DeactivateMonsterOverTime(float time, GameObject monster)
     {
         yield return new WaitForSeconds(time);
-        if (monster != null && monster != currentBoy)
+        if (monster && monster != currentBoy)
         {
             monster.GetComponent<MonsterLife>().MakeNoBoy();
         }
@@ -77,7 +77,7 @@ public class CurrentEnemySelector : MonoBehaviour
 
     protected virtual bool ProximitySuccess(GameObject enemy)
     {
-        if (enemy == null) return false;
+        if (!enemy || !enemy.activeSelf) return false;
         if (currentCamera == null)
         {
             currentCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();

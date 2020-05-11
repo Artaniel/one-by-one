@@ -6,7 +6,8 @@ public abstract class BossEncounter : MonoBehaviour
 {
     public int startFromPhase = 0;
 
-    public abstract class BossAttack
+    [System.Serializable]
+    public class BossAttack
     {
         protected float attackLength = 5f;
         public bool allowInterruption = true;
@@ -23,6 +24,7 @@ public abstract class BossEncounter : MonoBehaviour
 
         public void BaseAttackStart()
         {
+            ended = false;
             attackTimeLeft = attackLength;
             AttackStart();
         }
@@ -32,17 +34,24 @@ public abstract class BossEncounter : MonoBehaviour
         public void BaseAttackUpdate()
         {
             attackTimeLeft -= Time.deltaTime;
-            if (attackTimeLeft <= 0)
+            //print(attackTimeLeft);
+            if (attackTimeLeft <= 0 && !ended)
             {
-                ended = true;
-                AttackEnd();
+                BaseAttackEnd();
             }
             AttackUpdate();
         }
 
         protected virtual void AttackUpdate() { }
 
-        public virtual void AttackEnd() { }
+        protected virtual void AttackEnd() { }
+
+        public void BaseAttackEnd()
+        {
+            if (ended) return;
+            ended = true;
+            AttackEnd();
+        }
 
         public virtual void AttackInterrupt()
         {
@@ -53,9 +62,10 @@ public abstract class BossEncounter : MonoBehaviour
         protected BossEncounter baseBossData;
     }
     
+    [System.Serializable]
     public class BossPhase
     {
-        public enum PhaseType { Unknown, TimeBased, HpBased, TimeOrHpBased, Trigger }
+        public enum PhaseType { Unknown, TimeBased, AttackBased, HpBased, TimeOrHpBased, Trigger }
         public enum AttackOrder { Random, RandomRepeatable, Sequence, SequenceWithLoop }
 
         protected string phaseName = "Unnamed Phase";
@@ -67,7 +77,7 @@ public abstract class BossEncounter : MonoBehaviour
         protected List<BossAttack> attacks = null;
         protected bool phaseEnded = false;
 
-        protected int currentAttackNumber = 0;
+        protected int currentAttackNumber = -1;
 
         public void PhaseBaseUpdate() {
             if (phaseEnded) return;
@@ -80,15 +90,13 @@ public abstract class BossEncounter : MonoBehaviour
             {
                 StartNextAttack();
             }
+
+            phaseEnded = CheckEndPhase();
         }
 
-        public virtual void StartPhase() {
-            StartNextAttack();
-        }
+        public virtual void StartPhase() => StartNextAttack();
 
-        protected virtual void PhaseUpdate() {
-            phaseTimer += Time.deltaTime;
-        }
+        protected virtual void PhaseUpdate() { }
 
         private void StartNextAttack()
         {
@@ -108,10 +116,6 @@ public abstract class BossEncounter : MonoBehaviour
                     nextAttackNumber = Random.Range(0, attacks.Count);
                     break;
                 case AttackOrder.Sequence:
-                    if (nextAttackNumber == attacks.Count)
-                    {
-                        phaseEnded = true;
-                    }
                     nextAttackNumber = currentAttackNumber + 1;
                     break;
                 case AttackOrder.SequenceWithLoop:
@@ -120,8 +124,15 @@ public abstract class BossEncounter : MonoBehaviour
                 default:
                     break;
             }
-            attacks[currentAttackNumber].ended = false;
+            if (currentAttackNumber != -1)
+            {
+                attacks[currentAttackNumber].BaseAttackEnd();
+            }
+            
+            if (phaseEnded || nextAttackNumber >= attacks.Count) return;
+
             currentAttackNumber = nextAttackNumber;
+            
             attacks[currentAttackNumber].BaseAttackStart();
 
             OnNextAttackStart();
@@ -129,7 +140,7 @@ public abstract class BossEncounter : MonoBehaviour
 
         protected virtual void OnNextAttackStart() { }
 
-        public bool HasPhaseEnded()
+        public bool CheckEndPhase()
         {
             switch (phaseType)
             {
@@ -138,6 +149,8 @@ public abstract class BossEncounter : MonoBehaviour
                     return true;
                 case PhaseType.TimeBased:
                     return phaseTimer >= phaseLength;
+                case PhaseType.AttackBased:
+                    return attacks[currentAttackNumber].ended && currentAttackNumber >= attacks.Count - 1;
                 case PhaseType.HpBased:
                     return bossData.BossHealthPercentage() <= endHpPercentage;
                 case PhaseType.TimeOrHpBased:
@@ -150,15 +163,23 @@ public abstract class BossEncounter : MonoBehaviour
             }
         }
 
-        public virtual void DebugStartPhase() { }
+        public bool HasPhaseEnded() => phaseEnded;
+
+        public void BaseEndPhase() {
+            attacks[currentAttackNumber].BaseAttackEnd();
+            EndPhase();
+        }
+
+        protected virtual void EndPhase() { }
+
+        public virtual void DebugStartPhase() {
+            StartPhase();
+        }
 
         protected float phaseTimer = 0;
         private BossEncounter bossData;
 
-        public BossPhase(BossEncounter bossData)
-        {
-            this.bossData = bossData;
-        }
+        public BossPhase(BossEncounter bossData) => this.bossData = bossData;
     }
 
     // Start is called before the first frame update
@@ -183,7 +204,7 @@ public abstract class BossEncounter : MonoBehaviour
     } 
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (encounterOver || !encounterStarted) return;
 
@@ -191,13 +212,16 @@ public abstract class BossEncounter : MonoBehaviour
             NextPhaseOrFinish();
         else
             bossPhases[phaseID].PhaseBaseUpdate();
-
-
+        
         EncounterUpdate();
     }
 
     private void NextPhaseOrFinish()
     {
+        if (phaseID != -1)
+        {
+            currentPhase.BaseEndPhase();
+        }
         phaseID++;
         if (phaseID == bossPhases.Count)
         {
@@ -225,5 +249,5 @@ public abstract class BossEncounter : MonoBehaviour
     protected int phaseID = -1;
     protected bool encounterStarted = false;
     protected bool encounterOver = false;
-    protected MonsterLife bossHP = null;
+    public MonsterLife bossHP = null;
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SelfSpawningContainer : Chest
 {
-    protected override void Awake()
+    protected override void Start()
     {
         if (Labirint.instance.blueprints[Labirint.instance.currentRoomID].containerWasOpened)
         {
             Destroy(gameObject);
         }
-        base.Awake();
+        base.Start();
     }
 }

@@ -12,6 +12,7 @@ public class MonsterLife : MonoBehaviour
     [SerializeField] private GameObject enemyExplosionPrefab = null;
     [SerializeField] private float fadeInTime = 0.5f;
     [SerializeField] private bool autoChooseName = true;
+    [SerializeField] private bool hitPlayerOnContact = true;
 
     [SerializeField] private EvilDictionary evilDictionary = null;
 
@@ -64,6 +65,7 @@ public class MonsterLife : MonoBehaviour
 
         foreach (var sprite in sprites)
         {
+            if (!sprite) continue;
             var newColor = sprite.color;
             newColor.a = Mathf.Lerp(1, 0, fadeInLeft / fadeInTime);
             sprite.color = newColor;
@@ -138,7 +140,7 @@ public class MonsterLife : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (fadeInLeft == 0 && coll.gameObject.tag == "Player")
+        if (hitPlayerOnContact && fadeInLeft == 0 && coll.gameObject.tag == "Player")
         {
             coll.gameObject.GetComponent<CharacterLife>().Damage();
         }

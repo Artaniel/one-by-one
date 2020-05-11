@@ -17,7 +17,7 @@ public class Container : MonoBehaviour
     public RoomBlueprint blueprint;
     private SkillManager playerSkillManager;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         playerSkillManager = GameObject.FindWithTag("Player").GetComponent<SkillManager>();
         //GetItem();
