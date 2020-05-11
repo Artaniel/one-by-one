@@ -3,7 +3,7 @@ using Game.Events;
 
 public class CoinsManager : MonoBehaviour
 {
-    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private GameObject coinPrefab = null;
     
     private void Awake()
     {

@@ -5,7 +5,7 @@ namespace Game.Events.Callbacks
 {
     public class ItemBoughtCallback : MonoBehaviour
     {
-        [SerializeField] private SkillBase checkSkill;
+        [SerializeField] private SkillBase checkSkill = null;
 
         private SpriteRenderer sprite;
         

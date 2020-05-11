@@ -10,36 +10,23 @@ using UnityEngine.UI;
 
 public class ScoreboardsManagerUI : MonoBehaviour
 {
-    [SerializeField]
-    private TMP_InputField inputField;
-    [SerializeField]
-    private Button submitButton;
-    [SerializeField]
-    private Button skipName;
-    [SerializeField]
-    private string nextScene = "MainMenu";
-    [SerializeField]
-    private List<AlphaManager> inputAlphaManagers = new List<AlphaManager>();
+    [SerializeField] private TMP_InputField inputField = null;
+    [SerializeField] private Button submitButton = null;
+    [SerializeField] private Button skipName = null;
+    [SerializeField] private string nextScene = "MainMenu";
+    [SerializeField] private List<AlphaManager> inputAlphaManagers = new List<AlphaManager>();
 
-    [SerializeField] 
-    private Transform NormalScoreboard = null;
-    [SerializeField] 
-    private Transform HardcoreScoreboard = null;
-    [SerializeField]
-    private GameObject ScoreboardItemPrefab = null;
-    [SerializeField] 
-    private AlphaManager scoreboardsAlphaManager;
+    [SerializeField] private Transform NormalScoreboard = null;
+    [SerializeField] private Transform HardcoreScoreboard = null;
+    [SerializeField] private GameObject ScoreboardItemPrefab = null;
+    [SerializeField] private AlphaManager scoreboardsAlphaManager = null;
 
-    [SerializeField] 
-    private AlphaManager errorAlphaManager;
+    [SerializeField] private AlphaManager errorAlphaManager = null;
 
-    [SerializeField] 
-    private GameObject errorReturnToMenu;
-    [SerializeField]
-    private GameObject scoreboardReturnToMenu;
+    [SerializeField] private GameObject errorReturnToMenu = null;
+    [SerializeField] private GameObject scoreboardReturnToMenu = null;
 
-    [SerializeField]
-    private AlphaManager loadingAlphaManager;
+    [SerializeField] private AlphaManager loadingAlphaManager = null;
     
     private bool pressed = false;
     private string scoreboardServer = "http://laptop.lan:10000";
