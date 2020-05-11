@@ -9,7 +9,7 @@ public class MoneyUI : MonoBehaviour
     private TextMeshProUGUI сounterUI = null;
 
     [SerializeField]
-    private AlphaManager alphaManager;
+    private AlphaManager alphaManager = null;
 
     private void Start()
     {
