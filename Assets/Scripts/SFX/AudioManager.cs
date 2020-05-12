@@ -55,20 +55,20 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
 
-        DontDestroyOnLoad(gameObject);
+    private Scene lastFrameScene;
 
+    private void Start()
+    {
         audioSourceSFX = GetComponent<AudioSource>();
         audioSourceMusic = SourceMusic; // from inspector to static
-
         if (audioSourceMusic != null)
         {
             SetVolumeMusic(userPrefMusic);
             MusicCheck();
         }
     }
-
-    private Scene lastFrameScene;
 
     private void Update()
     {

@@ -663,9 +663,9 @@ public class MirrorBossEncounter : BossEncounter
                 new MirrorSpawnEnemy(bossData, 1, BD.ghostPrefab),
                 new MirrorSpawnEnemy(bossData, 1, BD.teleportMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 1, BD.tankPrefab),
-                new MirrorSpawnEnemy(bossData, 1, BD.chaosMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.zombiePrefab),
                 new MirrorSpawnEnemy(bossData, 0.5f, BD.shootingMonsterPrefab),
-                new MirrorSpawnEnemy(bossData, 0.5f, BD.zombiePrefab),
+                new MirrorSpawnEnemy(bossData, 0.5f, BD.chaosMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 0.5f, BD.shootingMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
@@ -727,6 +727,7 @@ public class MirrorBossEncounter : BossEncounter
             moveTime = Mathf.Lerp(minMoveTime, maxPossibleMoveTime, 
                 (Mathf.Clamp(distanceToMove, minnDTimeFactor, maxDTimeFactor) - minnDTimeFactor) / (maxDTimeFactor - minnDTimeFactor));
             moveTimeLeft = moveTime;
+            attackTimeLeft += moveTime;
         }
 
         protected override void AttackUpdate()
@@ -785,7 +786,7 @@ public class MirrorBossEncounter : BossEncounter
             BD = bossData as MirrorBossEncounter;
             attacks = new List<BossAttack>()
             {
-                new MirrorOutrage(BD, 2)
+                new MirrorOutrage(BD, 2f)
             };
         }
 
