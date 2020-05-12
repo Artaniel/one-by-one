@@ -28,8 +28,10 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     [SerializeField] private AlphaManager loadingAlphaManager = null;
     
+    [SerializeField]
+    private string scoreboardServer = "https://gd64.pythonanywhere.com/";
+    
     private bool pressed = false;
-    private string scoreboardServer = "http://laptop.lan:10000";
 
     private bool nameInputSkipped = false;
     
@@ -112,10 +114,17 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     public void SubmitInput()
     {
+        Metrics.LoadMetrics();
+        float playtime = 0f;
+        foreach (var levelTime in Metrics.MetricsContainer.levelTime)
+            playtime += levelTime;   
+        
+        Debug.Log(playtime);
+
         var plrStats = new ScoreboardSendEntry
         {
             playerName = inputField.text,
-            gameTime = 1000f
+            gameTime = playtime
         };
         PostResult(JsonUtility.ToJson(plrStats));
 
@@ -152,7 +161,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
                 if (code == 200)
                 {
                     var easyList = JsonDeserializer.CreateFromJSON<ScoreboardList>(jsonText);
-                    
+
                     for (int i = 0; i < easyList.entries.Count; i++)
                     {
                         var entry = easyList.entries[i];
