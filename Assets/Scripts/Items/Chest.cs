@@ -14,10 +14,23 @@ public class Chest : Container
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == player) {
+        if (!opened && collision.gameObject == player) {
             //VFX/SFX?
+            opened = true;
+            OpenAnimation();
             Open();
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
+
+    private void OpenAnimation()
+    {
+        var animator = GetComponentInChildren<Animator>();
+        if (animator)
+        {
+            animator.Play("Chest-open");
+        }
+    }
+
+    private bool opened = false;
 }

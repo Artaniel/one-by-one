@@ -419,11 +419,13 @@ public class SkillManager : MonoBehaviour
     public void ApplyWeaponSprites()
     {
         var weaponIcons = new Sprite[SkillsUI.weaponsCount];
+        var weaponMiniIcons = new Sprite[SkillsUI.weaponsCount];
         for (int i = 0; i < equippedWeapons.Count; i++)
         {
             weaponIcons[i] = equippedWeapons[i].logic.pickupSprite;
+            weaponMiniIcons[i] = equippedWeapons[i].logic.miniIcon;
         }
-        skillsUI.SetWeaponSprites(weaponIcons, equippedWeapons.Count != 0 ? equippedWeapon.weaponIndex : 0);
+        skillsUI.SetWeaponSprites(weaponIcons, weaponMiniIcons, equippedWeapons.Count != 0 ? equippedWeapon.weaponIndex : 0);
     }
 
     public void ApplySkillSprites()

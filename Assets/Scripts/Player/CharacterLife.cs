@@ -14,6 +14,11 @@ public class CharacterLife : MonoBehaviour
 
     public UnityEvent hpChangedEvent = new UnityEvent();
 
+    public void Start()
+    {
+        hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
+    }
+
     public void Damage(int damage = 1)
     {
         if (isDeath || invulTimeLeft > 0) return; // Already died
@@ -25,6 +30,7 @@ public class CharacterLife : MonoBehaviour
         }
         hp -= damage;
         hpChangedEvent.Invoke();
+        hpUI.UpdateHP(hp);
 
         if (hp <= 0)
         {
@@ -137,6 +143,7 @@ public class CharacterLife : MonoBehaviour
             hp += healAmmount;
             if (hp > maxHp) hp = maxHp;
             hpChangedEvent.Invoke();
+            hpUI.UpdateHP(hp);
         }
     }
 
@@ -179,4 +186,6 @@ public class CharacterLife : MonoBehaviour
     private float cameraScale;
     private Vector3 cameraStartPosition;
     private Vector3 cameraMovePosition;
+
+    private PlayerHPIcon hpUI;
 }

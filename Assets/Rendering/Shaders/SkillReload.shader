@@ -5,7 +5,7 @@ Shader "Unlit/WeaponReload"
     Properties
     {
         _MainTex("Texture", 2D) = "white" {}
-        _CooldownProgress("CooldownLeft", Float) = 1
+        _CooldownProgress("CooldownLeft", Float) = 0
         _MainColor("Main Color", Color) = (1, 1, 1, 1)
         _SkillActive("Is Skill Active", Float) = 0
         _SkillActiveColor("Skill Active Color", Color) = (1, 0.7, 0.7, 1)
@@ -64,7 +64,7 @@ Shader "Unlit/WeaponReload"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                col.a = i.uv[1] > _CooldownProgress ? 0 : col.a * 0.7;
+                col.a = i.uv[1] > _CooldownProgress ? 0 : col.a * _MainColor.a;
                 if (_SkillActive == 1) {
                     return half4(_SkillActiveColor.rgb, col.a);
                 }

@@ -88,7 +88,8 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void Render(SkillBase item, Inventory inventory)
     {
-        itemImage.sprite = item.pickupSprite;
+        if (item.miniIcon) itemImage.sprite = item.miniIcon;
+        else itemImage.sprite = item.pickupSprite;
         Image img = GetComponent<Image>();
         currentSkill = item;
         this.inventory = inventory;

@@ -80,7 +80,7 @@ public class SkillsUI : MonoBehaviour
 
     public void UpdateWeaponReloadVisualCooldown(float[] proportionOfTimeLeft, int currentWeaponIndex)
     {
-        var diffInCellNumeration = 1 - currentWeaponIndex;
+        var diffInCellNumeration = -currentWeaponIndex;
         for (int i = 0; i < weaponsCount; i++)
         {
             var cellIndex = (weaponsCount + i + diffInCellNumeration) % weaponsCount;
@@ -88,22 +88,42 @@ public class SkillsUI : MonoBehaviour
         }
     }
 
-    public void SetWeaponSprites(Sprite[] weaponSprites, int currentWeaponIndex)
+    public void SetWeaponSprites(Sprite[] weaponSprites, Sprite[] weaponMiniSprites, int currentWeaponIndex)
     {
-        var diffInCellNumeration = 1 - currentWeaponIndex;
+        var diffInCellNumeration = -currentWeaponIndex;
         for (int i = 0; i < weaponsCount; i++)
         {
             var cellIndex = (weaponsCount + i + diffInCellNumeration) % weaponsCount;
-            if (weaponSprites[i] != null)
+            if (cellIndex == 0)
             {
-                var weaponImage = weaponCells[cellIndex].GetChild(1).GetComponent<Image>();
-                weaponImage.color = Color.white;
-                weaponImage.sprite = weaponSprites[i];
+                if (weaponSprites[i] != null)
+                {
+                    Image weaponImage = weaponImage = weaponCells[cellIndex].GetChild(3).GetComponent<Image>();
+                    weaponImage.color = Color.white;
+                    weaponImage.sprite = weaponSprites[i];
+                }
+                else
+                {
+                    weaponCells[cellIndex].GetChild(1).GetComponent<Image>().color = Color.clear;
+                }
             }
             else
             {
-                weaponCells[cellIndex].GetChild(1).GetComponent<Image>().color = Color.clear;
+                if (weaponMiniSprites[i] != null)
+                {
+                    Image weaponImage = null;
+                    if (cellIndex != 0) weaponImage = weaponCells[cellIndex].GetChild(1).GetComponent<Image>();
+                    else weaponImage = weaponCells[cellIndex].GetChild(3).GetComponent<Image>();
+                    weaponImage.color = Color.white;
+                    weaponImage.sprite = weaponMiniSprites[i];
+                }
+                else
+                {
+                    weaponCells[cellIndex].GetChild(1).GetComponent<Image>().color = Color.clear;
+                }
             }
+
+            
         }
     }
 }
