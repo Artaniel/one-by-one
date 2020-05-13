@@ -11,6 +11,6 @@ public class SocialInviteLinks : MonoBehaviour
 
     public void VKInviteLink()
     {
-        Application.OpenURL("https://vk.com/gamedev64");
+        Application.OpenURL("https://vk.com/cozystorm");
     }
 }

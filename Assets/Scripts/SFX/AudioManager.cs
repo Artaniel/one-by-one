@@ -92,11 +92,11 @@ public class AudioManager : MonoBehaviour
         {
             audioSourceMusic.Stop();
             audioSourceMusic.clip = musicList[expectedMusicIndex];
-            audioSourceMusic.Play();
+            PlayMusic(audioSourceMusic);
         } else if (restartMusicOnLoad)
         {
             audioSourceMusic.Stop();
-            audioSourceMusic.Play();
+            PlayMusic(audioSourceMusic);
         }
     }
 
@@ -167,7 +167,7 @@ public class AudioManager : MonoBehaviour
 
     public static void PlayMusic(AudioSource sorce, float time = 0)// for externall audio sorce with music volume, like on boss
     {
-        sorce.volume = userPrefMusic;
+        sorce.volume = sorce.volume * userPrefMusic;
         sorce.time = time;
         audioSourceMusic = sorce;
         sorce.Play();

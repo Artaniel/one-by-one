@@ -32,6 +32,7 @@ public class GunfireAnimator : MonoBehaviour
 
     public void LightenUp(float time, float maxPower = 1)
     {
+        if (time < 0 || maxPower < 0) return;
         lightenTimeLeft = time;
         lightenSpeed = 500 * (maxPower / 10);
         lightenPower = 1 * maxPower;

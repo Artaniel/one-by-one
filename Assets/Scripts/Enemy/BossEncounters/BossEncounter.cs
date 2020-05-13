@@ -238,7 +238,7 @@ public abstract class BossEncounter : MonoBehaviour
 
     public float BossHealthPercentage()
     {
-        return bossHP.HP / bossHP.maxHP;
+        return (!bossHP ? 0 : bossHP.HP / bossHP.maxHP);
     }
 
     protected virtual void EncounterUpdate() { }

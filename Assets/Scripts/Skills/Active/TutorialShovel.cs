@@ -8,7 +8,6 @@ public class TutorialShovel : ActiveSkill
 {
     public override void ActivateSkill()
     {
-        //animation?
         SceneManager.LoadScene("LabirintChapter1");
     }
 }

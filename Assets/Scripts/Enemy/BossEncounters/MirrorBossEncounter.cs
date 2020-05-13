@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MirrorBossEncounter : BossEncounter
 {
@@ -807,6 +808,12 @@ public class MirrorBossEncounter : BossEncounter
             }
         }
 
+        protected override void EndPhase()
+        {
+            base.EndPhase();
+            BD.StartCoroutine(BD.EndGame());
+        }
+
         public override void DebugStartPhase()
         {
             base.DebugStartPhase();
@@ -835,7 +842,7 @@ public class MirrorBossEncounter : BossEncounter
     {
         if (encounterOver)
         {
-            AudioManager.SetVolumeMusic(AudioManager.userPrefMusic - (Time.deltaTime * 0.1f));
+            AudioManager.SetVolumeMusic(AudioManager.userPrefMusic - 0.2f - (Time.deltaTime * 0.1f)); // Гребаный костыль вали его Валера
         }
         base.Update();
     }
@@ -850,5 +857,13 @@ public class MirrorBossEncounter : BossEncounter
     {
         encounterStarted = true;
         base.Start();
+    }
+
+    public IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3f);
+        Metrics.OnWin();
+        RelodScene.OnSceneChange?.Invoke();
+        SceneManager.LoadScene("Scoreboard");
     }
 }

@@ -42,6 +42,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = true;
         errorReturnToMenu.SetActive(false);
         scoreboardReturnToMenu.SetActive(false);      
         

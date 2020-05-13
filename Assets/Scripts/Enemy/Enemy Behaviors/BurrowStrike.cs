@@ -171,7 +171,7 @@ public class BurrowStrike : Attack
     private bool CheckWallAhead()
     {
         //Debug.DrawRay(transform.position, transform.up * attackRadius);
-        var hits = (from t in Physics2D.RaycastAll(transform.position, transform.up, attackRadius + 1)
+        var hits = (from t in Physics2D.RaycastAll(transform.position, transform.up, attackRadius + 1.5f)
                     where t.transform.gameObject.tag == "Environment"
                     select t).ToArray();
         return (hits.Length != 0);
