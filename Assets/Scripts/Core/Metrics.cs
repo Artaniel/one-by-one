@@ -72,7 +72,7 @@ public class Metrics : MonoBehaviour
         file.Close();
     }
 
-    private static void LoadMetrics() {
+    public static void LoadMetrics() {
         if (File.Exists(Application.persistentDataPath + fileName))
         {
             BinaryFormatter binaryformatter = new BinaryFormatter();
