@@ -31,7 +31,7 @@ public class Room : MonoBehaviour
     private void Start()
     {
         DoorsInit();
-        FillOOB();
+        //FillOOB();
     }
 
     public void DoorsInit() {

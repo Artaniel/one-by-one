@@ -86,7 +86,7 @@ public class AIAgent : MonoBehaviour
         // max speed with knockback: triple max speed 
         rigidbody.velocity = velocity * 50 * Time.fixedDeltaTime;
 
-        OOBCheck();
+        //OOBCheck();
     }
 
     protected virtual void Update()

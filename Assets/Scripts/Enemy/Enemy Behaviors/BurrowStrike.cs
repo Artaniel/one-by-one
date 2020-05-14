@@ -171,7 +171,7 @@ public class BurrowStrike : Attack
     private bool CheckWallAhead()
     {
         //Debug.DrawRay(transform.position, transform.up * attackRadius);
-        var hits = (from t in Physics2D.RaycastAll(transform.position, transform.up, attackRadius + 1.5f)
+        var hits = (from t in Physics2D.RaycastAll(transform.position, transform.up, 5f)
                     where t.transform.gameObject.tag == "Environment"
                     select t).ToArray();
         return (hits.Length != 0);
@@ -183,7 +183,7 @@ public class BurrowStrike : Attack
     private GameObject rockDigEffect = null;
     private Collider2D[] objectsNearby;
     private float timeToScan = 0f;
-    private float timeToEachScan = 0.25f;
+    private float timeToEachScan = 0.1f;
 
     private List<Vector4> startingColor;
     private float maxSpeedSaved = 0;

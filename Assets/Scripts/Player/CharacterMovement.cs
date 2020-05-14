@@ -27,7 +27,7 @@ public class CharacterMovement : MonoBehaviour
         if (Pause.Paused) return;
 
         Movement();
-        OOBCheck();
+        //OOBCheck();
     }
     
     private void Movement()
