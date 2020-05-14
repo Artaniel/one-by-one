@@ -92,11 +92,15 @@ public class Door : MonoBehaviour
 
     public void Lock()
     {
-        if (isSpawned)
+        if (!isSpawned)
         {
             locked = true;
             //animation?
             timer = 1f;
+            foreach (var animation in GetComponentsInChildren<Animator>())
+            {
+                animation.Play("Close");
+            }
         }
     }
 

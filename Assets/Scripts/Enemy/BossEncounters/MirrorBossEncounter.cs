@@ -7,6 +7,7 @@ public class MirrorBossEncounter : BossEncounter
 {
     [HideInInspector] public Transform player;
     public Transform bossInstance;
+    public Door entranceDoor;
 
     [Header("General references")]
     public GameObject bossPrefab = null;
@@ -56,6 +57,7 @@ public class MirrorBossEncounter : BossEncounter
         {
             AudioManager.PauseMusic();
             Instantiate(BD.bossSpawnEffect, BD.bossSpawnPosition.position, Quaternion.identity);
+            BD.entranceDoor.Lock();
         }
 
         protected override void AttackEnd()
@@ -842,7 +844,7 @@ public class MirrorBossEncounter : BossEncounter
     {
         if (encounterOver)
         {
-            AudioManager.SetVolumeMusic(AudioManager.userPrefMusic - 0.2f - (Time.deltaTime * 0.1f)); // Гребаный костыль вали его Валера
+            AudioManager.SetVolumeMusic(AudioManager.audioSourceMusic.volume - (Time.deltaTime * 0.1f));
         }
         base.Update();
     }

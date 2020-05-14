@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
+    public static AudioSource audioSourceSFX;
+    public static AudioSource audioSourceMusic;
+
     private static float userPrefSound = 0.5f;
     public static float userPrefMusic { get; private set; } = 0.5f;
 
@@ -157,11 +160,11 @@ public class AudioManager : MonoBehaviour
 
     public static void SetVolumeMusic(float value)
     {
-        userPrefMusic = value;
+        var musicVolume = value;
 #if UNITY_WEBGL
-        audioSourceMusic.volume = userPrefMusic / 3f;
+        audioSourceMusic.volume = musicVolume / 3f;
 #else
-        audioSourceMusic.volume = userPrefMusic;
+        audioSourceMusic.volume = musicVolume;
 #endif
     }
 
@@ -177,7 +180,4 @@ public class AudioManager : MonoBehaviour
     {
         audioSourceMusic.Pause();
     }
-
-    private static AudioSource audioSourceSFX;
-    private static AudioSource audioSourceMusic;
 }
