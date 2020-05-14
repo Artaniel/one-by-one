@@ -85,6 +85,8 @@ public class AIAgent : MonoBehaviour
         // main movement function
         // max speed with knockback: triple max speed 
         rigidbody.velocity = velocity * 50 * Time.fixedDeltaTime;
+
+        OOBCheck();
     }
 
     protected virtual void Update()
@@ -140,6 +142,20 @@ public class AIAgent : MonoBehaviour
         rigidbody.WakeUp();
         rigidbody.isKinematic = false;
         velocity = savedVelocity;
+    }
+
+    private void OOBCheck() {
+        if (Labirint.instance != null)
+        {
+            if (!Labirint.GetCurrentRoom().GetComponent<Room>().PositionIsInbounds(transform.position))
+            {
+                if (GetComponent<BorderLoopMovement>() == null) // Harpy Queen can go OOB
+                {
+                    transform.position = Labirint.GetCurrentRoom().GetComponent<Room>().GetNearInboundsPosition(transform.position);
+                    Debug.Log("Monster is OOB");
+                }
+            }
+        }
     }
 
     Vector3 savedVelocity = new Vector3();

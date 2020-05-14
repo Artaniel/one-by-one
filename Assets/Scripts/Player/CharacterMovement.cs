@@ -27,6 +27,7 @@ public class CharacterMovement : MonoBehaviour
         if (Pause.Paused) return;
 
         Movement();
+        OOBCheck();
     }
     
     private void Movement()
@@ -62,6 +63,16 @@ public class CharacterMovement : MonoBehaviour
     public void AddToSpeedMultiplier(float addValue)
     {
         speedMultiplier += addValue;
+    }
+
+    private void OOBCheck() {
+        if (Labirint.instance != null) {
+            if (!Labirint.GetCurrentRoom().GetComponent<Room>().PositionIsInbounds(transform.position))
+            {
+                Debug.Log("Player OOB alert");
+                transform.position = Labirint.GetCurrentRoom().GetComponent<Room>().GetNearInboundsPosition(transform.position);
+            }
+        }
     }
 
     private float speedMultiplier = 1f;
