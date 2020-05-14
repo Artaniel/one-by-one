@@ -50,7 +50,7 @@ public class Pause : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && AllowPause)
+        if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && AllowPause && !InventoryManager.opened)
         {
             SetPause(!Paused);
         }

@@ -402,10 +402,10 @@ public class SkillManager : MonoBehaviour
 
     public void ReloadWeaponIfNeeded()
     {
-        if (equippedWeapon.reloadTimeLeft == 0)
+        if (equippedWeapon.reloadTimeLeft == 0 && equippedWeapon.ammoLeft < equippedWeapon.logic.ammoMagazine)
         {
             equippedWeapon.reloadTimeLeft = equippedWeapon.logic.reloadTime *
-                Mathf.Lerp(1, 0.5f, (float)equippedWeapon.ammoLeft / equippedWeapon.logic.ammoMagazine); // more bullets = faster reload
+                Mathf.Lerp(1, 0.4f, (float)equippedWeapon.ammoLeft / equippedWeapon.logic.ammoMagazine); // more bullets = faster reload
         }
     }
 
