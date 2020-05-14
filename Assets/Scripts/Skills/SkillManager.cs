@@ -217,10 +217,7 @@ public class SkillManager : MonoBehaviour
             {
                 inventoryActiveSkills.Add(skill as ActiveSkill);
             }
-            else
-            {
-                activeSkills.Add(new EquippedActiveSkill(skill as ActiveSkill));
-            }
+            else EquipActiveSkill(skill as ActiveSkill);
         }
         else if (skill is WeaponSkill)
         {
@@ -228,15 +225,7 @@ public class SkillManager : MonoBehaviour
             {
                 inventoryWeaponSkills.Add(skill as WeaponSkill);
             }
-            else
-            {
-                equippedWeapons.Add(new EquippedWeapon(skill as WeaponSkill, equippedWeapons.Count));
-                if (equippedWeapons.Count == 1) // There was no other weapons before we added this
-                {
-                    equippedWeapon = equippedWeapons[0];
-                    attackManager.LoadNewWeapon(equippedWeapon, instant: true);
-                }
-            }
+            else EquipWeapon(skill as WeaponSkill);
 
         }
         RefreshUI();
@@ -407,6 +396,21 @@ public class SkillManager : MonoBehaviour
             equippedWeapon.reloadTimeLeft = equippedWeapon.logic.reloadTime *
                 Mathf.Lerp(1, 0.4f, (float)equippedWeapon.ammoLeft / equippedWeapon.logic.ammoMagazine); // more bullets = faster reload
         }
+    }
+
+    public void EquipWeapon(WeaponSkill skill)
+    {
+        equippedWeapons.Add(new EquippedWeapon(skill, equippedWeapons.Count));
+        if (equippedWeapons.Count == 1) // There was no other weapons before we added this
+        {
+            equippedWeapon = equippedWeapons[0];
+            attackManager.LoadNewWeapon(equippedWeapon, instant: true);
+        }
+    }
+
+    public void EquipActiveSkill(ActiveSkill skill)
+    {
+        activeSkills.Add(new EquippedActiveSkill(skill as ActiveSkill));
     }
 
     #region UI block

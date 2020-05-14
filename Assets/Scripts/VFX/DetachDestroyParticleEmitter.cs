@@ -60,6 +60,8 @@ public class DetachDestroyParticleEmitter : MonoBehaviour
 
     void Update()
     {
+        if (Pause.Paused) return;
+
         TimeToDestroy -= Time.deltaTime;
         if (TimeToDestroy < 0)
         {

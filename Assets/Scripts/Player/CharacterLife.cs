@@ -18,7 +18,6 @@ public class CharacterLife : MonoBehaviour
     {
         hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
         hpChangedEvent.AddListener(UpdateHPUI);
-        hpChangedEvent.AddListener(PlayerHitVFX);
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
     }
 
@@ -27,6 +26,7 @@ public class CharacterLife : MonoBehaviour
         if (isDeath || invulTimeLeft > 0) return; // Already died
 
         hp -= damage;
+        PlayerHitVFX();
         hpChangedEvent.Invoke();
 
         if (hp <= 0)

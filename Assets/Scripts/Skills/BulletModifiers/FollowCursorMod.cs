@@ -14,7 +14,8 @@ public class FollowCursorMod : BulletModifier
     public override void SpawnModifier(BulletLife bullet)
     {
         base.SpawnModifier(bullet);
-        modifierTime = 0;
+        modifierTime = 5;
+        bullet.SetTimeLeft(bullet.timeToDestruction + modifierTime);
     }
 
     public override void MoveModifier(BulletLife bullet)

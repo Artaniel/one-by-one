@@ -84,6 +84,7 @@ public class Inventory : MonoBehaviour
 
     private void addPassiveSkills()
     {
+        passiveSkills.Clear();
         foreach (var skill in skills.skills)
         {
             if (skill is PassiveSkill)
@@ -146,9 +147,9 @@ public class Inventory : MonoBehaviour
 
     public void OnCellClick(SkillBase currentSkill, Transform cell)
     {
-        //если скил активный и он экипирован
         if (currentSkill is ActiveSkill) 
         {
+            // этот массив ищет совпадение между нажимаемой кнопкой и скилами на панели
             var equippedActiveSkill = skills.ActiveSkills.FindAll(skill => skill.skill == currentSkill);
             if (equippedActiveSkill.Count != 0 && equippedActiveSkill[0].cooldown == 0)
             {
@@ -168,7 +169,8 @@ public class Inventory : MonoBehaviour
         }
         else if (currentSkill is WeaponSkill)
         {
-            var equippedWeapon = skills.EquippedWeapons.FindAll(skill => skill.logic == currentSkill);
+            // этот массив ищет совпадение между нажимаемой кнопкой и скилами на панели
+            var equippedWeapon = skills.EquippedWeapons.FindAll(skill => skill.logic == currentSkill); 
             if (equippedWeapon.Count != 0 && equippedWeapon[0].reloadTimeLeft == 0)
             {
                 List<SkillManager.EquippedWeapon> tmpList = new List<SkillManager.EquippedWeapon>();
@@ -183,7 +185,7 @@ public class Inventory : MonoBehaviour
             }
             else if (equippedWeapon.Count == 0 && skills.EquippedWeapons.Count < skills.maxEquippedWeaponCount)
             {
-                skills.AddSkill(currentSkill);
+                skills.EquipWeapon(currentSkill as WeaponSkill);
                 var nonActiveList = skills.InventoryWeaponSkill;
                 nonActiveList.Remove(currentSkill as WeaponSkill);
                 MakeFrame(cell.parent.gameObject, ActiveFrame);
