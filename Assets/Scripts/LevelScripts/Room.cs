@@ -31,6 +31,7 @@ public class Room : MonoBehaviour
     private void Start()
     {
         DoorsInit();
+        FillOOB();
     }
 
     public void DoorsInit() {
@@ -175,4 +176,199 @@ public class Room : MonoBehaviour
         return result;
     }
 
+    private Tilemap walls = null;
+    private int brakeCounter = 0;
+    private Vector3Int inboundsPosituion;
+    private int[,] map; // 0 - dont know, 1 - oob, 2 - inbounds, 3 - border
+    private int topBorder,botBorder,leftBorder,rightBorder;
+
+    private void FillOOB()
+    {
+        GetWallTilemap();
+        Dictionary<Direction.Side, float> borders = GetBordersFromTilemap();
+        topBorder = walls.WorldToCell(new Vector3(0, borders[Direction.Side.UP], 0)).y + 3;
+        botBorder = walls.WorldToCell(new Vector3(0, borders[Direction.Side.DOWN], 0)).y - 3;
+        leftBorder = walls.WorldToCell(new Vector3(borders[Direction.Side.LEFT], 0, 0)).x - 3;
+        rightBorder = walls.WorldToCell(new Vector3(borders[Direction.Side.RIGHT], 0, 0)).x + 3;
+
+        map = new int[rightBorder - leftBorder + 1, topBorder - botBorder + 1];
+        FillOuterCell(0, 0);
+        //Debug.Log(brakeCounter);
+        GetInboundsPoint();
+        FillInboundsCell(inboundsPosituion.x-leftBorder, inboundsPosituion.y-botBorder);
+        //Debug.Log(brakeCounter);
+        FillRest();
+        PaintBorder();
+        //DrawDebug();
+    }
+
+    private void DrawDebug() {
+        for (int x = leftBorder; x < rightBorder - 1; x++)
+        {
+            for (int y = botBorder; y < topBorder - 1; y++)
+            {
+                if (map[x - leftBorder, y - botBorder] == 1)
+                {
+                    Debug.DrawRay(walls.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.red, 99f);
+                }
+                if (map[x - leftBorder, y - botBorder] == 2)
+                {
+                    Debug.DrawRay(walls.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.green, 99f);
+                }
+                if (map[x - leftBorder, y - botBorder] == 3)
+                {
+                    Debug.DrawRay(walls.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.yellow, 99f);
+                }
+            }
+        }
+    }
+
+    private void FillOuterCell(int x, int y)
+    {
+        OuterDirectionCheck(x, y, x + 1, y);
+        OuterDirectionCheck(x, y, x - 1, y);
+        OuterDirectionCheck(x, y, x, y + 1);
+        OuterDirectionCheck(x, y, x, y - 1);
+    }
+
+    private void OuterDirectionCheck(int oldx, int oldy, int newx, int newy)
+    {
+        if (newx >= 0 && newy >= 0 &&
+            newx <= rightBorder-leftBorder && newy <= topBorder-botBorder)
+        {
+            if (map[newx, newy] == 0) 
+            {
+                if ( !(walls.HasTile(new Vector3Int(oldx + leftBorder, oldy+ botBorder, 0)) && !walls.HasTile(new Vector3Int(newx+ leftBorder, newy+ botBorder, 0))))
+                {// except transition form filled to not filled tile
+                    map[newx, newy] = 1;
+                    brakeCounter++;
+                    //Debug.Log(newx.ToString() + " " + newy.ToString());
+                    if (brakeCounter < 2000)
+                    {
+                        FillOuterCell(newx, newy);
+                    }
+                }
+            }
+        }        
+    }
+
+    void GetWallTilemap() { // get walls tilemap layer and set it to var walls
+        if (walls == null)
+        {
+            Tilemap[] tilemaps = GetComponentsInChildren<Tilemap>();
+            foreach (Tilemap tilemap in tilemaps)
+            {
+                if (tilemap.tag == "Environment")
+                    walls = tilemap;
+            }
+        }
+    }
+
+    void GetInboundsPoint() { //эвристика, чертим линию от левой двери вправо пока не найдем пустую клетку.
+        bool found = false;
+        Vector3Int currentPos = walls.WorldToCell(doorsSided[Direction.Side.LEFT].transform.position);
+        while (!found && (currentPos.y<rightBorder)) {
+            currentPos = walls.WorldToCell(doorsSided[Direction.Side.LEFT].transform.position);
+            if (!walls.HasTile(currentPos)) {
+                found = true;
+                inboundsPosituion = currentPos;
+            }
+            currentPos += Vector3Int.right;
+        }
+
+        if (!found) {
+            Debug.Log("Cant find inbounds");
+        }
+    }
+
+    void FillInboundsCell(int x, int y) {
+        InboundsDirectionCheck(x, y, x + 1, y);
+        InboundsDirectionCheck(x, y, x - 1, y);
+        InboundsDirectionCheck(x, y, x, y + 1);
+        InboundsDirectionCheck(x, y, x, y - 1);
+    }
+
+    private void InboundsDirectionCheck(int oldx, int oldy, int newx, int newy)
+    {
+        if (newx >= 0 && newy >= 0 &&
+            newx <= rightBorder - leftBorder && newy <= topBorder - botBorder)
+        {
+            if (map[newx, newy] == 0)
+            {
+                if (!walls.HasTile(new Vector3Int(newx + leftBorder, newy + botBorder, 0)))
+                {
+                    map[newx, newy] = 2;
+                    brakeCounter++;
+                    if (brakeCounter < 2000)
+                    {
+                        FillInboundsCell(newx, newy);
+                    }
+                }
+            }
+        }
+    }
+
+    private void FillRest() {
+        for (int x = 0; x < rightBorder - leftBorder - 1; x++)
+        {
+            for (int y = 0; y < topBorder - botBorder - 1; y++)
+            {
+                if (map[x, y] == 0)
+                    map[x, y] = 1;
+            }
+        }
+    }
+
+    private void PaintBorder() {
+        bool isborder;
+        for (int x = 1; x < rightBorder - leftBorder - 1; x++)
+        {
+            for (int y = 1; y < topBorder - botBorder - 1; y++)
+            {
+                if (map[x, y] == 1) {
+                    isborder = false;
+                    isborder = isborder || (map[x + 1,  y]      == 2); // if has inbounds cell in any of 9 dirrections
+                    isborder = isborder || (map[x + 1,  y + 1]  == 2);
+                    isborder = isborder || (map[x,      y + 1]  == 2);
+                    isborder = isborder || (map[x - 1,  y + 1]  == 2);
+                    isborder = isborder || (map[x - 1,  y]      == 2);
+                    isborder = isborder || (map[x - 1,  y - 1]  == 2);
+                    isborder = isborder || (map[x,      y - 1]  == 2);
+                    isborder = isborder || (map[x + 1,  y - 1]  == 2);
+                    if (isborder) map[x, y] = 3;
+                }                
+            }
+        }
+    }
+
+    public bool PositionIsInbounds(Vector3 position) {
+        bool result = true;
+        if (map != null && walls !=null) {
+            Vector3Int positionOnTilemap = walls.WorldToCell(position);
+            if (positionOnTilemap.x<leftBorder || positionOnTilemap.x>rightBorder ||
+                positionOnTilemap.y>topBorder || positionOnTilemap.y<botBorder) {
+                result = false;
+            }
+            else if (map[positionOnTilemap.x - leftBorder, positionOnTilemap.y - botBorder] == 1)
+                result = false;
+        }
+        return result;
+    }
+
+    public Vector3 GetNearInboundsPosition(Vector3 currentPosition) { // осторожно хардкод. Нервным не смотреть
+        Vector3 result = currentPosition;
+        float shiftAmp = 1;
+        Vector3[] possibleShifts = new Vector3[8] { Vector3.up, Vector3.up + Vector3.right, Vector3.right, Vector3.right + Vector3.down, Vector3.down, Vector3.down + Vector3.left, Vector3.left, Vector3.left + Vector3.up };
+        for (int i = 1; i < 20; i++)
+        {
+            shiftAmp = i;
+            foreach (Vector3 shift in possibleShifts)
+            {
+                if (PositionIsInbounds(currentPosition + (shift * shiftAmp)))
+                    return currentPosition + (shift * shiftAmp);
+            }
+        }
+        Debug.Log("Cant find inbounds position");
+        return result;
+    }
 }
