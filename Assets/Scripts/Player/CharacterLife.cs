@@ -17,20 +17,17 @@ public class CharacterLife : MonoBehaviour
     public void Start()
     {
         hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
+        hpChangedEvent.AddListener(UpdateHPUI);
+        hpChangedEvent.AddListener(PlayerHitVFX);
+        cameraShaker = Camera.main.GetComponent<CameraShaker>();
     }
 
     public void Damage(int damage = 1)
     {
         if (isDeath || invulTimeLeft > 0) return; // Already died
 
-        if (hitEffect)
-        {
-            var hitEff = Instantiate(hitEffect, transform.position, Quaternion.identity).GetComponent<PlayerDamagedVFX>();
-            hitEff.player = transform;
-        }
         hp -= damage;
         hpChangedEvent.Invoke();
-        hpUI.UpdateHP(hp);
 
         if (hp <= 0)
         {
@@ -39,9 +36,7 @@ public class CharacterLife : MonoBehaviour
         }
         else
         {
-            // visualise invulnururability ?
-            invulTimeLeft = invulTime;
-            GetComponentInChildren<SpriteRenderer>().color = Color.red;
+            AddTemporaryInvulnurability();
         }
     }
 
@@ -167,6 +162,25 @@ public class CharacterLife : MonoBehaviour
         HPDropChanceAmplifier += addValue;
     }
 
+    private void AddTemporaryInvulnurability()
+    {
+        // visualise invulnururability ?
+        invulTimeLeft = invulTime;
+        GetComponentInChildren<SpriteRenderer>().color = Color.red;
+    }
+
+    private void UpdateHPUI() => hpUI.UpdateHP(hp);
+
+    public void PlayerHitVFX()
+    {
+        if (hitEffect)
+        {
+            var hitEff = Instantiate(hitEffect, transform.position, Quaternion.identity).GetComponent<PlayerDamagedVFX>();
+            hitEff.player = transform;
+        }
+        cameraShaker.ShakeCamera(2, 0.5f);
+    }
+
     private float HPDropChanceAmplifier = 1f;
 
     private int hp = 3;
@@ -183,6 +197,7 @@ public class CharacterLife : MonoBehaviour
 
     //Camera
     private Camera mainCam;
+    private CameraShaker cameraShaker;
     private float cameraScale;
     private Vector3 cameraStartPosition;
     private Vector3 cameraMovePosition;
