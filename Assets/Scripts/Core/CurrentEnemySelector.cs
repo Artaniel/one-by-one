@@ -33,7 +33,7 @@ public class CurrentEnemySelector : MonoBehaviour
 
     public void SelectRandomEnemy()
     {
-        if (!currentBoy)
+        if (currentBoy)
         {
             GameObject copyReferenceOfCurrentEnemy = currentBoy;
             StartCoroutine(DeactivateMonsterOverTime(0.4f, copyReferenceOfCurrentEnemy));
@@ -52,8 +52,10 @@ public class CurrentEnemySelector : MonoBehaviour
     private IEnumerator DeactivateMonsterOverTime(float time, GameObject monster)
     {
         yield return new WaitForSeconds(time);
+        print("yes");
         if (monster && monster != currentBoy)
         {
+            print("and yes");
             monster.GetComponent<MonsterLife>().MakeNoBoy();
         }
     }

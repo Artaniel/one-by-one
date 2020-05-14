@@ -143,11 +143,12 @@ public class MonsterLife : MonoBehaviour
         get => fadeInLeft;
     }
 
-    private void OnCollisionEnter2D(Collision2D coll)
+    private void OnCollisionStay2D(Collision2D coll)
     {
         if (hitPlayerOnContact && fadeInLeft == 0 && coll.gameObject.tag == "Player")
         {
-            coll.gameObject.GetComponent<CharacterLife>().Damage();
+            if (!playerLife) playerLife = coll.gameObject.GetComponent<CharacterLife>();
+            playerLife.Damage();
         }
     }
 
@@ -242,6 +243,8 @@ public class MonsterLife : MonoBehaviour
     private TMPro.TextMeshPro monsterName;
     private static List<string> usedNames = new List<string>();
     private GameObject invulnurabilityShield = null;
+
+    private CharacterLife playerLife; // optimisation for collision stay
 
     public UnityEvent OnThisDead = new UnityEvent();
 }

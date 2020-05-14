@@ -185,7 +185,7 @@ public class CharacterLife : MonoBehaviour
 
     private int hp = 3;
     private int maxHp=3;
-    private float invulTime = 0.5f;
+    private float invulTime = 0.8f;
     private float invulTimeLeft = 0;
 
     private CircleCollider2D circleCollider;
