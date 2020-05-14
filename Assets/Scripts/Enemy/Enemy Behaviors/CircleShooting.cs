@@ -17,7 +17,7 @@ public class CircleShooting : MonoBehaviour
 
     [SerializeField] private Transform monsterSpriteObject = null;
     [SerializeField] private Animator spriteAnimation = null;
-    //[SerializeField] private Animator shadowAnimation = null;
+    [SerializeField] private Animator shadowAnimation = null;
 
     private enum Status { move, open, shoot, close };
     private Status status = Status.move;
@@ -51,6 +51,7 @@ public class CircleShooting : MonoBehaviour
                     timer = closeTime;
                     bulletsWasShootCounter = 0;
                     spriteAnimation.Play("Attack-end");
+                    shadowAnimation.Play("Attack-end");
                 }
             }
             else if (status == Status.close)
@@ -63,6 +64,7 @@ public class CircleShooting : MonoBehaviour
                     timer = moveTime;
                     Unburrow();
                     spriteAnimation.Play("Pelmen-walking");
+                    shadowAnimation.Play("Pelmen-walking");
                 }
             }
             else if (status == Status.move)
@@ -75,6 +77,7 @@ public class CircleShooting : MonoBehaviour
                     timer = openTime;
                     agent.moveSpeedMult = 0;
                     spriteAnimation.Play("Attack-start");
+                    shadowAnimation.Play("Attack-start");
                 }
             }
             else if (status == Status.open)
@@ -87,6 +90,7 @@ public class CircleShooting : MonoBehaviour
                     timer = moveTime;
                     Burrow();
                     spriteAnimation.Play("Attack");
+                    shadowAnimation.Play("Attack");
                 }
             }
     }

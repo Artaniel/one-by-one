@@ -206,7 +206,7 @@ public abstract class BossEncounter : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (encounterOver || !encounterStarted) return;
+        if (encounterOver || !encounterStarted || Pause.Paused) return;
 
         if (currentPhase.HasPhaseEnded())
             NextPhaseOrFinish();

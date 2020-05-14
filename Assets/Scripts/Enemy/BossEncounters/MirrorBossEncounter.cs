@@ -840,8 +840,18 @@ public class MirrorBossEncounter : BossEncounter
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);
     }
 
+    private bool lastFramePaused;
     protected override void Update()
     {
+        if (Pause.Paused)
+        {
+            AudioManager.PauseMusic();
+        }
+        else if (lastFramePaused && !Pause.Paused)
+        {
+            AudioManager.ResumeMusic();
+        }
+        lastFramePaused = Pause.Paused;
         if (encounterOver)
         {
             AudioManager.SetVolumeMusic(AudioManager.audioSourceMusic.volume - (Time.deltaTime * 0.1f));

@@ -406,11 +406,13 @@ public class SkillManager : MonoBehaviour
             equippedWeapon = equippedWeapons[0];
             attackManager.LoadNewWeapon(equippedWeapon, instant: true);
         }
+        skill.InitializeSkill();
     }
 
     public void EquipActiveSkill(ActiveSkill skill)
     {
         activeSkills.Add(new EquippedActiveSkill(skill as ActiveSkill));
+        skill.InitializeSkill();
     }
 
     #region UI block

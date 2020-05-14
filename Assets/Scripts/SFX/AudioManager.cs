@@ -176,8 +176,15 @@ public class AudioManager : MonoBehaviour
         sorce.Play();
     }
 
+    private static ulong savedTime = 0;
     public static void PauseMusic()
     {
         audioSourceMusic.Pause();
+        savedTime = (ulong)audioSourceMusic.time;
+    }
+
+    public static void ResumeMusic()
+    {
+        audioSourceMusic.Play();
     }
 }

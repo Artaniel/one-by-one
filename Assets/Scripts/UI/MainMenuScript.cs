@@ -111,12 +111,12 @@ public class MainMenuScript : MonoBehaviour
                 break;
             case Difficulty.Normal:
                 //SceneManager.LoadScene("TutorialScene");       
-                PlayerPrefs.SetInt("Difficulty", 1);
+                PlayerPrefs.SetString("Gamemode", "1");
                 SceneManager.LoadScene("TutorialFor03");
                 break;
             case Difficulty.Hardcore:
                 //SceneManager.LoadScene("HardTutorialScene");
-                PlayerPrefs.SetInt("Difficulty", 2);
+                PlayerPrefs.SetString("Gamemode", "2");
                 SceneManager.LoadScene("TutorialFor03");
                 break;
             default:

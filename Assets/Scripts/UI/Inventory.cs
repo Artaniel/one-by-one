@@ -191,6 +191,7 @@ public class Inventory : MonoBehaviour
                 MakeFrame(cell.parent.gameObject, ActiveFrame);
             }
         }
+        skills.RefreshUI();
     }
 
     public static void MakeFrame(GameObject cell, Color frame)

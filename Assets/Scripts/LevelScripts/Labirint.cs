@@ -26,7 +26,7 @@ public class Labirint : MonoBehaviour
     private const float distanceToNewDoor = 10f; // distance from old door no new door, defines distance between rooms
     static public Labirint instance;
     private Vector3 respawnPoint;
-    public int difficultySetting = 1;
+    public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
 
     private void Awake()
@@ -244,19 +244,19 @@ public class Labirint : MonoBehaviour
 
     private void DifficultyLoad()
     {
-        difficultySetting = PlayerPrefs.GetInt("Difficulty");
-        if (difficultySetting == 1)
+        difficultySetting = PlayerPrefs.GetString("Gamemode");
+        if (difficultySetting == "1")
         {
             //Debug.Log("Normal mode loaded");
         }
-        else if (difficultySetting == 2)
+        else if (difficultySetting == "2")
         {
             //Debug.Log("Hard mode loaded");
         }
         else
         {
             Debug.Log("Error on difficulty load, difficultySetting = " + difficultySetting.ToString());
-            difficultySetting = 1; // to avoid errors on user side, better to load wrong difficulty than to crash
+            difficultySetting = "1"; // to avoid errors on user side, better to load wrong difficulty than to crash
         }
     }
 

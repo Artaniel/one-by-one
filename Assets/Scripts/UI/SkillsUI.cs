@@ -104,7 +104,7 @@ public class SkillsUI : MonoBehaviour
                 }
                 else
                 {
-                    weaponCells[cellIndex].GetChild(1).GetComponent<Image>().color = Color.clear;
+                    weaponCells[cellIndex].GetChild(3).GetComponent<Image>().color = Color.clear;
                 }
             }
             else
