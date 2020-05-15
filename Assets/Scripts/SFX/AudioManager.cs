@@ -89,7 +89,8 @@ public class AudioManager : MonoBehaviour
 
         if (sceneName == "MainMenu") { expectedMusicIndex = 2; } //logic for music selection 
         else if (sceneName.Contains("boss")) { expectedMusicIndex = 0; }
-        else { expectedMusicIndex = 1; }
+        else if (sceneName.Contains("Tutorial")) { expectedMusicIndex = 1; }
+        else { expectedMusicIndex = 3; }
 
         audioSourceMusic = transform.GetChild(0).GetComponent<AudioSource>();
 

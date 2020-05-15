@@ -16,6 +16,7 @@ public class MouseCursor : MonoBehaviour
     {
         mainCam = Camera.main;
         player = GameObject.FindGameObjectWithTag("Player");
+        transform.position = new Vector2(-1000, -1000);
     }
 
     // Update is called once per frame
