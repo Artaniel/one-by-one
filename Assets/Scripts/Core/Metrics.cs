@@ -16,7 +16,7 @@ public class Metrics : MonoBehaviour
         private set => metrics = value;
     }
 
-    private static string fileName = "metrics03.bin";
+    private static string fileName = "metrics03-2.bin";
     private static int sceneIndex;
     private static bool levelIsRuning = true;
 

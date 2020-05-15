@@ -30,6 +30,10 @@ public class Chest : Container
         {
             animator.Play("Chest-open");
         }
+        if (!animator)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private bool opened = false;
