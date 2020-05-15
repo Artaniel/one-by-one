@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlaySoundOnAwake : MonoBehaviour
 {
     [SerializeField]
-    private bool shouldPlaySound = false;
+    private bool shouldPlaySound = true;
     
     [Header("Non-default name?")]
     [Tooltip("Can be left blank if there is no need in specific name")]

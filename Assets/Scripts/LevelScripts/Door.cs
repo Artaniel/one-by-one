@@ -79,13 +79,16 @@ public class Door : MonoBehaviour
         if (locked && isSpawned)
         {
             locked = false;
-            foreach (var animation in GetComponentsInChildren<Animation>())
+            if (!Labirint.instance || !Labirint.instance.blueprints[room.roomID].visited)
             {
-                animation.Play();
-            }
-            foreach (var animation in GetComponentsInChildren<Animator>())
-            {
-                animation.Play("Open");
+                foreach (var animation in GetComponentsInChildren<Animation>())
+                {
+                    animation.Play();
+                }
+                foreach (var animation in GetComponentsInChildren<Animator>())
+                {
+                    animation.Play("Open");
+                }
             }
         }
     }

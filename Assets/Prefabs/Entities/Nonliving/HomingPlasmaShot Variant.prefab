@@ -15,8 +15,14 @@ MonoBehaviour:
   BulletSpeed: 12
   BulletLifeLength: 5
   ignoreCollisionTime: 0.2
-  HomingEulerAnglesPerSecond: 75
-  minimumMagneticPower: 0.8
+  phasing: 0
+  bulletDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  HomingEulerAnglesPerSecond: 65
+  minimumMagneticPower: 0.7
   boostedAnglesForSecondsAtStart: {x: 360, y: 0.5}
 --- !u!1001 &2340314704306609378
 PrefabInstance:

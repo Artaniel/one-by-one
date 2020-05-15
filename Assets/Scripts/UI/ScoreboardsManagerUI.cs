@@ -218,9 +218,14 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     private void PostResult(string data)
     {
+        string gamemode = PlayerPrefs.GetString("Gamemode");
+        string difficulty = "";
+        if (gamemode == "1") difficulty = "normal";
+        else if (gamemode == "2") difficulty = "hardcore";
+        else difficulty = "unknown";
         Debug.Log("PostResult() is called");
         StartCoroutine(NetRequester.PostRequest(
-            url: scoreboardServer + "/api/scoreboard/normal/", 
+            url: scoreboardServer + $"/api/scoreboard/{difficulty}/", 
             json: data,
             onFulfilled: (code, jsonResponse) =>
             {

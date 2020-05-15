@@ -45,6 +45,7 @@ public class MirrorBossEncounter : BossEncounter
     public Color mirrorColor = Color.white;
     public GameObject outrageBullet = null;
     [HideInInspector] public List<MonsterLife> spawnedMonsters = new List<MonsterLife>();
+    [HideInInspector] public string difficulty = "";
 
     private class SpawnBossAttack : BossAttack
     {
@@ -65,7 +66,7 @@ public class MirrorBossEncounter : BossEncounter
             AudioManager.PlayMusic(BD.GetComponent<AudioSource>());
             BD.bossInstance.gameObject.SetActive(true);
             BD.bossInstance.position = BD.bossSpawnPosition.position;
-            BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(0.35f);
+            BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(1f);
         }
 
         private MirrorBossEncounter BD;
@@ -105,6 +106,7 @@ public class MirrorBossEncounter : BossEncounter
                 startPosition = bossInstance.transform.position;
                 ExplodeTowardsPlayer();
                 ExplodeCircle();
+                BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(0.35f); // слегка коряво
             }
             if (endPosition != Vector3.zero)
             {
@@ -204,6 +206,7 @@ public class MirrorBossEncounter : BossEncounter
             BD.avoidBTP.Add(bullet.transform);
             var bulletLife = bullet.GetComponent<EnemyBulletLife>();
             bulletLife.BulletSpeed += Random.Range(-bulletSpeedVariation, bulletSpeedVariation);
+            bulletLife.BulletSpeed += BD.difficulty == "2" ? 0.5f : -1;
             bullets.Add(bulletLife);
         }
 
@@ -280,6 +283,7 @@ public class MirrorBossEncounter : BossEncounter
             miniBombBullets.Clear();
             base.AttackStart();
             bossInstance = BD.bossInstance;
+            if (BD.difficulty == "2") bombProjectileCount = 9;
         }
 
         protected override void AttackUpdate()
@@ -351,7 +355,7 @@ public class MirrorBossEncounter : BossEncounter
 
         protected float bombPlacePeriod = 0.3f;
         protected float bombPlaceTL = 0;
-        protected int bombProjectileCount = 8;
+        protected int bombProjectileCount = 7;
         protected float projectileAdditionalSpeed = 0;
         protected float increasePercentPerSecond = 0.5f;
         protected ZoneScript teleportZone = null;
@@ -435,6 +439,7 @@ public class MirrorBossEncounter : BossEncounter
             base.AttackStart();
             TestEllipse();
             Camera.main.GetComponent<CameraFocusOn>().FocusOn(roomCenter, attackLength, 4f);
+            if (BD.difficulty == "2") ellipseToCenterSpeed = 8.75f;
         }
 
         protected override void AttackUpdate()
@@ -451,7 +456,7 @@ public class MirrorBossEncounter : BossEncounter
         {
             base.AttackEnd();
             DirectBulletsOut();
-            BD.mirrorBulletInfuser.infuseEnemyBullets = true;
+            if (BD.difficulty == "2") BD.mirrorBulletInfuser.infuseEnemyBullets = true;
             Camera.main.GetComponent<CameraFocusOn>().UnFocus(2, roomCenter);
         }
 
@@ -507,6 +512,7 @@ public class MirrorBossEncounter : BossEncounter
         private GameObject ellipseInstance;
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(-0.5f, 4);
+        private float ellipseToCenterSpeed = 8.5f;
         private float ellipseStartR = 24;
         private Dictionary<Transform, float> bulletEllipseParameters = new Dictionary<Transform, float>();
         private Dictionary<Transform, bool> bulletEllipseSemisphere = new Dictionary<Transform, bool>();
@@ -526,6 +532,7 @@ public class MirrorBossEncounter : BossEncounter
 
         protected override void AttackStart()
         {
+
             base.AttackStart();
             startingColor = glassEffect.color;
         }
@@ -632,6 +639,7 @@ public class MirrorBossEncounter : BossEncounter
             DestroyEveryone();
             BD.glassShards.SetActive(true);
             BD.mirrorCracks.SetActive(true);
+            BD.mirrorBulletInfuser.infuseEnemyBullets = true;
         }
 
         public void DestroyEveryone()
@@ -759,6 +767,14 @@ public class MirrorBossEncounter : BossEncounter
             newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
 
+            if (BD.difficulty == "3")
+            {
+                var newBullet3 = Instantiate(projectile, BD.bossInstance.position,
+                Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + (Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(10f, 40f)));
+                newBullet3.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+                newBullet3.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+            }
+
             timeToNextShot = Random.Range(timeToShot.x, timeToShot.y);
         }
 
@@ -828,6 +844,8 @@ public class MirrorBossEncounter : BossEncounter
     protected override void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        difficulty = PlayerPrefs.GetString("Gamemode");
+        Debug.Log("Difficulty: " + difficulty);
 
         bossPhases = new List<BossPhase>()
         {
@@ -873,7 +891,7 @@ public class MirrorBossEncounter : BossEncounter
 
     public IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();
         SceneManager.LoadScene("Scoreboard");

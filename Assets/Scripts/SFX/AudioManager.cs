@@ -29,6 +29,22 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    private Scene lastFrameScene;
+
+    private void Start()
+    {
         if (PlayerPrefs.HasKey("SoundVolume"))
         {
             userPrefSound = PlayerPrefs.GetFloat("SoundVolume");
@@ -49,23 +65,8 @@ public class AudioManager : MonoBehaviour
             PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         }
 
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-    }
-
-    private Scene lastFrameScene;
-
-    private void Start()
-    {
         audioSourceSFX = GetComponent<AudioSource>();
-        audioSourceMusic = SourceMusic; // from inspector to static
+        audioSourceMusic = transform.GetChild(0).GetComponent<AudioSource>();
         if (audioSourceMusic != null)
         {
             SetVolumeMusic(userPrefMusic);
@@ -88,6 +89,8 @@ public class AudioManager : MonoBehaviour
         if (sceneName == "MainMenu") { expectedMusicIndex = 2; } //logic for music selection 
         else if (sceneName.Contains("boss")) { expectedMusicIndex = 0; }
         else { expectedMusicIndex = 1; }
+
+        audioSourceMusic = transform.GetChild(0).GetComponent<AudioSource>();
 
         if (expectedMusicIndex == 0){
             audioSourceMusic.Stop();

@@ -106,12 +106,12 @@ public class ShootingWeapon : WeaponSkill
 
     public virtual float GunfirePower()
     {
-        return bulletDamage / 5 + timeBetweenAttacks / 10 - bulletSpeed / 100 + knockPower / 300;
+        return bulletDamage / 3 + timeBetweenAttacks / 7 - bulletSpeed / 100 + knockPower / 200;
     }
 
     public virtual float GunfireDestructivePower()
     {
-        return Mathf.Sqrt(bulletDamage * timeBetweenAttacks);
+        return Mathf.Sqrt(bulletDamage * timeBetweenAttacks * 2);
     }
 
     protected GameObject Player;
