@@ -67,6 +67,7 @@ public class AudioManager : MonoBehaviour
 
         audioSourceSFX = GetComponent<AudioSource>();
         audioSourceMusic = transform.GetChild(0).GetComponent<AudioSource>();
+        savedVolume = audioSourceMusic.volume;
         if (audioSourceMusic != null)
         {
             SetVolumeMusic(userPrefMusic);
@@ -173,7 +174,7 @@ public class AudioManager : MonoBehaviour
 
     public static void PlayMusic(AudioSource sorce, float time = 0)// for externall audio sorce with music volume, like on boss
     {
-        sorce.volume = sorce.volume * userPrefMusic;
+        sorce.volume = savedVolume * userPrefMusic;
         sorce.time = time;
         audioSourceMusic = sorce;
         sorce.Play();
@@ -190,4 +191,6 @@ public class AudioManager : MonoBehaviour
     {
         audioSourceMusic.Play();
     }
+
+    private static float savedVolume;
 }
