@@ -17,7 +17,7 @@ public class LabirintGamemodeHandler : MonoBehaviour
             labirint.commonMRMods.Add(hardcoreLabirint);
             Debug.Log("Hardcore mod!");
         }
-        else if (difficulty != "-1")
+        else if (difficulty != "1")
         {
             Debug.LogWarning("What gamemod? Wow");
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Chest : Container
 {
     private GameObject player = null;
+    public bool playOpenAnim = true;
 
     protected override void Start()
     {
@@ -26,11 +27,11 @@ public class Chest : Container
     private void OpenAnimation()
     {
         var animator = GetComponentInChildren<Animator>();
-        if (animator)
+        if (animator && playOpenAnim)
         {
             animator.Play("Chest-open");
         }
-        if (!animator)
+        else
         {
             Destroy(gameObject);
         }

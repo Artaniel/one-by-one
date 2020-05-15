@@ -731,6 +731,7 @@ public class MirrorBossEncounter : BossEncounter
 
         protected override void AttackStart()
         {
+            if (!BD.bossInstance) return;
             base.AttackStart();
             moveTo = movePosition.RandomZonePosition();
             moveFrom = BD.bossInstance.position;

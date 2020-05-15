@@ -125,6 +125,7 @@ public class AudioManager : MonoBehaviour
     public static void Play(string name, AudioSource source)
     {
 #if UNITY_WEBGL
+        source.spatialBlend = 0;
         source.volume = GetVolume(name, source.volume / 3);
 #else
         source.volume = GetVolume(name, source.volume);
@@ -176,6 +177,7 @@ public class AudioManager : MonoBehaviour
     {
         sorce.volume = savedVolume * userPrefMusic;
         sorce.time = time;
+        sorce.spatialBlend = 0;
         audioSourceMusic = sorce;
         sorce.Play();
     }
