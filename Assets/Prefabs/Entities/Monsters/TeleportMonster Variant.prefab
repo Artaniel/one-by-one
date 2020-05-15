@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  target: {fileID: 0}
   proximityCheckOption: 
   proximityCheckDistance: 19
   invertProximityCheck: 0
@@ -118,7 +119,7 @@ MonoBehaviour:
   maxInviteLevel: 1
   timeBeforeGroupeAggroOff: 3
   agroBlockTime: 2
-  cooldownRange: {x: 5, y: 7}
+  cooldownRange: {x: 3, y: 5}
   attackSpeedModifier: 1
   castTime: 0.7
   Scatter: 8.3
@@ -134,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TeleportMonster Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: maxHP
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8624421033595261174, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
@@ -190,11 +196,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4023892104855816099, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 0c12f09e61b148145a7d2473b4df9f5f, type: 2}
     - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Sprite
@@ -232,6 +233,16 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1.5000348
       objectReference: {fileID: 0}
+    - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023892104855816099, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0c12f09e61b148145a7d2473b4df9f5f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}
 --- !u!1 &3525278604231173816 stripped

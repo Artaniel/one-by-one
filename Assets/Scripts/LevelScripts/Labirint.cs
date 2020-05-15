@@ -32,12 +32,12 @@ public class Labirint : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DifficultyLoad();
     }
 
     void Start()
     {
         instance = this;
-        DifficultyLoad();
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
         {

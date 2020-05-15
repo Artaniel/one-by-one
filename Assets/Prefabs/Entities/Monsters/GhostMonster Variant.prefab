@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  target: {fileID: 0}
   proximityCheckOption: 
   proximityCheckDistance: 19
   invertProximityCheck: 0
@@ -21,9 +22,9 @@ MonoBehaviour:
   maxInviteLevel: 1
   timeBeforeGroupeAggroOff: 3
   agroBlockTime: 2
-  cooldownRange: {x: 5, y: 8}
+  cooldownRange: {x: 3, y: 5}
   attackSpeedModifier: 1
-  GhostBoostSpeed: 7
+  GhostBoostSpeed: 12
   PacifistInBoost: 1
   BoostTime: 2.5
 --- !u!1 &2256808813286592829
@@ -382,6 +383,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 1.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: maxHP
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8134463785630515483, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}

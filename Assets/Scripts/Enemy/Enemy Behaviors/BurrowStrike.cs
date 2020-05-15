@@ -5,23 +5,15 @@ using System.Linq;
 
 public class BurrowStrike : Attack
 {
-    [SerializeField]
-    private GameObject burrowEffect = null;
-    [SerializeField]
-    private List<SpriteRenderer> spritesToFade = null;
-    [SerializeField]
-    private float burrowTime = 1.5f;
-    [SerializeField]
-    private float burrowedSpeed = 7f;
-    [SerializeField]
-    private float attackRadius = 2f;
-    [SerializeField]
-    private float unburrowTime = 0.5f;
-    [SerializeField]
-    private float diggingTime = 2f;
-    [SerializeField]
-    private GameObject clawAttack = null;
-
+    [SerializeField] private GameObject burrowEffect = null;
+    [SerializeField] private List<SpriteRenderer> spritesToFade = null;
+    [SerializeField] private float burrowTime = 1.5f;
+    [SerializeField] private float burrowedSpeed = 7f;
+    [SerializeField] private float attackRadius = 2f;
+    [SerializeField] private float unburrowTime = 0.5f;
+    [SerializeField] private float diggingTime = 2f;
+    [SerializeField] private GameObject clawAttack = null;
+    [SerializeField] private float checkDistance = 6f;
     // TODO: No hardcoded colors, please!
     
 
@@ -30,7 +22,7 @@ public class BurrowStrike : Attack
         cooldownLeft += burrowTime + unburrowTime + diggingTime;
 
         aiAgent.maxSpeed = 0;
-        aiAgent.maxRotation = 0;
+        aiAgent.maxRotation = 30f;
         rockDigEffect = Instantiate(burrowEffect, transform);
         rockDigEffect.transform.Translate(-transform.up * 0.8f, Space.World);
 
@@ -171,7 +163,7 @@ public class BurrowStrike : Attack
     private bool CheckWallAhead()
     {
         //Debug.DrawRay(transform.position, transform.up * attackRadius);
-        var hits = (from t in Physics2D.RaycastAll(transform.position, transform.up, 5f)
+        var hits = (from t in Physics2D.RaycastAll(transform.position, transform.up, checkDistance)
                     where t.transform.gameObject.tag == "Environment"
                     select t).ToArray();
         return (hits.Length != 0);

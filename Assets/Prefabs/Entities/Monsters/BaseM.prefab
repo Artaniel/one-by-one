@@ -209,6 +209,7 @@ MonoBehaviour:
     type: 3}
   fadeInTime: 0.75
   autoChooseName: 1
+  hitPlayerOnContact: 1
   evilDictionary: {fileID: 11400000, guid: 47d5640f33727af4a981a6aaa575bbeb, type: 2}
   hpChangedEvent:
     m_PersistentCalls:
@@ -234,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  maxAccel: 15
+  maxAccel: 100
   maxRotation: 200
   maxAngularAccel: 10000
   velocityFallBackPower: 1.5
@@ -258,6 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  target: {fileID: 0}
   proximityCheckOption: 
   proximityCheckDistance: 19
   invertProximityCheck: 0
@@ -279,6 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  target: {fileID: 0}
   proximityCheckOption: 
   proximityCheckDistance: 19
   invertProximityCheck: 0
@@ -405,6 +408,7 @@ MonoBehaviour:
   - {fileID: 2175323628933259560, guid: 493abb424a5bb794498b5b5211c19ef0, type: 3}
   itemChances:
   - 1
+  anyDropChance: 1
 --- !u!1 &8516253945559817045
 GameObject:
   m_ObjectHideFlags: 0
