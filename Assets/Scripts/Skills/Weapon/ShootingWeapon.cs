@@ -14,6 +14,7 @@ public class ShootingWeapon : WeaponSkill
     public float maxRndShootingAngle = 0;
     public float rndShootingAngleAmplifier = 0.15f;
     public float rndShootingAngleRelease = 0.5f;
+    public float additionalVisualPower = 0;
     [System.NonSerialized]
     public GameObject currentBulletPrefab;
     public static UnityEvent shootingEvents;
@@ -106,12 +107,12 @@ public class ShootingWeapon : WeaponSkill
 
     public virtual float GunfirePower()
     {
-        return bulletDamage / 3 + timeBetweenAttacks / 7 - bulletSpeed / 100 + knockPower / 200;
+        return bulletDamage / 3 + timeBetweenAttacks / 7 + knockPower / 200 + additionalVisualPower;
     }
 
     public virtual float GunfireDestructivePower()
     {
-        return Mathf.Sqrt(bulletDamage * timeBetweenAttacks * 2);
+        return Mathf.Sqrt(bulletDamage * timeBetweenAttacks * 2) + additionalVisualPower; 
     }
 
     protected GameObject Player;

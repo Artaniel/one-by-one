@@ -24,7 +24,7 @@ public class BulletLife : MonoBehaviour
     protected virtual void Start()
     {
         var audio = GetComponent<AudioSource>();
-        bulletLight = GetComponent<Light2D>();
+        bulletLight = GetComponentInChildren<Light2D>();
         AudioManager.Play("WeaponShot", audio);
         TTDLeft = timeToDestruction;
         ActivateSpawnMods();
@@ -269,7 +269,7 @@ public class BulletLife : MonoBehaviour
 
     public void BlendSecondColor(Color color)
     {
-        Color newColor = color / 2 + sprite.color / 2;
+        Color newColor = color * 0.66f + sprite.color * 0.34f;
         sprite.color = newColor;
         var emitterMain = particlesEmitter.main;
         emitterMain.startColor = newColor;

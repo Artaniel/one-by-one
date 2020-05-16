@@ -11,32 +11,34 @@ public class EvilDictionary : ScriptableObject
     }
 
     public List<string> evilNames = new List<string> {
-        "Abomination", "Abuse", "Aggression", "Agony",
+        "Abomination", "Abuse", "Aggression", "Agony", "Affliction",
         "Bereavement", "Blame", "Betrayal", "Breakdown",
         "Catastrophe", "Chaos", "Conceit", "Conflict", "Crime", "Corruption", "Cheerless",
         "Danger", "Darkness", "Defect", "Derision", "Doubt", "Doom",
-        "Dull", "Dolor", "Desperation", "Depression", "Dejection",
+        "Dull", "Dolor", "Desperation", "Depression", "Dejection", "Desolation", "Devastation",
         "Egotism", "Epidemic", "Exhausted", "Enragement", "Excruciation", "Envy", "Evil",
         "Fail", "Fake", "Fatal", "Fear", "Filth", "Fury", "Fall", "Frustration",
         "Gloomy", "Grumpy", "Grudge", "Grief",
         "Harassment", "Harmful", "Hatred", "Havoc", "Horrid",
-        "Idiotic", "Ignore", "Impiety", "Impersonal", "Impolite", "Insanity",
-        "Jaded", "Jarring", "Jeer", "Jobless", "Jittery",
+        "Idiotic", "Ignore", "Impersonal", "Impolite", "Insanity",
+        "Jaded", "Jarring", "Jeer", "Jobless",
 
         "Lack", "Lackadaisical", "Lawless", "Loneliness",
         "Mad", "Malaise", "Malign", "Manipulate", "Marginal", "Misery",
         "Mistake", "Madness", "Mirthless",
         "Negation", "Nervous", "Niggles", "Nonsense", "Not for me",
-        "Objection", "Abuse", "Obscene", "Obstruct", "Omission",
+        "Objection", "Obscene", "Obstruct",
         "Pain", "Panic", "Paranoia", "Peeve", "Pollution", "Prejudice",
-        "Qualm", "Quandary", "Quarrel", "Questionable", "Quitter",
+        "Quarrel", "Questionable",
         "Rabid", "Racism", "Rage", "Rascal", "Repugnant",
-        "Sad", "Sass", "Scam", "Scare", "Selfish", "Sorrow", "Sinister",
+        "Sad", "Sass", "Scam", "Scare", "Selfish", "Sorrow", "Sinister", "Spooky",
         "Tantrum", "Tease", "Terrible", "Tired", "Thwart",
-        "Ugly","Uncaring", "Uncivil", "Unemployment", "Underdog",
+        "Ugly","Uncaring", "Uncivil", "Unemployment", "Underdog", "Useless",
         "Vague", "Vain", "Venomous", "Vex", "Violent",
         "Wail", "Wasted", "Wrath", "Weak", "Wicked", "Who am I?",
         "Zap", "Zealous",
-        ":(", ":'("
+        ":(", ":'(", "-_-", "404",
+
+        "Coronavirus", "Covid", "Infection", "Desease", "Virus", "Pandemic", "Epidemy"
     };
 }

@@ -20,7 +20,7 @@ public class DynamicLightInOut : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        light = GetComponent<Light2D>();
+        light = GetComponentInChildren<Light2D>();
         startIntensity = light.intensity;
         lifeSpanLeftIn = lifeSpanIn;
         lifeSpanLeftOut = lifeSpanOut;
