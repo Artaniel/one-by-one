@@ -16,7 +16,7 @@ public class Chapter1MirrorBulletInfuser : MonoBehaviour
             coll.gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.cyan;
             var emitter = coll.GetComponentInChildren<ParticleSystem>().main;
             emitter.startColor = Color.cyan;
-            coll.gameObject.GetComponent<Light2D>().color = Color.cyan;
+            coll.gameObject.GetComponentInChildren<Light2D>().color = Color.cyan;
         }
         else
         {
