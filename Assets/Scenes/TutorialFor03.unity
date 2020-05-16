@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3734,7 +3734,7 @@ PrefabInstance:
     - target: {fileID: 2311711545038802834, guid: 0985643d66d3d5c4eb4de40c59d913b5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 49.89
+      value: 49.881
       objectReference: {fileID: 0}
     - target: {fileID: 2311711545038802834, guid: 0985643d66d3d5c4eb4de40c59d913b5,
         type: 3}
@@ -3796,10 +3796,25 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2311711545038802833, guid: 0985643d66d3d5c4eb4de40c59d913b5,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311711543890097883, guid: 0985643d66d3d5c4eb4de40c59d913b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6760707402685411951, guid: 0985643d66d3d5c4eb4de40c59d913b5,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311711543890097877, guid: 0985643d66d3d5c4eb4de40c59d913b5,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0985643d66d3d5c4eb4de40c59d913b5, type: 3}
@@ -28864,6 +28879,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: 954621996524426146, guid: bccee736cc19784488abf326ab94c5c9,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bccee736cc19784488abf326ab94c5c9, type: 3}
 --- !u!50 &6032633575564385029

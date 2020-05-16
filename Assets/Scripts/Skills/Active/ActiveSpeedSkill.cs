@@ -21,11 +21,11 @@ public class ActiveSpeedSkill : ActiveSkill
 
     public override void ActivateSkill()
     {
-        character.speed *= 2;
+        character.speed *= 1.65f;
     }
 
     public override void EndOfSkill()
     {
-        character.speed /= 2;
+        character.speed /= 1.65f;
     }
 }

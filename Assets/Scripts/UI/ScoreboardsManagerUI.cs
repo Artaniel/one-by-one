@@ -116,6 +116,14 @@ public class ScoreboardsManagerUI : MonoBehaviour
         }
     }
 
+    private void CreateNextSceneName()
+    {
+        if (PlayerPrefs.GetString("Gamemode") == "2")
+        {
+            nextScene = "HardFinalCredits";
+        }
+    }
+
     public void SubmitInput()
     {
         Metrics.LoadMetrics();

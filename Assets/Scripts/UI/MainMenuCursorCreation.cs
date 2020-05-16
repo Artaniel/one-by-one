@@ -12,6 +12,7 @@ public class MainMenuCursorCreation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = true;
 #if UNITY_WEBGL
         Cursor.SetCursor(spriteTexture, new Vector2(spriteTexture.width / 2, spriteTexture.height / 2), CursorMode.Auto);
 #else

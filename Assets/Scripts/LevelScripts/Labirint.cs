@@ -33,6 +33,7 @@ public class Labirint : MonoBehaviour
     {
         instance = this;
         DifficultyLoad();
+        PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
     }
 
     void Start()

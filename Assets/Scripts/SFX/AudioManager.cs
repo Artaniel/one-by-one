@@ -167,11 +167,7 @@ public class AudioManager : MonoBehaviour
     public static void SetVolumeMusic(float value)
     {
         var musicVolume = value;
-#if UNITY_WEBGL
-        audioSourceMusic.volume = musicVolume / 3f;
-#else
         audioSourceMusic.volume = musicVolume;
-#endif
     }
 
     public static void PlayMusic(AudioSource sorce, float time = 0)// for externall audio sorce with music volume, like on boss

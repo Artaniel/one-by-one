@@ -33,7 +33,6 @@ public class RelodScene : MonoBehaviour
 
         Canvas.transform.GetChild(0).gameObject.SetActive(false);
         isVictory = false;
-        PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
     }
 
     protected virtual void Start()
