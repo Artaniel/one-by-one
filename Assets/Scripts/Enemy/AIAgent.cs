@@ -149,7 +149,7 @@ public class AIAgent : MonoBehaviour
         {
             if (!Labirint.GetCurrentRoom().GetComponent<Room>().PositionIsInbounds(transform.position))
             {
-                if (GetComponent<BorderLoopMovement>() == null || GetComponent<GhostPhase>()) // Harpy Queen & Ghost can go OOB
+                if (!(GetComponent<BorderLoopMovement>() || GetComponent<GhostPhase>())) // Harpy Queen & Ghost can go OOB
                 {
                     transform.position = Labirint.GetCurrentRoom().GetComponent<Room>().GetNearInboundsPosition(transform.position);
                     Debug.Log($"{gameObject.name} is OOB in room {Labirint.GetCurrentRoom().name}");

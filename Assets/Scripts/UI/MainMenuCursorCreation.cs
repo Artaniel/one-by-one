@@ -14,7 +14,7 @@ public class MainMenuCursorCreation : MonoBehaviour
     {
         Cursor.visible = true;
 #if UNITY_WEBGL
-        Cursor.SetCursor(spriteTexture, new Vector2(spriteTexture.width / 2, spriteTexture.height / 2), CursorMode.Auto);
+        //Cursor.SetCursor(spriteTexture, new Vector2(spriteTexture.width / 2, spriteTexture.height / 2), CursorMode.Auto);
 #else
         Cursor.visible = false;
         Instantiate(mouseCursorObj, transform);

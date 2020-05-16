@@ -55,6 +55,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
         
         EventManager.OnAlphaManagerComplete.AddListener(OnEndFadeout);
         StartCoroutine(ShowInput());
+        CreateNextSceneName();
     }
 
     void Update()

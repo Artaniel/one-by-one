@@ -189,7 +189,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletSpeed: 8
   BulletLifeLength: 3
-  ignoreCollisionTime: 0.25
+  ignoreCollisionTime: 0.1
+  phasing: 0
+  bulletDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &7358049111332117388
 MonoBehaviour:
   m_ObjectHideFlags: 0
