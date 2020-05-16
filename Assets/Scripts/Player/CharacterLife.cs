@@ -16,6 +16,7 @@ public class CharacterLife : MonoBehaviour
 
     public void Start()
     {
+        isDeath = false;
         hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
         hpChangedEvent.AddListener(UpdateHPUI);
         cameraShaker = Camera.main.GetComponent<CameraShaker>();

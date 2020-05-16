@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 902322283561494843}
   - component: {fileID: 902322283561494842}
-  - component: {fileID: 2823717383936528093}
-  - component: {fileID: 2823717383936528096}
   - component: {fileID: 2823717383936528097}
   - component: {fileID: 2823717383936528098}
   m_Layer: 0
@@ -56,47 +54,9 @@ MonoBehaviour:
   roomID: 0
   roomType: 0
   possibleContainerPosition: {fileID: 4720730789541676149}
+  containerAlreadySpawned: 0
   monsterManager: {fileID: 0}
   externalMRMods: []
---- !u!114 &2823717383936528093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902322283561494841}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c6788208ef862c43a0e469f4836e7d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RoomBounds: {x: 15, y: 10}
-  timeToEachSpawn: 5
-  timeToNextSpawn: 0
-  enemyWaves:
-  - {fileID: 7065042896263695961, guid: fb7854c9ddbb37442a62fb4ee96ea4b2, type: 3}
-  SpawnZone: {fileID: 0}
-  AllowEarlySpawns: 1
-  isInfSpawn: 0
-  labirintMode: 0
---- !u!114 &2823717383936528096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902322283561494841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c21b00ba01f4b4f8d759266cb1c236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NextSceneName: 
-  SceneNumber: 3
-  isPointVictory: 0
-  pointsToVictory: 0
-  monsterAdditionLimit: 12
-  TotalValue: 0
 --- !u!114 &2823717383936528097
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,6 +30,7 @@ public class BorderLoopMovement : MonoBehaviour
         borders = GetComponent<MonsterLife>().monsterManager.room.GetBordersFromTilemap();
         //добавить эксепшн для арена спавнера без комнат
         timerToStatusChange = moveTime;
+        phase += Random.Range(0, 2f);
         if (laser == null) laser = GetComponentInChildren<EnemyLaser>();
         if (laser == null) Debug.Log("HarpyQueen cant find laser");
     }
