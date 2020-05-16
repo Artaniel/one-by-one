@@ -13,7 +13,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
     [SerializeField] private TMP_InputField inputField = null;
     [SerializeField] private Button submitButton = null;
     [SerializeField] private Button skipName = null;
-    [SerializeField] private string nextScene = "MainMenu";
+    [SerializeField] private string nextScene = "FinalCredits";
     [SerializeField] private List<AlphaManager> inputAlphaManagers = new List<AlphaManager>();
 
     [SerializeField] private Transform NormalScoreboard = null;

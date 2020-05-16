@@ -23,5 +23,9 @@ public class BackToMenuAfterTimeout : MonoBehaviour
         {
             SceneManager.LoadScene("MainMenu");
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

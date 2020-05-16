@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class SkillsUI : MonoBehaviour
 {
+    public bool active = true;
+
     private void Awake()
     {
+        if (!active) return;
         InitializeWeaponUI();
         InitializeSkillUI();
     }
