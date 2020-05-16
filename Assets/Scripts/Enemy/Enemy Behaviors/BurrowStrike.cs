@@ -40,6 +40,8 @@ public class BurrowStrike : Attack
         aiAgent = GetComponent<AIAgent>();
         maxSpeedSaved = aiAgent.maxSpeed;
         maxRotationSaved = aiAgent.maxRotation;
+        monsterName = GetComponentInChildren<TMPro.TextMeshPro>();
+        animators = GetComponentsInChildren<Animator>();
     }
 
     private enum BurrowState {
@@ -65,6 +67,7 @@ public class BurrowStrike : Attack
 
                     spritesToFade[i].color = currentColor;
                 }
+                monsterName.color = Color.Lerp(Color.white, burrowColor, 1 - (timeToNextState / burrowTime));
 
                 if (timeToNextState <= 0)
                 {
@@ -103,6 +106,7 @@ public class BurrowStrike : Attack
                 {
                     spritesToFade[i].color = Color.Lerp(burrowColor, startingColor[i], 1 - (timeToNextState / unburrowTime));
                 }
+                monsterName.color = Color.Lerp(burrowColor, Color.white, 1 - (timeToNextState / unburrowTime));
 
                 if (timeToNextState <= 0)
                 {
@@ -125,6 +129,10 @@ public class BurrowStrike : Attack
             particleEmission.rateOverTime = new ParticleSystem.MinMaxCurve(particleEmission.rateOverTime.constant * 2.5f);
             var particleShape = particle.shape;
             particleShape.angle = particleShape.angle * 4f;
+        }
+        foreach (var animator in animators)
+        {
+            animator.Play("Strike");
         }
     }
 
@@ -182,4 +190,6 @@ public class BurrowStrike : Attack
     private float maxRotationSaved = 0;
     private Color burrowColor = new Color32(209, 188, 138, 0);
     private AIAgent aiAgent;
+    private TMPro.TextMeshPro monsterName = null;
+    private Animator[] animators;
 }

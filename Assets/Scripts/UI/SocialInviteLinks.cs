@@ -6,7 +6,7 @@ public class SocialInviteLinks : MonoBehaviour
 {
     public void DiscordInvite()
     {
-        Application.OpenURL("https://discordapp.com/invite/VmFa2f7");
+        Application.OpenURL("https://discordapp.com/invite/mfD9285");
     }
 
     public void VKInviteLink()
