@@ -15,10 +15,13 @@ public class Door : MonoBehaviour
     private float timer = 1f;
     
     [SerializeField] public Direction.Side direction;
-
     public string sceneName=""; // name of scene to change on enter this door
-
     public bool isSpawned = false;
+    private SpriteRenderer spriteRenderer;
+    private Transform doorVisual;
+
+    [SerializeField]
+    private GameObject arrowSprite;
 
     void Awake()
     {
@@ -60,6 +63,7 @@ public class Door : MonoBehaviour
                 Unlock();
             }
         }
+        ArrowCheck();
     }
 
     private void OnTriggerStay2D(Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
@@ -184,6 +188,55 @@ public class Door : MonoBehaviour
         }
     }
 
-    private SpriteRenderer spriteRenderer;
-    private Transform doorVisual;
+
+    private void ArrowCheck() {
+        if (room.roomID == Labirint.instance.currentRoomID && isSpawned && locked == false)
+        {
+            bool arrowNeeled = false;
+            float arrowRotation = 0;
+            Camera camera = Camera.main;
+            Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
+            Vector3 arrowPosition = Vector3.zero;
+            float shiftFromScreenBorder = 1f;
+            if (viewportPosition.x < 0)
+            {
+                arrowNeeled = true;
+                arrowRotation = 0;
+                if (viewportPosition.y < 0)
+                {
+                    arrowPosition = camera.ViewportToWorldPoint(Vector3.zero) + shiftFromScreenBorder * (Vector3.right + Vector3.up);
+                }
+                else if (viewportPosition.y > 1)
+                {
+                    arrowPosition = camera.ViewportToWorldPoint(Vector3.up) + shiftFromScreenBorder * (Vector3.right + Vector3.down);
+                }
+                else {
+                    arrowPosition = new Vector3(camera.ViewportToWorldPoint(Vector3.zero).x + shiftFromScreenBorder, transform.position.y, 0);
+                }
+            }
+            else if (viewportPosition.x > 1)
+            {
+                arrowNeeled = true;
+                arrowRotation = 180;
+            }
+            else if (viewportPosition.y < 0)
+            {
+                arrowNeeled = true;
+                arrowRotation = 90;
+            }
+            else if (viewportPosition.y > 1)
+            {
+                arrowNeeled = true;
+                arrowRotation = 270;
+            }
+
+            if (arrowSprite.activeSelf != arrowNeeled)
+                arrowSprite.SetActive(arrowNeeled);
+            if (arrowNeeled)
+            {
+                arrowSprite.transform.rotation = Quaternion.Euler(0, arrowRotation, 0);
+                arrowSprite.transform.position = arrowPosition;
+            }
+        }
+    }
 }
