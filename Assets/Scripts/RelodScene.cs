@@ -26,6 +26,7 @@ public class RelodScene : MonoBehaviour
 
     protected virtual void Awake()
     {
+        PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
         CharacterLife.isDeath = false;
         Canvas = GameObject.FindGameObjectWithTag("Canvas");
         var arena = GetComponent<ArenaEnemySpawner>();
