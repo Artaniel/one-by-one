@@ -25,7 +25,7 @@ public class Shotgun : Pistol
             BulletInit(bullet);
             var bulLife = bullet.GetComponent<BulletLife>();
             bulLife.speed += Random.Range(-bulLife.speed * 0.1f, bulLife.speed * 0.1f);
-            bulLife.timeToDestruction += Random.Range(-bulLife.timeToDestruction * 0.3f, bulLife.timeToDestruction * 0.3f);
+            bulLife.timeToDestruction += Random.Range(-bulLife.timeToDestruction * 0.6f, bulLife.timeToDestruction * 0.2f);
         }
 
         shootingEvents?.Invoke();

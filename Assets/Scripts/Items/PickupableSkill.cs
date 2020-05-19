@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Events;
 
 [ExecuteAlways]
 public class PickupableSkill : PickupableItem
@@ -22,6 +23,7 @@ public class PickupableSkill : PickupableItem
     protected override void PickUp(Collider2D player)
     {
         var skillInstance = Instantiate(skill);
+        EventManager.Notify(skill.description, 1);
         player.GetComponent<SkillManager>().AddSkill(skillInstance);
         var canvas = GameObject.FindGameObjectWithTag("Canvas");
         if (canvas)

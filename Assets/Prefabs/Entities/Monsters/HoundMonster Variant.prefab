@@ -474,7 +474,7 @@ MonoBehaviour:
   slowRadius: 0.1
   timeToTarget: 0.1
   rotateAtStart: 1
-  bypassAngleAccumulationSpeed: 0
+  bypassAngleAccumulationSpeed: 50
   wavePeriod: 4
   waveAmp: 30
   behaviourBlockTime: 0.5
@@ -492,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   target: {fileID: 0}
-  proximityCheckOption: 
+  proximityCheckOption: 02000000
   proximityCheckDistance: 19
   invertProximityCheck: 0
   timeToLoseAggro: -1
@@ -585,6 +585,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985563269723331828, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.217
+      objectReference: {fileID: 0}
     - target: {fileID: 1225790468889400217, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -611,21 +621,16 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 2.655
       objectReference: {fileID: 0}
-    - target: {fileID: 8985563269723331828, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 2.217
-      objectReference: {fileID: 0}
-    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 227a1109b59649b4bbdb105b880048fb, type: 2}
+    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2483354354873438170, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}

@@ -57,7 +57,7 @@ public class NotificationUI : MonoBehaviour
             AnimationState.FadeInProgress = true;
             AnimationState.OnScreenTime = 0f;
             
-            var newWidth = Mathf.Min(text.Length * 8f, 640f);
+            var newWidth = Mathf.Min(text.Length * 7f, 640f);
             var newHeight = notificationUICenter.sizeDelta.y;
             ChangeUISize(newWidth, newHeight);
             
