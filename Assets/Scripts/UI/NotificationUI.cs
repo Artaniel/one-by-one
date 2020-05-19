@@ -41,7 +41,7 @@ public class NotificationUI : MonoBehaviour
         public static bool FadeInProgress = false;
     }
 
-    private void Start()
+    private void Awake()
     {
         EventManager.OnNotify.AddListener(OnNotify);
         transparencyManager = GetComponent<TransparencySetterUI>();
@@ -57,7 +57,7 @@ public class NotificationUI : MonoBehaviour
             AnimationState.FadeInProgress = true;
             AnimationState.OnScreenTime = 0f;
             
-            var newWidth = Mathf.Min(text.Length * 10f, 640f);
+            var newWidth = Mathf.Min(text.Length * 8f, 640f);
             var newHeight = notificationUICenter.sizeDelta.y;
             ChangeUISize(newWidth, newHeight);
             

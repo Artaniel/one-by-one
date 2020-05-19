@@ -11,7 +11,7 @@ public abstract class Align : EnemyBehavior
     protected float maxBypassRaycastDistance = 3f;
     [SerializeField, Header("If bypass is needed choose 50. It is good")]
     protected float bypassAngleAccumulationSpeed = 0; // 50 is a good normal value
-    protected float bypassAngleAccumulator = 0;
+    protected float bypassAngleAccumulator = 50;
 
     protected virtual void Start()
     {

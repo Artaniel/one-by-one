@@ -5,7 +5,7 @@ using UnityEngine;
 public class AIAgent : MonoBehaviour
 {
     public float maxSpeed = 3.5f;
-    public float maxAccel = 20;
+    public float maxAccel = 50;
     public float maxRotation = 200f;
     public float maxAngularAccel = 10000f;
     public float velocityFallBackPower = 3f;
@@ -28,6 +28,11 @@ public class AIAgent : MonoBehaviour
         Always,
         GroupAggroable,
         ShootingAgroble
+    }
+
+    private void Awake()
+    {
+        maxSpeed += Random.Range(-maxSpeed / 7f, maxSpeed / 7f);
     }
 
     private void Start()

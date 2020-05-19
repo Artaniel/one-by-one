@@ -9,9 +9,8 @@ public class GhostPhase : Attack
     [SerializeField]
     private float BoostTime = 2.5f;
 
-    protected override void Awake()
+    protected void Start()
     {
-        base.Awake();
         standardSpeed = agent.maxSpeed;
         BoxCollider = GetComponent<BoxCollider2D>();
         cooldownLeft = cooldownLeft / 2;

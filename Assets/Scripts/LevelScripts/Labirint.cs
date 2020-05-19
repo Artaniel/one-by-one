@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game.Events;
 
 public class RoomBlueprint
 {
@@ -28,16 +29,13 @@ public class Labirint : MonoBehaviour
     private Vector3 respawnPoint;
     public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
-
-    private void Awake()
-    {
-        instance = this;
-        DifficultyLoad();
-        PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
-    }
+    [SerializeField] public string welcomeText = "";
 
     void Start()
     {
+        DifficultyLoad();
+        SaveLevelProgressIfNeeded();
+
         instance = this;
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
@@ -293,5 +291,16 @@ public class Labirint : MonoBehaviour
 
         if (CharacterLife.isDeath && Input.GetKeyDown(KeyCode.R)) // death && R => reboot
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void SaveLevelProgressIfNeeded()
+    {
+        int savedSceneNumber = PlayerPrefs.GetInt("CurrentScene");
+        int currentSceneNumber = SceneManager.GetActiveScene().buildIndex;
+        if (savedSceneNumber != currentSceneNumber)
+        {
+            PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
+            EventManager.Notify($"{welcomeText} Game saved!", 1);
+        }
     }
 }

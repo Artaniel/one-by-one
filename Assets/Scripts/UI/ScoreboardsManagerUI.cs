@@ -42,6 +42,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     private void Start()
     {
+        Ping();
         Cursor.visible = true;
         errorReturnToMenu.SetActive(false);
         scoreboardReturnToMenu.SetActive(false);      
@@ -244,6 +245,21 @@ public class ScoreboardsManagerUI : MonoBehaviour
             {
                 Debug.Log(message);
                 ShowError();
+            }
+        ));
+    }
+
+    private void Ping()
+    {
+        StartCoroutine(NetRequester.GetRequest(
+            url: scoreboardServer + "/api/scoreboard/hardcore/",
+            onFulfilled: (code, jsonText) =>
+            {
+                Debug.Log($"Ping to server returns code: {code}");
+            },
+            onRejected: (message) =>
+            {
+                Debug.Log($"Ping failed. {message}");
             }
         ));
     }

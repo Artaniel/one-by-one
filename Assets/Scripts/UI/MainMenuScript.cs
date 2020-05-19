@@ -112,12 +112,12 @@ public class MainMenuScript : MonoBehaviour
             case Difficulty.Normal:
                 //SceneManager.LoadScene("TutorialScene");       
                 PlayerPrefs.SetString("Gamemode", "1");
-                SceneManager.LoadScene("TutorialFor03");
+                LoadTutorialOrLabirint("LabirintChapter1");
                 break;
             case Difficulty.Hardcore:
                 //SceneManager.LoadScene("HardTutorialScene");
                 PlayerPrefs.SetString("Gamemode", "2");
-                SceneManager.LoadScene("TutorialFor03");
+                LoadTutorialOrLabirint("LabirintChapter1");
                 break;
             default:
                 break;
@@ -205,6 +205,18 @@ public class MainMenuScript : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    private void LoadTutorialOrLabirint(string labirintName)
+    {
+        if (PlayerPrefs.GetInt("FinishedTutorialOnce", -1) != -1)
+        {
+            SceneManager.LoadScene(labirintName);
+        }
+        else
+        {
+            SceneManager.LoadScene("TutorialFor03");
         }
     }
 

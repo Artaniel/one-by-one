@@ -8,7 +8,7 @@ public class LabirintGamemodeHandler : MonoBehaviour
     public MRDifficultyMod hardcoreLabirint;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         labirint = Labirint.instance;
         string difficulty = labirint.difficultySetting;
