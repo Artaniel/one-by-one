@@ -22,11 +22,13 @@ public class Door : MonoBehaviour
 
     [SerializeField]
     private GameObject arrowSprite;
+    private Camera camera;
 
     void Awake()
     {
         doorVisual = transform.GetChild(0);
         spriteRenderer = doorVisual.GetComponent<SpriteRenderer>();
+        camera = Camera.main;
     }
 
     void Start()
@@ -192,50 +194,20 @@ public class Door : MonoBehaviour
     private void ArrowCheck() {
         if (room.roomID == Labirint.instance.currentRoomID && isSpawned && locked == false)
         {
-            bool arrowNeeled = false;
-            float arrowRotation = 0;
-            Camera camera = Camera.main;
+            bool arrowNeeded = false;
             Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
-            Vector3 arrowPosition = Vector3.zero;
-            float shiftFromScreenBorder = 1f;
-            if (viewportPosition.x < 0)
+            float shiftFromCenter = 5f;
+            if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1)
             {
-                arrowNeeled = true;
-                arrowRotation = 0;
-                if (viewportPosition.y < 0)
-                {
-                    arrowPosition = camera.ViewportToWorldPoint(Vector3.zero) + shiftFromScreenBorder * (Vector3.right + Vector3.up);
-                }
-                else if (viewportPosition.y > 1)
-                {
-                    arrowPosition = camera.ViewportToWorldPoint(Vector3.up) + shiftFromScreenBorder * (Vector3.right + Vector3.down);
-                }
-                else {
-                    arrowPosition = new Vector3(camera.ViewportToWorldPoint(Vector3.zero).x + shiftFromScreenBorder, transform.position.y, 0);
-                }
-            }
-            else if (viewportPosition.x > 1)
-            {
-                arrowNeeled = true;
-                arrowRotation = 180;
-            }
-            else if (viewportPosition.y < 0)
-            {
-                arrowNeeled = true;
-                arrowRotation = 90;
-            }
-            else if (viewportPosition.y > 1)
-            {
-                arrowNeeled = true;
-                arrowRotation = 270;
+                arrowNeeded = true;
             }
 
-            if (arrowSprite.activeSelf != arrowNeeled)
-                arrowSprite.SetActive(arrowNeeled);
-            if (arrowNeeled)
+            if (arrowSprite.activeSelf != arrowNeeded)
+                arrowSprite.SetActive(arrowNeeded);
+            if (arrowNeeded)
             {
-                arrowSprite.transform.rotation = Quaternion.Euler(0, arrowRotation, 0);
-                arrowSprite.transform.position = arrowPosition;
+                arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
+                arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
             }
         }
     }
