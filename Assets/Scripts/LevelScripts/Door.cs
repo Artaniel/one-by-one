@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public class Door : MonoBehaviour
 {
     [HideInInspector] public Room room;
-    [HideInInspector] public Door connectedDoor;
+    public Door connectedDoor;
     public bool locked = false; 
     private GameObject player;
 
@@ -69,6 +70,7 @@ public class Door : MonoBehaviour
             }
         }
         ArrowCheck();
+        AdjustLightOnVisit();
     }
 
     private void OnTriggerStay2D(Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
@@ -85,6 +87,7 @@ public class Door : MonoBehaviour
     }
 
     public void Unlock() {
+        doorLight = GetComponentInChildren<Light2D>();
         if (locked && isSpawned)
         {
             locked = false;
@@ -104,6 +107,7 @@ public class Door : MonoBehaviour
 
     public void Lock()
     {
+        doorLight = GetComponentInChildren<Light2D>();
         if (isSpawned)
         {
             locked = true;
@@ -174,7 +178,7 @@ public class Door : MonoBehaviour
                 Gizmos.DrawWireCube(blocker.transform.position + (Vector3)blocker.offset, blocker.size);
             }
 
-            if (connectedDoor != null)
+            if (connectedDoor)
             { // blue line for connection between doors
                 Gizmos.color = Color.blue;
                 Gizmos.DrawLine(transform.position, connectedDoor.transform.position);
@@ -211,7 +215,7 @@ public class Door : MonoBehaviour
             {
                 arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
                 arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
-                if (connectedDoor != null) { // exception for exit to another scene
+                if (connectedDoor) { // exception for exit to another scene
                     if (Labirint.instance.blueprints[connectedDoor.room.roomID].visited) {
                         arrowSprite.GetComponentInChildren<SpriteRenderer>().sprite = visitedSprite;
                     }
@@ -219,4 +223,14 @@ public class Door : MonoBehaviour
             }
         }
     }
+
+    private void AdjustLightOnVisit()
+    {
+        if (doorLight && connectedDoor && Labirint.instance.blueprints[connectedDoor.room.roomID].visited)
+        {
+            doorLight.intensity = Mathf.Clamp01(doorLight.intensity - Time.deltaTime);
+        }
+    }
+
+    private Light2D doorLight;
 }
