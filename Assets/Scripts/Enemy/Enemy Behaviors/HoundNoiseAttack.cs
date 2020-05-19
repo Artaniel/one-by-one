@@ -13,6 +13,14 @@ public class HoundNoiseAttack : Attack
         postProcessVolume = GetComponentInChildren<PostProcessVolume>();
     }
 
+    protected void Update()
+    {
+        if (!isActive)
+        {
+            postProcessVolume.weight = Mathf.Clamp01(postProcessVolume.weight - Time.deltaTime);
+        }
+    }
+
     protected override void DoAttack()
     {
         var distanceToPlayer = Vector3.Distance(transform.position, target.transform.position);

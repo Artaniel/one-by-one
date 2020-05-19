@@ -254,7 +254,7 @@ public class MirrorBossEncounter : BossEncounter
         private float magnetTime = 0;
 
         private const float angleVariation = 75f;
-        private const float bulletSpeedVariation = 3f;
+        private const float bulletSpeedVariation = 2.75f;
         private float normalBulletSpeed = 0;
         private float minSpeed = 0.2f;
         private Vector2 stopTimeRange = new Vector2(0.5f, 1.5f);
@@ -512,7 +512,7 @@ public class MirrorBossEncounter : BossEncounter
         private GameObject ellipseInstance;
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(-0.5f, 4);
-        private float ellipseToCenterSpeed = 8.5f;
+        private float ellipseToCenterSpeed = 8.3f;
         private float ellipseStartR = 24;
         private Dictionary<Transform, float> bulletEllipseParameters = new Dictionary<Transform, float>();
         private Dictionary<Transform, bool> bulletEllipseSemisphere = new Dictionary<Transform, bool>();
@@ -575,11 +575,11 @@ public class MirrorBossEncounter : BossEncounter
                 new ExplosionAttack(bossData, 2.3f, 9, waitBefore: 0.9f),
                 new ExplosionAttack(bossData, 1.7f, 9),
                 new ExplosionAttack(bossData, 1.4f, 9, returnBack: false),
-                new MultibombAttack(bossData, 2.15f, additionalSpeed: 4f),  // 6 ticks
+                new MultibombAttack(bossData, 2.15f, additionalSpeed: 3.5f),  // 6 ticks
                 new ExplosionAttack(bossData, 1.4f, 9),
                 new ExplosionAttack(bossData, 1.7f, 9),
                 new ExplosionAttack(bossData, 1.3f, 9, returnBack: false),
-                new MultibombAttack(bossData, 3.2f, additionalSpeed: 1.5f),   // 9 ticks + end
+                new MultibombAttack(bossData, 3.2f, additionalSpeed: 1.35f),   // 9 ticks + end
                 new EllipseToCenterChaos(bossData, 2.5f),
                 new MirrorScreenEffect(bossData, 0.8f, 0.5f), // Change with mirror turn-on
             };
