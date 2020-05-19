@@ -15,15 +15,23 @@ public class Door : MonoBehaviour
     private float timer = 1f;
     
     [SerializeField] public Direction.Side direction;
-
     public string sceneName=""; // name of scene to change on enter this door
-
     public bool isSpawned = false;
+    private SpriteRenderer spriteRenderer;
+    private Transform doorVisual;
+
+    [SerializeField]
+    private GameObject arrowSprite;
+    private Camera camera;
+
+    [SerializeField] Sprite baseSprite;
+    [SerializeField] Sprite visitedSprite;
 
     void Awake()
     {
         doorVisual = transform.GetChild(0);
         spriteRenderer = doorVisual.GetComponent<SpriteRenderer>();
+        camera = Camera.main;
     }
 
     void Start()
@@ -60,6 +68,7 @@ public class Door : MonoBehaviour
                 Unlock();
             }
         }
+        ArrowCheck();
     }
 
     private void OnTriggerStay2D(Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
@@ -184,6 +193,30 @@ public class Door : MonoBehaviour
         }
     }
 
-    private SpriteRenderer spriteRenderer;
-    private Transform doorVisual;
+
+    private void ArrowCheck() {
+        if (room.roomID == Labirint.instance.currentRoomID && isSpawned && (!locked || unlockOnTimer))
+        {
+            bool arrowNeeded = false;
+            Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
+            float shiftFromCenter = 5f;
+            if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1)
+            {
+                arrowNeeded = true;
+            }
+
+            if (arrowSprite.activeSelf != arrowNeeded)
+                arrowSprite.SetActive(arrowNeeded);
+            if (arrowNeeded)
+            {
+                arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
+                arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
+                if (connectedDoor != null) { // exception for exit to another scene
+                    if (Labirint.instance.blueprints[connectedDoor.room.roomID].visited) {
+                        arrowSprite.GetComponentInChildren<SpriteRenderer>().sprite = visitedSprite;
+                    }
+                }
+            }
+        }
+    }
 }
