@@ -9,12 +9,17 @@ public class GhostPhase : Attack
     [SerializeField]
     private float BoostTime = 2.5f;
 
+    protected override void Awake()
+    {
+        BoxCollider = GetComponent<BoxCollider2D>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        base.Awake();
+    }
+
     protected void Start()
     {
         standardSpeed = agent.maxSpeed;
-        BoxCollider = GetComponent<BoxCollider2D>();
         cooldownLeft = cooldownLeft / 2;
-        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected override void DoAttack()
