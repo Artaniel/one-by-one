@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "LaserSight", menuName = "ScriptableObject/PassiveSkill/LaserSight", order = 11)]
 public class LaserSight : PassiveSkill
@@ -13,17 +14,40 @@ public class LaserSight : PassiveSkill
 
     public override void UpdateEffect()
     {
-        line.SetPosition(0, player.transform.position);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(player.transform.position, camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20) - player.transform.position, 100f);
+        if (!Pause.Paused && !CharacterLife.isDeath)
+        {
+            Vector3 gunPoint = player.GetComponent<CharacterShooting>().weaponTip.position;
+            line.SetPosition(0, gunPoint);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(gunPoint, camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20) - gunPoint, 100f);
 
-        if (hits.Length > 1)
-        {
-            line.SetPosition(1, hits[1].point);//second point because first is player
+            hits = (from t in hits
+                    where t.transform.gameObject.tag == "Environment"
+                    select t).ToArray();
+
+            if (hits.Length > 0)
+            {
+                float minDist = 99999f;
+                RaycastHit2D correctHit = hits[0];
+                foreach (RaycastHit2D hit in hits)
+                {
+                    if (Vector3.Distance(player.transform.position, hit.point) < minDist)
+                    {
+                        minDist = Vector3.Distance(player.transform.position, hit.point);
+                        correctHit = hit;
+                    }
+                }
+
+                line.SetPosition(1, correctHit.point);
+            }
+            else
+            {
+                line.SetPosition(1, (Vector3.Normalize(camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20f) - player.transform.position) * 100f) + camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20));
+                // backup variant, ignoring the wall if cant find it
+            }
         }
-        else
-        {
-            line.SetPosition(1, (Vector3.Normalize(camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20f) - player.transform.position)*100f) + camera.ScreenToWorldPoint(Input.mousePosition)+ (Vector3.forward * 20));  
-            // backup variant, ignoring the wall if cant find it
+        else {
+            line.SetPosition(0, player.transform.position); // hide line
+            line.SetPosition(1, player.transform.position);
         }
     }
 
