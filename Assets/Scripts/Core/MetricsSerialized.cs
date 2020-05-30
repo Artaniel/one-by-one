@@ -10,6 +10,7 @@ public class MetricsRecords
     public string[] levelSceneName;
     public float[] levelTime;
     public int[] deathCount;
+    public Dictionary<string, int> deathRooms;
 
     public MetricsRecords() {
         int max = SceneManager.sceneCountInBuildSettings; 
@@ -24,6 +25,7 @@ public class MetricsRecords
             levelTime[i] = 0;
             deathCount[i] = 0;
         }
+        deathRooms = new Dictionary<string, int>();
     }
 
 }
