@@ -10,7 +10,7 @@ public class Metrics : MonoBehaviour
     [SerializeField]
     private static MetricsRecords metrics = null;
 
-    public static MetricsRecords MetricsContainer
+   public static MetricsRecords MetricsContainer
     {
         get => metrics;
         private set => metrics = value;
@@ -26,7 +26,8 @@ public class Metrics : MonoBehaviour
         if (metrics == null) {
             LoadMetrics();
         }
-        metrics.levelSceneName[sceneIndex] = SceneManager.GetActiveScene().name;        
+        metrics.levelSceneName[sceneIndex] = SceneManager.GetActiveScene().name;
+        metrics.deathRooms = new Dictionary<string, int>();
     }
 
     private void Update()
@@ -60,7 +61,17 @@ public class Metrics : MonoBehaviour
 
     public static void OnDeath() {
         metrics.deathCount[sceneIndex]++;
-        SaveMetrics(metrics); 
+        SaveMetrics(metrics);
+        if (Labirint.instance != null) {
+            string roomName = Labirint.GetCurrentRoom().name;
+            if (metrics.deathRooms.ContainsKey(roomName))
+            {
+                metrics.deathRooms[roomName]++;
+            }
+            else {
+                metrics.deathRooms.Add(roomName,1);
+            }
+        }
     }
 
     static private void SaveMetrics(MetricsRecords data)
