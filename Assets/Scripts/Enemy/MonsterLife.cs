@@ -159,7 +159,6 @@ public class MonsterLife : MonoBehaviour
         var enemyName = GetComponentInChildren<TMPro.TextMeshPro>();
         if (enemyName == null) return;
         enemyName.sortingLayerID = SortingLayer.NameToID("OnEffect");
-        enemyName.sortingOrder = 3;
     }
 
     public void MakeNoBoy()
@@ -168,7 +167,6 @@ public class MonsterLife : MonoBehaviour
         var enemyName = GetComponentInChildren<TMPro.TextMeshPro>();
         if (enemyName == null) return;
         enemyName.sortingLayerID = SortingLayer.NameToID("Default");
-        enemyName.sortingOrder = 2;
     }
 
     public bool isBoy()
