@@ -3,14 +3,14 @@
 public class LizardBooster : Attack
 {
     [SerializeField]
-    private float boostedSpeed = 6f;
+    private float boostedSpeed = 2f;
 
     [SerializeField]
     private float boostTime = 2.0f;
 
     protected void Start()
     {
-        baseSpeed = agent.maxSpeed;
+        baseSpeed = agent.moveSpeedMult;
         boostTimeLeft = 0.0f;
     }
 
@@ -20,7 +20,7 @@ public class LizardBooster : Attack
         AudioManager.Play("LizardRun", audio);
             
         boostTimeLeft = boostTime;
-        agent.maxSpeed = boostedSpeed;
+        agent.moveSpeedMult *= boostedSpeed;
     }
 
     public override void CalledUpdate()
@@ -30,7 +30,7 @@ public class LizardBooster : Attack
 
         if (boostTimeLeft <= 0)
         {
-            agent.maxSpeed = baseSpeed;
+            agent.moveSpeedMult = baseSpeed;
         }
     }
 

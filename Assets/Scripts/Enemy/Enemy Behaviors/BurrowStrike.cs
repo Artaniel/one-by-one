@@ -8,7 +8,7 @@ public class BurrowStrike : Attack
     [SerializeField] private GameObject burrowEffect = null;
     [SerializeField] private List<SpriteRenderer> spritesToFade = null;
     [SerializeField] private float burrowTime = 1.5f;
-    [SerializeField] private float burrowedSpeed = 7f;
+    [SerializeField] private float burrowedSpeedMult = 1.7f;
     [SerializeField] private float attackRadius = 2f;
     [SerializeField] private float unburrowTime = 0.5f;
     [SerializeField] private float diggingTime = 2f;
@@ -21,7 +21,7 @@ public class BurrowStrike : Attack
     {
         cooldownLeft += burrowTime + unburrowTime + diggingTime;
 
-        aiAgent.maxSpeed = 0;
+        aiAgent.moveSpeedMult /= 100; // 0
         aiAgent.maxRotation = 30f;
         rockDigEffect = Instantiate(burrowEffect, transform);
         rockDigEffect.transform.Translate(-transform.up * 0.8f, Space.World);
@@ -38,7 +38,7 @@ public class BurrowStrike : Attack
             startingColor.Add(sprite.color);
         }
         aiAgent = GetComponent<AIAgent>();
-        maxSpeedSaved = aiAgent.maxSpeed;
+        maxSpeedSaved = aiAgent.moveSpeedMult;
         maxRotationSaved = aiAgent.maxRotation;
         monsterName = GetComponentInChildren<TMPro.TextMeshPro>();
         animators = GetComponentsInChildren<Animator>();
@@ -76,7 +76,7 @@ public class BurrowStrike : Attack
                         Unburrow();
                         return;
                     }
-                    aiAgent.maxSpeed = burrowedSpeed;
+                    aiAgent.moveSpeedMult *= 100 * burrowedSpeedMult;
                     GetComponent<Collider2D>().enabled = false;
                     foreach (var particle in rockDigEffect.GetComponentsInChildren<ParticleSystem>())
                     {
@@ -150,7 +150,7 @@ public class BurrowStrike : Attack
             spritesToFade[i].color = startingColor[i];
         }
         GetComponent<Collider2D>().enabled = true;
-        aiAgent.maxSpeed = maxSpeedSaved;
+        aiAgent.moveSpeedMult = maxSpeedSaved;
         aiAgent.maxRotation = maxRotationSaved;
     }
 

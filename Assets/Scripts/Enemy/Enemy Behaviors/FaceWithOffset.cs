@@ -26,12 +26,13 @@ public class FaceWithOffset : Align
         base.CalledUpdate();
     }
 
-    public override EnemySteering GetSteering()
+    public override float GetRotation(float rotationAmp = 0)
     {
+        float targetOrientation = 0;
         Vector2 direction = target.transform.position - transform.position;
         if (direction.magnitude > 0.0f)
         {
-            float targetOrientation = Mathf.Atan2(direction.x, direction.y);
+            targetOrientation = Mathf.Atan2(direction.x, direction.y);
             targetOrientation *= Mathf.Rad2Deg;
             targetOrientation += offsetAngle;
             targetOrientation %= 360.0f;
@@ -42,7 +43,7 @@ public class FaceWithOffset : Align
             base.targetOrientation = targetOrientation;
         }
         
-        return base.GetSteering();
+        return base.GetRotation(targetOrientation + rotationAmp);
     }
 
     private float offsetAngle;

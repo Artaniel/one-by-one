@@ -5,14 +5,12 @@ using UnityEngine;
 public class AIAgent : MonoBehaviour
 {
     public float maxSpeed = 3.5f;
-    public float maxAccel = 50;
     public float maxRotation = 200f;
-    public float maxAngularAccel = 10000f;
     public float velocityFallBackPower = 3f;
     public float knockBackStability = 1f;
     [HideInInspector] public float orientation;
     [HideInInspector] public float rotation;
-    [HideInInspector] public Vector2 velocity;
+    [HideInInspector] public Vector2 externalVelocity;
     [HideInInspector] public float moveSpeedMult = 1f;
     protected EnemySteering steering;
 
@@ -37,18 +35,16 @@ public class AIAgent : MonoBehaviour
 
     private void Start()
     {
+        moveBehaviours = GetComponents<MoveBehaviour>();
+        rotateBehaviors = GetComponents<Align>();
+        behaviours = GetComponents<EnemyBehavior>();
+
         rigidbody = GetComponent<Rigidbody2D>();
-        velocity = Vector2.zero;
+        externalVelocity = Vector2.zero;
         steering = new EnemySteering();
         
         orientation = -transform.rotation.eulerAngles.z;
         rotation = 0;
-    }
-
-    public void SetSteering(EnemySteering steering, float weight)
-    {
-        this.steering.linear += steering.linear * weight;
-        this.steering.angular += steering.angular * weight;
     }
 
     protected void FixedUpdate()
@@ -56,7 +52,17 @@ public class AIAgent : MonoBehaviour
         if (Pause.Paused) return;
         if (!allowMovement) return;
 
-        Vector2 displacement = velocity * Time.deltaTime;
+        foreach (var i in behaviours)
+        {
+            i.CalledUpdate();
+        }
+
+        foreach (var i in rotateBehaviors)
+        {
+            rotation += i.GetRotation();
+        }
+        
+        rotation = Mathf.Sign(rotation) * Mathf.Min(Mathf.Abs(rotation), maxRotation);
         orientation += rotation * Time.deltaTime;
 
         orientation %= 360.0f;
@@ -64,34 +70,27 @@ public class AIAgent : MonoBehaviour
         {
             orientation += 360.0f;
         }
-        //rigidbody.velocity = velocity;
-        //rigidbody.MovePosition(rigidbody.position + displacement);
         transform.rotation = Quaternion.Euler(0, 0, -orientation);
 
-        var behaviors = GetComponents<EnemyBehavior>();
-        foreach (var i in behaviors)
+        Vector2 movement = Vector2.zero;
+        foreach (var i in moveBehaviours)
         {
-            i.CalledUpdate();
+            movement += i.Move();
         }
 
-        rotation += Mathf.Max(steering.angular * Time.deltaTime);
-
-        var speedUp = steering.linear * moveSpeedMult * Time.deltaTime;
-        if ((velocity + speedUp).magnitude < maxSpeed * moveSpeedMult || (velocity + speedUp).magnitude < velocity.magnitude)
-        {
-            velocity += speedUp;
-        }
+        Vector2 displacement = (maxSpeed * moveSpeedMult * Time.deltaTime) * movement ;
         steering = new EnemySteering();
 
         Vector2 velocityFallBack =
-            velocity * velocityFallBackPower * Time.deltaTime;
+            externalVelocity * (velocityFallBackPower * Time.deltaTime);
 
-        velocity -= velocityFallBack;
-        // main movement function
-        // max speed with knockback: triple max speed 
-        rigidbody.velocity = velocity * 50 * Time.fixedDeltaTime;
+        externalVelocity -= velocityFallBack;
+
+        rigidbody.velocity = (externalVelocity + displacement) * 50 * Time.fixedDeltaTime;
 
         OOBCheck();
+
+        rotation = 0;
     }
 
     protected virtual void Update()
@@ -101,7 +100,7 @@ public class AIAgent : MonoBehaviour
 
     public void KnockBack(Vector2 knockVector)
     {
-        velocity += knockVector / knockBackStability;
+        externalVelocity += knockVector / knockBackStability;
     }
 
     public void StopMovement(float time)
@@ -146,7 +145,7 @@ public class AIAgent : MonoBehaviour
         var rigidbody = GetComponent<Rigidbody2D>();
         rigidbody.WakeUp();
         rigidbody.isKinematic = false;
-        velocity = savedVelocity;
+        externalVelocity = savedVelocity;
     }
 
     private void OOBCheck() {
@@ -164,6 +163,9 @@ public class AIAgent : MonoBehaviour
     }
 
     Vector3 savedVelocity = new Vector3();
+    private Align[] rotateBehaviors;
+    private MoveBehaviour[] moveBehaviours;
+    private EnemyBehavior[] behaviours;
     private bool wasPausedLastFrame = false;
     private bool allowMovement = true;
 

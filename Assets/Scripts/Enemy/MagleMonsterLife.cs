@@ -25,6 +25,10 @@ public class MagleMonsterLife : MonsterLife
             shadowAnimation.Play("Maggle-shad-start-roll");
             shieldReflect.enabled = false;
             shieldOperational = false;
+
+            var moveForward = GetComponent<MoveForward>();
+            moveForward.timeToMaxSpeedAmp = 0;
+            moveForward.timeToMaxSpeed = 2.5f;
             var aiAgent = GetComponent<AIAgent>();
             aiAgent.moveSpeedMult *= additionalSpeedMult;
             aiAgent.knockBackStability *= additionalStabilityMult;

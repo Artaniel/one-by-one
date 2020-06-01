@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class RicochetMovement : EnemyBehavior
+public class RicochetMovement : MoveForward
 {
     private enum RotateOption
     {
@@ -30,15 +30,6 @@ public class RicochetMovement : EnemyBehavior
         }
     }
 
-    public override EnemySteering GetSteering()
-    {
-        EnemySteering steering = new EnemySteering();
-        steering.linear = transform.up;
-        steering.linear *= agent.maxAccel;
-
-        return steering;
-    }
-
     public override void CalledUpdate()
     {
         base.CalledUpdate();
@@ -49,7 +40,7 @@ public class RicochetMovement : EnemyBehavior
     {
         if (block <= 0 && coll.gameObject.tag == "Environment")
         {
-            var hits = Physics2D.CircleCastAll(transform.position, 0.3f, transform.up, 2);
+            var hits = Physics2D.CircleCastAll(transform.position, 0.3f, transform.up, 1);
             Debug.DrawRay(transform.position, transform.up, Color.green, 1);
             hits = (from t in hits
                     where t.transform.gameObject.tag == "Environment"
@@ -62,6 +53,7 @@ public class RicochetMovement : EnemyBehavior
                 {
                     float rot = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
                     GetComponent<AIAgent>().orientation = rot;
+                    timeToMaxSpeedAmp = 0;
                 }
             }
         }
