@@ -27,6 +27,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private bool restartMusicOnLoad = false;
 
+    public bool softMusicStop = true;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -68,6 +70,7 @@ public class AudioManager : MonoBehaviour
         audioSourceSFX = GetComponent<AudioSource>();
         audioSourceMusic = transform.GetChild(0).GetComponent<AudioSource>();
         savedVolume = audioSourceMusic.volume;
+        softMusicPause = softMusicStop; // from static to non-static
         if (audioSourceMusic != null)
         {
             SetVolumeMusic(userPrefMusic);
@@ -80,6 +83,14 @@ public class AudioManager : MonoBehaviour
         Scene newScene = SceneManager.GetActiveScene();
         if (lastFrameScene != newScene) { MusicCheck(); } // if scene changed
         lastFrameScene = newScene;
+        if (Pause.Paused && softMusicStop) // soft music fade-out
+        {
+            audioSourceMusic.volume -= Time.deltaTime * savedPauseVolume;
+            if (audioSourceMusic.volume <= 0)
+            {
+                audioSourceMusic.Pause();
+            }
+        }
     }
 
     void MusicCheck() 
@@ -138,7 +149,7 @@ public class AudioManager : MonoBehaviour
         source.Play();
     }
 
-    public static void Pause(string name, AudioSource source)
+    public static void PauseSource(string name, AudioSource source)
     {
         if (source != null)
         {
@@ -182,14 +193,22 @@ public class AudioManager : MonoBehaviour
     private static ulong savedTime = 0;
     public static void PauseMusic()
     {
-        audioSourceMusic.Pause();
-        savedTime = (ulong)audioSourceMusic.time;
+        if (!softMusicPause) audioSourceMusic.Pause();
+        savedTime = (ulong)audioSourceMusic.time; // это не работает
+        savedPauseVolume = audioSourceMusic.volume;
     }
 
     public static void ResumeMusic()
     {
-        audioSourceMusic.Play();
+        audioSourceMusic.volume = savedPauseVolume;
+        if (!audioSourceMusic.isPlaying)
+        {
+            audioSourceMusic.Play(savedTime);
+        }
     }
 
+    private static bool musicPaused = false;
     private static float savedVolume;
+    private static float savedPauseVolume;
+    private static bool softMusicPause = true;
 }
