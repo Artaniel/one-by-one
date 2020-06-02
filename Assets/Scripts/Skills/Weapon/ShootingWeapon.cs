@@ -8,7 +8,7 @@ public class ShootingWeapon : WeaponSkill
 {
     public GameObject bulletPrefab;
     public float bulletDamage = 5;
-    public float knockPower = 20f;
+    public float knockPower = 200f;
     public float bulletSpeed = 18f;
     public float timeToBulletDestruction = 1.2f;
     public float maxRndShootingAngle = 0;
