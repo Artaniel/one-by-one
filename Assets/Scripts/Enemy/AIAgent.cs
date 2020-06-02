@@ -11,7 +11,7 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public float orientation;
     [HideInInspector] public float rotation;
     [HideInInspector] public Vector2 externalVelocity;
-    [HideInInspector] public float moveSpeedMult = 1f;
+    public float moveSpeedMult = 1f;
     protected EnemySteering steering;
 
     [Header("All Behaviours activation condition")]
@@ -30,7 +30,7 @@ public class AIAgent : MonoBehaviour
 
     private void Awake()
     {
-        maxSpeed += Random.Range(-maxSpeed / 7f, maxSpeed / 7f);
+        maxSpeed += Random.Range(-maxSpeed / 7f, 0);
     }
 
     private void Start()
@@ -78,7 +78,7 @@ public class AIAgent : MonoBehaviour
             movement += i.Move();
         }
 
-        Vector2 displacement = (maxSpeed * moveSpeedMult * Time.deltaTime) * movement ;
+        Vector2 displacement = (moveSpeedMult * Time.deltaTime) * movement ;
         steering = new EnemySteering();
 
         Vector2 velocityFallBack =

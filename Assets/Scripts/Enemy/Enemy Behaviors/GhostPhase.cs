@@ -11,15 +11,15 @@ public class GhostPhase : Attack
 
     protected override void Awake()
     {
-        BoxCollider = GetComponent<BoxCollider2D>();
+        BoxCollider = GetComponentInChildren<BoxCollider2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+        cooldownLeft = cooldownLeft / 2;
         base.Awake();
     }
 
     protected void Start()
     {
         standardSpeed = agent.moveSpeedMult;
-        cooldownLeft = cooldownLeft / 2;
     }
 
     protected override void DoAttack()

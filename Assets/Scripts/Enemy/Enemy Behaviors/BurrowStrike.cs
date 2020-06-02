@@ -77,7 +77,7 @@ public class BurrowStrike : Attack
                         return;
                     }
                     aiAgent.moveSpeedMult *= 100 * burrowedSpeedMult;
-                    GetComponent<Collider2D>().enabled = false;
+                    GetComponentInChildren<Collider2D>().enabled = false;
                     foreach (var particle in rockDigEffect.GetComponentsInChildren<ParticleSystem>())
                     {
                         var particleMain = particle.main;
@@ -149,7 +149,7 @@ public class BurrowStrike : Attack
         {
             spritesToFade[i].color = startingColor[i];
         }
-        GetComponent<Collider2D>().enabled = true;
+        GetComponentInChildren<Collider2D>().enabled = true;
         aiAgent.moveSpeedMult = maxSpeedSaved;
         aiAgent.maxRotation = maxRotationSaved;
     }

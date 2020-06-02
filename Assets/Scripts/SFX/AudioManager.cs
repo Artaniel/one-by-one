@@ -83,7 +83,7 @@ public class AudioManager : MonoBehaviour
         Scene newScene = SceneManager.GetActiveScene();
         if (lastFrameScene != newScene) { MusicCheck(); } // if scene changed
         lastFrameScene = newScene;
-        if (Pause.Paused && softMusicStop) // soft music fade-out
+        if (softMusicStop && musicPaused) // soft music fade-out
         {
             audioSourceMusic.volume -= Time.deltaTime * savedPauseVolume;
             if (audioSourceMusic.volume <= 0)
@@ -188,11 +188,13 @@ public class AudioManager : MonoBehaviour
         sorce.spatialBlend = 0;
         audioSourceMusic = sorce;
         sorce.Play();
+        musicPaused = false;
     }
 
     private static ulong savedTime = 0;
     public static void PauseMusic()
     {
+        musicPaused = true;
         if (!softMusicPause) audioSourceMusic.Pause();
         savedTime = (ulong)audioSourceMusic.time; // это не работает
         savedPauseVolume = audioSourceMusic.volume;
@@ -200,6 +202,7 @@ public class AudioManager : MonoBehaviour
 
     public static void ResumeMusic()
     {
+        musicPaused = false;
         audioSourceMusic.volume = savedPauseVolume;
         if (!audioSourceMusic.isPlaying)
         {

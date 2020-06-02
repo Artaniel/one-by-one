@@ -51,11 +51,11 @@ public class BulletLife : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.tag == "Enemy")
+        if (coll.GetComponentInParent<MonsterLife>())
         {
             EnemyCollider(coll);
         }
-        else if (coll.gameObject.tag == "Environment")
+        else if (coll.tag == "Environment")
         {
             EnvironmentCollider(coll);
         }
@@ -73,7 +73,7 @@ public class BulletLife : MonoBehaviour
         ActivateHitEnemyMods(coll);
 
         // Damage
-        var monsterComp = coll.gameObject.GetComponent<MonsterLife>();
+        var monsterComp = coll.gameObject.GetComponentInParent<MonsterLife>();
         if (monsterComp)
         {
             DamageMonster(monsterComp);
