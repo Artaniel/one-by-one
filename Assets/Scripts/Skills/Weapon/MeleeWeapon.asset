@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1871348090b8fc4428efb443b1b8d0d8, type: 3}
+  m_Name: MeleeWeapon
+  m_EditorClassIdentifier: 
+  description: 
+  pickupSprite: {fileID: 6783778666613334145, guid: 15e859b311be6ca40aee0feb9945c83e,
+    type: 3}
+  miniIcon: {fileID: -1872502762021216836, guid: 15e859b311be6ca40aee0feb9945c83e,
+    type: 3}
+  price: 0
+  attackSound: []
+  reloadTime: 1
+  timeBetweenAttacks: 0.5
+  ammoMagazine: 9999
+  bulletPrefab: {fileID: 1185601752202095384, guid: 04e44d4e44504f14c888f0e891bf4fad,
+    type: 3}
+  bulletDamage: 3
+  knockPower: 20
+  bulletSpeed: 14
+  timeToBulletDestruction: 0.17
+  maxRndShootingAngle: 0
+  rndShootingAngleAmplifier: 0.15
+  rndShootingAngleRelease: 0.5
+  additionalVisualPower: -200
+  bulletModifiers:
+  - {fileID: 11400000, guid: 0ec781cb98240c94a9e578ded7d88f3e, type: 2}
