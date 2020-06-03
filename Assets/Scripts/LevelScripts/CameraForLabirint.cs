@@ -13,6 +13,7 @@ public class CameraForLabirint : MonoBehaviour
     private float cameraBoundsRight;
     private float cameraBoundsUp;
     private float cameraBoundsDown;
+    private bool cameraIsFree = false;
 
     public static CameraForLabirint instance;
 
@@ -24,12 +25,17 @@ public class CameraForLabirint : MonoBehaviour
         cameraObj = Camera.main.gameObject;
         player = GameObject.FindWithTag("Player");
         cameraComponent = cameraObj.GetComponent<Camera>();
+
+        cameraDesiredPosition = cameraObj.transform.position;
     }
 
     private void Update()
     {
-        if (followCamera && !CharacterLife.isDeath) 
-            CameraFollowUpdate();        
+        if (followCamera && !CharacterLife.isDeath)
+        {
+            CameraFollowUpdate();
+            MoveCamToDestination(cameraObj.transform.position, cameraDesiredPosition);
+        }
     }
 
     public void ChangeRoom(GameObject room) {
@@ -45,6 +51,20 @@ public class CameraForLabirint : MonoBehaviour
         cameraBoundsRight = borders[Direction.Side.RIGHT];
         cameraBoundsUp = borders[Direction.Side.UP];
         cameraBoundsDown = borders[Direction.Side.DOWN];
+    }
+
+    public void CameraFreeSetup()
+    {
+        cameraIsFree = true;
+        cameraBoundsLeft = Mathf.NegativeInfinity;
+        cameraBoundsRight = Mathf.Infinity;
+        cameraBoundsUp = Mathf.Infinity;
+        cameraBoundsDown = Mathf.NegativeInfinity;
+    }
+
+    private void MoveCamToDestination(Vector3 cameraPos, Vector3 cameraDest)
+    {
+        cameraObj.transform.Translate((cameraDest - cameraPos) * Time.deltaTime * cameraSpeed);
     }
 
     void CameraFollowSetupOld(GameObject room) 
@@ -81,29 +101,36 @@ public class CameraForLabirint : MonoBehaviour
     }
 
     void CameraFollowUpdate(){
-        cameraObj.transform.position = player.transform.position - 20 * Vector3.forward;
+        cameraDesiredPosition = player.transform.position - 20 * Vector3.forward;
+        var savedPos = cameraObj.transform.position;
+        cameraObj.transform.position = cameraDesiredPosition;
         if (cameraComponent.ViewportToWorldPoint(Vector3.one).x - cameraComponent.ViewportToWorldPoint(Vector3.zero).x > cameraBoundsRight - cameraBoundsLeft)
         {
-            cameraObj.transform.position = new Vector3((cameraBoundsRight + cameraBoundsLeft) / 2, cameraObj.transform.position.y, cameraObj.transform.position.z);
+            cameraDesiredPosition = new Vector3((cameraBoundsRight + cameraBoundsLeft) / 2, cameraDesiredPosition.y, cameraDesiredPosition.z);
         }
         else
         {
             if (cameraComponent.ViewportToWorldPoint(Vector3.zero).x < cameraBoundsLeft)
-                cameraObj.transform.position += Vector3.right * (cameraBoundsLeft - cameraComponent.ViewportToWorldPoint(Vector3.zero).x);
+                cameraDesiredPosition += Vector3.right * (cameraBoundsLeft - cameraComponent.ViewportToWorldPoint(Vector3.zero).x);
             if (cameraComponent.ViewportToWorldPoint(Vector3.one).x > cameraBoundsRight)
-                cameraObj.transform.position += Vector3.right * (cameraBoundsRight - cameraComponent.ViewportToWorldPoint(Vector3.one).x);
+                cameraDesiredPosition += Vector3.right * (cameraBoundsRight - cameraComponent.ViewportToWorldPoint(Vector3.one).x);
         }
 
         if (cameraComponent.ViewportToWorldPoint(Vector3.one).y - cameraComponent.ViewportToWorldPoint(Vector3.zero).y > cameraBoundsUp - cameraBoundsDown)
         {
-            cameraObj.transform.position = new Vector3(cameraObj.transform.position.x, (cameraBoundsUp + cameraBoundsDown) / 2,  cameraObj.transform.position.z);
+            cameraDesiredPosition = new Vector3(cameraDesiredPosition.x, (cameraBoundsUp + cameraBoundsDown) / 2, cameraDesiredPosition.z);
         }
         else
         {
             if (cameraComponent.ViewportToWorldPoint(Vector3.one).y > cameraBoundsUp)
-                cameraObj.transform.position += Vector3.up * (cameraBoundsUp - cameraComponent.ViewportToWorldPoint(Vector3.one).y);
+                cameraDesiredPosition += Vector3.up * (cameraBoundsUp - cameraComponent.ViewportToWorldPoint(Vector3.one).y);
             if (cameraComponent.ViewportToWorldPoint(Vector3.zero).y < cameraBoundsDown)
-                cameraObj.transform.position += Vector3.up * (cameraBoundsDown - cameraComponent.ViewportToWorldPoint(Vector3.zero).y);
+                cameraDesiredPosition += Vector3.up * (cameraBoundsDown - cameraComponent.ViewportToWorldPoint(Vector3.zero).y);
         }
+        //print($"{cameraComponent.ViewportToWorldPoint(Vector3.one) - cameraComponent.ViewportToWorldPoint(Vector3.zero)} {cameraObj.transform.position}");
+        cameraObj.transform.position = savedPos;
     }
+
+    private Vector3 cameraDesiredPosition = Vector3.zero;
+    private float cameraSpeed = 4f;
 }

@@ -94,6 +94,7 @@ public class Room : MonoBehaviour
         foreach (Door door in doors) {
             door.Unlock();
         }
+        CameraForLabirint.instance.CameraFreeSetup();
     }
 
     public void LockRoom() {

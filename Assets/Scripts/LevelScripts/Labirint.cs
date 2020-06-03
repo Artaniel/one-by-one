@@ -101,15 +101,12 @@ public class Labirint : MonoBehaviour
                     blueprints[startingRoom.roomID].instance = startingRoom.gameObject;
                     blueprints[startingRoom.roomID].instance.GetComponent<Room>().ArenaInitCheck();
                     OnRoomChanged(startingRoom.roomID);
-                    GetComponent<CameraForLabirint>().ChangeRoom(startingRoom.gameObject);
-                    GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
                 }
                 else
                 {
                     Debug.Log("Starting room ID mismatch");
-                    GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
-                    GetComponent<CameraForLabirint>().ChangeRoom(startingRoom.gameObject);
                 }
+                GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
             }
         }
     }
@@ -173,7 +170,8 @@ public class Labirint : MonoBehaviour
                 }
             }
         }
-        CameraForLabirint.instance.ChangeRoom(blueprints[currentRoomID].instance);
+        if (blueprints[currentRoomID].visited || currentRoomID == 0) CameraForLabirint.instance.CameraFreeSetup();
+        else CameraForLabirint.instance.ChangeRoom(blueprints[currentRoomID].instance);
         respawnPoint = GameObject.FindWithTag("Player").transform.position;
         ExitCheck();
         ContainerCheck();
