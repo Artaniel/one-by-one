@@ -29,35 +29,35 @@ public class Inventory : MonoBehaviour
         nonEquippedActiveSkills = new List<SkillBase>();
         equippedActiveSkills = new List<SkillBase>();
         passiveSkills = new List<SkillBase>();
-        makecontainer(activeItemsContainer);
-        makecontainer(weaponItemsContainer);
-        makecontainer(passiveSkillsContainer);
-        addActiveSkills();
-        addWeaponSkills();
-        addPassiveSkills();
+        MakeContainer(activeItemsContainer);
+        MakeContainer(weaponItemsContainer);
+        MakeContainer(passiveSkillsContainer);
+        AddActiveSkills();
+        AddWeaponSkills();
+        AddPassiveSkills();
         isStarted = true;
     }
 
-    public void addSkill(SkillBase skill)
+    public void AddSkill(SkillBase skill)
     {
         if(skill is ActiveSkill)
         {
-            rebootContainer(activeItemsContainer);
-            addActiveSkills();
+            RebootContainer(activeItemsContainer);
+            AddActiveSkills();
         }
         else if(skill is PassiveSkill)
         {
-            rebootContainer(passiveSkillsContainer);
-            addPassiveSkills();
+            RebootContainer(passiveSkillsContainer);
+            AddPassiveSkills();
         }
         else if(skill is WeaponSkill) 
         {
-            rebootContainer(weaponItemsContainer);
-            addWeaponSkills();
+            RebootContainer(weaponItemsContainer);
+            AddWeaponSkills();
         }
     }
 
-    private void addActiveSkills()
+    private void AddActiveSkills()
     {
         if (nonEquippedActiveSkills != null)
             nonEquippedActiveSkills.Clear();
@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour
         Render(equippedActiveSkills, activeItemsContainer, true);
     }
 
-    private void addWeaponSkills()
+    private void AddWeaponSkills()
     {
         if (nonEquippedWeaponSkills.Count > 0)
             nonEquippedWeaponSkills.Clear();
@@ -82,7 +82,7 @@ public class Inventory : MonoBehaviour
         Render(equippedWeaponSkills, weaponItemsContainer, true);
     }
 
-    private void addPassiveSkills()
+    private void AddPassiveSkills()
     {
         passiveSkills.Clear();
         foreach (var skill in skills.skills)
@@ -93,7 +93,7 @@ public class Inventory : MonoBehaviour
         PassiveRender(passiveSkills, passiveSkillsContainer);
     }
 
-    private void rebootContainer(Transform container)
+    private void RebootContainer(Transform container)
     {
         for (int i = 0; i < container.childCount; i++)
         {
@@ -113,6 +113,7 @@ public class Inventory : MonoBehaviour
         for(int i = 0; i < container.childCount; i++)
         {
             var empCell = container.GetChild(i);
+            // Очень интересное условие. Сравнивается с префабом, лул, что?
             if (k < items.Count && empCell.GetChild(0).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
             {
                 if (isActive)
@@ -125,7 +126,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void makecontainer(Transform container)
+    private void MakeContainer(Transform container)
     {
         for (int i = 0; i < container.childCount; i++)
         {

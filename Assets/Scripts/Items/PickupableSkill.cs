@@ -33,7 +33,7 @@ public class PickupableSkill : PickupableItem
             {
                 Inventory inv = invM.inventory.GetComponent<Inventory>();
                 if(inv.isStarted)
-                    inv.addSkill(skillInstance);
+                    inv.AddSkill(skillInstance);
             }
         }
         Destroy(gameObject);
