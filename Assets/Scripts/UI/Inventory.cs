@@ -7,18 +7,15 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField]
-    private Transform activeItemsContainer = null;
-    [SerializeField]
-    private Transform weaponItemsContainer = null;
-    [SerializeField]
-    private Transform passiveSkillsContainer = null;
-    [SerializeField]
-    private Transform draggingParent = null;
-    [SerializeField]
-    public GameObject cellPrefab = null;
-    [SerializeField]
-    private GameObject passivePrefab = null;
+    [SerializeField] private Transform activeItemsContainer = null;
+    [SerializeField] private Transform weaponItemsContainer = null;
+    [SerializeField] private Transform passiveSkillsContainer = null;
+    [SerializeField] private Transform draggingParent = null;
+    [SerializeField] public GameObject cellPrefab = null;
+    [SerializeField] private GameObject passivePrefab = null;
+    public Sprite ActiveFrame = null;
+    public Sprite BaseFrame = null;
+    public Sprite EmptyFrame = null;
 
     public void Start()
     {
@@ -101,7 +98,7 @@ public class Inventory : MonoBehaviour
                 for (int j = 0; j < cell.childCount; j++)
                     cell.GetChild(0).GetComponent<Image>().sprite = cellPrefab.GetComponent<Image>().sprite;
             }
-            MakeFrame(cell.gameObject, BaseFrame);
+            MakeFrame(cell.gameObject, EmptyFrame);
         }
     }
 
@@ -114,8 +111,8 @@ public class Inventory : MonoBehaviour
             // Очень интересное условие. Сравнивается с префабом, лул, что?
             if (k < items.Count && empCell.GetChild(0).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
             {
-                if (isActive)
-                    MakeFrame(empCell.gameObject, ActiveFrame);
+                if (isActive) MakeFrame(empCell.gameObject, ActiveFrame);
+                else MakeFrame(empCell.gameObject, BaseFrame);
                 var skillImage = empCell.GetChild(0).GetComponent<InventoryItemPresenter>();
                 skillImage.Init(draggingParent);
                 skillImage.Render(items[k], this);
@@ -129,7 +126,7 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < container.childCount; i++)
         {
             var empCell = container.GetChild(i);
-            MakeFrame(empCell.gameObject, BaseFrame);
+            MakeFrame(empCell.gameObject, EmptyFrame);
             var inst = Instantiate(cellPrefab, empCell);
         }
     }
@@ -192,9 +189,9 @@ public class Inventory : MonoBehaviour
         skills.RefreshUI();
     }
 
-    public static void MakeFrame(GameObject cell, Color frame)
+    public static void MakeFrame(GameObject cell, Sprite frame)
     {
-        cell.GetComponent<Image>().color = frame;
+        cell.GetComponent<Image>().sprite = frame;
     }
 
     private List<SkillBase> nonEquippedActiveSkills = null;
@@ -203,7 +200,6 @@ public class Inventory : MonoBehaviour
     private List<SkillBase> equippedWeaponSkills = null;
     private List<SkillBase> passiveSkills = null;
     private SkillManager skills = null;
-    private Color ActiveFrame = Color.white;
-    private Color BaseFrame = Color.clear;
+
     public bool isStarted = false;
 }

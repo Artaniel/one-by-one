@@ -4,21 +4,16 @@ using UnityEngine.EventSystems;
 
 public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
-    [SerializeField]
-    public Image itemImage = null;
-
-    [SerializeField]
-    public GameObject emptyCell = null;
-
-    [SerializeField]
-    private Sprite baseImg = null;
+    [SerializeField] public Image itemImage = null;
+    [SerializeField] public GameObject emptyCell = null;
+    [SerializeField] private Sprite baseImg = null;
 
     private SkillBase currentSkill = null;
     private Inventory inventory = null;
 
     private Transform draggingParent;
     private Transform originalParent;
-    private Color originalFrame;
+    private Sprite originalFrame;
     bool onDrag = false;
 
 
@@ -35,8 +30,8 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
         {
             onDrag = true;
             var cellFrameImage = transform.parent.GetComponent<Image>();
-            originalFrame = cellFrameImage.color;
-            cellFrameImage.color = Color.clear;
+            originalFrame = cellFrameImage.sprite;
+            cellFrameImage.sprite = inventory.EmptyFrame;
             transform.SetParent(draggingParent);
         }
     }
@@ -67,18 +62,18 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
             {
                 transform.SetParent(destinationCell);
                 transform.localPosition = new Vector2(0, 0);
-                transform.parent.GetComponent<Image>().color = originalFrame;
+                transform.parent.GetComponent<Image>().sprite = originalFrame;
             }
             else
             {
-                var tmp = destinationCell.GetComponent<Image>().color;
+                var tmpFrame = destinationCell.GetComponent<Image>().sprite;
                 Transform destinationSkillImage = destinationCell.GetChild(0);
                 destinationSkillImage.SetParent(originalParent);
                 destinationSkillImage.transform.localPosition = new Vector2(0, 0);
                 destinationSkillImage.GetComponent<InventoryItemPresenter>().SetOriginalParent(originalParent);
-                destinationSkillImage.parent.GetComponent<Image>().color = tmp;
+                destinationSkillImage.parent.GetComponent<Image>().sprite = tmpFrame;
                 transform.SetParent(destinationCell);
-                transform.parent.GetComponent<Image>().color = originalFrame;
+                transform.parent.GetComponent<Image>().sprite = originalFrame;
                 transform.localPosition = new Vector2(0, 0);
             }
             originalParent = transform.parent;
