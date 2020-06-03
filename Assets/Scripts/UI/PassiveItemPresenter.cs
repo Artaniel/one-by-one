@@ -13,6 +13,7 @@ public class PassiveItemPresenter : MonoBehaviour
     {
         itemImage.sprite = item.pickupSprite;
         Image img = GetComponent<Image>();
+        img.color = Color.white;
         currentSkill = item;
         this.inventory = inventory;
     }

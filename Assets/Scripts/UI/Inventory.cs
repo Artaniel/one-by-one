@@ -31,7 +31,6 @@ public class Inventory : MonoBehaviour
         passiveSkills = new List<SkillBase>();
         MakeContainer(activeItemsContainer);
         MakeContainer(weaponItemsContainer);
-        MakeContainer(passiveSkillsContainer);
         AddActiveSkills();
         AddWeaponSkills();
         AddPassiveSkills();
@@ -47,7 +46,6 @@ public class Inventory : MonoBehaviour
         }
         else if(skill is PassiveSkill)
         {
-            RebootContainer(passiveSkillsContainer);
             AddPassiveSkills();
         }
         else if(skill is WeaponSkill) 
@@ -140,8 +138,7 @@ public class Inventory : MonoBehaviour
     {
         for(int i = 0;i < items.Count; i++)
         {
-            var inst = Instantiate(passivePrefab, container);
-            var img = inst.GetComponent<PassiveItemPresenter>();
+            var img = container.GetChild(i).GetComponent<PassiveItemPresenter>();
             img.Render(items[i], this);
         }
     }
