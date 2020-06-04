@@ -8,6 +8,7 @@ public class MonsterManager : MonoBehaviour
     [SerializeField] private float timeToNextSpawn = 0;
     [SerializeField] protected GameObject[] enemyWaves = null;
     [SerializeField] protected List<ZoneScript> spawnZones = new List<ZoneScript>();
+    [SerializeField] private int killsToOpen = 999; // if more than monsters in the room, iot will open when all is dead
 
     [HideInInspector] public Vector2 RoomBounds = new Vector2(15, 10);
     [HideInInspector] public bool spawnAvailable = false;
@@ -21,6 +22,7 @@ public class MonsterManager : MonoBehaviour
     [SerializeField]
     protected bool AllowEarlySpawns = true;
     protected int spawnIndex = 0;
+    private int killCount = 0;
 
     void Awake()
     {
@@ -56,6 +58,7 @@ public class MonsterManager : MonoBehaviour
                 print("If this piece of code triggers, then the condition above is truly necessary");
             }
         }
+        killCount = 0;
     }
 
     private Vector2 RandomBorderSpawnPos()
@@ -134,12 +137,22 @@ public class MonsterManager : MonoBehaviour
         monsterList.Remove(monster);
         if (strayMonsters.Contains(monster))
             strayMonsters.Remove(monster);
+        killCount++;
         WinCheck();
     }
 
     void WinCheck() {
-        if (monsterList.Count == 0 && spawnIndex == enemyWaves.GetLength(0)) {
+        if ((monsterList.Count == 0 && spawnIndex == enemyWaves.GetLength(0)) || (killCount>=killsToOpen)) {
             room.UnlockRoom();
+            while (monsterList.Count>0)
+            {
+                if (monsterList[0].GetComponent<MonsterDrop>()!=null)
+                    monsterList[0].GetComponent<MonsterDrop>().enabled = false;
+                if (monsterList[0].GetComponent<SpawnOnDeath>() != null)
+                    monsterList[0].GetComponent<SpawnOnDeath>().spawnBlock = true;
+                monsterList[0].GetComponent<MonsterLife>().Damage(gameObject, 9999f, true);
+            }
+            spawnAvailable = false;
         }
     }
 

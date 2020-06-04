@@ -21,14 +21,14 @@ public class SpawnOnDeath : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        spawnBlockCauseQuitting = true;
+        spawnBlock = true;
     }
 
     private void OnMonsterDeath()
     {
-        if (spawnBlockCauseQuitting) return;
+        if (spawnBlock) return;
         var obj = Instantiate(toSpawn, transform.position, keepParentRotation ? transform.rotation : Quaternion.identity);
     }
 
-    private bool spawnBlockCauseQuitting = false;
+    public bool spawnBlock = false;
 }
