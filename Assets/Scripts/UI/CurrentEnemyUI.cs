@@ -35,7 +35,7 @@ public class CurrentEnemyUI : MonoBehaviour
             EnemyName.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, (timeSinceLastNewName - 0.5f) * 2));
             EnemyName.text = newCurrentEnemy;
         }
-        enemyNameUICenter.sizeDelta = new Vector2(Mathf.Lerp(oldUIwidth, newUIwidth, timeSinceLastNewName), 80);
+        enemyNameUICenter.sizeDelta = new Vector2(Mathf.Lerp(oldUIwidth, newUIwidth, timeSinceLastNewName), 90);
     }
 
     public static void SetCurrentEnemy(GameObject enemy)
@@ -48,7 +48,7 @@ public class CurrentEnemyUI : MonoBehaviour
     {
         timeSinceLastNewName = 0;
         oldUIwidth = enemyNameUICenter.sizeDelta.x;
-        newUIwidth = Mathf.Lerp(20, 120, (enemyName.Length - 5) / 8f);
+        newUIwidth = Mathf.LerpUnclamped(20, 80, (enemyName.Length / 7f));
 
         oldCurrentEnemy = newCurrentEnemy;
         newCurrentEnemy = enemyName;

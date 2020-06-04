@@ -6,6 +6,7 @@ using UnityEngine;
 public class ActiveSpeedSkill : ActiveSkill
 {
     private CharacterMovement character;
+    [SerializeField] private GameObject VFXTrail = null;
 
     protected ActiveSpeedSkill()
     {
@@ -16,16 +17,29 @@ public class ActiveSpeedSkill : ActiveSkill
 
     public override void InitializeSkill()
     {
-        character = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterMovement>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        character = player.GetComponent<CharacterMovement>();
     }
 
     public override void ActivateSkill()
     {
         character.speed *= 1.65f;
+        if (!trail)
+        {
+            trail = Instantiate(VFXTrail, player.transform.position - player.transform.up * 0.4f, Quaternion.identity, player.transform).GetComponent<TrailRenderer>();
+        }
+        else
+        {
+            trail.emitting = true;
+        }
     }
 
     public override void EndOfSkill()
     {
         character.speed /= 1.65f;
+        trail.emitting = false;
     }
+
+    private TrailRenderer trail;
+    private GameObject player;
 }

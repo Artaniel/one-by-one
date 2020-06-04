@@ -38,7 +38,7 @@ public abstract class EnemyBehavior : MonoBehaviour
         {
             timeToLoseAggro = agent.timeToLoseAggro;
         }
-        isGroupeAggroed = false;
+        isGroupAggroed = false;
         currentTimeBeforeGroupeAgroOff = timeBeforeGroupeAggroOff;
     }
 
@@ -50,13 +50,12 @@ public abstract class EnemyBehavior : MonoBehaviour
             {
                 isActive = true;
                 timeSinceProximityFail = 0;
-                if (!isGroupeAggroed)
+                if (!isGroupAggroed)
                     SetAggroedInvite();
             }
             else
             {
                 currentAgroBlockTime -= Time.deltaTime;
-                agent.SetSteering(ZeroSteering(), weight);
             }
         }
         else if (isActive)
@@ -67,24 +66,22 @@ public abstract class EnemyBehavior : MonoBehaviour
                 isActive = timeSinceProximityFail < timeToLoseAggro;
             }
             currentTimeBeforeGroupeAgroOff = Mathf.Max(0, currentTimeBeforeGroupeAgroOff - Time.deltaTime);
-            isGroupeAggroed = currentTimeBeforeGroupeAgroOff > 0;
-            agent.SetSteering(GetSteering(), weight);
+            isGroupAggroed = currentTimeBeforeGroupeAgroOff > 0;
         }
         else
         {
             currentTimeBeforeGroupeAgroOff = timeBeforeGroupeAggroOff;
-            agent.SetSteering(ZeroSteering(), weight);
         }
 
         if(!isActive && proximityCheckOption.Contains(AIAgent.ProximityCheckOption.ShootingAgroble))
         {
             ShootingWeapon.shootingEvents.AddListener(Activate);
-            if (!isGroupeAggroed)
+            if (!isGroupAggroed)
                 SetAggroedInvite();
         }
         else if(isActive)
         {
-            isGroupeAggroed = currentTimeBeforeGroupeAgroOff > 0;
+            isGroupAggroed = currentTimeBeforeGroupeAgroOff > 0;
         }
     }
 
@@ -110,36 +107,14 @@ public abstract class EnemyBehavior : MonoBehaviour
                 var behaviors = enemy.GetComponents<EnemyBehavior>();
                 foreach (var behavior in behaviors)
                 {
-                    if(!behavior.isGroupeAggroed)
+                    if(!behavior.isGroupAggroed)
                         behavior.GetAggroedInvite();
                 }
             }
     }
     public void GetAggroedInvite()
     {
-        isGroupeAggroed = true;
-    }
-
-    protected EnemySteering ZeroSteering()
-    {
-        return new EnemySteering();
-    }
-
-    public virtual EnemySteering GetSteering() {
-        return new EnemySteering();
-    }
-
-    protected float MapToRange(float rotation)
-    {
-        rotation %= 360.0f;
-        if (Mathf.Abs(rotation) > 180.0f)
-        {
-            if (rotation < 0.0f)
-                rotation += 360.0f;
-            else
-                rotation -= 360.0f;
-        }
-        return rotation;
+        isGroupAggroed = true;
     }
 
     private Camera currentCamera = null;
@@ -152,22 +127,6 @@ public abstract class EnemyBehavior : MonoBehaviour
         }
         var enemyInScreenSpace = currentCamera.WorldToViewportPoint(target.transform.position);
         return enemyInScreenSpace.x >= 0 && enemyInScreenSpace.x <= 1 && enemyInScreenSpace.y >= 0 && enemyInScreenSpace.y <= 1;
-    }
-
-    protected void RotateInstantlyTowardsTarget() {
-        Vector2 direction = target.transform.position - transform.position;
-        if (direction.magnitude > 0.0f)
-        {
-            float targetOrientation = Mathf.Atan2(direction.x, direction.y);
-            targetOrientation *= Mathf.Rad2Deg;
-            targetOrientation += transform.localEulerAngles.z;
-            transform.rotation = Quaternion.Euler(0, 0, -MapToRange(targetOrientation));
-        }
-    }
-
-    protected void RotateRandomlyAtStart()
-    {
-        transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
     }
 
     protected bool ProximityCheck()
@@ -202,7 +161,7 @@ public abstract class EnemyBehavior : MonoBehaviour
             case AIAgent.ProximityCheckOption.OnScreen:
                 return TargetOnScreen(gameObject);
             case AIAgent.ProximityCheckOption.GroupAggroable:
-                return isGroupeAggroed;
+                return isGroupAggroed;
             case AIAgent.ProximityCheckOption.ShootingAgroble:
                 return false;
             default:
@@ -217,10 +176,40 @@ public abstract class EnemyBehavior : MonoBehaviour
         currentAgroBlockTime = agroBlockTime;
     }
 
+    protected void RotateInstantlyTowardsTarget()
+    {
+        Vector2 direction = target.transform.position - transform.position;
+        if (direction.magnitude > 0.0f)
+        {
+            float targetOrientation = Mathf.Atan2(direction.x, direction.y);
+            targetOrientation *= Mathf.Rad2Deg;
+            targetOrientation += transform.localEulerAngles.z;
+            transform.rotation = Quaternion.Euler(0, 0, -MapToRange(targetOrientation));
+        }
+    }
+
+    protected void RotateRandomlyAtStart()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
+    }
+
+    protected float MapToRange(float rotation)
+    {
+        rotation %= 360.0f;
+        if (Mathf.Abs(rotation) > 180.0f)
+        {
+            if (rotation < 0.0f)
+                rotation += 360.0f;
+            else
+                rotation -= 360.0f;
+        }
+        return rotation;
+    }
+
     private float proximityCheckPeriod = 0.5f;
     private float timeToProximityCheck = 0.01f;
     [System.NonSerialized]
-    public bool isGroupeAggroed;
+    public bool isGroupAggroed;
     private float currentTimeBeforeGroupeAgroOff;
     private float currentAgroBlockTime  = 0;
 }

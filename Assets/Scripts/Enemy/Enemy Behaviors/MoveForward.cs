@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 
-public class MoveForward : EnemyBehavior
+public class MoveForward : MoveBehaviour
 {
-    public override EnemySteering GetSteering()
-    {
-        EnemySteering steering = new EnemySteering();
-        steering.linear = transform.rotation * Vector3.up;
-        steering.linear *= agent.maxAccel;
+    public float timeToMaxSpeedAmp = 0;
+    public float timeToMaxSpeed = 0.33f;
 
-        return steering;
+    public override Vector2 Move()
+    {
+        if (!isActive) return Vector2.zero;
+
+        timeToMaxSpeedAmp += Time.deltaTime;
+        Vector2 movement = transform.rotation * Vector3.up;
+        return movement * (agent.maxSpeed * Mathf.InverseLerp(0, timeToMaxSpeed, timeToMaxSpeedAmp));
     }
 }

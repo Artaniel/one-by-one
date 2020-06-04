@@ -11,15 +11,15 @@ public class GhostPhase : Attack
 
     protected override void Awake()
     {
-        BoxCollider = GetComponent<BoxCollider2D>();
+        BoxCollider = GetComponentInChildren<BoxCollider2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+        cooldownLeft = cooldownLeft / 2;
         base.Awake();
     }
 
     protected void Start()
     {
-        standardSpeed = agent.maxSpeed;
-        cooldownLeft = cooldownLeft / 2;
+        standardSpeed = agent.moveSpeedMult;
     }
 
     protected override void DoAttack()
@@ -28,7 +28,7 @@ public class GhostPhase : Attack
         AudioManager.Play("Ghost", audio);
 
         BoxCollider.isTrigger = PacifistInBoost;
-        agent.maxSpeed = GhostBoostSpeed;
+        agent.moveSpeedMult *= GhostBoostSpeed;
         var s = sprite.color;
         s.a = 0.5f;
         sprite.color = s;
@@ -43,7 +43,7 @@ public class GhostPhase : Attack
         if (boostTimeLeft <= 0)
         {
             BoxCollider.isTrigger = false;
-            agent.maxSpeed = standardSpeed;
+            agent.moveSpeedMult = standardSpeed;
             var s = sprite.color;
             s.a = 1f;
             sprite.color = s;

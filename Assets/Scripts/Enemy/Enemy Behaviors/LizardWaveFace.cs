@@ -11,7 +11,13 @@ public class LizardWaveFace : Align
     [SerializeField]
     private float behaviourBlockTime = 0.5f; // without this may get stuck
 
-    public override EnemySteering GetSteering()
+    protected override void Start()
+    {
+        base.Start();
+        wavePhase += Random.Range(0, wavePeriod);
+    }
+
+    public override float GetRotation(float amp = 0)
     {
         if (isActive)
         {
@@ -25,7 +31,7 @@ public class LizardWaveFace : Align
             }
         }
 
-        return base.GetSteering();
+        return base.GetRotation(targetOrientation);
     }
 
     //delta orientation from line of sight to wave trajectory

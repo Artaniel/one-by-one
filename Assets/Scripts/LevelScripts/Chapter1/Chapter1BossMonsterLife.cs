@@ -17,7 +17,7 @@ public class Chapter1BossMonsterLife : MonsterLife
     protected override void PreDestroyEffect()
     {
         base.PreDestroyEffect();
-        AudioManager.Pause("Chapter1BossMusic",
+        AudioManager.PauseSource("Chapter1BossMusic",
             GameObject.FindWithTag("GameController").GetComponent<AudioSource>());
         var lightController = GameObject.FindGameObjectWithTag("GameController")
             .GetComponent<RoomLighting>();

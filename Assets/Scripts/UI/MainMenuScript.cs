@@ -11,34 +11,18 @@ public class MainMenuScript : MonoBehaviour
     private GameObject TitleScreen = null;
     private TitleScreenContainer titleScreenContainer;
 
-    [SerializeField]
-    private GameObject SettingsScreen = null;
-
-    [SerializeField]
-    private GameObject StageSelectionScreen = null;
-
-    [SerializeField]
-    private GameObject Credits = null;
-
-    [SerializeField]
-    private GameObject Chapter1 = null;
-
-    [SerializeField]
-    private GameObject DiffictultyLabel = null;
+    [SerializeField] private GameObject SettingsScreen = null;
+    [SerializeField] private GameObject StageSelectionScreen = null;
+    [SerializeField] private GameObject Credits = null;
+    [SerializeField] private GameObject Chapter1 = null;
+    [SerializeField] private GameObject DiffictultyLabel = null;
 
     //[SerializeField]
     //private Sprite Chapter1EasyDiff = null;
-    [SerializeField]
-    private Sprite Chapter1NormalDiff = null;
-    [SerializeField]
-    private Sprite Chapter1HardcoreDiff = null;
+    [SerializeField] private Sprite Chapter1NormalDiff = null;
+    [SerializeField] private Sprite Chapter1HardcoreDiff = null;
 
-    enum Difficulty
-    {
-        Easy,
-        Normal,
-        Hardcore
-    }
+    enum Difficulty { Easy, Normal, Hardcore }
     private Difficulty stageDifficulty = Difficulty.Normal;
     
 
@@ -49,11 +33,13 @@ public class MainMenuScript : MonoBehaviour
         SetActiveTitle(true);
         GetScenesInBuild();
         creditsStartPosition = Credits.transform.position;
+
+        savedButtonFirstFrames = titleScreenContainer.GetButtonSprites();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !(TitleScreen.activeSelf && !Credits.activeSelf))
         {
             DeactivateEverything();
             SetActiveTitle(true);
@@ -77,7 +63,7 @@ public class MainMenuScript : MonoBehaviour
     void GrayLoadNotPlayedYet()
     {
         // TODO ВРЕМЕННЫЙ ФИКС
-        if (!PlayerPrefs.HasKey("CurrentScene") || PlayerPrefs.GetInt("CurrentScene") == -1)
+        if (!PlayerPrefs.HasKey("CurrentScene") || PlayerPrefs.GetInt("CurrentScene") == -1 || PlayerPrefs.GetInt("CurrentScene") == 0)
         {
             PlayerPrefs.SetInt("CurrentScene", -1);
             var btn = titleScreenContainer.GetButtonContinue();
@@ -89,6 +75,11 @@ public class MainMenuScript : MonoBehaviour
 
     private void DeactivateEverything()
     {
+        var buttons = titleScreenContainer.GetButtons();
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].GetComponent<Image>().sprite = savedButtonFirstFrames[i];
+        }
         SetActiveTitle(false);
         SetActiveSettings(false);
         SetActiveStageSelection(false);
@@ -263,4 +254,5 @@ public class MainMenuScript : MonoBehaviour
 
     private string[] scenes = null;
     private Vector3 creditsStartPosition;
+    private Sprite[] savedButtonFirstFrames;
 }

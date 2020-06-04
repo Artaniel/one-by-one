@@ -24,7 +24,7 @@ MonoBehaviour:
   agroBlockTime: 2
   cooldownRange: {x: 6, y: 9}
   attackSpeedModifier: 1
-  GhostBoostSpeed: 12
+  GhostBoostSpeed: 2
   PacifistInBoost: 1
   BoostTime: 3.5
 --- !u!1 &2256808813286592829
@@ -379,25 +379,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8134463785630515486, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.109
-      objectReference: {fileID: 0}
     - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: maxHP
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: f25483a2868072f4faa9dc7f215288c6, type: 3}
-    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 8134463785630515483, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
@@ -414,6 +399,61 @@ PrefabInstance:
         type: 3}
       propertyPath: bypassAngleAccumulationSpeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134463785630515486, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f25483a2868072f4faa9dc7f215288c6, type: 3}
+    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.2352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0aa1b81b52f950047969568a2592a7b9, type: 3}

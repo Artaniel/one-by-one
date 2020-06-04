@@ -3,8 +3,6 @@ using System.Linq;
 
 public abstract class Align : EnemyBehavior
 {
-    public float targetRadius;
-    public float slowRadius = 0.1f;
     public float timeToTarget = 0.1f;
     public bool rotateAtStart = true;
 
@@ -18,47 +16,32 @@ public abstract class Align : EnemyBehavior
         if (rotateAtStart) RotateInstantlyTowardsTarget();
     }
 
-    public override EnemySteering GetSteering()
+    public virtual float GetRotation(float targetOrientation = 0)
     {
-        EnemySteering steering = new EnemySteering();
-
         if (isActive)
         {
-            if (bypassAngleAccumulationSpeed != 0) AccumulateBypassAngle();
+            float desiredRotation = targetOrientation - agent.orientation;
+            if (bypassAngleAccumulationSpeed != 0) desiredRotation += AccumulateBypassAngle();
+            desiredRotation = MapToRange(desiredRotation);
 
-            float rotation = targetOrientation - agent.orientation;
-            rotation = MapToRange(rotation);
-            float rotationSize = Mathf.Abs(rotation);
-            if (rotationSize < targetRadius)
-                return steering;
-            float targetRotation = agent.maxRotation;
-            if (rotationSize < slowRadius)
-                targetRotation = agent.maxRotation * rotationSize / slowRadius;
-            targetRotation *= Mathf.Sign(rotation);
-            steering.angular = targetRotation - agent.rotation;
-            steering.angular /= timeToTarget;
-            float angularAccel = Mathf.Abs(steering.angular);
-            if (angularAccel > agent.maxAngularAccel)
-            {
-                steering.angular /= angularAccel;
-                steering.angular *= agent.maxAngularAccel;
-            }
+            this.targetOrientation = targetOrientation;
+            return desiredRotation / timeToTarget;
         }
-
-        return steering;
+        else
+        {
+            return 0;
+        }
     }
 
-    private void AccumulateBypassAngle()
+    private float AccumulateBypassAngle()
     {
         var direction = target.transform.position - transform.position;
-        //targetOrientation = Mathf.Atan2(direction.x, direction.y);
-        //targetOrientation *= Mathf.Rad2Deg;
 
-        var hits = RaycastHits(direction);
+        var hits = RaycastHits(direction, maxBypassRaycastDistance);
         hits = (from t in hits
-                where t.transform.gameObject.tag == "Environment" || t.transform.gameObject.tag == "Player"
+                where (t.transform.tag == "Enemy" && t.transform != transform) || t.transform.tag == "Environment" || t.transform.tag == "Player"
                 select t).ToArray();
-        var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
+        // var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
         if (hits.Length != 0 && hits[0].transform.gameObject.tag != "Player")
         {
             bypassAngleAccumulator += Mathf.Sign(bypassAngleAccumulator + targetOrientation / 2) * bypassAngleAccumulationSpeed * Time.deltaTime;
@@ -67,14 +50,14 @@ public abstract class Align : EnemyBehavior
         {
             bypassAngleAccumulator -= Mathf.Sign(bypassAngleAccumulator) * bypassAngleAccumulationSpeed * Time.deltaTime * 2f;
         }
-        targetOrientation += bypassAngleAccumulator;
+        return(bypassAngleAccumulator);
         // print(status + ": " + bypassAngleAccumulator + " -> " + targetOrientation);
     }
 
-    private RaycastHit2D[] RaycastHits(Vector2 direction)
+    private RaycastHit2D[] RaycastHits(Vector2 direction, float distance)
     {
         //Debug.DrawLine(transform.position, direction1.normalized);
-        return Physics2D.RaycastAll(transform.position, new Vector2(transform.up.x, transform.up.y) * 0.5f + direction.normalized, maxBypassRaycastDistance);
+        return Physics2D.RaycastAll(transform.position, new Vector2(transform.up.x, transform.up.y) * 0.5f + direction.normalized, distance);
     }
 
     protected float targetOrientation;

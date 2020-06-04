@@ -7,18 +7,15 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField]
-    private Transform activeItemsContainer = null;
-    [SerializeField]
-    private Transform weaponItemsContainer = null;
-    [SerializeField]
-    private Transform passiveSkillsContainer = null;
-    [SerializeField]
-    private Transform draggingParent = null;
-    [SerializeField]
-    public GameObject cellPrefab = null;
-    [SerializeField]
-    private GameObject passivePrefab = null;
+    [SerializeField] private Transform activeItemsContainer = null;
+    [SerializeField] private Transform weaponItemsContainer = null;
+    [SerializeField] private Transform passiveSkillsContainer = null;
+    [SerializeField] private Transform draggingParent = null;
+    [SerializeField] public GameObject cellPrefab = null;
+    [SerializeField] private GameObject passivePrefab = null;
+    public Sprite ActiveFrame = null;
+    public Sprite BaseFrame = null;
+    public Sprite EmptyFrame = null;
 
     public void Start()
     {
@@ -29,35 +26,33 @@ public class Inventory : MonoBehaviour
         nonEquippedActiveSkills = new List<SkillBase>();
         equippedActiveSkills = new List<SkillBase>();
         passiveSkills = new List<SkillBase>();
-        makecontainer(activeItemsContainer);
-        makecontainer(weaponItemsContainer);
-        makecontainer(passiveSkillsContainer);
-        addActiveSkills();
-        addWeaponSkills();
-        addPassiveSkills();
+        MakeContainer(activeItemsContainer);
+        MakeContainer(weaponItemsContainer);
+        AddActiveSkills();
+        AddWeaponSkills();
+        AddPassiveSkills();
         isStarted = true;
     }
 
-    public void addSkill(SkillBase skill)
+    public void AddSkill(SkillBase skill)
     {
         if(skill is ActiveSkill)
         {
-            rebootContainer(activeItemsContainer);
-            addActiveSkills();
+            RebootContainer(activeItemsContainer);
+            AddActiveSkills();
         }
         else if(skill is PassiveSkill)
         {
-            rebootContainer(passiveSkillsContainer);
-            addPassiveSkills();
+            AddPassiveSkills();
         }
         else if(skill is WeaponSkill) 
         {
-            rebootContainer(weaponItemsContainer);
-            addWeaponSkills();
+            RebootContainer(weaponItemsContainer);
+            AddWeaponSkills();
         }
     }
 
-    private void addActiveSkills()
+    private void AddActiveSkills()
     {
         if (nonEquippedActiveSkills != null)
             nonEquippedActiveSkills.Clear();
@@ -69,7 +64,7 @@ public class Inventory : MonoBehaviour
         Render(equippedActiveSkills, activeItemsContainer, true);
     }
 
-    private void addWeaponSkills()
+    private void AddWeaponSkills()
     {
         if (nonEquippedWeaponSkills.Count > 0)
             nonEquippedWeaponSkills.Clear();
@@ -82,7 +77,7 @@ public class Inventory : MonoBehaviour
         Render(equippedWeaponSkills, weaponItemsContainer, true);
     }
 
-    private void addPassiveSkills()
+    private void AddPassiveSkills()
     {
         passiveSkills.Clear();
         foreach (var skill in skills.skills)
@@ -93,7 +88,7 @@ public class Inventory : MonoBehaviour
         PassiveRender(passiveSkills, passiveSkillsContainer);
     }
 
-    private void rebootContainer(Transform container)
+    private void RebootContainer(Transform container)
     {
         for (int i = 0; i < container.childCount; i++)
         {
@@ -103,7 +98,7 @@ public class Inventory : MonoBehaviour
                 for (int j = 0; j < cell.childCount; j++)
                     cell.GetChild(0).GetComponent<Image>().sprite = cellPrefab.GetComponent<Image>().sprite;
             }
-            MakeFrame(cell.gameObject, BaseFrame);
+            MakeFrame(cell.gameObject, EmptyFrame);
         }
     }
 
@@ -113,10 +108,11 @@ public class Inventory : MonoBehaviour
         for(int i = 0; i < container.childCount; i++)
         {
             var empCell = container.GetChild(i);
+            // Очень интересное условие. Сравнивается с префабом, лул, что?
             if (k < items.Count && empCell.GetChild(0).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
             {
-                if (isActive)
-                    MakeFrame(empCell.gameObject, ActiveFrame);
+                if (isActive) MakeFrame(empCell.gameObject, ActiveFrame);
+                else MakeFrame(empCell.gameObject, BaseFrame);
                 var skillImage = empCell.GetChild(0).GetComponent<InventoryItemPresenter>();
                 skillImage.Init(draggingParent);
                 skillImage.Render(items[k], this);
@@ -125,12 +121,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void makecontainer(Transform container)
+    private void MakeContainer(Transform container)
     {
         for (int i = 0; i < container.childCount; i++)
         {
             var empCell = container.GetChild(i);
-            MakeFrame(empCell.gameObject, BaseFrame);
+            MakeFrame(empCell.gameObject, EmptyFrame);
             var inst = Instantiate(cellPrefab, empCell);
         }
     }
@@ -139,8 +135,7 @@ public class Inventory : MonoBehaviour
     {
         for(int i = 0;i < items.Count; i++)
         {
-            var inst = Instantiate(passivePrefab, container);
-            var img = inst.GetComponent<PassiveItemPresenter>();
+            var img = container.GetChild(i).GetComponent<PassiveItemPresenter>();
             img.Render(items[i], this);
         }
     }
@@ -194,9 +189,9 @@ public class Inventory : MonoBehaviour
         skills.RefreshUI();
     }
 
-    public static void MakeFrame(GameObject cell, Color frame)
+    public static void MakeFrame(GameObject cell, Sprite frame)
     {
-        cell.GetComponent<Image>().color = frame;
+        cell.GetComponent<Image>().sprite = frame;
     }
 
     private List<SkillBase> nonEquippedActiveSkills = null;
@@ -205,7 +200,6 @@ public class Inventory : MonoBehaviour
     private List<SkillBase> equippedWeaponSkills = null;
     private List<SkillBase> passiveSkills = null;
     private SkillManager skills = null;
-    private Color ActiveFrame = Color.white;
-    private Color BaseFrame = Color.clear;
+
     public bool isStarted = false;
 }

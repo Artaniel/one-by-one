@@ -17,7 +17,7 @@ public class ShiftAfterShoot : EnemyBehavior
         dodgeDirection = new Vector2(shiftAmp * Mathf.Sin(angle * Mathf.PI / 180f), shiftAmp * Mathf.Cos(angle * Mathf.PI / 180f));
         if (moveAgent != null)
         {
-            moveAgent.velocity += dodgeDirection;
+            moveAgent.externalVelocity += dodgeDirection;
         }
         else
         {

@@ -46,7 +46,7 @@ public class CharacterMovement : MonoBehaviour
 
             if (direction.magnitude == 0 || Vector3.Distance(previousPosition, transform.position) < 0.001) 
             {
-                AudioManager.Pause("Walk", audio);
+                AudioManager.PauseSource("Walk", audio);
                 anim.Play("HeroIdle");
                 shadowAnim.Play("ShadowIdle");
             }
