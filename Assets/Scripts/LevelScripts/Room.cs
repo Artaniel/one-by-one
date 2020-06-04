@@ -121,10 +121,13 @@ public class Room : MonoBehaviour
 
     public void LightCheck() {
         if (monsterManager != null)
+        {
+            int monstersToKill = Mathf.Min(monsterManager.EnemyCount(), monsterManager.killsToOpen);
             if (roomType == RoomType.arena && !labirint.blueprints[roomID].visited)
-                monsterManager.roomLighting.LabirintRoomEnterDark(monsterManager.EnemyCount());
+                monsterManager.roomLighting.LabirintRoomEnterDark(monstersToKill);
             else
                 monsterManager.roomLighting.LabirintRoomEnterBright();
+        }
         else
             GetComponent<RoomLighting>().LabirintRoomEnterBright(); // exception for room without monsters
 

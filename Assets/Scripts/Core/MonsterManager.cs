@@ -8,7 +8,7 @@ public class MonsterManager : MonoBehaviour
     [SerializeField] private float timeToNextSpawn = 0;
     [SerializeField] protected GameObject[] enemyWaves = null;
     [SerializeField] protected List<ZoneScript> spawnZones = new List<ZoneScript>();
-    [SerializeField] private int killsToOpen = 999; // if more than monsters in the room, iot will open when all is dead
+    public int killsToOpen = 999; // if more than monsters in the room, iot will open when all is dead
 
     [HideInInspector] public Vector2 RoomBounds = new Vector2(15, 10);
     [HideInInspector] public bool spawnAvailable = false;
