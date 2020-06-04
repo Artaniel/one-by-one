@@ -110,6 +110,7 @@ public class Room : MonoBehaviour
             door.unlockOnTimer = true;
             door.Lock();
         }
+        CameraForLabirint.instance.CameraFreeSetup();
     }
 
     public void LeaveRoom() {

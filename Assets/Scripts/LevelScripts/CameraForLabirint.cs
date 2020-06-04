@@ -47,10 +47,10 @@ public class CameraForLabirint : MonoBehaviour
 
     void CameraFollowSetup(GameObject room) {
         Dictionary<Direction.Side, float> borders = room.GetComponent<Room>().GetBordersFromTilemap();
-        cameraBoundsLeft = borders[Direction.Side.LEFT];
-        cameraBoundsRight = borders[Direction.Side.RIGHT];
-        cameraBoundsUp = borders[Direction.Side.UP];
-        cameraBoundsDown = borders[Direction.Side.DOWN];
+        cameraBoundsLeft = borders[Direction.Side.LEFT]+1;
+        cameraBoundsRight = borders[Direction.Side.RIGHT]-1;
+        cameraBoundsUp = borders[Direction.Side.UP]-2f;
+        cameraBoundsDown = borders[Direction.Side.DOWN]+2f;
     }
 
     public void CameraFreeSetup()

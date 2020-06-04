@@ -39,11 +39,26 @@ public class NotificationUI : MonoBehaviour
         public static float OnScreenTime = 0f;
         public static float AlphaValue = 0f;
         public static bool FadeInProgress = false;
+
+        public static void Reset()
+        {
+            Urgency = 0;
+            OldSize = new Vector2(0, 0);
+            NewSize = new Vector2(0, 0);
+
+            AnimationTime = 0f;
+            AnimInProgress = false;
+
+            OnScreenTime = 0f;
+            AlphaValue = 0f;
+            FadeInProgress = false;
+        }
     }
 
     private void Awake()
     {
         EventManager.OnNotify.AddListener(OnNotify);
+        AnimationState.Reset();
         transparencyManager = GetComponent<TransparencySetterUI>();
         transparencyManager.AlphaValue = 0f;
     }
