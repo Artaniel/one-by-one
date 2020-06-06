@@ -191,6 +191,11 @@ public class CharacterLife : MonoBehaviour
             savedSpriteColors[i] = sprites[i].color;
             sprites[i].color = Color.clear;
         }
+        var lights = GetComponentsInChildren<Light2D>();
+        foreach (var light in lights)
+        {
+            light.enabled = false;
+        }
     }
 
     public void RevealPlayer()
@@ -198,6 +203,12 @@ public class CharacterLife : MonoBehaviour
         for (int i = 0; i < sprites.Length; i++)
         {
             sprites[i].color = savedSpriteColors[i];
+        }
+
+        var lights = GetComponentsInChildren<Light2D>();
+        foreach (var light in lights)
+        {
+            light.enabled = true;
         }
     }
 

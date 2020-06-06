@@ -38,11 +38,13 @@ public class CameraForLabirint : MonoBehaviour
         }
     }
 
-    public void ChangeRoom(GameObject room) {
+    public void ChangeRoom(GameObject room, Room.RoomType roomType) {
         if (!followCamera)
             cameraObj.transform.position = room.transform.position + 20 * Vector3.back;
-        else 
+        else if (roomType == Room.RoomType.arena)
             CameraFollowSetup(room);
+        else
+            CameraFreeSetup();
     }
 
     void CameraFollowSetup(GameObject room) {

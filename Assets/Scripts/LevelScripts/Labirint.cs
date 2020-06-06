@@ -89,7 +89,7 @@ public class Labirint : MonoBehaviour
             SpawnRoom(0);
             OnRoomChanged(0);
             blueprints[0].instance.GetComponent<Room>().ArenaInitCheck();
-            blueprints[0].instance.GetComponent<Room>().LightCheck();
+            blueprints[0].instance.GetComponent<Room>().LightsOn();
         }
         else { // for start from choisen room, add prefab, set roomID, and connected room will be spawned
             Room startingRoom = GameObject.FindGameObjectWithTag("Room").GetComponent<Room>();
@@ -171,7 +171,6 @@ public class Labirint : MonoBehaviour
             }
         }
         if (blueprints[currentRoomID].visited || currentRoomID == 0) CameraForLabirint.instance.CameraFreeSetup();
-        else CameraForLabirint.instance.ChangeRoom(blueprints[currentRoomID].instance);
         respawnPoint = GameObject.FindWithTag("Player").transform.position;
         ExitCheck();
         ContainerCheck();

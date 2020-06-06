@@ -49,14 +49,34 @@ public class Room : MonoBehaviour
 
     public void MoveToRoom(Door wayInDoor) {
         wayInDoor.connectedDoor.room.LeaveRoom();
-        CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject);
+        CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType);
+
         var player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = wayInDoor.transform.position;
-        //player.GetComponent<CharacterLife>().HidePlayer();
+        player.GetComponent<CharacterLife>().HidePlayer();
+
+        var playerMove = player.GetComponent<CharacterMovement>();
+        playerMove.shouldDoOOBCheck = false;
+        playerMove.AddToSpeedMultiplier(-10);
+
+        LightsOut();
+        StartCoroutine(DelayedEnterRoom(player));
+    }
+
+    private IEnumerator DelayedEnterRoom(GameObject player)
+    {
+        yield return new WaitForSeconds(0.35f);
         Labirint.instance.OnRoomChanged(roomID);
         ArenaInitCheck();
-        LightCheck();
+        LightsOn();
+        player.GetComponent<CharacterLife>().RevealPlayer();
+
+        var playerMove = player.GetComponent<CharacterMovement>();
+        playerMove.shouldDoOOBCheck = true;
+        playerMove.AddToSpeedMultiplier(10);
     }
+
+
 
     public void ArenaInitCheck()
     {
@@ -123,10 +143,20 @@ public class Room : MonoBehaviour
         if (monsterManager) monsterManager.roomLighting.enabled = false;
         else GetComponent<RoomLighting>().enabled = false;
 
-        Labirint.instance.blueprints[roomID].visited = true;        
+        Labirint.instance.blueprints[roomID].visited = true;
+        Labirint.instance.currentRoomID = -1;
     }
 
-    public void LightCheck() {
+    public void LightsOut()
+    {
+        if (monsterManager)
+        {
+            monsterManager.roomLighting.LightsOut();
+        }
+        else GetComponent<RoomLighting>().LightsOut(); // exception for room without monsters
+    }
+
+    public void LightsOn() {
         if (monsterManager != null)
         {
             int monstersToKill = Mathf.Min(monsterManager.EnemyCount(), monsterManager.killsToOpen);

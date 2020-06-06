@@ -143,6 +143,21 @@ public class RoomLighting : MonoBehaviour
         RecalculateLight();
         previousLight = 0;
     }
+    
+    // Тоже работает на костылях. 06.06 был плохой день для программирования. Однако, 
+    // мне очень хотелось завершить это дело. В ход пошли нелегальные действия
+    public void LightsOut()
+    {
+        enabled = true;
+        maxvalue = 1;
+        TotalValue = 0;
+
+        var savedDefaultLight = DefaultLight;
+        DefaultLight = 0;
+        RecalculateLight();
+        previousLight = sceneLight.intensity;
+        DefaultLight = savedDefaultLight;
+    }
 
     // В данном случае освещение работает на костыле. Берется default light как минимум света
     // Когда будет готов плавный переход персонажа, выпилить к чертям
@@ -162,7 +177,7 @@ public class RoomLighting : MonoBehaviour
         AddToLight(1);
     }
 
-    private const float maxT = 0.7f;
+    private const float maxT = 0.35f;
 
     private float previousLight = 0;
     private float TotalValue = 1;
