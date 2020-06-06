@@ -49,7 +49,7 @@ public class Room : MonoBehaviour
 
     public void MoveToRoom(Door wayInDoor) {
         wayInDoor.connectedDoor.room.LeaveRoom();
-        CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType);
+        CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType == RoomType.arena && !labirint.blueprints[roomID].visited);
 
         var player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = wayInDoor.transform.position;

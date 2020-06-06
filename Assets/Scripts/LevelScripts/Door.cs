@@ -224,7 +224,7 @@ public class Door : MonoBehaviour
                 }
             }
         }
-        else if (arrowSprite.activeSelf) arrowSprite.SetActive(false);
+        else if (arrowSprite && arrowSprite.activeSelf) arrowSprite.SetActive(false);
     }
 
     private void AdjustLightOnVisit()

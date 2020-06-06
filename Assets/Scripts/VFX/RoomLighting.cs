@@ -20,14 +20,10 @@ public class RoomLighting : MonoBehaviour
     private void Awake()
     {
         var arena = GetComponent<ArenaEnemySpawner>();
-        if (Labirint.instance != null)
+        if (Labirint.instance)
         {
             sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
             previousLight = sceneLight.intensity;
-            if (swampPrefab)
-            {
-                SetSwampMaterial();
-            }
         }
         else // initial light
         {
@@ -62,11 +58,6 @@ public class RoomLighting : MonoBehaviour
         AddToLight(1);
     }
 
-    public float GetCurVal()
-    {
-        return CurrentVal;
-    }
-
     private void RecalculateLight()
     {
         previousLight = Light;
@@ -79,7 +70,7 @@ public class RoomLighting : MonoBehaviour
         CurrentVal = Mathf.Lerp(previousLight, Light, t / maxT);
 
         NewLight(CurrentVal);
-        if (swampPrefab) NewSwampLight();
+        if (swampInstance) NewSwampLight();
         
         t += Time.deltaTime;
     }
@@ -128,14 +119,20 @@ public class RoomLighting : MonoBehaviour
     
     private void NewSwampLight()
     {
-        var alpha = 1 - Light;
+        var alpha = Mathf.InverseLerp(roomClearedLight, DefaultLight, CurrentVal);
         var color = swampMat.color;
         color.a = alpha;
         swampMat.color = color;
+        if (alpha == 0) Destroy(swampInstance);
     }
 
     public void LabirintRoomEnterDark(int enemyCount)
     {
+        if (swampPrefab)
+        {
+            SetSwampMaterial();
+        }
+
         enabled = true;
         maxvalue = enemyCount + 1;
         TotalValue = 1;
