@@ -199,7 +199,7 @@ public class Door : MonoBehaviour
 
 
     private void ArrowCheck() {
-        if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && (!locked || unlockOnTimer))
+        if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked)
         {
             bool arrowNeeded = false;
             Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);

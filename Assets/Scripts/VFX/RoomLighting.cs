@@ -13,40 +13,35 @@ public class RoomLighting : MonoBehaviour
     private GameObject swampPrefab = null;
 
     [SerializeField] bool StandartLightIncrease = true;
-    [SerializeField] private float maxvalue = 0;
+    [SerializeField] private float maxvalue = 1;
     [SerializeField] private float roomClearedLight = 0.8f;
     public float DefaultLight = 0.13f;
 
-    private void Start()
+    private void Awake()
     {
         var arena = GetComponent<ArenaEnemySpawner>();
         if (Labirint.instance != null)
         {
             sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
+            previousLight = sceneLight.intensity;
             if (swampPrefab)
             {
                 SetSwampMaterial();
             }
         }
-        else
+        else // initial light
         {
             sceneLight = GetComponentInChildren<Light2D>();
+            
             Light = DefaultLight;
-            if (arena && StandartLightIncrease)
-            {
-                maxvalue = arena.EnemyCount();
-                RecalculateLight();
-            }
-            NewLight(Light);
+            if (arena) maxvalue = arena.EnemyCount();
 
-            if (swampPrefab)
-            {
-                SetSwampMaterial();
-            }
-
+            if (swampPrefab) SetSwampMaterial();
 
             MonsterLife.OnEnemyDead.AddListener(AddOneToLight);
         }
+
+        if (StandartLightIncrease) RecalculateLight();
     }
 
     /// <summary>
@@ -60,22 +55,11 @@ public class RoomLighting : MonoBehaviour
         if (automatic != StandartLightIncrease) return;
         TotalValue = TotalValue + val;
         RecalculateLight();
-        t = 0.0f;
     }
 
     private void AddOneToLight()
     {
         AddToLight(1);
-    }
-
-    public void SetMaxValue (float val)
-    {
-        if (val > 0)
-        {
-            maxvalue = val;
-            RecalculateLight();
-            t = 0.0f;
-        }
     }
 
     public float GetCurVal()
@@ -85,38 +69,24 @@ public class RoomLighting : MonoBehaviour
 
     private void RecalculateLight()
     {
+        previousLight = Light;
         Light = Mathf.Lerp(DefaultLight, roomClearedLight, Mathf.Pow(Mathf.Clamp01(TotalValue / maxvalue), 1.7f));
-       // Debug.Log(Light);
+        t = 0.0f;
     }
 
     private void Update()
     {
-        if (t < 0.7f)
-        {
-            if (EXPERIMENTAL)
-            {
-                CurrentVal = Mathf.Lerp(sceneLight.intensity, Light, t);
+        CurrentVal = Mathf.Lerp(previousLight, Light, t / maxT);
 
-            }
-
-            NewLight(CurrentVal);
-            if (swampPrefab)
-            {
-                NewSwampLight();
-            }
-        }
+        NewLight(CurrentVal);
+        if (swampPrefab) NewSwampLight();
         
         t += Time.deltaTime;
     }
 
-    bool EXPERIMENTAL = true;
-
     private void NewLight(float light)
     {
-        if (EXPERIMENTAL)
-        {
-            sceneLight.intensity = light;
-        }
+        sceneLight.intensity = light;
     }
 
     /// <summary>
@@ -164,28 +134,27 @@ public class RoomLighting : MonoBehaviour
         swampMat.color = color;
     }
 
-    private GameObject swampInstance;
-    private Material swampMat;
-    
-    private Light2D sceneLight;
-
-    private float TotalValue = 0;
-    private float CurrentVal;
-    float t = 0.0f;
-    static float Light;
-
     public void LabirintRoomEnterDark(int enemyCount)
     {
-        t = 0.0f;
-        Light = DefaultLight;
-        maxvalue = enemyCount;
-        TotalValue = 0;
+        enabled = true;
+        maxvalue = enemyCount + 1;
+        TotalValue = 1;
+
         RecalculateLight();
+        previousLight = 0;
     }
 
+    // В данном случае освещение работает на костыле. Берется default light как минимум света
+    // Когда будет готов плавный переход персонажа, выпилить к чертям
+    // В светлых комнатах максимум достигается быстро
     public void LabirintRoomEnterBright() 
     {
-        Light = roomClearedLight;
+        enabled = true;
+        maxvalue = 1;
+        TotalValue = 1;
+
+        RecalculateLight();
+        previousLight = 0;
     }
 
     public void LabirintRoomAddLight()
@@ -193,4 +162,16 @@ public class RoomLighting : MonoBehaviour
         AddToLight(1);
     }
 
+    private const float maxT = 0.7f;
+
+    private float previousLight = 0;
+    private float TotalValue = 1;
+    private float CurrentVal;
+    private float t = 0.0f;
+    private float Light;
+
+    private GameObject swampInstance;
+    private Material swampMat;
+
+    private Light2D sceneLight;
 }

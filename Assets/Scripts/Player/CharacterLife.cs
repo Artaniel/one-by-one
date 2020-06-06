@@ -182,6 +182,25 @@ public class CharacterLife : MonoBehaviour
         cameraShaker.ShakeCamera(2, 0.5f);
     }
 
+    public void HidePlayer()
+    {
+        sprites = GetComponentsInChildren<SpriteRenderer>();
+        savedSpriteColors = new Color[sprites.Length];
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            savedSpriteColors[i] = sprites[i].color;
+            sprites[i].color = Color.clear;
+        }
+    }
+
+    public void RevealPlayer()
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            sprites[i].color = savedSpriteColors[i];
+        }
+    }
+
     private float HPDropChanceAmplifier = 1f;
 
     private int hp = 3;
@@ -204,4 +223,7 @@ public class CharacterLife : MonoBehaviour
     private Vector3 cameraMovePosition;
 
     private PlayerHPIcon hpUI;
+
+    private SpriteRenderer[] sprites;
+    private Color[] savedSpriteColors;
 }

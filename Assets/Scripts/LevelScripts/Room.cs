@@ -50,7 +50,9 @@ public class Room : MonoBehaviour
     public void MoveToRoom(Door wayInDoor) {
         wayInDoor.connectedDoor.room.LeaveRoom();
         CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject);
-        GameObject.FindGameObjectWithTag("Player").transform.position = wayInDoor.transform.position;
+        var player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = wayInDoor.transform.position;
+        //player.GetComponent<CharacterLife>().HidePlayer();
         Labirint.instance.OnRoomChanged(roomID);
         ArenaInitCheck();
         LightCheck();
@@ -118,6 +120,9 @@ public class Room : MonoBehaviour
         {
             GetComponent<ArenaEnemySpawner>()?.KillThemAll();
         }
+        if (monsterManager) monsterManager.roomLighting.enabled = false;
+        else GetComponent<RoomLighting>().enabled = false;
+
         Labirint.instance.blueprints[roomID].visited = true;        
     }
 
@@ -130,9 +135,7 @@ public class Room : MonoBehaviour
             else
                 monsterManager.roomLighting.LabirintRoomEnterBright();
         }
-        else
-            GetComponent<RoomLighting>().LabirintRoomEnterBright(); // exception for room without monsters
-
+        else GetComponent<RoomLighting>().LabirintRoomEnterBright(); // exception for room without monsters
     }
     
     public Dictionary<Direction.Side, float> GetBordersFromTilemap() {
