@@ -380,19 +380,6 @@ MonoBehaviour:
   itemChances:
   - 1
   anyDropChance: 1
---- !u!114 &5522416022021412370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985563269723331829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf2847a11f06014f9baf6fea989310b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &8516253945559817045
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,11 +515,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8624421033595261174}
     m_Modifications:
-    - target: {fileID: 6640788202129163617, guid: d40250721e21fb640a3bd4181e3f06b5,
-        type: 3}
-      propertyPath: m_Name
-      value: MonsterCanvasPrefab
-      objectReference: {fileID: 0}
     - target: {fileID: 6640788202129163622, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -638,6 +620,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6640788202129163617, guid: d40250721e21fb640a3bd4181e3f06b5,
+        type: 3}
+      propertyPath: m_Name
+      value: MonsterCanvasPrefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6640788202129163642, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: offset.y
@@ -648,12 +635,12 @@ PrefabInstance:
       propertyPath: baseEulerRotation.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -783,6 +770,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149376, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149383, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_fontColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149383, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 345449605132706743, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
       propertyPath: offset.x
@@ -793,24 +800,8 @@ PrefabInstance:
       propertyPath: offset.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149376, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7de89d6f6c44c545a0ee0a468f39a29, type: 3}
---- !u!1 &8985563269723331829 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2882529184434149381, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-    type: 3}
-  m_PrefabInstance: {fileID: 6103484887749936368}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8985563269723331828 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2882529184434149380, guid: b7de89d6f6c44c545a0ee0a468f39a29,

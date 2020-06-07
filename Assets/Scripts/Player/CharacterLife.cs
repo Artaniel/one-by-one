@@ -10,6 +10,7 @@ public class CharacterLife : MonoBehaviour
     public static bool isDeath = false;
     [SerializeField] private GameObject ShadowObject = null;
     [SerializeField] private GameObject hitEffect = null;
+    public GameObject dummyPlayerPrefab = null;
     new private AudioSource audio;
 
     public UnityEvent hpChangedEvent = new UnityEvent();

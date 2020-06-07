@@ -24,7 +24,7 @@ public class Labirint : MonoBehaviour
     public RoomBlueprint[] blueprints; 
     private List<int> activeRooms = new List<int>();
     public int currentRoomID = 0;
-    private const float distanceToNewDoor = 10f; // distance from old door no new door, defines distance between rooms
+    private const float distanceToNewDoor = 0; // distance from old door no new door, defines distance between rooms
     static public Labirint instance;
     private Vector3 respawnPoint;
     public string difficultySetting = "1";

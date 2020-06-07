@@ -52,31 +52,38 @@ public class Room : MonoBehaviour
         CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType == RoomType.arena && !labirint.blueprints[roomID].visited);
 
         var player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = wayInDoor.transform.position;
-        player.GetComponent<CharacterLife>().HidePlayer();
+        var playerLife = player.GetComponent<CharacterLife>();
+        playerLife.HidePlayer();
+        var dummy = Instantiate(
+            playerLife.dummyPlayerPrefab, 
+            wayInDoor.transform.position + 4 * Direction.SideToVector3(wayInDoor.direction), 
+            Quaternion.identity);
+        dummy.GetComponent<DummyPlayerController>().SetDestination(wayInDoor.transform.position);
 
         var playerMove = player.GetComponent<CharacterMovement>();
         playerMove.shouldDoOOBCheck = false;
-        playerMove.AddToSpeedMultiplier(-10);
+        playerMove.AddToSpeedMultiplier(-100);
+        player.transform.position = wayInDoor.transform.position;
 
-        LightsOut();
-        StartCoroutine(DelayedEnterRoom(player));
+        LightsOn();
+
+        Labirint.instance.OnRoomChanged(roomID);
+        StartCoroutine(DelayedEnterRoom(player, dummy));
     }
 
-    private IEnumerator DelayedEnterRoom(GameObject player)
+    private IEnumerator DelayedEnterRoom(GameObject player, GameObject dummy)
     {
         yield return new WaitForSeconds(0.35f);
-        Labirint.instance.OnRoomChanged(roomID);
+        
         ArenaInitCheck();
-        LightsOn();
+        
+        Destroy(dummy);
         player.GetComponent<CharacterLife>().RevealPlayer();
 
         var playerMove = player.GetComponent<CharacterMovement>();
         playerMove.shouldDoOOBCheck = true;
-        playerMove.AddToSpeedMultiplier(10);
+        playerMove.AddToSpeedMultiplier(100);
     }
-
-
 
     public void ArenaInitCheck()
     {

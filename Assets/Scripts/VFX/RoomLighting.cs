@@ -138,7 +138,7 @@ public class RoomLighting : MonoBehaviour
         TotalValue = 1;
 
         RecalculateLight();
-        previousLight = 0;
+        previousLight = sceneLight.intensity;
     }
     
     // Тоже работает на костылях. 06.06 был плохой день для программирования. Однако, 
@@ -166,7 +166,7 @@ public class RoomLighting : MonoBehaviour
         TotalValue = 1;
 
         RecalculateLight();
-        previousLight = 0;
+        previousLight = sceneLight.intensity;
     }
 
     public void LabirintRoomAddLight()
