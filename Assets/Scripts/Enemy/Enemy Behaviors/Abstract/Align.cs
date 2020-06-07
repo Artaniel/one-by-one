@@ -39,7 +39,7 @@ public abstract class Align : EnemyBehavior
 
         var hits = RaycastHits(direction, maxBypassRaycastDistance);
         hits = (from t in hits
-                where (t.transform.tag == "Enemy" && t.transform != transform) || t.transform.tag == "Environment" || t.transform.tag == "Player"
+                where (t.transform.tag == "EnemyCollider" && t.transform.parent != transform) || t.transform.tag == "Environment" || t.transform.tag == "Player"
                 select t).ToArray();
         // var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
         if (hits.Length != 0 && hits[0].transform.gameObject.tag != "Player")

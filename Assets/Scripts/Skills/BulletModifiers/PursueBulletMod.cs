@@ -32,7 +32,7 @@ public class PursueBulletMod : BulletModifier
     {
         Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(bullet.transform.position, radius);
         var enemys = (from t in collider2Ds
-                      where t.transform.gameObject.tag == "Enemy"
+                      where t.transform.gameObject.tag == "EnemyCollider"
                       select t).ToArray();
         foreach (var i in enemys)
         {

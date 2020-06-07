@@ -290,7 +290,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2247092661878191898}
   - component: {fileID: 8738147950663565944}
-  - component: {fileID: 4165841188981252903}
   - component: {fileID: 4165841188981252900}
   - component: {fileID: 946551748472577929}
   - component: {fileID: 4401457915136595648}
@@ -343,32 +342,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &4165841188981252903
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4165841188981252901}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1309524, y: 1.7262485}
-    newSize: {x: 1.1309524, y: 1.7262485}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.3, y: 1.5}
-  m_EdgeRadius: 0
 --- !u!50 &4165841188981252900
 Rigidbody2D:
   serializedVersion: 4
@@ -437,14 +410,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 0
-  maxAccel: 350
   maxRotation: 200
-  maxAngularAccel: 10000
   velocityFallBackPower: 3
   knockBackStability: 99999
   orientation: 0
   rotation: 0
-  velocity: {x: 0, y: 0}
+  externalVelocity: {x: 0, y: 0}
   moveSpeedMult: 1
   proximityCheckOption: 01000000
   timeToLoseAggro: -1
@@ -470,8 +441,6 @@ MonoBehaviour:
   maxInviteLevel: 1
   timeBeforeGroupeAggroOff: 3
   agroBlockTime: 2
-  targetRadius: 0
-  slowRadius: 0
   timeToTarget: 0.5
   rotateAtStart: 1
   bypassAngleAccumulationSpeed: 0
@@ -6074,9 +6043,10 @@ GameObject:
   - component: {fileID: 8738147950347193360}
   - component: {fileID: 8738147950347193366}
   - component: {fileID: 8738147950347193367}
+  - component: {fileID: 1599834044684236694}
   m_Layer: 0
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: EnemyCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6170,6 +6140,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &1599834044684236694
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8738147950347193361}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.111111, y: 1.4203558}
+    newSize: {x: 1.111111, y: 1.4203558}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.3, y: 1.5}
+  m_EdgeRadius: 0
 --- !u!1 &8833000437514963097
 GameObject:
   m_ObjectHideFlags: 0
@@ -6378,6 +6374,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2247092661878191898}
     m_Modifications:
+    - target: {fileID: 2882529184434149381, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_Name
+      value: Text
+      objectReference: {fileID: 0}
     - target: {fileID: 2882529184434149380, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6483,10 +6484,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149381, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
-      propertyPath: m_Name
-      value: Text
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2882529184434149383, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
@@ -6497,11 +6498,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.characterCount
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7de89d6f6c44c545a0ee0a468f39a29, type: 3}

@@ -26,20 +26,4 @@ public class GrenadeBulletMod : ExplosiveBulletMod
         base.DestroyModifier(bullet);
         ModEffect(bullet);
     }
-
-    private void ModEffect(BulletLife bulletLife)
-    {
-        var monsters = FindMonstersNearby(bulletLife);
-        ExplosiveWave(monsters, bulletLife);
-    }
-
-    protected Collider2D[] FindMonstersNearby(BulletLife bullet)
-    {
-        Collider2D[] collider2Ds = Physics2D.OverlapCircleAll( bullet.GetComponent<Collider2D>()
-                                                             . ClosestPoint(bullet.transform.position), explosionRadius);
-        var enemys = (from t in collider2Ds
-                      where t.transform.gameObject.tag == "Enemy"
-                      select t).ToArray();
-        return enemys;
-    }
 }

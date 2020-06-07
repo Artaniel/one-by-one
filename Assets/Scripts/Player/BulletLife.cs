@@ -51,7 +51,7 @@ public class BulletLife : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.GetComponentInParent<MonsterLife>())
+        if (coll.CompareTag("EnemyCollider"))
         {
             EnemyCollider(coll);
         }
