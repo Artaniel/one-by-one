@@ -30,18 +30,23 @@ public class BurrowStrike : Attack
         timeToNextState = burrowTime;
     }
 
-    protected void Start()
+    protected override void Awake()
     {
+        base.Awake();
         startingColor = new List<Vector4>();
         foreach (var sprite in spritesToFade)
         {
             startingColor.Add(sprite.color);
         }
         aiAgent = GetComponent<AIAgent>();
-        maxSpeedSaved = aiAgent.moveSpeedMult;
-        maxRotationSaved = aiAgent.maxRotation;
         monsterName = GetComponentInChildren<TMPro.TextMeshPro>();
         animators = GetComponentsInChildren<Animator>();
+    }
+
+    protected void Start()
+    {
+        maxSpeedSaved = aiAgent.moveSpeedMult;
+        maxRotationSaved = aiAgent.maxRotation;
     }
 
     private enum BurrowState {

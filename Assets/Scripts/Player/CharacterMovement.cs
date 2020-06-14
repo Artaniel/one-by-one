@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     private Animator shadowAnim;
     new private AudioSource audio;
 
+    [HideInInspector] public bool shouldDoOOBCheck = true;
 
     private void Start()
     {
@@ -27,7 +28,7 @@ public class CharacterMovement : MonoBehaviour
         if (Pause.Paused) return;
 
         Movement();
-        OOBCheck();
+        if (shouldDoOOBCheck) OOBCheck();
     }
     
     private void Movement()
@@ -39,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
             direction.Normalize();
         }
 
-        rigidbody.velocity = direction * speed * speedMultiplier * Time.fixedDeltaTime * 50f;
+        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier) * Time.fixedDeltaTime * 50f;
         if (anim != null)
         {
             if (CharacterLife.isDeath) return;

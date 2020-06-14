@@ -33,9 +33,10 @@ public class MonsterLife : MonoBehaviour
     private void Awake()
     {
         HP = maxHP;
-        FadeIn(fadeInTime);
+        
         sprites = GetComponentsInChildren<SpriteRenderer>();
         monsterName = GetComponentInChildren<TMPro.TextMeshPro>();
+
         ChooseMyName();
     }
 
@@ -66,21 +67,7 @@ public class MonsterLife : MonoBehaviour
     {
         fadeInLeft = Mathf.Max(fadeInLeft - Time.deltaTime, 0);
 
-        foreach (var sprite in sprites)
-        {
-            if (!sprite) continue;
-            var newColor = sprite.color;
-            newColor.a = Mathf.Lerp(1, 0, fadeInLeft / fadeInTime);
-            sprite.color = newColor;
-        }
-
-        //if (fadeInLeft == 0)
-        //{
-        //    foreach (var collider in GetComponentsInChildren<Collider2D>())
-        //    {
-        //        collider.enabled = true;
-        //    }
-        //}
+        UpdateFadeColor();
     }
 
     protected virtual bool SpecialConditions(GameObject source)
@@ -130,17 +117,29 @@ public class MonsterLife : MonoBehaviour
 
     public void FadeIn(float _fadeInTime)
     {
-        //foreach (var collider in GetComponentsInChildren<Collider2D>())
-        //{
-        //    collider.enabled = false;
-        //}
         fadeInTime = _fadeInTime;
         fadeInLeft = _fadeInTime;
+
+        // Necessary to do before first frame
+        UpdateFadeColor();
     }
 
     public float FadeInLeft
     {
         get => fadeInLeft;
+    }
+
+    private void UpdateFadeColor()
+    {
+        foreach (var sprite in sprites)
+        {
+            if (!sprite) continue;
+            var newColor = sprite.color;
+            newColor.a = Mathf.Lerp(1, 0, fadeInLeft / fadeInTime);
+            sprite.color = newColor;
+        }
+
+        monsterName.color = Color.Lerp(Color.white, Color.clear, fadeInLeft / fadeInTime);
     }
 
     private void OnCollisionStay2D(Collision2D coll)
