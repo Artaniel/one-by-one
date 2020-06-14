@@ -12,10 +12,12 @@ public class CharacterLife : MonoBehaviour
     [SerializeField] private GameObject hitEffect = null;
     new private AudioSource audio;
 
+    [HideInInspector]public bool activeSkill;
     public UnityEvent hpChangedEvent = new UnityEvent();
 
     public void Start()
     {
+        activeSkill = false;
         isDeath = false;
         hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
         hpChangedEvent.AddListener(UpdateHPUI);
@@ -26,9 +28,12 @@ public class CharacterLife : MonoBehaviour
     {
         if (isDeath || invulTimeLeft > 0) return; // Already died
 
-        hp -= damage;
-        PlayerHitVFX();
-        hpChangedEvent.Invoke();
+        if (!activeSkill)
+        {
+            hp -= damage;
+            PlayerHitVFX();
+            hpChangedEvent.Invoke();
+        }
 
         if (hp <= 0)
         {

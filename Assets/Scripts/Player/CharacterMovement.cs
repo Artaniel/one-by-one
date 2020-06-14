@@ -5,7 +5,9 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField]
-    public float speed = 12f;
+    public float speed;
+    [HideInInspector]public bool activeSkill;
+    [HideInInspector]public Vector2 direction;
     
     private Animator anim;
     private Animator shadowAnim;
@@ -16,6 +18,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Start()
     {
+        activeSkill = false;
         audio = GetComponent<AudioSource>();       
         var anims = GetComponentsInChildren<Animator>();
         anim = anims[0];
@@ -32,10 +35,8 @@ public class CharacterMovement : MonoBehaviour
     }
     
     private void Movement()
-    {       
-        Vector2 direction;
-        direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
-
+    { 
+        if (!activeSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
         rigidbody.velocity = direction * speed * speedMultiplier * Time.fixedDeltaTime * 50f;
         if (anim != null)
         {
