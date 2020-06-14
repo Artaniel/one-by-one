@@ -11,8 +11,6 @@ public class CharacterMovement : MonoBehaviour
     private Animator shadowAnim;
     new private AudioSource audio;
     private float speedMultiplier = 1f;
-    private Camera mainCamera = null;
-    private Vector3 previousPosition = new Vector3();
     new private Rigidbody2D rigidbody;
 
 
@@ -22,7 +20,6 @@ public class CharacterMovement : MonoBehaviour
         var anims = GetComponentsInChildren<Animator>();
         anim = anims[0];
         shadowAnim = anims[1];
-        mainCamera = Camera.main;
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -37,7 +34,7 @@ public class CharacterMovement : MonoBehaviour
     private void Movement()
     {       
         Vector2 direction;
-        direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
 
         rigidbody.velocity = direction * speed * speedMultiplier * Time.fixedDeltaTime * 50f;
         if (anim != null)
@@ -57,7 +54,6 @@ public class CharacterMovement : MonoBehaviour
                 shadowAnim.Play("HeroShadow");
             }        
         }
-        previousPosition = transform.position;
     }
 
     public void AddToSpeedMultiplier(float addValue)
