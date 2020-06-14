@@ -10,10 +10,6 @@ public class CharacterMovement : MonoBehaviour
     private Animator anim;
     private Animator shadowAnim;
     new private AudioSource audio;
-    private float speedMultiplier = 1f;
-    private Camera mainCamera = null;
-    private Vector3 previousPosition = new Vector3();
-    new private Rigidbody2D rigidbody;
 
 
     private void Start()
@@ -36,15 +32,19 @@ public class CharacterMovement : MonoBehaviour
     
     private void Movement()
     {       
-        Vector2 direction;
-        direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        Vector2 direction = new Vector2();
+        direction += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (direction.magnitude > 1)
+        {
+            direction.Normalize();
+        }
 
         rigidbody.velocity = direction * speed * speedMultiplier * Time.fixedDeltaTime * 50f;
         if (anim != null)
         {
             if (CharacterLife.isDeath) return;
 
-            if (rigidbody.velocity.sqrMagnitude == 0f ) 
+            if (direction.magnitude == 0 || Vector3.Distance(previousPosition, transform.position) < 0.001) 
             {
                 AudioManager.PauseSource("Walk", audio);
                 anim.Play("HeroIdle");
@@ -65,10 +65,8 @@ public class CharacterMovement : MonoBehaviour
         speedMultiplier += addValue;
     }
 
-    private void OOBCheck() 
-    {
-        if (Labirint.instance != null) 
-        {
+    private void OOBCheck() {
+        if (Labirint.instance != null) {
             if (!Labirint.GetCurrentRoom().GetComponent<Room>().PositionIsInbounds(transform.position))
             {
                 Debug.Log("Player OOB alert");
@@ -76,4 +74,10 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
+
+    private float speedMultiplier = 1f;
+
+    private Camera mainCamera = null;
+    private Vector3 previousPosition = new Vector3();
+    new private Rigidbody2D rigidbody;
 }
