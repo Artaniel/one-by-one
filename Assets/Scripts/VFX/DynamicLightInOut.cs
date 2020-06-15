@@ -22,6 +22,7 @@ public class DynamicLightInOut : MonoBehaviour
     {
         light = GetComponentInChildren<Light2D>();
         startIntensity = light.intensity;
+        if (lifeSpanIn > 0) light.intensity = 0;
         lifeSpanLeftIn = lifeSpanIn;
         lifeSpanLeftOut = lifeSpanOut;
     }

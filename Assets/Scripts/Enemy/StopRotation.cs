@@ -12,14 +12,22 @@ public class StopRotation : MonoBehaviour
 
     void Awake()
     {
-        transform.eulerAngles = baseEulerRotation;
+        savedAngles = transform.localEulerAngles;
+        if (offset == Vector3.zero) offset = transform.localPosition;
+    }
+
+    void Start()
+    {
+        transform.localEulerAngles = savedAngles;
         if (offset == Vector3.zero) offset = transform.localPosition;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.eulerAngles = baseEulerRotation;
+        transform.eulerAngles = savedAngles;
         transform.position = transform.parent.position + offset;
     }
+
+    private Vector3 savedAngles = Vector3.zero;
 }

@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour
     private float speedMultiplier = 1f;
     new private Rigidbody2D rigidbody;
 
+    [HideInInspector] public bool shouldDoOOBCheck = true;
 
     private void Start()
     {
@@ -31,13 +32,14 @@ public class CharacterMovement : MonoBehaviour
         if (Pause.Paused) return;
 
         Movement();
-        OOBCheck();
+        if (shouldDoOOBCheck) OOBCheck();
     }
     
     private void Movement()
     { 
         if (!dashActiveSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
-        rigidbody.velocity = direction * speed * speedMultiplier * Time.fixedDeltaTime * 50f;
+        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier) * Time.fixedDeltaTime * 50f;
+
         if (anim != null)
         {
             if (CharacterLife.isDeath) return;

@@ -49,11 +49,40 @@ public class Room : MonoBehaviour
 
     public void MoveToRoom(Door wayInDoor) {
         wayInDoor.connectedDoor.room.LeaveRoom();
-        CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject);
-        GameObject.FindGameObjectWithTag("Player").transform.position = wayInDoor.transform.position;
+        CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType == RoomType.arena && !labirint.blueprints[roomID].visited);
+
+        var player = GameObject.FindGameObjectWithTag("Player");
+        var playerLife = player.GetComponent<CharacterLife>();
+        playerLife.HidePlayer();
+        var dummy = Instantiate(
+            playerLife.dummyPlayerPrefab, 
+            wayInDoor.transform.position + 4 * Direction.SideToVector3(wayInDoor.direction), 
+            Quaternion.identity);
+        dummy.GetComponent<DummyPlayerController>().SetDestination(wayInDoor.transform.position);
+
+        var playerMove = player.GetComponent<CharacterMovement>();
+        playerMove.shouldDoOOBCheck = false;
+        playerMove.AddToSpeedMultiplier(-100);
+        player.transform.position = wayInDoor.transform.position;
+
+        LightsOn();
+
         Labirint.instance.OnRoomChanged(roomID);
+        StartCoroutine(DelayedEnterRoom(player, dummy));
+    }
+
+    private IEnumerator DelayedEnterRoom(GameObject player, GameObject dummy)
+    {
+        yield return new WaitForSeconds(0.35f);
+        
         ArenaInitCheck();
-        LightCheck();
+        
+        Destroy(dummy);
+        player.GetComponent<CharacterLife>().RevealPlayer();
+
+        var playerMove = player.GetComponent<CharacterMovement>();
+        playerMove.shouldDoOOBCheck = true;
+        playerMove.AddToSpeedMultiplier(100);
     }
 
     public void ArenaInitCheck()
@@ -94,6 +123,7 @@ public class Room : MonoBehaviour
         foreach (Door door in doors) {
             door.Unlock();
         }
+        CameraForLabirint.instance.CameraFreeSetup();
     }
 
     public void LockRoom() {
@@ -109,6 +139,7 @@ public class Room : MonoBehaviour
             door.unlockOnTimer = true;
             door.Lock();
         }
+        CameraForLabirint.instance.CameraFreeSetup();
     }
 
     public void LeaveRoom() {
@@ -116,10 +147,23 @@ public class Room : MonoBehaviour
         {
             GetComponent<ArenaEnemySpawner>()?.KillThemAll();
         }
-        Labirint.instance.blueprints[roomID].visited = true;        
+        if (monsterManager) monsterManager.roomLighting.enabled = false;
+        else GetComponent<RoomLighting>().enabled = false;
+
+        Labirint.instance.blueprints[roomID].visited = true;
+        Labirint.instance.currentRoomID = -1;
     }
 
-    public void LightCheck() {
+    public void LightsOut()
+    {
+        if (monsterManager)
+        {
+            monsterManager.roomLighting.LightsOut();
+        }
+        else GetComponent<RoomLighting>().LightsOut(); // exception for room without monsters
+    }
+
+    public void LightsOn() {
         if (monsterManager != null)
         {
             int monstersToKill = Mathf.Min(monsterManager.EnemyCount(), monsterManager.killsToOpen);
@@ -128,9 +172,7 @@ public class Room : MonoBehaviour
             else
                 monsterManager.roomLighting.LabirintRoomEnterBright();
         }
-        else
-            GetComponent<RoomLighting>().LabirintRoomEnterBright(); // exception for room without monsters
-
+        else GetComponent<RoomLighting>().LabirintRoomEnterBright(); // exception for room without monsters
     }
     
     public Dictionary<Direction.Side, float> GetBordersFromTilemap() {

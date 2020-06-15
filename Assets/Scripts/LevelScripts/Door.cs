@@ -199,7 +199,7 @@ public class Door : MonoBehaviour
 
 
     private void ArrowCheck() {
-        if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && (!locked || unlockOnTimer))
+        if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked && timer <= 0)
         {
             bool arrowNeeded = false;
             Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
@@ -215,13 +215,16 @@ public class Door : MonoBehaviour
             {
                 arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
                 arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
-                if (connectedDoor) { // exception for exit to another scene
-                    if (Labirint.instance.blueprints[connectedDoor.room.roomID].visited) {
+                if (connectedDoor)
+                { // exception for exit to another scene
+                    if (Labirint.instance.blueprints[connectedDoor.room.roomID].visited)
+                    {
                         arrowSprite.GetComponentInChildren<SpriteRenderer>().sprite = visitedSprite;
                     }
                 }
             }
         }
+        else if (arrowSprite && arrowSprite.activeSelf) arrowSprite.SetActive(false);
     }
 
     private void AdjustLightOnVisit()

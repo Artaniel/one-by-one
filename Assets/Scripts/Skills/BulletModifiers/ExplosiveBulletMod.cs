@@ -15,26 +15,27 @@ public class ExplosiveBulletMod : BulletModifier
     public override void HitEnemyModifier(BulletLife bullet, Collider2D coll)
     {
         base.HitEnemyModifier(bullet, coll);
-        ModEffect(bullet, coll);
+        ModEffect(bullet);
     }
 
     public override void HitEnvironmentModifier(BulletLife bullet, Collider2D coll)
     {
         base.HitEnvironmentModifier(bullet, coll);
-        ModEffect(bullet, coll);
+        ModEffect(bullet);
     }
 
-    protected void ModEffect(BulletLife bullet, Collider2D coll)
+    protected void ModEffect(BulletLife bullet)
     {
-        var monsters = FindMonsters(coll, bullet);
+        Collider2D[] monsters = FindMonsters(bullet);
+
         ExplosiveWave(monsters, bullet);
     }
 
-    protected Collider2D[] FindMonsters(Collider2D coll, BulletLife bullet)
+    protected Collider2D[] FindMonsters(BulletLife bullet)
     {
-        Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(coll.ClosestPoint(bullet.transform.position), explosionRadius);
+        Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(bullet.transform.position, explosionRadius);
         var enemys = (from t in collider2Ds
-                      where t.transform.gameObject.tag == "Enemy"
+                      where t.transform.tag == "EnemyCollider"
                       select t).ToArray();
         return enemys;
     }
@@ -44,7 +45,7 @@ public class ExplosiveBulletMod : BulletModifier
         var vfxPref = Instantiate(explosiveVfxPrefab, bullet.transform.position, bullet.transform.rotation);
         foreach (var i in enemys)
         {
-            var monsterLife = i.gameObject.GetComponent<MonsterLife>();
+            var monsterLife = i.gameObject.GetComponentInParent<MonsterLife>();
             if (monsterLife)
             {
                 var tmp = monsterLife.HP;

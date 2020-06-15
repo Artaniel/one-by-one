@@ -24,7 +24,7 @@ public class Labirint : MonoBehaviour
     public RoomBlueprint[] blueprints; 
     private List<int> activeRooms = new List<int>();
     public int currentRoomID = 0;
-    private const float distanceToNewDoor = 10f; // distance from old door no new door, defines distance between rooms
+    private const float distanceToNewDoor = 0; // distance from old door no new door, defines distance between rooms
     static public Labirint instance;
     private Vector3 respawnPoint;
     public string difficultySetting = "1";
@@ -89,7 +89,7 @@ public class Labirint : MonoBehaviour
             SpawnRoom(0);
             OnRoomChanged(0);
             blueprints[0].instance.GetComponent<Room>().ArenaInitCheck();
-            blueprints[0].instance.GetComponent<Room>().LightCheck();
+            blueprints[0].instance.GetComponent<Room>().LightsOn();
         }
         else { // for start from choisen room, add prefab, set roomID, and connected room will be spawned
             Room startingRoom = GameObject.FindGameObjectWithTag("Room").GetComponent<Room>();
@@ -101,15 +101,12 @@ public class Labirint : MonoBehaviour
                     blueprints[startingRoom.roomID].instance = startingRoom.gameObject;
                     blueprints[startingRoom.roomID].instance.GetComponent<Room>().ArenaInitCheck();
                     OnRoomChanged(startingRoom.roomID);
-                    GetComponent<CameraForLabirint>().ChangeRoom(startingRoom.gameObject);
-                    GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
                 }
                 else
                 {
                     Debug.Log("Starting room ID mismatch");
-                    GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
-                    GetComponent<CameraForLabirint>().ChangeRoom(startingRoom.gameObject);
                 }
+                GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
             }
         }
     }
@@ -173,7 +170,7 @@ public class Labirint : MonoBehaviour
                 }
             }
         }
-        CameraForLabirint.instance.ChangeRoom(blueprints[currentRoomID].instance);
+        if (blueprints[currentRoomID].visited || currentRoomID == 0) CameraForLabirint.instance.CameraFreeSetup();
         respawnPoint = GameObject.FindWithTag("Player").transform.position;
         ExitCheck();
         ContainerCheck();

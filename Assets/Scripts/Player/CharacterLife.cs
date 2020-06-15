@@ -10,6 +10,7 @@ public class CharacterLife : MonoBehaviour
     public static bool isDeath = false;
     [SerializeField] private GameObject ShadowObject = null;
     [SerializeField] private GameObject hitEffect = null;
+    public GameObject dummyPlayerPrefab = null;
     new private AudioSource audio;
 
     [HideInInspector]public bool dashActiveSkill;
@@ -187,6 +188,36 @@ public class CharacterLife : MonoBehaviour
         cameraShaker.ShakeCamera(2, 0.5f);
     }
 
+    public void HidePlayer()
+    {
+        sprites = GetComponentsInChildren<SpriteRenderer>();
+        savedSpriteColors = new Color[sprites.Length];
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            savedSpriteColors[i] = sprites[i].color;
+            sprites[i].color = Color.clear;
+        }
+        var lights = GetComponentsInChildren<Light2D>();
+        foreach (var light in lights)
+        {
+            light.enabled = false;
+        }
+    }
+
+    public void RevealPlayer()
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            sprites[i].color = savedSpriteColors[i];
+        }
+
+        var lights = GetComponentsInChildren<Light2D>();
+        foreach (var light in lights)
+        {
+            light.enabled = true;
+        }
+    }
+
     private float HPDropChanceAmplifier = 1f;
 
     private int hp = 3;
@@ -209,4 +240,7 @@ public class CharacterLife : MonoBehaviour
     private Vector3 cameraMovePosition;
 
     private PlayerHPIcon hpUI;
+
+    private SpriteRenderer[] sprites;
+    private Color[] savedSpriteColors;
 }
