@@ -462,6 +462,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 9
   shouldDoOOBCheck: 1
+  activeSkill: 0
+  direction: {x: 0, y: 0}
 --- !u!58 &4305704709854959872
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -620,8 +622,12 @@ MonoBehaviour:
   ShadowObject: {fileID: 51824688}
   hitEffect: {fileID: 3146303904401326091, guid: 0d8ad8bbbf8609b4caf96afea702b2f8,
     type: 3}
+<<<<<<< HEAD
   dummyPlayerPrefab: {fileID: 1518468113368895117, guid: 0694ce894ee808a4281e851861a4029f,
     type: 3}
+=======
+  activeSkill: 0
+>>>>>>> db58102da6ef82e755e85693260823a387f2cc57
   hpChangedEvent:
     m_PersistentCalls:
       m_Calls: []
