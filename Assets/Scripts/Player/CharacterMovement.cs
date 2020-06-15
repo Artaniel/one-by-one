@@ -6,7 +6,7 @@ public class CharacterMovement : MonoBehaviour
 {
     [SerializeField]
     public float speed;
-    [HideInInspector]public bool activeSkill;
+    [HideInInspector]public bool dashActiveSkill;
     [HideInInspector]public Vector2 direction;
     
     private Animator anim;
@@ -18,7 +18,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Start()
     {
-        activeSkill = false;
+        dashActiveSkill = false;
         audio = GetComponent<AudioSource>();       
         var anims = GetComponentsInChildren<Animator>();
         anim = anims[0];
@@ -36,7 +36,7 @@ public class CharacterMovement : MonoBehaviour
     
     private void Movement()
     { 
-        if (!activeSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
+        if (!dashActiveSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
         rigidbody.velocity = direction * speed * speedMultiplier * Time.fixedDeltaTime * 50f;
         if (anim != null)
         {
