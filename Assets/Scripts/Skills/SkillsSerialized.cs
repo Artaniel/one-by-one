@@ -14,7 +14,11 @@ public class SkillsRecord
     public string[] weapons;
     int i, j, k;
 
-    public SkillsRecord(List<SkillBase> skills)
+    public string[] equiptedActiveSkils;
+    public string[] equiptedWeaponsSkills;
+    public int currentWeaponIndex;
+
+    public SkillsRecord(List<SkillBase> skills, List<SkillManager.EquippedActiveSkill> equiptedActive, List<SkillManager.EquippedWeapon> equiptedWeapons, int weaponIndex)
     {
         activeSkills = new string[activeSkillsMaxCount];
         passiveSkills = new string[passiveSkillsMaxCount];
@@ -22,7 +26,7 @@ public class SkillsRecord
 
         // indices for arrays ^^^
         i = j = k = 0;
-        
+
         foreach (var skill in skills)
         {
             if (skill is PassiveSkill)
@@ -41,5 +45,15 @@ public class SkillsRecord
                 k++;
             }
         }
+
+        equiptedActiveSkils = new string[equiptedActive.Count];
+        for (int i = 0; i < equiptedActive.Count; i++)
+            equiptedActiveSkils[i] = equiptedActive[i].skill.SkillName();
+
+        equiptedWeaponsSkills = new string[equiptedWeapons.Count];
+        for (int i = 0; i < equiptedWeapons.Count; i++)
+            equiptedWeaponsSkills[i] = equiptedWeapons[i].logic.SkillName();
+
+        currentWeaponIndex = weaponIndex;
     }
 }

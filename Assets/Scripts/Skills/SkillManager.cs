@@ -78,7 +78,7 @@ public class SkillManager : MonoBehaviour
     {
         BinaryFormatter binaryformatter = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + fileName);
-        var skillsSavedInfo = new SkillsRecord(skills);
+        var skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, equippedWeapon.weaponIndex);
         foreach (var skill in skillsSavedInfo.weapons)
             binaryformatter.Serialize(file, skillsSavedInfo);
 
@@ -109,6 +109,31 @@ public class SkillManager : MonoBehaviour
             foreach (var skill in skillsSavedInfo.weapons)
             {
                 if (!String.IsNullOrEmpty(skill)) skills.Add(registeredSkills[skill] as WeaponSkill);
+            }
+
+            if (skillsSavedInfo.equiptedActiveSkils != null)
+            {
+                activeSkills = new List<EquippedActiveSkill>();
+                foreach (var skill in skillsSavedInfo.equiptedActiveSkils)
+                {
+                    if (!String.IsNullOrEmpty(skill))
+                        AddSkill(registeredSkills[skill] as ActiveSkill);
+                }
+            }
+            if (skillsSavedInfo.weapons != null)
+            {
+                equippedWeapons = new List<EquippedWeapon>();
+                foreach (var skill in skillsSavedInfo.equiptedWeaponsSkills)
+                {
+                    if (!String.IsNullOrEmpty(skill))
+                        AddSkill(registeredSkills[skill] as WeaponSkill);
+                }
+            }
+            if (equippedWeapons.Count > 0)
+            {                
+                equippedWeapon = equippedWeapons[skillsSavedInfo.currentWeaponIndex];
+                attackManager.LoadNewWeapon(equippedWeapon);
+                ApplyWeaponSprites();
             }
         }
         else
@@ -237,9 +262,9 @@ public class SkillManager : MonoBehaviour
         FillRegisteredSkills();
         //PrintRegisteredSkills();
 
+        attackManager = GetComponent<CharacterShooting>();
         LoadSkills();
         InitializeSkills();
-        attackManager = GetComponent<CharacterShooting>();
 
         if (attackManager && equippedWeapons.Count != 0)
         {
@@ -275,7 +300,8 @@ public class SkillManager : MonoBehaviour
             }
             s.InitializeSkill();
         }
-        equippedWeapon = equippedWeapons.Count != 0 ? equippedWeapons[0] : null;
+        if (equippedWeapon.logic == null)
+            equippedWeapon = equippedWeapons.Count != 0 ? equippedWeapons[0] : null;
 
         RefreshUI();
     }
@@ -342,7 +368,7 @@ public class SkillManager : MonoBehaviour
             }
             equippedWeapon = equippedWeapons[newWeaponIndex];
             foreach (var weapon in equippedWeapons)
-            attackManager.LoadNewWeapon(equippedWeapon);
+                attackManager.LoadNewWeapon(equippedWeapon);
             ApplyWeaponSprites();
         }
 
