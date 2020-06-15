@@ -20,13 +20,20 @@ public class CurrentEnemySelector : MonoBehaviour
     private void Update()
     {
         // If current enemy is far away by a certain proximity check
-        if (enableScanning && !ProximitySuccess(currentBoy))
+        if (enableScanning)
         {
-            timeToNextScan = Mathf.Max(0, timeToNextScan - Time.deltaTime);
-            if (timeToNextScan <= 0)
+            if (!ProximitySuccess(currentBoy))
             {
-                timeToNextScan = timeToEachScan;
-                SelectRandomEnemy();
+                timeToNextScan = Mathf.Max(0, timeToNextScan - Time.deltaTime);
+                if (timeToNextScan <= 0)
+                {
+                    timeToNextScan = timeToEachScan;
+                    SelectRandomEnemy();
+                }
+            }
+            else
+            {
+                
             }
         }
     }
@@ -54,7 +61,9 @@ public class CurrentEnemySelector : MonoBehaviour
         yield return new WaitForSeconds(time);
         if (monster && monster != currentBoy)
         {
-            monster.GetComponent<MonsterLife>().MakeNoBoy();
+            var monsterLife = monster.GetComponent<MonsterLife>();
+            monsterLife.MakeNoBoy();
+            monsterLife.OnThisDead.RemoveListener(RemoveHint);
         }
     }
 
@@ -63,6 +72,7 @@ public class CurrentEnemySelector : MonoBehaviour
         currentBoy = theEnemy;
         theEnemy.GetComponent<MonsterLife>().MakeBoy();
         CurrentEnemyUI.SetCurrentEnemy(theEnemy.GetComponentInChildren<TMPro.TextMeshPro>().text);
+        timeSinceActivated = 0;
     }
 
     // Result is applied to enemiesOnScreen field
@@ -86,8 +96,33 @@ public class CurrentEnemySelector : MonoBehaviour
         return enemyInScreenSpace.x >= 0 && enemyInScreenSpace.x <= 1 && enemyInScreenSpace.y >= 0 && enemyInScreenSpace.y <= 1;
     }
 
+    private void InitializeHint(GameObject enemy)
+    {
+        var enemyLife = enemy.GetComponent<MonsterLife>();
+        enemyLife.OnThisDead.AddListener(RemoveHint);
+    }
+
+    private void UpdateHint()
+    {
+        if (timeSinceActivated < timeToHint)
+        {
+            timeSinceActivated += Time.deltaTime;
+            if (timeSinceActivated >= timeToHint)
+            {
+
+            }
+        }
+    }
+
+    private void RemoveHint()
+    {
+
+    }
+
     private float timeToNextScan = float.PositiveInfinity;
     private float timeToEachScan = 0.25f;
+    private float timeToHint = 4f;
+    private float timeSinceActivated = 0;
 
     private List<GameObject> enemiesOnScreen = new List<GameObject>();
     private Camera currentCamera;
