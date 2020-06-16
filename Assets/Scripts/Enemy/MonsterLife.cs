@@ -232,6 +232,8 @@ public class MonsterLife : MonoBehaviour
 
         PreDestroyEffect();
         OnThisDead?.Invoke();
+        var explodable = GetComponentInChildren<ExplosionForce>();
+        if (explodable) explodable.DoExplosion(transform.position);
         StartCoroutine(DestoryGameObject());
     }
 
