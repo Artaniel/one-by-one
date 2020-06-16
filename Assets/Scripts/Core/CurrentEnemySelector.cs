@@ -8,6 +8,8 @@ public class CurrentEnemySelector : MonoBehaviour
 
     public bool enableScanning = true;
 
+    [SerializeField] private GameObject enemyHintPrefab = null;
+
     private void Start()
     {
         timeToNextScan = timeToEachScan;
@@ -15,6 +17,7 @@ public class CurrentEnemySelector : MonoBehaviour
         currentCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         // Listen "Enemy is dead" events. If someone dies we immediately select a new enemy
         MonsterLife.OnEnemyDead.AddListener(SelectRandomEnemy);
+        enemyHint = Instantiate(enemyHintPrefab).GetComponent<CurrentEnemyHint>();
     }
 
     private void Update()
@@ -53,7 +56,7 @@ public class CurrentEnemySelector : MonoBehaviour
             var theEnemy = enemiesOnScreen[Random.Range(0, enemiesOnScreen.Count)];
             SelectEnemy(theEnemy);
         }
-        else CurrentEnemyUI.SetCurrentEnemy("");
+        else NoEnemyFound();
     }
 
     private IEnumerator DeactivateMonsterOverTime(float time, GameObject monster)
@@ -63,16 +66,18 @@ public class CurrentEnemySelector : MonoBehaviour
         {
             var monsterLife = monster.GetComponent<MonsterLife>();
             monsterLife.MakeNoBoy();
-            monsterLife.OnThisDead.RemoveListener(RemoveHint);
         }
     }
 
     public void SelectEnemy(GameObject theEnemy)
     {
         currentBoy = theEnemy;
-        theEnemy.GetComponent<MonsterLife>().MakeBoy();
+        var enemyLife = theEnemy.GetComponent<MonsterLife>();
+        enemyLife.MakeBoy();
         CurrentEnemyUI.SetCurrentEnemy(theEnemy.GetComponentInChildren<TMPro.TextMeshPro>().text);
         timeSinceActivated = 0;
+
+        enemyHint.SetupHint(theEnemy.transform);
     }
 
     // Result is applied to enemiesOnScreen field
@@ -96,27 +101,10 @@ public class CurrentEnemySelector : MonoBehaviour
         return enemyInScreenSpace.x >= 0 && enemyInScreenSpace.x <= 1 && enemyInScreenSpace.y >= 0 && enemyInScreenSpace.y <= 1;
     }
 
-    private void InitializeHint(GameObject enemy)
+    private void NoEnemyFound()
     {
-        var enemyLife = enemy.GetComponent<MonsterLife>();
-        enemyLife.OnThisDead.AddListener(RemoveHint);
-    }
-
-    private void UpdateHint()
-    {
-        if (timeSinceActivated < timeToHint)
-        {
-            timeSinceActivated += Time.deltaTime;
-            if (timeSinceActivated >= timeToHint)
-            {
-
-            }
-        }
-    }
-
-    private void RemoveHint()
-    {
-
+        CurrentEnemyUI.SetCurrentEnemy("");
+        enemyHint.SetupHint(null);
     }
 
     private float timeToNextScan = float.PositiveInfinity;
@@ -126,4 +114,5 @@ public class CurrentEnemySelector : MonoBehaviour
 
     private List<GameObject> enemiesOnScreen = new List<GameObject>();
     private Camera currentCamera;
+    private CurrentEnemyHint enemyHint;
 }
