@@ -86,22 +86,9 @@ public class MonsterLife : MonoBehaviour
             HP = Mathf.Max(minHpValue, HP - damage);
             if (wasHp != HP) hpChangedEvent?.Invoke();
             else UndamagedAnimation();
-            if (HP <= 0)
-            {
-                if (monsterManager != null)
-                    monsterManager.Death(gameObject);
-                // Trigger an event for those who listen to it (if any)
-                OnEnemyDead?.Invoke();
-                EventManager.OnMonsterDead?.Invoke(transform.position);
-                
-                PreDestroyEffect();
-                OnThisDead?.Invoke();
-                Destroy(gameObject);
-            }
-            else
-            {
-                HitEffect();
-            }
+
+            if (HP <= 0) DestroyMonster();
+            else         HitEffect();
         }
         else
         {
@@ -229,7 +216,29 @@ public class MonsterLife : MonoBehaviour
             invulnurabilityShield = Instantiate(absorbPrefab, gameObject.transform.position, Quaternion.identity);
             invulnurabilityShield.transform.SetParent(gameObject.transform);
             invulnurabilityShield.GetComponentInChildren<SpriteRenderer>().color = Color.black;
+            Destroy(invulnurabilityShield, 0.5f);
         }
+    }
+
+    private void DestroyMonster()
+    {
+        if (monsterManager != null)
+            monsterManager.Death(gameObject);
+        GetComponent<AIAgent>().enabled = false;
+        hitPlayerOnContact = false;
+        // Trigger an event for those who listen to it (if any)
+        OnEnemyDead?.Invoke();
+        EventManager.OnMonsterDead?.Invoke(transform.position);
+
+        PreDestroyEffect();
+        OnThisDead?.Invoke();
+        StartCoroutine(DestoryGameObject());
+    }
+
+    private IEnumerator DestoryGameObject()
+    {
+        yield return new WaitForSeconds(0.15f);
+        Destroy(gameObject);
     }
 
     private float minHpValue = 0;
