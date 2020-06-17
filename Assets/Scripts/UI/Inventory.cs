@@ -156,7 +156,7 @@ public class Inventory : MonoBehaviour
             }
             else if (equippedActiveSkill.Count == 0 && skills.ActiveSkills.Count < skills.maxEquippedActiveCount)
             {
-                skills.AddSkill(currentSkill);
+                skills.EquipActiveSkill(currentSkill as ActiveSkill);
                 var nonActiveList = skills.InventoryActiveSkills;
                 nonActiveList.Remove(currentSkill as ActiveSkill);
                 MakeFrame(cell.parent.gameObject, ActiveFrame);
