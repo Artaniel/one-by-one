@@ -78,9 +78,15 @@ public class SkillManager : MonoBehaviour
     {
         BinaryFormatter binaryformatter = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + fileName);
-        var skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, equippedWeapon.weaponIndex);
-        foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
-            binaryformatter.Serialize(file, skillsSavedInfo);
+        SkillsRecord skillsSavedInfo;
+        if (equippedWeapon != null) {
+            skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, equippedWeapon.weaponIndex);
+        }
+        else {
+            skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, 0);
+        }
+        //foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
+        binaryformatter.Serialize(file, skillsSavedInfo);
 
         file.Close();
     }
@@ -125,7 +131,12 @@ public class SkillManager : MonoBehaviour
 
             foreach (var skill in skillsSavedInfo.nonEquiptedActiveSkills)
             {
-                if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as ActiveSkill));
+                if (!String.IsNullOrEmpty(skill))
+                {
+                    var skilInst = Instantiate(registeredSkills[skill] as ActiveSkill);
+                    skills.Add(skilInst);
+                    inventoryActiveSkills.Add(skilInst);
+                }
             }
             foreach (var skill in skillsSavedInfo.passiveSkills)
             {
@@ -133,7 +144,12 @@ public class SkillManager : MonoBehaviour
             }
             foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
             {
-                if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as WeaponSkill));
+                if (!String.IsNullOrEmpty(skill))
+                {
+                    var skilInst = Instantiate(registeredSkills[skill] as WeaponSkill);
+                    skills.Add(skilInst);
+                    inventoryWeaponSkills.Add(skilInst);
+                }
             }
 
         }
@@ -264,7 +280,10 @@ public class SkillManager : MonoBehaviour
         //PrintRegisteredSkills();
 
         attackManager = GetComponent<CharacterShooting>();
-        LoadSkills();
+        if (forceSkillRewrite)
+            InitAfterRewrite();
+        else
+            LoadSkills();
         InitializeSkills();
 
         if (attackManager && equippedWeapons.Count != 0)
@@ -277,34 +296,45 @@ public class SkillManager : MonoBehaviour
     {
         foreach (var s in skills)
         {
-            if (s is ActiveSkill)
-            {
-                if (activeSkills.Count >= 5)
-                {
-                    inventoryActiveSkills.Add(s as ActiveSkill);
-                }
-                else
-                {
-                    activeSkills.Add(new EquippedActiveSkill(s as ActiveSkill));
-                }
-            }
-            else if (s is WeaponSkill)
-            {
-                if (equippedWeapons.Count >= 3)
-                {
-                    inventoryWeaponSkills.Add(s as WeaponSkill);
-                }
-                else
-                {
-                    equippedWeapons.Add(new EquippedWeapon(s as WeaponSkill, equippedWeapons.Count));
-                }
-            }
             s.InitializeSkill();
         }
-        if (equippedWeapon.logic == null)
+        if (!equippedWeapon.logic)
             equippedWeapon = equippedWeapons.Count != 0 ? equippedWeapons[0] : null;
 
         RefreshUI();
+    }
+
+    private void InitAfterRewrite()
+    {
+
+        foreach (var s in skills)
+        {
+            if (forceSkillRewrite)
+            {
+                if (s is ActiveSkill)
+                {
+                    if (activeSkills.Count >= 5)
+                    {
+                        inventoryActiveSkills.Add(s as ActiveSkill);
+                    }
+                    else
+                    {
+                        activeSkills.Add(new EquippedActiveSkill(s as ActiveSkill));
+                    }
+                }
+                else if (s is WeaponSkill)
+                {
+                    if (equippedWeapons.Count >= 3)
+                    {
+                        inventoryWeaponSkills.Add(s as WeaponSkill);
+                    }
+                    else
+                    {
+                        equippedWeapons.Add(new EquippedWeapon(s as WeaponSkill, equippedWeapons.Count));
+                    }
+                }
+            }
+        }
     }
 
     private List<KeyCode> keys = new List<KeyCode>() {
@@ -372,7 +402,6 @@ public class SkillManager : MonoBehaviour
                 attackManager.LoadNewWeapon(equippedWeapon);
             ApplyWeaponSprites();
         }
-
 
         // Update reload time of all weapons & call update
         float[] weaponCooldownsProportion = new float[SkillsUI.weaponsCount];

@@ -55,7 +55,7 @@ public class SkillsRecord
                     nonEquiptedActiveSkills[l] = nonEquiptedActiveSkills[j-1];    // remove equipted skill from array for non-equipted
                     nonEquiptedActiveSkills[j-1] = "";
                     j--;
-                    l = j; // brake 
+                    l = j; // brake loop
                 }
             }
         }
