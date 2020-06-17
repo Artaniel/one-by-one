@@ -52,6 +52,7 @@ public class ExplosionForce : MonoBehaviour {
         Vector3 baseForce = dir.normalized * explosionForce * wearoff;
         baseForce.z = 0;
 		body.AddForce(baseForce);
+        body.AddTorque(Random.Range(-720, 720));
 
         if (upliftModifer != 0)
         {

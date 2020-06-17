@@ -156,6 +156,7 @@ public static class SpriteExploder {
         rigidbody.velocity = origVelocity;
         rigidbody.gravityScale = 0;
         rigidbody.drag = 2f;
+        rigidbody.angularDrag = 2f;
         
 
         return piece;
