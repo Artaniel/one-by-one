@@ -36,7 +36,7 @@ public class Teleport : TimedAttack
             bool inbounds = false;
             if (Labirint.instance != null)
             {
-                inbounds = Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
+                inbounds = Labirint.instance.currentRoom.RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
             }
             else if (arena)
             {
