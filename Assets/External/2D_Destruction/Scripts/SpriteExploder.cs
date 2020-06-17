@@ -21,10 +21,12 @@ public static class SpriteExploder {
         source.transform.localRotation = Quaternion.identity;
 
         //get rigidbody information
-        Vector2 origVelocity = source.GetComponent<Rigidbody2D>().velocity;
-
+        var rigidbody = source.GetComponent<Rigidbody2D>();
+        Vector2 origVelocity = Vector2.zero;
+        if (rigidbody) origVelocity = source.GetComponent<Rigidbody2D>().velocity;
+        else           origVelocity = Vector2.zero;
+        
         //get collider information
-       
         PolygonCollider2D sourcePolyCollider = source.GetComponent<PolygonCollider2D>();
         BoxCollider2D sourceBoxCollider = source.GetComponent<BoxCollider2D>();
         List<Vector2> points = new List<Vector2>();
@@ -152,7 +154,8 @@ public static class SpriteExploder {
         //Create and Add Rigidbody
         Rigidbody2D rigidbody = piece.AddComponent<Rigidbody2D>();
         rigidbody.velocity = origVelocity;
-
+        rigidbody.gravityScale = 0;
+        rigidbody.drag = 2f;
         
 
         return piece;
@@ -174,7 +177,10 @@ public static class SpriteExploder {
         source.transform.localRotation = Quaternion.identity;
 
         //get rigidbody information
-        Vector2 origVelocity = source.GetComponent<Rigidbody2D>().velocity;
+        var rigidbody = source.GetComponent<Rigidbody2D>();
+        Vector2 origVelocity = Vector2.zero;
+        if (rigidbody) origVelocity = source.GetComponent<Rigidbody2D>().velocity;
+        else origVelocity = Vector2.zero;
 
         //get collider information
         PolygonCollider2D sourcePolyCollider = source.GetComponent<PolygonCollider2D>();
@@ -291,7 +297,8 @@ public static class SpriteExploder {
         //Create and Add Rigidbody
         Rigidbody2D rigidbody = piece.AddComponent<Rigidbody2D>();
         rigidbody.velocity = origVelocity;
-
+        rigidbody.gravityScale = 0;
+        rigidbody.drag = 2f;
 
 
         return piece;
@@ -561,7 +568,7 @@ public static class SpriteExploder {
     private static void setFragmentMaterial(GameObject newSprite, GameObject source)
     {
         
-        Material mat = new Material(Shader.Find("Sprites/Default"));
+        Material mat = new Material(Shader.Find("Lightweight Render Pipeline/2D/Sprite-Lit-Default"));
         
         SpriteRenderer sRend = source.GetComponent<SpriteRenderer>();
         if (sRend != null)
@@ -580,7 +587,7 @@ public static class SpriteExploder {
         SpriteRenderer sRend = source.GetComponent<SpriteRenderer>();
         if (sRend != null)
         {
-            Material mat = new Material(Shader.Find("Sprites/Default"));
+            Material mat = new Material(Shader.Find("Lightweight Render Pipeline/2D/Sprite-Lit-Default"));
             mat.SetTexture("_MainTex", sRend.sprite.texture);
             mat.color = sRend.color;
             return mat;

@@ -33,6 +33,11 @@ public class ExplodableEditor : Editor {
                 myTarget.fragmentInEditor();
                 EditorUtility.SetDirty(myTarget);
             }
+            if (GUILayout.Button("Generate Fragments (Mesh Saved)"))
+            {
+                myTarget.fragmentInEditor_meshSave();
+                EditorUtility.SetDirty(myTarget);
+            }
             if (GUILayout.Button("Destroy Fragments"))
             {
                 myTarget.deleteFragments();

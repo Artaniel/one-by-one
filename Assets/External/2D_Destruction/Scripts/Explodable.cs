@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class Explodable : MonoBehaviour
 {
     public System.Action<List<GameObject>> OnFragmentsGenerated;
@@ -14,7 +14,7 @@ public class Explodable : MonoBehaviour
 
     public string fragmentLayer = "Default";
     public string sortingLayerName = "Default";
-    public int orderInLayer = 0;
+    public int orderInLayer = 2;
 
     public enum ShatterType
     {
@@ -41,6 +41,13 @@ public class Explodable : MonoBehaviour
             foreach (GameObject frag in fragments)
             {
                 frag.transform.parent = null;
+                var mRend = frag.GetComponent<MeshRenderer>();
+                if (mRend.sharedMaterial == null)
+                {
+                    var sRend = GetComponent<SpriteRenderer>();
+                    mRend.sharedMaterial = sRend.sharedMaterial;
+                    mRend.sharedMaterial.SetTexture("_MainTex", sRend.sprite.texture);
+                }
                 frag.SetActive(true);
             }
         }
@@ -68,6 +75,25 @@ public class Explodable : MonoBehaviour
             frag.SetActive(false);
         }
     }
+
+
+    public void fragmentInEditor_meshSave()
+    {
+        if (fragments.Count > 0)
+        {
+            deleteFragments();
+        }
+        generateFragments(true);
+        setPolygonsForDrawing();
+
+        foreach (GameObject frag in fragments)
+        {
+            frag.transform.parent = transform;
+            frag.SetActive(false);
+        }
+    }
+
+
     public void deleteFragments()
     {
         foreach (GameObject frag in fragments)
@@ -87,31 +113,47 @@ public class Explodable : MonoBehaviour
     /// <summary>
     /// Turns Gameobject into multiple fragments
     /// </summary>
-    private void generateFragments()
+    private void generateFragments(bool meshSaved = false)
     {
         fragments = new List<GameObject>();
+
         switch (shatterType)
         {
             case ShatterType.Triangle:
-                fragments = SpriteExploder.GenerateTriangularPieces(gameObject, extraPoints, subshatterSteps);
+                fragments = SpriteExploder.GenerateTriangularPieces(gameObject, extraPoints, subshatterSteps, null);
                 break;
             case ShatterType.Voronoi:
-                fragments = SpriteExploder.GenerateVoronoiPieces(gameObject, extraPoints, subshatterSteps);
+                fragments = SpriteExploder.GenerateVoronoiPieces(gameObject, extraPoints, subshatterSteps, null);
                 break;
             default:
                 Debug.Log("invalid choice");
                 break;
         }
-        //sets additional aspects of the fragments
-        foreach (GameObject p in fragments)
+
+
+        for (int i = 0; i < fragments.Count; i++)
         {
-            if (p != null)
+            if (fragments[i] != null)
             {
-                p.layer = LayerMask.NameToLayer(fragmentLayer);
-                p.GetComponent<Renderer>().sortingLayerName = sortingLayerName;
-                p.GetComponent<Renderer>().sortingOrder = orderInLayer;
+                fragments[i].layer = LayerMask.NameToLayer(fragmentLayer);
+                fragments[i].GetComponent<Renderer>().sortingLayerName = sortingLayerName;
+                fragments[i].GetComponent<Renderer>().sortingOrder = orderInLayer;
+
+                /// prefab mesh save        
+                if (meshSaved)
+                {
+                    if (!string.IsNullOrEmpty("Assets/External/2D_Destruction/SavedMeshes"))
+                    {
+                        Directory.CreateDirectory("Assets/External/2D_Destruction/SavedMeshes");
+                    }
+
+                    var mesh = fragments[i].GetComponent<MeshFilter>().sharedMesh;
+                    AssetDatabase.CreateAsset(mesh, "Assets/External/2D_Destruction/SavedMeshes/" + transform.name + "_" + i + ".asset");
+                }
             }
         }
+
+        AssetDatabase.SaveAssets();
 
         foreach (ExplodableAddon addon in GetComponents<ExplodableAddon>())
         {
@@ -121,6 +163,7 @@ public class Explodable : MonoBehaviour
             }
         }
     }
+
     private void setPolygonsForDrawing()
     {
         polygons.Clear();

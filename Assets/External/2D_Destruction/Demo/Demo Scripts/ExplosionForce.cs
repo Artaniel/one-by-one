@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(Explodable))]
 public class ExplosionForce : MonoBehaviour {
-	public float force = 50;
+	public float force = 350;
 	public float radius = 5;
 	public float upliftModifer = 5;
 
