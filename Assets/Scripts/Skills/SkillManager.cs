@@ -97,6 +97,7 @@ public class SkillManager : MonoBehaviour
             var skillsSavedInfo = (SkillsRecord)binaryformatter.Deserialize(file);
             file.Close();
 
+            skills = new List<SkillBase>();
             if (skillsSavedInfo.equiptedActiveSkills != null)
             {
                 activeSkills = new List<EquippedActiveSkill>();
@@ -122,7 +123,6 @@ public class SkillManager : MonoBehaviour
                 ApplyWeaponSprites();
             }
 
-            skills = new List<SkillBase>();
             foreach (var skill in skillsSavedInfo.nonEquiptedActiveSkills)
             {
                 if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as ActiveSkill));
