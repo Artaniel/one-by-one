@@ -158,7 +158,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 2
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -515,6 +515,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8624421033595261174}
     m_Modifications:
+    - target: {fileID: 6640788202129163617, guid: d40250721e21fb640a3bd4181e3f06b5,
+        type: 3}
+      propertyPath: m_Name
+      value: MonsterCanvasPrefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6640788202129163622, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -620,11 +625,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6640788202129163617, guid: d40250721e21fb640a3bd4181e3f06b5,
-        type: 3}
-      propertyPath: m_Name
-      value: MonsterCanvasPrefab
-      objectReference: {fileID: 0}
     - target: {fileID: 6640788202129163642, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: offset.y
@@ -635,12 +635,12 @@ PrefabInstance:
       propertyPath: baseEulerRotation.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -770,16 +770,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149376, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 345449605132706743, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
       propertyPath: offset.x
@@ -789,6 +779,16 @@ PrefabInstance:
         type: 3}
       propertyPath: offset.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149376, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7de89d6f6c44c545a0ee0a468f39a29, type: 3}
