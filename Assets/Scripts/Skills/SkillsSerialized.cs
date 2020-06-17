@@ -9,26 +9,26 @@ public class SkillsRecord
     private const int passiveSkillsMaxCount = 255;
     private const int weaponMaxCount = 10;
 
-    public string[] activeSkills;
+    public string[] nonEquiptedActiveSkills;
     public string[] passiveSkills;
-    public string[] weapons;
+    public string[] nonEquiptedWeapons;
     int i, j, k;
 
-    public string[] equiptedActiveSkils;
+    public string[] equiptedActiveSkills;
     public string[] equiptedWeaponsSkills;
     public int currentWeaponIndex;
 
     public SkillsRecord(List<SkillBase> skills, List<SkillManager.EquippedActiveSkill> equiptedActive, List<SkillManager.EquippedWeapon> equiptedWeapons, int weaponIndex)
     {
-        activeSkills = new string[activeSkillsMaxCount];
+        nonEquiptedActiveSkills = new string[activeSkillsMaxCount];
         passiveSkills = new string[passiveSkillsMaxCount];
-        weapons = new string[weaponMaxCount];
+        nonEquiptedWeapons = new string[weaponMaxCount];
 
         // indices for arrays ^^^
         i = j = k = 0;
 
         foreach (var skill in skills)
-        {
+        {            
             if (skill is PassiveSkill)
             {
                 passiveSkills[i] = skill.SkillName();
@@ -36,24 +36,43 @@ public class SkillsRecord
             }
             else if (skill is ActiveSkill)
             {
-                activeSkills[j] = skill.SkillName();
+                nonEquiptedActiveSkills[j] = skill.SkillName();
                 j++;
             }
             else
             {
-                weapons[k] = skill.SkillName();
+                nonEquiptedWeapons[k] = skill.SkillName();
                 k++;
             }
         }
 
-        equiptedActiveSkils = new string[equiptedActive.Count];
+        equiptedActiveSkills = new string[equiptedActive.Count];
         for (int i = 0; i < equiptedActive.Count; i++)
-            equiptedActiveSkils[i] = equiptedActive[i].skill.SkillName();
+        {
+            equiptedActiveSkills[i] = equiptedActive[i].skill.SkillName();
+            for (int l = 0; l < j; l++) {
+                if (nonEquiptedActiveSkills[l] == equiptedActiveSkills[i]) {
+                    nonEquiptedActiveSkills[l] = nonEquiptedActiveSkills[j-1];    // remove equipted skill from array for non-equipted
+                    nonEquiptedActiveSkills[j-1] = "";
+                    j--;
+                    l = j; // brake 
+                }
+            }
+        }
 
         equiptedWeaponsSkills = new string[equiptedWeapons.Count];
         for (int i = 0; i < equiptedWeapons.Count; i++)
+        {
             equiptedWeaponsSkills[i] = equiptedWeapons[i].logic.SkillName();
-
+            for (int l = 0; l < k; l++) { 
+                if (nonEquiptedWeapons[l] == equiptedWeaponsSkills[i]) {
+                    nonEquiptedWeapons[l] = nonEquiptedWeapons[k-1];
+                    nonEquiptedWeapons[k-1] = "";
+                    k--;
+                    l = k;
+                }
+            }
+        }
         currentWeaponIndex = weaponIndex;
     }
 }

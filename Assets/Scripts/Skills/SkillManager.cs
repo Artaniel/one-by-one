@@ -34,7 +34,7 @@ public class SkillManager : MonoBehaviour
             {
                 foreach (var skill in skillContainer.LoadSkills().Values)
                 {
-                    registeredSkills.Add(skill.SkillName(), Instantiate(skill));
+                    registeredSkills.Add(skill.SkillName(), skill);
                 }
             }
             else
@@ -79,7 +79,7 @@ public class SkillManager : MonoBehaviour
         BinaryFormatter binaryformatter = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + fileName);
         var skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, equippedWeapon.weaponIndex);
-        foreach (var skill in skillsSavedInfo.weapons)
+        foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
             binaryformatter.Serialize(file, skillsSavedInfo);
 
         file.Close();
@@ -97,44 +97,45 @@ public class SkillManager : MonoBehaviour
             var skillsSavedInfo = (SkillsRecord)binaryformatter.Deserialize(file);
             file.Close();
 
-            skills = new List<SkillBase>();
-            foreach (var skill in skillsSavedInfo.activeSkills)
-            {
-                if (!String.IsNullOrEmpty(skill)) skills.Add(registeredSkills[skill] as ActiveSkill);
-            }
-            foreach (var skill in skillsSavedInfo.passiveSkills)
-            {
-                if (!String.IsNullOrEmpty(skill)) skills.Add(registeredSkills[skill] as PassiveSkill);
-            }
-            foreach (var skill in skillsSavedInfo.weapons)
-            {
-                if (!String.IsNullOrEmpty(skill)) skills.Add(registeredSkills[skill] as WeaponSkill);
-            }
-
-            if (skillsSavedInfo.equiptedActiveSkils != null)
+            if (skillsSavedInfo.equiptedActiveSkills != null)
             {
                 activeSkills = new List<EquippedActiveSkill>();
-                foreach (var skill in skillsSavedInfo.equiptedActiveSkils)
+                foreach (var skill in skillsSavedInfo.equiptedActiveSkills)
                 {
                     if (!String.IsNullOrEmpty(skill))
-                        AddSkill(registeredSkills[skill] as ActiveSkill);
+                        AddSkill(Instantiate(registeredSkills[skill] as ActiveSkill));
                 }
             }
-            if (skillsSavedInfo.weapons != null)
+            if (skillsSavedInfo.nonEquiptedWeapons != null)
             {
                 equippedWeapons = new List<EquippedWeapon>();
                 foreach (var skill in skillsSavedInfo.equiptedWeaponsSkills)
                 {
                     if (!String.IsNullOrEmpty(skill))
-                        AddSkill(registeredSkills[skill] as WeaponSkill);
+                        AddSkill(Instantiate(registeredSkills[skill] as WeaponSkill));
                 }
             }
             if (equippedWeapons.Count > 0)
-            {                
+            {
                 equippedWeapon = equippedWeapons[skillsSavedInfo.currentWeaponIndex];
                 attackManager.LoadNewWeapon(equippedWeapon);
                 ApplyWeaponSprites();
             }
+
+            skills = new List<SkillBase>();
+            foreach (var skill in skillsSavedInfo.nonEquiptedActiveSkills)
+            {
+                if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as ActiveSkill));
+            }
+            foreach (var skill in skillsSavedInfo.passiveSkills)
+            {
+                if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as PassiveSkill));
+            }
+            foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
+            {
+                if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as WeaponSkill));
+            }
+
         }
         else
         {
