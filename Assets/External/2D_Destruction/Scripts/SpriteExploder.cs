@@ -150,6 +150,7 @@ public static class SpriteExploder {
         PolygonCollider2D collider = piece.AddComponent<PolygonCollider2D>();
         collider.SetPath(0, new Vector2[]{uMesh.vertices[0],uMesh.vertices[1],uMesh.vertices[2]});
         collider.isTrigger = true;
+        collider.enabled = false;
 
         //Create and Add Rigidbody
         Rigidbody2D rigidbody = piece.AddComponent<Rigidbody2D>();
@@ -294,6 +295,7 @@ public static class SpriteExploder {
         PolygonCollider2D collider = piece.AddComponent<PolygonCollider2D>();
         collider.SetPath(0, calcPolyColliderPoints(region,diff));
         collider.isTrigger = true;
+        collider.enabled = false;
 
         //Create and Add Rigidbody
         Rigidbody2D rigidbody = piece.AddComponent<Rigidbody2D>();
