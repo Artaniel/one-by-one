@@ -66,12 +66,12 @@ public class CharacterMovement : MonoBehaviour
 
     private void OOBCheck() 
     {
-        if (Labirint.instance != null) 
+        if (Labirint.instance && Labirint.currentRoom) 
         {
-            if (!Labirint.instance.currentRoom.PositionIsInbounds(transform.position))
+            if (!Labirint.currentRoom.PositionIsInbounds(transform.position))
             {
                 Debug.Log("Player OOB alert");
-                transform.position = Labirint.instance.currentRoom.GetNearInboundsPosition(transform.position);
+                transform.position = Labirint.currentRoom.GetNearInboundsPosition(transform.position);
             }
         }
     }

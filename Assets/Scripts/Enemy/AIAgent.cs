@@ -149,13 +149,13 @@ public class AIAgent : MonoBehaviour
     }
 
     private void OOBCheck() {
-        if (Labirint.instance != null)
+        if (Labirint.instance && Labirint.currentRoom)
         {
-            if (!Labirint.instance.currentRoom.PositionIsInbounds(transform.position))
+            if (!Labirint.currentRoom.PositionIsInbounds(transform.position))
             {
                 if (!(GetComponent<BorderLoopMovement>() || GetComponent<GhostPhase>())) // Harpy Queen & Ghost can go OOB
                 {
-                    transform.position = Labirint.instance.currentRoom.GetNearInboundsPosition(transform.position);
+                    transform.position = Labirint.currentRoom.GetNearInboundsPosition(transform.position);
                     Debug.Log($"{gameObject.name} is OOB in room {Labirint.GetCurrentRoom().name}");
                 }
             }

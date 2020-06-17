@@ -34,9 +34,9 @@ public class Teleport : TimedAttack
             vect *= Scatter;
             Vector3 NVector = new Vector3(vect.x, vect.y);
             bool inbounds = false;
-            if (Labirint.instance != null)
+            if (Labirint.instance && Labirint.currentRoom)
             {
-                inbounds = Labirint.instance.currentRoom.RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
+                inbounds = Labirint.currentRoom.RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
             }
             else if (arena)
             {

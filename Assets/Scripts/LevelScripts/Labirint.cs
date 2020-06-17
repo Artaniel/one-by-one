@@ -30,7 +30,7 @@ public class Labirint : MonoBehaviour
     public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
     [SerializeField] public string welcomeText = "";
-    [HideInInspector] public Room currentRoom;
+    [HideInInspector] static public Room currentRoom;
 
     void Start()
     {
