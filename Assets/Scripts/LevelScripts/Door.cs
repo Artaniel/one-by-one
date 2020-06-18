@@ -102,6 +102,7 @@ public class Door : MonoBehaviour
                     animation.Play("Open");
                 }
             }
+            timer = 0;
         }
     }
 
