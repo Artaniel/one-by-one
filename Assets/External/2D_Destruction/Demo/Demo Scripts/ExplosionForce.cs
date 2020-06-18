@@ -19,21 +19,23 @@ public class ExplosionForce : MonoBehaviour {
     /// create an explosion force
     /// </summary>
     /// <param name="position">location of the explosion</param>
-	public void DoExplosion(Vector3 position){
+	public void DoExplosion(Vector3 position, float additionalPower){
         GetComponent<Explodable>().explode();
-        StartCoroutine(WaitAndExplode());
+        StartCoroutine(WaitAndExplode(position, additionalPower));
 	}
 
     /// <summary>
     /// exerts an explosion force on all rigidbodies within the given radius
     /// </summary>
     /// <returns></returns>
-	private IEnumerator WaitAndExplode(){
+	private IEnumerator WaitAndExplode(Vector3 position, float additionalPower){
 		yield return new WaitForFixedUpdate();
 
+        Vector3 explosionPosition = (transform.position + position) / 2;
 		foreach(Rigidbody2D coll in rigidbodies)
         {
-            AddExplosionForce(coll, force, transform.position, radius, upliftModifer);
+            float newForce = force * Random.Range(0.5f + additionalPower, 1.5f + additionalPower);
+            AddExplosionForce(coll, newForce, explosionPosition, radius, upliftModifer);
 		}
 	}
 

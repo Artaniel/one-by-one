@@ -49,6 +49,7 @@ public class Explodable : MonoBehaviour
                     mRend.sharedMaterial.SetTexture("_MainTex", sRend.sprite.texture);
                 }
                 frag.SetActive(true);
+                if (Labirint.GetCurrentRoom()) frag.transform.parent = Labirint.GetCurrentRoom().transform;
             }
         }
         //if fragments exist destroy the original
@@ -131,6 +132,7 @@ public class Explodable : MonoBehaviour
         }
 
 
+#if UNITY_EDITOR
         for (int i = 0; i < fragments.Count; i++)
         {
             if (fragments[i] != null)
@@ -148,13 +150,14 @@ public class Explodable : MonoBehaviour
                     }
 
                     var mesh = fragments[i].GetComponent<MeshFilter>().sharedMesh;
-                    AssetDatabase.CreateAsset(mesh, "Assets/External/2D_Destruction/SavedMeshes/" + transform.name + "_" + i + ".asset");
+                    AssetDatabase.CreateAsset(mesh, "Assets/External/2D_Destruction/SavedMeshes/" + transform.parent.name + "_" + i + ".asset");
                 }
             }
         }
 
-        AssetDatabase.SaveAssets();
 
+        AssetDatabase.SaveAssets();
+#endif
         foreach (ExplodableAddon addon in GetComponents<ExplodableAddon>())
         {
             if (addon.enabled)

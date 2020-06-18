@@ -96,7 +96,7 @@ public static class SpriteExploder {
     private static GameObject generateTriangularPiece(GameObject source, List<Vector2> tri, Vector2 origVelocity, Vector3 origScale, Quaternion origRotation, Material mat)
     {
         //Create Game Object and set transform settings properly
-        GameObject piece = new GameObject(source.name + " piece");
+        GameObject piece = new GameObject(source.transform.parent.name + " piece");
         piece.transform.position = source.transform.position;
         piece.transform.rotation = source.transform.rotation;
         piece.transform.localScale = source.transform.localScale;
@@ -245,7 +245,7 @@ public static class SpriteExploder {
     private static GameObject generateVoronoiPiece(GameObject source, List<Vector2> region, Vector2 origVelocity, Vector3 origScale, Quaternion origRotation, Material mat)
     {
         //Create Game Object and set transform settings properly
-        GameObject piece = new GameObject(source.name + " piece");
+        GameObject piece = new GameObject(source.transform.parent.name + " piece");
         piece.transform.position = source.transform.position;
         piece.transform.rotation = source.transform.rotation;
         piece.transform.localScale = source.transform.localScale;
@@ -302,6 +302,7 @@ public static class SpriteExploder {
         rigidbody.velocity = origVelocity;
         rigidbody.gravityScale = 0;
         rigidbody.drag = 2f;
+        rigidbody.angularDrag = 2f;
 
 
         return piece;

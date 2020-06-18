@@ -235,7 +235,7 @@ public class Labirint : MonoBehaviour
     }
 
     public static GameObject GetCurrentRoom() {
-        return instance.blueprints[instance.currentRoomID].instance;
+        return instance ? instance.blueprints[instance.currentRoomID].instance : null;
     }
 
     private void DifficultyLoad()
