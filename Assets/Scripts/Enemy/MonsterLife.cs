@@ -225,7 +225,7 @@ public class MonsterLife : MonoBehaviour
         if (monsterManager != null)
             monsterManager.Death(gameObject);
         GetComponent<AIAgent>().enabled = false;
-        hitPlayerOnContact = false;
+        GetComponentInChildren<Collider2D>().enabled = false;
         // Trigger an event for those who listen to it (if any)
         OnEnemyDead?.Invoke();
         EventManager.OnMonsterDead?.Invoke(transform.position);
