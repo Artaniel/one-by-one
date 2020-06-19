@@ -265,7 +265,7 @@ MonoBehaviour:
   agroBlockTime: 2
   timeToTarget: 0.25
   rotateAtStart: 1
-  bypassAngleAccumulationSpeed: 50
+  bypassAngleAccumulationSpeed: 70
 --- !u!82 &8367402201934331121
 AudioSource:
   m_ObjectHideFlags: 0
@@ -665,6 +665,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Text
       objectReference: {fileID: 0}
+    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2882529184434149380, guid: b7de89d6f6c44c545a0ee0a468f39a29,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -784,11 +789,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2882529184434149377, guid: b7de89d6f6c44c545a0ee0a468f39a29,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7de89d6f6c44c545a0ee0a468f39a29, type: 3}
