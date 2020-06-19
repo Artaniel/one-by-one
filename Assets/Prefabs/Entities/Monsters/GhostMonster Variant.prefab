@@ -22,11 +22,11 @@ MonoBehaviour:
   maxInviteLevel: 1
   timeBeforeGroupeAggroOff: 3
   agroBlockTime: 2
-  cooldownRange: {x: 6, y: 9}
+  cooldownRange: {x: 4, y: 6}
   attackSpeedModifier: 1
   GhostBoostSpeed: 2
   PacifistInBoost: 1
-  BoostTime: 3.5
+  BoostTime: 2.5
 --- !u!1 &2256808813286592829
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,40 +395,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -6617880080247477084, guid: c08c719ab8449bf4d916c43302ae354d,
         type: 3}
-    - target: {fileID: 3325605106829218352, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: bypassAngleAccumulationSpeed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8134463785630515486, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.109
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: f25483a2868072f4faa9dc7f215288c6, type: 3}
-    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.35
-      objectReference: {fileID: 0}
     - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: maxSpeed
       value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
@@ -453,6 +423,36 @@ PrefabInstance:
     - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_Offset.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325605106829218352, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: bypassAngleAccumulationSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134463785630515486, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f25483a2868072f4faa9dc7f215288c6, type: 3}
+    - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Volume
       value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []

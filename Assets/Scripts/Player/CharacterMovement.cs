@@ -38,7 +38,7 @@ public class CharacterMovement : MonoBehaviour
     private void Movement()
     { 
         if (!dashActiveSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
-        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier) * Time.fixedDeltaTime * 50f;
+        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier);
 
         if (anim != null)
         {
@@ -66,12 +66,12 @@ public class CharacterMovement : MonoBehaviour
 
     private void OOBCheck() 
     {
-        if (Labirint.instance != null) 
+        if (Labirint.instance && Labirint.currentRoom) 
         {
-            if (!Labirint.GetCurrentRoom().GetComponent<Room>().PositionIsInbounds(transform.position))
+            if (!Labirint.currentRoom.PositionIsInbounds(transform.position))
             {
                 Debug.Log("Player OOB alert");
-                transform.position = Labirint.GetCurrentRoom().GetComponent<Room>().GetNearInboundsPosition(transform.position);
+                transform.position = Labirint.currentRoom.GetNearInboundsPosition(transform.position);
             }
         }
     }

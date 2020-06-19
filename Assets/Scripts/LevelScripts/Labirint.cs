@@ -30,6 +30,7 @@ public class Labirint : MonoBehaviour
     public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
     [SerializeField] public string welcomeText = "";
+    [HideInInspector] static public Room currentRoom;
 
     void Start()
     {
@@ -174,6 +175,7 @@ public class Labirint : MonoBehaviour
         respawnPoint = GameObject.FindWithTag("Player").transform.position;
         ExitCheck();
         ContainerCheck();
+        currentRoom = blueprints[currentRoomID].instance.GetComponent<Room>();
     }
 
     void ConnectDoors(Door door1, Door door2) {

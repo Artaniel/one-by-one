@@ -156,7 +156,7 @@ public class Inventory : MonoBehaviour
             }
             else if (equippedActiveSkill.Count == 0 && skills.ActiveSkills.Count < skills.maxEquippedActiveCount)
             {
-                skills.AddSkill(currentSkill);
+                skills.EquipActiveSkill(currentSkill as ActiveSkill);
                 var nonActiveList = skills.InventoryActiveSkills;
                 nonActiveList.Remove(currentSkill as ActiveSkill);
                 MakeFrame(cell.parent.gameObject, ActiveFrame);
@@ -165,7 +165,8 @@ public class Inventory : MonoBehaviour
         else if (currentSkill is WeaponSkill)
         {
             // этот массив ищет совпадение между нажимаемой кнопкой и скилами на панели
-            var equippedWeapon = skills.EquippedWeapons.FindAll(skill => skill.logic == currentSkill); 
+            var equippedWeapon = skills.EquippedWeapons.FindAll(skill => skill.logic == currentSkill);
+            if (equippedWeapon.Count != 0) skills.ReloadWeaponIfNeeded(); // Не позволим менять разряженное оружие
             if (equippedWeapon.Count != 0 && equippedWeapon[0].reloadTimeLeft == 0)
             {
                 List<SkillManager.EquippedWeapon> tmpList = new List<SkillManager.EquippedWeapon>();
