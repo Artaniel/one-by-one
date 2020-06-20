@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
+public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] public Image itemImage = null;
     [SerializeField] public GameObject emptyCell = null;
@@ -22,6 +22,16 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
         draggingParent = draggingparent;
         originalParent = transform.parent;
         Reboot();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (currentSkill && inventory) inventory.UpdateToolTip(currentSkill);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (inventory) inventory.RemoveToolTip();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
