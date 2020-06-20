@@ -6,13 +6,10 @@ using UnityEngine.Experimental.Rendering.LWRP;
 public class BulletLife : MonoBehaviour
 {
     // Logic
-    [System.NonSerialized]
-    public float speed;
-    [System.NonSerialized]
-    public float timeToDestruction;
-    [System.NonSerialized]
-    public float damage;
-    [System.NonSerialized]
+    [Header("Default values: overrided by weapons")]
+    public float speed = 8f;
+    public float timeToDestruction = 1f;
+    public float damage = 2f;
     public float TTDLeft = 0.5f;
 
     public List<BulletModifier> bulletMods = new List<BulletModifier>();
@@ -255,7 +252,7 @@ public class BulletLife : MonoBehaviour
         ActivateDestroyMods();
         this.enabled = false;
         GetComponent<Collider2D>().enabled = false;
-        GetComponent<DynamicLightInOut>().FadeOut();
+        GetComponent<DynamicLightInOut>()?.FadeOut();
         Destroy(gameObject, 1);
         Destroy(particlesEmitter.gameObject, 2);
         StopEmitter();
@@ -263,7 +260,7 @@ public class BulletLife : MonoBehaviour
 
     private void StopEmitter()
     {
-        particlesEmitter.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        particlesEmitter?.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         sprite.color = new Color(0, 0, 0, 0);
     }
 
