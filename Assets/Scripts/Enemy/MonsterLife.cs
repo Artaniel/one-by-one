@@ -87,7 +87,7 @@ public class MonsterLife : MonoBehaviour
             if (wasHp != HP) hpChangedEvent?.Invoke();
             else UndamagedAnimation();
 
-            if (HP <= 0) DestroyMonster();
+            if (HP <= 0) DestroyMonster(source, damage);
             else         HitEffect();
         }
         else
@@ -220,7 +220,7 @@ public class MonsterLife : MonoBehaviour
         }
     }
 
-    private void DestroyMonster()
+    private void DestroyMonster(GameObject source, float damage)
     {
         if (monsterManager != null)
             monsterManager.Death(gameObject);
@@ -232,6 +232,8 @@ public class MonsterLife : MonoBehaviour
 
         PreDestroyEffect();
         OnThisDead?.Invoke();
+        var explodable = GetComponentInChildren<ExplosionForce>();
+        if (explodable) explodable.DoExplosion(source ? source.transform.position : transform.position, Mathf.Clamp01(damage / maxHP));
         StartCoroutine(DestoryGameObject());
     }
 
