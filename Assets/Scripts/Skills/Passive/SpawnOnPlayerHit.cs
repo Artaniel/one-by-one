@@ -14,7 +14,7 @@ public class SpawnOnPlayerHit : PassiveSkill
     {
         base.InitializeSkill();
         characterLife = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterLife>();
-        characterLife.hpChangedEvent.AddListener(SpawnOnHit);
+        characterLife.playerHitEvent.AddListener(SpawnOnHit);
     }
 
     private void SpawnOnHit()

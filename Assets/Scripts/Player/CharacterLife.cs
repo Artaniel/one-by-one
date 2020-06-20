@@ -14,7 +14,8 @@ public class CharacterLife : MonoBehaviour
     new private AudioSource audio;
 
     [HideInInspector]public bool dashActiveSkill;
-    public UnityEvent hpChangedEvent = new UnityEvent();
+    [HideInInspector] public UnityEvent hpChangedEvent = new UnityEvent();
+    [HideInInspector] public UnityEvent playerHitEvent = new UnityEvent();
 
     public void Start()
     {
@@ -27,14 +28,12 @@ public class CharacterLife : MonoBehaviour
 
     public void Damage(int damage = 1)
     {
-        if (isDeath || invulTimeLeft > 0) return; // Already died
-
-        if (!dashActiveSkill)
-        {
-            hp -= damage;
-            PlayerHitVFX();
-            hpChangedEvent.Invoke();
-        }
+        if (isDeath || invulTimeLeft > 0 || dashActiveSkill) return; // Already died or invul
+        
+        hp -= damage;
+        PlayerHitVFX();
+        hpChangedEvent.Invoke();
+        playerHitEvent.Invoke();
 
         if (hp <= 0)
         {

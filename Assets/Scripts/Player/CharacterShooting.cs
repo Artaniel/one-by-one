@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterShooting : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class CharacterShooting : MonoBehaviour
     [SerializeField]
     private GameObject mouseCursorObj = null;
     private Rigidbody2D rigidbody;
+
+    [HideInInspector] public UnityEvent firstBulletShot = new UnityEvent();
 
     public void LoadNewWeapon(SkillManager.EquippedWeapon weapon, bool instant = false)
     {
@@ -60,6 +63,8 @@ public class CharacterShooting : MonoBehaviour
             var ammoNeeded = currentWeapon.logic.AmmoConsumption();
             if (currentWeapon.ammoLeft >= ammoNeeded)
             {
+                if (currentWeapon.ammoLeft == currentWeapon.logic.ammoMagazine) firstBulletShot.Invoke();
+
                 timeBetweenAttacks = currentWeapon.logic.timeBetweenAttacks / attackSpeedMult;
                 currentWeapon.reloadTimeLeft = 0;
                 currentWeapon.ammoLeft -= ammoNeeded;
