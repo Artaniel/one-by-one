@@ -74,9 +74,6 @@ namespace UnityEditor
                 if (t_icons == null)
                 {
                     t_icons = new Texture2D[13];
-                    /*t_icons[0] = Base64ToTexture("");
-                    t_icons[1] = Base64ToTexture("");
-                    t_icons[2] = Base64ToTexture("");*/
                     t_icons[0] = Base64ToTexture(circle1);
                     t_icons[1] = Base64ToTexture(circle2);
                     t_icons[2] = Base64ToTexture(circle3);
@@ -125,7 +122,7 @@ namespace UnityEditor
         public void OnEnable()
 		{
             grey.normal.textColor = Color.grey;
-            if (tile.NotZero == 8) {
+            if (!tile.createdOnce) {
                 NewRuleTile();
             }
             
@@ -140,12 +137,12 @@ namespace UnityEditor
 		}
 
         private void NewRuleTile() {
-            tile.NotZero = 5;
-            tile.DefaultNumOfThese = 0;
-            tile.TheseNumberOfTiles = new byte[7];
+            tile.createdOnce = true;
+            tile.numberOfAccepted = 0;
+            tile.acceptedSetSize = new byte[7];
             //tile.TheseSprites = new TileBase[7][];
-            tile.DefaultNumOfNotThese = 0;
-            tile.NotTheseNumberOfTiles = new byte[6];
+            tile.numberOfDeclined = 0;
+            tile.declinedSetSize = new byte[6];
             //tile.NotTheseSprites = new TileBase[6][];
         }
 
@@ -216,154 +213,64 @@ namespace UnityEditor
 
 
 
-        private void DoAdvanceRuleLayout() {
+        private void DoAdvanceRuleLayout()
+        {
+            if (tile.acceptedSetSize.Length == 0) tile.acceptedSetSize = new byte[7];
+            tile.gTiles = new TileBase[][] { tile.t1, tile.t2, tile.t3, tile.t4, tile.t5, tile.t6, tile.t7 };
 
-            tile.These = EditorGUILayout.Toggle("Show Inclusive", tile.These);
-            if (tile.These) {
-                EditorGUILayout.LabelField("# of inclusive rules");
-                tile.DefaultNumOfThese = (byte)EditorGUILayout.IntSlider(tile.DefaultNumOfThese, 0, 7);
-                for (byte i = 0; i < tile.DefaultNumOfThese; i++) {
-                    Rect guiPOS = EditorGUILayout.BeginHorizontal();
-                    GUI.DrawTexture(new Rect(0, guiPOS.y, 15, guiPOS.height), icons[i]);
-                    EditorGUILayout.LabelField("Tiles");
-                    EditorGUI.BeginChangeCheck();
-                    tile.TheseNumberOfTiles[i] = (byte)EditorGUI.DelayedIntField(new Rect(60, guiPOS.y, 30, guiPOS.height), tile.TheseNumberOfTiles[i]);
-                    if (EditorGUI.EndChangeCheck() || tile.firstExists) {
-                        ResizeArr(i, 0);
-                        tile.firstExists = false;
-                    }
-                    tile.RuleNames[i] = (tile.RuleNames[i] == "" || tile.RuleNames[i] == "Click to set rule name" || tile.RuleNames[i] == null) ? EditorGUILayout.TextField("Click to set rule name", grey) : EditorGUILayout.TextField(tile.RuleNames[i], GUILayout.MaxWidth(Math.Max(100, GUI.skin.textField.CalcSize(new GUIContent (tile.RuleNames[i])).x)));
-                    EditorGUILayout.Space();
-                    EditorGUILayout.EndHorizontal();
-                    for (byte q = 0; q < tile.TheseNumberOfTiles[i]; q++) {
-                        #region This is bad
-                        switch (i) {
-                            case 0:
-                                tile.t1[q] = EditorGUILayout.ObjectField(tile.t1[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 1:
-                                tile.t2[q] = EditorGUILayout.ObjectField(tile.t2[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 2:
-                                tile.t3[q] = EditorGUILayout.ObjectField(tile.t3[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 3:
-                                tile.t4[q] = EditorGUILayout.ObjectField(tile.t4[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 4:
-                                tile.t5[q] = EditorGUILayout.ObjectField(tile.t5[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 5:
-                                tile.t6[q] = EditorGUILayout.ObjectField(tile.t6[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 6:
-                                tile.t7[q] = EditorGUILayout.ObjectField(tile.t7[q], typeof(TileBase), false) as TileBase;
-                                break;
-                        }
-                        #endregion
-                    }
+            EditorGUILayout.LabelField("Accept rules count");
+            tile.numberOfAccepted = (byte)EditorGUILayout.IntSlider(tile.numberOfAccepted, 0, 7);
+            for (byte i = 0; i < tile.numberOfAccepted; i++) {
+                Rect guiPOS = EditorGUILayout.BeginHorizontal();
+                GUI.DrawTexture(new Rect(0, guiPOS.y, 15, guiPOS.height), icons[i]);
+                EditorGUILayout.LabelField("Tiles");
+                EditorGUI.BeginChangeCheck();
+                tile.acceptedSetSize[i] = (byte)EditorGUI.DelayedIntField(new Rect(60, guiPOS.y, 30, guiPOS.height), tile.acceptedSetSize[i]);
+                if (EditorGUI.EndChangeCheck() || tile.firstExists) {
+                    ResizeTileGroupArray(i, true);
+                    tile.firstExists = false;
+                }
+                EditorGUILayout.EndHorizontal();
+
+                for (byte q = 0; q < tile.acceptedSetSize[i]; q++) {
+                    tile.gTiles[i][q] = EditorGUILayout.ObjectField(tile.gTiles[i][q], typeof(TileBase), false) as TileBase;
                 }
             }
+
+            if (tile.declinedSetSize.Length == 0) tile.declinedSetSize = new byte[7];
+            tile.bTiles = new TileBase[][] { tile.n1, tile.n2, tile.n3, tile.n4, tile.n5, tile.n6 };
+
             EditorGUILayout.Space(); EditorGUILayout.Space();
-            tile.NotThese = EditorGUILayout.Toggle("Show Exclusive", tile.NotThese);
-            if (tile.NotThese) {
-                EditorGUILayout.LabelField("# of exclusive rules");
-                tile.DefaultNumOfNotThese = (byte)EditorGUILayout.IntSlider(tile.DefaultNumOfNotThese, 0, 6);
-                for (byte i = 0; i < tile.DefaultNumOfNotThese; i++) {
-                    Rect guiPOS = EditorGUILayout.BeginHorizontal();
-                    GUI.DrawTexture(new Rect(0, guiPOS.y, 15, guiPOS.height), icons[i + 7]);
-                    EditorGUILayout.LabelField("Tiles");
-                    EditorGUI.BeginChangeCheck();
-                    tile.NotTheseNumberOfTiles[i] = (byte)EditorGUI.DelayedIntField(new Rect(60, guiPOS.y, 30, guiPOS.height), tile.NotTheseNumberOfTiles[i]);
-                    if (EditorGUI.EndChangeCheck() || tile.firstExists2) {
-                        ResizeArr(i, 1);
-                        tile.firstExists2 = false;
-                    }
-                    tile.RuleNames[i+7] = (tile.RuleNames[i+7] == "" || tile.RuleNames[i+7] == "Click to set rule name" || tile.RuleNames[i] == null) ? EditorGUILayout.TextField("Click to set rule name", grey) : EditorGUILayout.TextField(tile.RuleNames[i+7], GUILayout.MaxWidth(Math.Max(100, GUI.skin.textField.CalcSize(new GUIContent(tile.RuleNames[i+7])).x)));
-                    EditorGUILayout.EndHorizontal();
-                    for (byte q = 0; q < tile.NotTheseNumberOfTiles[i]; q++) {
-                        #region This is bad
-                        switch (i) {
-                            case 0:
-                                tile.n1[q] = EditorGUILayout.ObjectField(tile.n1[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 1:
-                                tile.n2[q] = EditorGUILayout.ObjectField(tile.n2[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 2:
-                                tile.n3[q] = EditorGUILayout.ObjectField(tile.n3[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 3:
-                                tile.n4[q] = EditorGUILayout.ObjectField(tile.n4[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 4:
-                                tile.n5[q] = EditorGUILayout.ObjectField(tile.n5[q], typeof(TileBase), false) as TileBase;
-                                break;
-                            case 5:
-                                tile.n6[q] = EditorGUILayout.ObjectField(tile.n6[q], typeof(TileBase), false) as TileBase;
-                                break;
-                        }
-                        #endregion
-                    }
+            EditorGUILayout.LabelField("Decline rules count");
+            tile.numberOfDeclined = (byte)EditorGUILayout.IntSlider(tile.numberOfDeclined, 0, 6);
+            for (byte i = 0; i < tile.numberOfDeclined; i++) {
+                Rect guiPOS = EditorGUILayout.BeginHorizontal();
+                GUI.DrawTexture(new Rect(0, guiPOS.y, 15, guiPOS.height), icons[i + 7]);
+                EditorGUILayout.LabelField("Tiles");
+                EditorGUI.BeginChangeCheck();
+                tile.declinedSetSize[i] = (byte)EditorGUI.DelayedIntField(new Rect(60, guiPOS.y, 30, guiPOS.height), tile.declinedSetSize[i]);
+                if (EditorGUI.EndChangeCheck() || tile.firstExists2) {
+                    ResizeTileGroupArray(i, false);
+                    tile.firstExists2 = false;
+                }
+                EditorGUILayout.EndHorizontal();
+
+                for (byte q = 0; q < tile.declinedSetSize[i]; q++) {
+                    tile.bTiles[i][q] = EditorGUILayout.ObjectField(tile.bTiles[i][q], typeof(TileBase), false) as TileBase;
                 }
             }
         }
 
-        public enum Num {t1, t2, t3, t4, t5, t6, t7}
-        public enum Nom {n1, n2, n3, n4, n5, n6}
-
-        private void ResizeArr(byte i, byte v) {
-            #region This is bad
-            switch (v) {
-                case 0:
-                    switch (i) {
-                        case 0:
-                            Array.Resize(ref tile.t1, tile.TheseNumberOfTiles[i]);
-                            break;
-                        case 1:
-                            Array.Resize(ref tile.t2, tile.TheseNumberOfTiles[i]);
-                            break;
-                        case 2:
-                            Array.Resize(ref tile.t3, tile.TheseNumberOfTiles[i]);
-                            break;
-                        case 3:
-                            Array.Resize(ref tile.t4, tile.TheseNumberOfTiles[i]);
-                            break;
-                        case 4:
-                            Array.Resize(ref tile.t5, tile.TheseNumberOfTiles[i]);
-                            break;
-                        case 5:
-                            Array.Resize(ref tile.t6, tile.TheseNumberOfTiles[i]);
-                            break;
-                        case 6:
-                            Array.Resize(ref tile.t7, tile.TheseNumberOfTiles[i]);
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (i) {
-                        case 0:
-                            Array.Resize(ref tile.n1, tile.NotTheseNumberOfTiles[i]);
-                            break;
-                        case 1:
-                            Array.Resize(ref tile.n2, tile.NotTheseNumberOfTiles[i]);
-                            break;
-                        case 2:
-                            Array.Resize(ref tile.n3, tile.NotTheseNumberOfTiles[i]);
-                            break;
-                        case 3:
-                            Array.Resize(ref tile.n4, tile.NotTheseNumberOfTiles[i]);
-                            break;
-                        case 4:
-                            Array.Resize(ref tile.n5, tile.NotTheseNumberOfTiles[i]);
-                            break;
-                        case 5:
-                            Array.Resize(ref tile.n6, tile.NotTheseNumberOfTiles[i]);
-                            break;
-                    }
-                    break;
+        private void ResizeTileGroupArray(byte i, bool good)
+        {
+            if (good)
+            {
+                Array.Resize(ref tile.gTiles[i], tile.acceptedSetSize[i]);
             }
-            #endregion
+            else
+            {
+                Array.Resize(ref tile.bTiles[i], tile.declinedSetSize[i]);
+            }
         }
 
 
@@ -406,12 +313,8 @@ namespace UnityEditor
                                 case AdvancedRuleTile.TilingRule.Neighbor.DontCare:
                                     break;
                                 default:
-                                        GUI.DrawTexture(r, icons[(int)tilingRule.m_Neighbors[index] - 3]);
-                                    //Debug.Log("index: " + index);
-                                    //Debug.Log((int)tilingRule.m_Neighbors[index] - 3);
-                                    //GUI.DrawTexture(r, icons[(int)tilingRule.m_Neighbors[index] - 3]);//- 3]);
+                                    GUI.DrawTexture(r, icons[(int)tilingRule.m_Neighbors[index] - 3]);
                                     break;
-                                    /////index++;
                             }
                         } catch (System.IndexOutOfRangeException)
                         { }
@@ -421,7 +324,7 @@ namespace UnityEditor
                             if (Event.current.button == 0)
                             {
                                 /////change = -1;
-                                tilingRule.m_Neighbors[index] = (AdvancedRuleTile.TilingRule.Neighbor)/*(((int)tilingRule.m_Neighbors[index] + change) % 3); //*/ FindNextIcon((int)tilingRule.m_Neighbors[index], tile.DefaultNumOfThese, tile.DefaultNumOfNotThese);
+                                tilingRule.m_Neighbors[index] = (AdvancedRuleTile.TilingRule.Neighbor) FindNextIcon((int)tilingRule.m_Neighbors[index], tile.numberOfAccepted, tile.numberOfDeclined);
                                 GUI.changed = true;
                                 Event.current.Use();
                             }
@@ -586,15 +489,15 @@ namespace UnityEditor
 			return t;
 		}
         
-        private static int FindNextIcon(int current, byte NumThese, byte NumNotThese) { //0-15  say there's 5 & 4   it's i13    14 < 14
+        private static int FindNextIcon(int current, byte acceptedCount, byte declinedCount) { 
             current++;
             if (current > 15)
                 current = 0;
-            if (current < 3 + NumThese)
+            if (current < 3 + acceptedCount)
                 return current;
-            if (current > 9 && current < 10 + NumNotThese)
+            if (current > 9 && current < 10 + declinedCount)
                 return current;
-            return FindNextIcon(current, NumThese, NumNotThese);
+            return FindNextIcon(current, acceptedCount, declinedCount);
         }
 
     }

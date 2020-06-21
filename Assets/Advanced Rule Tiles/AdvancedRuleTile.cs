@@ -10,42 +10,27 @@ namespace UnityEngine
         
         public Sprite m_DefaultSprite;
 		public Tile.ColliderType m_DefaultColliderType = Tile.ColliderType.Sprite;
-        #region possible fix for new versions
+
         public TileBase m_Self {
             get { return m_OverrideSelf ? m_OverrideSelf : this; }
             set { m_OverrideSelf = value; }
         }
         private TileBase m_OverrideSelf;
-        #endregion
-
-        #region Advanced Tile Rules
-        public string[] RuleNames = new string[13];
+        
         public bool firstExists = true;
-        public bool These = false;
-        public byte DefaultNumOfThese;
-        public byte[] TheseNumberOfTiles;
-        //public TileBase[][] TheseSprites = new TileBase[7][];
-        public byte NotZero = 8;
-        public bool firstExists2 = true;
-        public bool NotThese = false;
-        public byte DefaultNumOfNotThese;
-        public byte[] NotTheseNumberOfTiles;
-        //public TileBase[][] NotTheseSprites = new TileBase[6][];
+        public byte numberOfAccepted;
+        public byte[] acceptedSetSize;
 
-        public TileBase[] t1;
-        public TileBase[] t2;
-        public TileBase[] t3;
-        public TileBase[] t4;
-        public TileBase[] t5;
-        public TileBase[] t6;
-        public TileBase[] t7; //because unity doesn't support serialization of jagged arrays
-        public TileBase[] n1;
-        public TileBase[] n2;
-        public TileBase[] n3;
-        public TileBase[] n4;
-        public TileBase[] n5;
-        public TileBase[] n6;
-        #endregion
+        public bool createdOnce = false; // супер костыль
+
+        public bool firstExists2 = true;
+        public byte numberOfDeclined;
+        public byte[] declinedSetSize;
+
+        public TileBase[] t1, t2, t3, t4, t5, t6, t7;
+        public TileBase[][] gTiles = new TileBase[7][];
+        public TileBase[] n1, n2, n3, n4, n5, n6;
+        public TileBase[][] bTiles = new TileBase[7][];
 
         [Serializable]
 		public class TilingRule
@@ -297,17 +282,14 @@ namespace UnityEngine
 			{
 				for (int x = -1; x <= 1; x++)
 				{
-					if (x != 0 || y != 0)
-					{
-						Vector3Int offset = new Vector3Int(x, y, 0);
-						Vector3Int mirrored = GetMirroredPos(offset, mirrorX, mirrorY);
-						int index = GetIndexOfOffset(mirrored);
-						TileBase tile = tilemap.GetTile(position + offset);
-						if (ReturnFalseIf(rule, tile, rule.m_Neighbors[index]))
-                        {
-							return false;
-						}
-					}
+                    if (x == 0 && y == 0) continue;
+					
+					Vector3Int offset = new Vector3Int(x, y, 0);
+					Vector3Int mirrored = GetMirroredPos(offset, mirrorX, mirrorY);
+					int index = GetIndexOfOffset(mirrored);
+					TileBase tile = tilemap.GetTile(position + offset);
+					if (ReturnFalseIf(rule, tile, rule.m_Neighbors[index]))
+                        return false;
 				}
 			}
 			
