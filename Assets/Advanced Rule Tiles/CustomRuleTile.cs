@@ -6,7 +6,7 @@ namespace UnityEngine
 {
     [Serializable]
     [CreateAssetMenu]
-    public class AdvancedRuleTile : TileBase {
+    public class CustomRuleTile : TileBase {
         
         public Sprite m_DefaultSprite;
 		public Tile.ColliderType m_DefaultColliderType = Tile.ColliderType.Sprite;
@@ -27,10 +27,13 @@ namespace UnityEngine
         public byte numberOfDeclined;
         public byte[] declinedSetSize;
 
+        public const int basicRulesCount = 3;
+        public const int gTilesMax = 7;
+        public const int bTilesMax = 6;
         public TileBase[] t1, t2, t3, t4, t5, t6, t7;
-        public TileBase[][] gTiles = new TileBase[7][];
+        public TileBase[][] gTiles = new TileBase[gTilesMax][];
         public TileBase[] n1, n2, n3, n4, n5, n6;
-        public TileBase[][] bTiles = new TileBase[7][];
+        public TileBase[][] bTiles = new TileBase[bTilesMax][];
 
         [Serializable]
 		public class TilingRule
@@ -181,7 +184,9 @@ namespace UnityEngine
 
 		public bool RuleMatches(TilingRule rule, Vector3Int position, ITilemap tilemap, int angle)
 		{
-			for (int y = -1; y <= 1; y++)
+            RefreshTiles();
+
+            for (int y = -1; y <= 1; y++)
 			{
 				for (int x = -1; x <= 1; x++)
 				{
@@ -191,7 +196,7 @@ namespace UnityEngine
 						Vector3Int rotated = GetRotatedPos(offset, angle);
 						int index = GetIndexOfOffset(rotated);
 						TileBase tile = tilemap.GetTile(position + offset);
-                        if (ReturnFalseIf(rule, tile, rule.m_Neighbors[index]))
+                        if (!AcceptTile(rule, tile, rule.m_Neighbors[index]))
 						{
 							return false;
 						}	
@@ -202,78 +207,48 @@ namespace UnityEngine
 			return true;
 		}
 
-        private bool ReturnFalseIf(TilingRule rule, TileBase tile, TilingRule.Neighbor RULE) {
-            TileBase[] Q;
-            #region this is bad
-            switch ((int)RULE) {
-                case 3:
-                    Q = t1;
-                    break;
-                case 4:
-                    Q = t2;
-                    break;
-                case 5:
-                    Q = t3;
-                    break;
-                case 6:
-                    Q = t4;
-                    break;
-                case 7:
-                    Q = t5;
-                    break;
-                case 8:
-                    Q = t6;
-                    break;
-                case 9:
-                    Q = t7;
-                    break;
-                case 10:
-                    Q = n1;
-                    break;
-                case 11:
-                    Q = n2;
-                    break;
-                case 12:
-                    Q = n3;
-                    break;
-                case 13:
-                    Q = n4;
-                    break;
-                case 14:
-                    Q = n5;
-                    break;
-                case 15:
-                    Q = n6;
-                    break;
-                default:
-                    Q = t1;
-                    break;
-            }
-            #endregion
+        private bool AcceptTile(TilingRule rule, TileBase tile, TilingRule.Neighbor RULE) {
+            TileBase[] tilesInRule;
+            int ruleNumber = (int)RULE;
+            
 
-            if (RULE == TilingRule.Neighbor.This && tile == m_Self || RULE == TilingRule.Neighbor.NotThis && tile != m_Self)
-                return false;
-            if ((int)RULE > 2 && (int)RULE < 10) {
-                foreach (TileBase q in Q) { //No, .Contains() does not exist for TileBase[]
-                    if (q == tile)
-                        return false;
-                }
+            if (RULE == TilingRule.Neighbor.DontCare)
                 return true;
-            }
-            if ((int)RULE > 9) {
-                foreach (TileBase q in Q) {
-                    if (q == tile)
+            else if (RULE == TilingRule.Neighbor.This && tile == m_Self || RULE == TilingRule.Neighbor.NotThis && tile != m_Self)
+                return true;
+            else if (ruleNumber >= basicRulesCount && ruleNumber < basicRulesCount + gTilesMax) {
+                tilesInRule = gTiles[ruleNumber - basicRulesCount];
+                foreach (TileBase t in tilesInRule) {
+                    if (t == tile)
                         return true;
                 }
                 return false;
             }
-            if (RULE == TilingRule.Neighbor.DontCare)
-                return false;
-            return true;
+            else if (ruleNumber >= basicRulesCount + gTilesMax) {
+                tilesInRule = bTiles[ruleNumber - gTilesMax - basicRulesCount];
+                foreach (TileBase t in tilesInRule) {
+                    if (t == tile)
+                        return false;
+                }
+                return true;
+            }
+            return false;
         }
 
 
-
+        public void RefreshTiles()
+        {
+            if (acceptedSetSize == null || acceptedSetSize.Length == 0)
+            {
+                acceptedSetSize = new byte[7];
+                declinedSetSize = new byte[6];
+            }
+            if (gTiles == null || gTiles[0] == null)
+            {
+                gTiles = new TileBase[][] { t1, t2, t3, t4, t5, t6, t7 };
+                bTiles = new TileBase[][] { n1, n2, n3, n4, n5, n6 };
+            }
+        }
 
 
 		public bool RuleMatches(TilingRule rule, Vector3Int position, ITilemap tilemap, bool mirrorX, bool mirrorY)
@@ -288,7 +263,7 @@ namespace UnityEngine
 					Vector3Int mirrored = GetMirroredPos(offset, mirrorX, mirrorY);
 					int index = GetIndexOfOffset(mirrored);
 					TileBase tile = tilemap.GetTile(position + offset);
-					if (ReturnFalseIf(rule, tile, rule.m_Neighbors[index]))
+					if (AcceptTile(rule, tile, rule.m_Neighbors[index]))
                         return false;
 				}
 			}
