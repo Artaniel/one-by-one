@@ -17,13 +17,13 @@ namespace UnityEngine
         }
         private TileBase m_OverrideSelf;
         
-        public bool firstExists = true;
+        public bool firstFlag = true;
         public byte numberOfAccepted;
         public byte[] acceptedSetSize;
 
         public bool createdOnce = false; // супер костыль
 
-        public bool firstExists2 = true;
+        public bool firstFlag2 = true;
         public byte numberOfDeclined;
         public byte[] declinedSetSize;
 
@@ -263,7 +263,7 @@ namespace UnityEngine
 					Vector3Int mirrored = GetMirroredPos(offset, mirrorX, mirrorY);
 					int index = GetIndexOfOffset(mirrored);
 					TileBase tile = tilemap.GetTile(position + offset);
-					if (AcceptTile(rule, tile, rule.m_Neighbors[index]))
+					if (!AcceptTile(rule, tile, rule.m_Neighbors[index]))
                         return false;
 				}
 			}

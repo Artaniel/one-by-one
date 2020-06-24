@@ -218,7 +218,7 @@ namespace UnityEditor
             tile.m_DefaultColliderType = (Tile.ColliderType)EditorGUILayout.EnumPopup("Default Collider", tile.m_DefaultColliderType);
 
             EditorGUILayout.Space();EditorGUILayout.Space();EditorGUILayout.Space();
-            DoAdvanceRuleLayout();
+            CustomRuleEditor();
             EditorGUILayout.Space();EditorGUILayout.Space();EditorGUILayout.Space();
 
             if (m_ReorderableList != null && tile.m_TilingRules != null)
@@ -227,7 +227,7 @@ namespace UnityEditor
 
 
 
-        private void DoAdvanceRuleLayout()
+        private void CustomRuleEditor()
         {
             if (tile.acceptedSetSize.Length == 0) tile.acceptedSetSize = new byte[7];
             tile.gTiles = new TileBase[][] { tile.t1, tile.t2, tile.t3, tile.t4, tile.t5, tile.t6, tile.t7 };
@@ -240,14 +240,19 @@ namespace UnityEditor
                 EditorGUILayout.LabelField("Tiles");
                 EditorGUI.BeginChangeCheck();
                 tile.acceptedSetSize[i] = (byte)EditorGUI.DelayedIntField(new Rect(60, guiPOS.y, 30, guiPOS.height), tile.acceptedSetSize[i]);
-                if (EditorGUI.EndChangeCheck() || tile.firstExists) {
+                if (EditorGUI.EndChangeCheck() || tile.firstFlag) {
                     ResizeTileGroupArray(i, true);
-                    tile.firstExists = false;
+                    tile.firstFlag = false;
                 }
                 EditorGUILayout.EndHorizontal();
 
+                EditorGUI.BeginChangeCheck();
                 for (byte q = 0; q < tile.acceptedSetSize[i]; q++) {
                     tile.gTiles[i][q] = EditorGUILayout.ObjectField(tile.gTiles[i][q], typeof(TileBase), false) as TileBase;
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    SaveTile();
                 }
             }
 
@@ -263,14 +268,19 @@ namespace UnityEditor
                 EditorGUILayout.LabelField("Tiles");
                 EditorGUI.BeginChangeCheck();
                 tile.declinedSetSize[i] = (byte)EditorGUI.DelayedIntField(new Rect(60, guiPOS.y, 30, guiPOS.height), tile.declinedSetSize[i]);
-                if (EditorGUI.EndChangeCheck() || tile.firstExists2) {
+                if (EditorGUI.EndChangeCheck() || tile.firstFlag2) {
                     ResizeTileGroupArray(i, false);
-                    tile.firstExists2 = false;
+                    tile.firstFlag2 = false;
                 }
                 EditorGUILayout.EndHorizontal();
 
+                EditorGUI.BeginChangeCheck();
                 for (byte q = 0; q < tile.declinedSetSize[i]; q++) {
                     tile.bTiles[i][q] = EditorGUILayout.ObjectField(tile.bTiles[i][q], typeof(TileBase), false) as TileBase;
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    SaveTile();
                 }
             }
         }
