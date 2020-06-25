@@ -21,7 +21,7 @@ namespace UnityEngine
         public byte numberOfAccepted;
         public byte[] acceptedSetSize;
 
-        public bool createdOnce = false; // супер костыль
+        public bool createdOnce = false;
 
         public bool firstFlag2 = true;
         public byte numberOfDeclined;
@@ -184,7 +184,7 @@ namespace UnityEngine
 
 		public bool RuleMatches(TilingRule rule, Vector3Int position, ITilemap tilemap, int angle)
 		{
-            RefreshTiles();
+            ReinitTilesArray();
 
             for (int y = -1; y <= 1; y++)
 			{
@@ -196,10 +196,7 @@ namespace UnityEngine
 						Vector3Int rotated = GetRotatedPos(offset, angle);
 						int index = GetIndexOfOffset(rotated);
 						TileBase tile = tilemap.GetTile(position + offset);
-                        if (!AcceptTile(rule, tile, rule.m_Neighbors[index]))
-						{
-							return false;
-						}	
+                        if (!AcceptTile(rule, tile, rule.m_Neighbors[index])) return false;
 					}
 				}
 				
@@ -219,16 +216,14 @@ namespace UnityEngine
             else if (ruleNumber >= basicRulesCount && ruleNumber < basicRulesCount + gTilesMax) {
                 tilesInRule = gTiles[ruleNumber - basicRulesCount];
                 foreach (TileBase t in tilesInRule) {
-                    if (t == tile)
-                        return true;
+                    if (t == tile) return true;
                 }
                 return false;
             }
             else if (ruleNumber >= basicRulesCount + gTilesMax) {
                 tilesInRule = bTiles[ruleNumber - gTilesMax - basicRulesCount];
                 foreach (TileBase t in tilesInRule) {
-                    if (t == tile)
-                        return false;
+                    if (t == tile) return false;
                 }
                 return true;
             }
@@ -236,7 +231,7 @@ namespace UnityEngine
         }
 
 
-        public void RefreshTiles()
+        public void ReinitTilesArray()
         {
             if (acceptedSetSize == null || acceptedSetSize.Length == 0)
             {
@@ -263,8 +258,7 @@ namespace UnityEngine
 					Vector3Int mirrored = GetMirroredPos(offset, mirrorX, mirrorY);
 					int index = GetIndexOfOffset(mirrored);
 					TileBase tile = tilemap.GetTile(position + offset);
-					if (!AcceptTile(rule, tile, rule.m_Neighbors[index]))
-                        return false;
+					if (!AcceptTile(rule, tile, rule.m_Neighbors[index])) return false;
 				}
 			}
 			
