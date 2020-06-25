@@ -17,7 +17,9 @@ public class CurrentEnemySelector : MonoBehaviour
         currentCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         // Listen "Enemy is dead" events. If someone dies we immediately select a new enemy
         MonsterLife.OnEnemyDead.AddListener(SelectRandomEnemy);
-        if (enemyHintPrefab) enemyHint = Instantiate(enemyHintPrefab).GetComponent<CurrentEnemyHint>();
+        difficulty = PlayerPrefs.GetString("Gamemode");
+
+        if (enemyHintPrefab && difficulty != "2") enemyHint = Instantiate(enemyHintPrefab).GetComponent<CurrentEnemyHint>();
     }
 
     private void Update()
@@ -115,4 +117,5 @@ public class CurrentEnemySelector : MonoBehaviour
     private List<GameObject> enemiesOnScreen = new List<GameObject>();
     private Camera currentCamera;
     private CurrentEnemyHint enemyHint;
+    private string difficulty;
 }

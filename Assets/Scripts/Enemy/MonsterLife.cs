@@ -87,7 +87,7 @@ public class MonsterLife : MonoBehaviour
             if (wasHp != HP) hpChangedEvent?.Invoke();
             else UndamagedAnimation();
 
-            if (HP <= 0) DestroyMonster();
+            if (HP <= 0) DestroyMonster(source, damage);
             else         HitEffect();
         }
         else
@@ -220,18 +220,20 @@ public class MonsterLife : MonoBehaviour
         }
     }
 
-    private void DestroyMonster()
+    private void DestroyMonster(GameObject source, float damage)
     {
         if (monsterManager != null)
             monsterManager.Death(gameObject);
         GetComponent<AIAgent>().enabled = false;
-        hitPlayerOnContact = false;
+        GetComponentInChildren<Collider2D>().enabled = false;
         // Trigger an event for those who listen to it (if any)
         OnEnemyDead?.Invoke();
         EventManager.OnMonsterDead?.Invoke(transform.position);
 
         PreDestroyEffect();
         OnThisDead?.Invoke();
+        var explodable = GetComponentInChildren<ExplosionForce>();
+        if (explodable) explodable.DoExplosion(source ? source.transform.position : transform.position, Mathf.Clamp01(damage / maxHP));
         StartCoroutine(DestoryGameObject());
     }
 

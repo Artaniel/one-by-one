@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterShooting : MonoBehaviour
 {
@@ -13,7 +14,10 @@ public class CharacterShooting : MonoBehaviour
 
     [SerializeField]
     private GameObject mouseCursorObj = null;
-    
+    private Rigidbody2D rigidbody;
+
+    [HideInInspector] public UnityEvent firstBulletShot = new UnityEvent();
+
     public void LoadNewWeapon(SkillManager.EquippedWeapon weapon, bool instant = false)
     {
         currentWeapon = weapon;
@@ -22,6 +26,7 @@ public class CharacterShooting : MonoBehaviour
 
     private void Start()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
         cameraShaker = mainCamera.GetComponent<CameraShaker>();
         gunfireAnimator = GetComponentInChildren<GunfireAnimator>();
@@ -55,10 +60,11 @@ public class CharacterShooting : MonoBehaviour
         {
             
             Vector3 mousePos = Input.mousePosition;
-            var screenPoint = mainCamera.WorldToScreenPoint(transform.localPosition);
             var ammoNeeded = currentWeapon.logic.AmmoConsumption();
             if (currentWeapon.ammoLeft >= ammoNeeded)
             {
+                if (currentWeapon.ammoLeft == currentWeapon.logic.ammoMagazine) firstBulletShot.Invoke();
+
                 timeBetweenAttacks = currentWeapon.logic.timeBetweenAttacks / attackSpeedMult;
                 currentWeapon.reloadTimeLeft = 0;
                 currentWeapon.ammoLeft -= ammoNeeded;
@@ -87,12 +93,9 @@ public class CharacterShooting : MonoBehaviour
 
     private void RotateCharacterTowardsCursor()
     {
-        var mousepos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Quaternion rot = Quaternion.LookRotation(transform.position - mousepos, Vector3.forward);
-        transform.eulerAngles = new Vector3(0, 0, rot.eulerAngles.z);
-        Vector3 vectorToTarget = weaponTip.position - mousepos;
-        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-        weaponTip.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+        Vector3 difference = mainCamera.ScreenToWorldPoint(Input.mousePosition)-transform.position;
+        float angle = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        rigidbody.MoveRotation(Quaternion.Euler(0f, 0f, angle-90f));
     }
 
     public void AddToAttackSpeed(float addToAttackSpeedValue)

@@ -768,7 +768,7 @@ public class MirrorBossEncounter : BossEncounter
             newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
 
-            if (BD.difficulty == "3")
+            if (BD.difficulty == "2")
             {
                 var newBullet3 = Instantiate(projectile, BD.bossInstance.position,
                 Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + (Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(10f, 40f)));

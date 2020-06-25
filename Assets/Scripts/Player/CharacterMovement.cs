@@ -38,7 +38,7 @@ public class CharacterMovement : MonoBehaviour
     private void Movement()
     { 
         if (!dashActiveSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
-        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier) * Time.fixedDeltaTime * 50f;
+        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier);
 
         if (anim != null)
         {

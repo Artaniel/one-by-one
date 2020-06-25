@@ -23,7 +23,7 @@ public class SkillAssetLoader
         RegisterSkills();
     }
 
-    static void RegisterSkills()
+    public static void RegisterSkills()
     {
         if (!Application.isPlaying)
         {
