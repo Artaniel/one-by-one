@@ -19,25 +19,7 @@ public class RoomLighting : MonoBehaviour
 
     private void Awake()
     {
-        var arena = GetComponent<ArenaEnemySpawner>();
-        if (Labirint.instance)
-        {
-            sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
-            previousLight = sceneLight.intensity;
-        }
-        else // initial light
-        {
-            sceneLight = GetComponentInChildren<Light2D>();
-            
-            Light = DefaultLight;
-            if (arena) maxvalue = arena.EnemyCount();
-
-            if (swampPrefab) SetSwampMaterial();
-
-            MonsterLife.OnEnemyDead.AddListener(AddOneToLight);
-        }
-
-        if (StandartLightIncrease) RecalculateLight();
+        SetSceneLight();
     }
 
     /// <summary>
@@ -101,7 +83,9 @@ public class RoomLighting : MonoBehaviour
             }
         }
         else
+        {
             swampInstance = Instantiate(swampPrefab);
+        }
         if (swampInstance != null)
         {
             var sprites = swampInstance.GetComponentsInChildren<SpriteRenderer>();
@@ -172,6 +156,30 @@ public class RoomLighting : MonoBehaviour
     public void LabirintRoomAddLight()
     {
         AddToLight(1);
+    }
+
+    public void SetSceneLight() {
+        if (sceneLight == null) {
+            var arena = GetComponent<ArenaEnemySpawner>();
+            if (Labirint.instance)
+            {
+                sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
+                previousLight = sceneLight.intensity;
+            }
+            else // initial light
+            {
+                sceneLight = GetComponentInChildren<Light2D>();
+
+                Light = DefaultLight;
+                if (arena) maxvalue = arena.EnemyCount();
+
+                if (swampPrefab) SetSwampMaterial();
+
+                MonsterLife.OnEnemyDead.AddListener(AddOneToLight);
+            }
+
+            if (StandartLightIncrease) RecalculateLight();
+        }
     }
 
     private const float maxT = 0.35f;
