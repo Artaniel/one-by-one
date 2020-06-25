@@ -18,8 +18,8 @@ public class Door : MonoBehaviour
     [SerializeField] public Direction.Side direction;
     public string sceneName=""; // name of scene to change on enter this door
     public bool isSpawned = false;
-    private SpriteRenderer spriteRenderer;
-    private Transform doorVisual;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Transform doorVisual;
 
     [SerializeField]
     private GameObject arrowSprite;
@@ -30,8 +30,8 @@ public class Door : MonoBehaviour
 
     void Awake()
     {
-        doorVisual = transform.GetChild(0);
-        spriteRenderer = doorVisual.GetComponent<SpriteRenderer>();
+        //doorVisual = transform.GetChild(0); // moved to set from inspector
+        //spriteRenderer = doorVisual.GetComponent<SpriteRenderer>();
         camera = Camera.main;
     }
 
@@ -65,7 +65,8 @@ public class Door : MonoBehaviour
     {
         if (isSpawned && unlockOnTimer && locked) {
             timer -= Time.deltaTime;
-            if (timer <= 0) {
+            if (timer <= 0)
+            {
                 Unlock();
             }
         }

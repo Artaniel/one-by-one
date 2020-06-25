@@ -32,18 +32,20 @@ public class Labirint : MonoBehaviour
     [SerializeField] public string welcomeText = "";
     [HideInInspector] static public Room currentRoom;
 
-    void Start()
+    private void Awake()
     {
+        instance = this;
         DifficultyLoad();
         SaveLevelProgressIfNeeded();
 
-        instance = this;
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
         {
             //InitBlueprints();
             Debug.LogError("Cant find labirint builder script");
-        } else {
+        }
+        else
+        {
             builder.BuildLabirint(this);
         }
         StartingRoomSpawn();
@@ -86,29 +88,27 @@ public class Labirint : MonoBehaviour
     }
 
     void StartingRoomSpawn() {
-        if (GameObject.FindGameObjectWithTag("Room") == null) {
+        if (GameObject.FindGameObjectWithTag("Room") == null)
+        {
             SpawnRoom(0);
             OnRoomChanged(0);
             blueprints[0].instance.GetComponent<Room>().ArenaInitCheck();
             blueprints[0].instance.GetComponent<Room>().LightsOn();
         }
-        else { // for start from choisen room, add prefab, set roomID, and connected room will be spawned
+        else
+        { // for start from choisen room, add prefab, set roomID, and connected room will be spawned
             Room startingRoom = GameObject.FindGameObjectWithTag("Room").GetComponent<Room>();
-            if (startingRoom.roomID > -1 && startingRoom.roomID < blueprints.Length+1)
-            { // only if room id was set                
-                if (startingRoom.name == blueprints[startingRoom.roomID].prefab.name) {
-                    activeRooms.Add(startingRoom.roomID);
-                    startingRoom.DoorsInit();
-                    blueprints[startingRoom.roomID].instance = startingRoom.gameObject;
-                    blueprints[startingRoom.roomID].instance.GetComponent<Room>().ArenaInitCheck();
-                    OnRoomChanged(startingRoom.roomID);
-                }
-                else
-                {
-                    Debug.Log("Starting room ID mismatch");
-                }
-                GameObject.FindWithTag("Player").transform.position = startingRoom.transform.position;
-            }
+            CameraForLabirint.instance = GetComponent<CameraForLabirint>();
+            startingRoom.roomID = 0;
+            activeRooms.Add(0);
+            blueprints[0].instance = startingRoom.gameObject;
+            startingRoom.GetComponent<RoomLighting>()?.SetSceneLight();
+            startingRoom.GetComponent<MonsterManager>()?.Init();
+            startingRoom.LightsOn();
+            startingRoom.DoorsInit();
+            OnRoomChanged(0);
+            startingRoom.DoorsInit(); // да, надо 2 раза. Первый чтобы нашло массив дверей до соединения их с соседями, второй чтобы развешало Locked флаг
+            startingRoom.ArenaInitCheck();
         }
     }
 
@@ -171,7 +171,13 @@ public class Labirint : MonoBehaviour
                 }
             }
         }
-        if (blueprints[currentRoomID].visited || currentRoomID == 0) CameraForLabirint.instance.CameraFreeSetup();
+        if (blueprints[currentRoomID].visited || currentRoomID == 0) {
+            if (!CameraForLabirint.instance) 
+                CameraForLabirint.instance = GetComponent<CameraForLabirint>();
+            if (CameraForLabirint.instance)
+                CameraForLabirint.instance.CameraFreeSetup();
+            else Debug.LogError("Can't find CameraForLabirint script. Move it to Labirint, or don't use Room prefab spawned from editor.");            
+        }
         respawnPoint = GameObject.FindWithTag("Player").transform.position;
         ExitCheck();
         ContainerCheck();
