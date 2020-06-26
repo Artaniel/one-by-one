@@ -24,7 +24,13 @@ public class MonsterManager : MonoBehaviour
     protected int spawnIndex = 0;
     private int killCount = 0;
 
-    void Awake()
+    private void Awake()
+    {
+        if (room == null) // to prevent double init
+            Init();
+    }
+
+    public void Init()
     {
         roomLighting = GetComponent<RoomLighting>();
         strayMonsters = new List<GameObject>();
@@ -45,7 +51,7 @@ public class MonsterManager : MonoBehaviour
         foreach (GameObject monster in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             if (monster.transform.IsChildOf(transform))
-            { 
+            {
                 strayMonsters.Add(monster);
                 monsterList.Add(monster);
                 monster.SetActive(false);

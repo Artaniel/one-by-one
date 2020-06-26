@@ -23,14 +23,14 @@ public class Room : MonoBehaviour
 
     private void Awake()
     {
-        labirint = Labirint.instance;
-        externalMRMods = labirint.commonMRMods;
         if (possibleContainerPosition == null) possibleContainerPosition = transform; // if forgot to set, center of room
+        DoorsInit();
     }
 
     private void Start()
     {
-        DoorsInit();
+        labirint = Labirint.instance;
+        externalMRMods = labirint.commonMRMods;
         FillOOB();
     }
 
@@ -88,10 +88,10 @@ public class Room : MonoBehaviour
     public void ArenaInitCheck()
     {
         if (roomType == RoomType.arena)
-        {            
-            if (!Labirint.instance.blueprints[roomID].visited) 
+        {
+            if (!Labirint.instance.blueprints[roomID].visited)
             {
-                if(GetComponent<ArenaEnemySpawner>()!=null)
+                if (GetComponent<ArenaEnemySpawner>()!=null)
                     GetComponent<ArenaEnemySpawner>().enabled = true;
                 if (GetComponent<MonsterManager>() != null)
                     GetComponent<MonsterManager>().UnfreezeMonsters();
@@ -126,11 +126,13 @@ public class Room : MonoBehaviour
         CameraForLabirint.instance.CameraFreeSetup();
     }
 
-    public void LockRoom() {
-        foreach (Door door in doors)
-        {
-            door.Lock();
-        }
+    public void LockRoom()
+    {
+        if (doors!=null)
+            foreach (Door door in doors)
+            {
+                door.Lock();
+            }
     }
 
     public void TimerUnlockRoom() {
@@ -167,7 +169,7 @@ public class Room : MonoBehaviour
         if (monsterManager != null)
         {
             int monstersToKill = Mathf.Min(monsterManager.EnemyCount(), monsterManager.killsToOpen);
-            if (roomType == RoomType.arena && !labirint.blueprints[roomID].visited)
+            if (roomType == RoomType.arena && !Labirint.instance.blueprints[roomID].visited)
                 monsterManager.roomLighting.LabirintRoomEnterDark(monstersToKill);
             else
                 monsterManager.roomLighting.LabirintRoomEnterBright();
