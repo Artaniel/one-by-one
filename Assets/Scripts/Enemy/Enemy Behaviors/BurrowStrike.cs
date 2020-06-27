@@ -64,60 +64,82 @@ public class BurrowStrike : Attack
             case BurrowState.None:
                 break;
             case BurrowState.Burrowing:
-                for (int i = 0; i < spritesToFade.Count; i++)
-                {
-                    var currentColor = Color.Lerp(startingColor[i], burrowColor, 1 - (timeToNextState / burrowTime));
-
-                    spritesToFade[i].color = currentColor;
-                }
-                monsterName.color = Color.Lerp(Color.white, burrowColor, 1 - (timeToNextState / burrowTime));
-
-                if (timeToNextState <= 0)
-                {
-                    if (CheckWallAhead())
-                    {
-                        Unburrow();
-                        return;
-                    }
-                    aiAgent.moveSpeedMult *= 100 * burrowedSpeedMult;
-                    GetComponentInChildren<Collider2D>().enabled = false;
-                    foreach (var particle in rockDigEffect.GetComponentsInChildren<ParticleSystem>())
-                    {
-                        var particleMain = particle.main;
-                        particleMain.startSize = new ParticleSystem.MinMaxCurve(particleMain.startSize.constant * 0.7f);
-                    }
-
-                    currentState = BurrowState.Digging;
-                    timeToNextState = diggingTime;
-                }
+                BurrowUpdate();
                 break;
             case BurrowState.Digging:
-                timeToScan -= Time.deltaTime;
-                if (timeToScan <= 0)
-                {
-                    timeToScan = timeToEachScan;
-                    if (CheckWallAhead() || CheckEnemyNearby()) Unburrow();
-                }
-
-                if (timeToNextState <= 0)
-                {
-                    Unburrow();
-                }
+                DigUpdate();
                 break;
             case BurrowState.Unburrowing:
-                for (int i = 0; i < spritesToFade.Count; i++)
-                {
-                    spritesToFade[i].color = Color.Lerp(burrowColor, startingColor[i], 1 - (timeToNextState / unburrowTime));
-                }
-                monsterName.color = Color.Lerp(burrowColor, Color.white, 1 - (timeToNextState / unburrowTime));
-
-                if (timeToNextState <= 0)
-                {
-                    CompleteAttack();
-                }
+                UnburrowUpdate();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void BurrowUpdate()
+    {
+        for (int i = 0; i < spritesToFade.Count; i++)
+        {
+            var currentColor = Color.Lerp(startingColor[i], burrowColor, 1 - (timeToNextState / burrowTime));
+
+            spritesToFade[i].color = currentColor;
+        }
+        monsterName.color = Color.Lerp(Color.white, burrowColor, 1 - (timeToNextState / burrowTime));
+
+        if (timeToNextState <= 0)
+        {
+            if (CheckWallAhead())
+            {
+                Unburrow();
+            }
+            else
+            {
+                PreDigEnemyConfiguration();
+            }
+        }
+    }
+
+    private void PreDigEnemyConfiguration()
+    {
+        aiAgent.moveSpeedMult *= 100 * burrowedSpeedMult;
+        GetComponentInChildren<Collider2D>().enabled = false;
+        foreach (var particle in rockDigEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            var particleMain = particle.main;
+            particleMain.startSize = new ParticleSystem.MinMaxCurve(particleMain.startSize.constant * 0.7f);
+        }
+
+        currentState = BurrowState.Digging;
+        timeToNextState = diggingTime;
+    }
+
+    private void DigUpdate()
+    {
+        timeToScan -= Time.deltaTime;
+        if (timeToScan <= 0)
+        {
+            timeToScan = timeToEachScan;
+            if (CheckWallAhead() || CheckEnemyNearby()) Unburrow();
+        }
+
+        if (timeToNextState <= 0)
+        {
+            Unburrow();
+        }
+    }
+
+    private void UnburrowUpdate()
+    {
+        for (int i = 0; i < spritesToFade.Count; i++)
+        {
+            spritesToFade[i].color = Color.Lerp(burrowColor, startingColor[i], 1 - (timeToNextState / unburrowTime));
+        }
+        monsterName.color = Color.Lerp(burrowColor, Color.white, 1 - (timeToNextState / unburrowTime));
+
+        if (timeToNextState <= 0)
+        {
+            CompleteAttack();
         }
     }
 
@@ -142,7 +164,7 @@ public class BurrowStrike : Attack
     protected void CompleteAttack()
     {
         currentState = BurrowState.None;
-        var clawInstance = Instantiate(clawAttack, transform.position + transform.up * 2f, Quaternion.identity);
+        var clawInstance = Instantiate(clawAttack, transform.position + (transform.up * 2f), Quaternion.identity);
         var offset = new Vector2(clawInstance.transform.position.x - transform.position.x, clawInstance.transform.position.y - transform.position.y);
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         clawInstance.transform.rotation = Quaternion.Euler(0, 0, angle);

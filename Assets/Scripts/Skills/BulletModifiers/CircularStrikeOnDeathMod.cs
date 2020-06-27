@@ -22,7 +22,7 @@ public class CircularStrikeOnDeathMod : BulletModifier
         {
             var newBullet = bullet.BulletFullCopy();
             newBullet.transform.position = enemy.transform.position;
-            newBullet.transform.rotation = Quaternion.Euler(0, 0, angleOffset + (360 / bulletCount) * i);
+            newBullet.transform.rotation = Quaternion.Euler(0, 0, angleOffset + ((360 / bulletCount) * i));
         }
     }
 }

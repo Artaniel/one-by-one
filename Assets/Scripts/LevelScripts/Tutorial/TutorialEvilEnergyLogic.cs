@@ -76,7 +76,7 @@ public class TutorialEvilEnergyLogic : MonoBehaviour
         else
             x = Mathf.Min(radius, x + Time.deltaTime);
         if (Mathf.Abs(x) == radius) orbitLeft = !orbitLeft;
-        var sqry = radius * radius - x * x;
+        var sqry = (radius * radius) - (x * x);
         var y = Mathf.Sqrt(sqry) * (orbitLeft ? 1 : -1);
         transform.localPosition = new Vector3(x, y, 0);
     }

@@ -11,7 +11,7 @@ public class BorderLoopMovement : MonoBehaviour
     private float phase = 0;
     [SerializeField] private float period = 5f;
 
-    private enum Status { move, brake, shoot, accelerate };
+    private enum Status { move, brake, shoot, accelerate }
     private Status status = Status.move;
 
     [SerializeField] private float moveTime = 8f;
@@ -23,7 +23,6 @@ public class BorderLoopMovement : MonoBehaviour
 
     [SerializeField] private EnemyLaser laser;
     private Vector3 stayPosition;
-
 
     private void Awake()
     {
@@ -97,8 +96,8 @@ public class BorderLoopMovement : MonoBehaviour
         float leftBorder = Mathf.Max(borders[Direction.Side.LEFT], Camera.main.ViewportToWorldPoint(Vector3.zero).x);
         float rightBorder = Mathf.Min(borders[Direction.Side.RIGHT], Camera.main.ViewportToWorldPoint(Vector3.one).x);
         return new Vector3(
-            Mathf.Sin(phase) * ((rightBorder - leftBorder) / 2 - (2 * stepFromBordersHorizontal)) + (leftBorder + rightBorder) / 2f,
-            Mathf.Sin(phase * 2) * verticalLoopSize + topBorder - verticalLoopSize - stepFromBordersUp,
+            Mathf.Sin(phase) * (((rightBorder - leftBorder) / 2) - (2 * stepFromBordersHorizontal)) + ((leftBorder + rightBorder) / 2f),
+            (Mathf.Sin(phase * 2) * verticalLoopSize) + topBorder - verticalLoopSize - stepFromBordersUp,
             0);
     }
 

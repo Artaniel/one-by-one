@@ -81,7 +81,7 @@ public class MenuScript : MonoBehaviour
     public void UpdateLevels()
     {
         //Debug.Log(PlayerPrefs.GetInt("CurrentScene"));
-        for(int i = 0;i < Levels.transform.childCount; i++)
+        for(int i = 0; i < Levels.transform.childCount; i++)
         {
             GameObject Btn = Levels.transform.GetChild(i).gameObject;
             Image img = Btn.GetComponent<Image>();

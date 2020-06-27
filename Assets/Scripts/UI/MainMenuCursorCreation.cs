@@ -28,6 +28,5 @@ public class MainMenuCursorCreation : MonoBehaviour
 #else
         Cursor.visible = false;
 #endif
-
     }
 }

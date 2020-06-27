@@ -130,5 +130,4 @@ public class Metrics : MonoBehaviour
             Debug.Log(sceneIndex.ToString() + " " + metrics.levelSceneName[sceneIndex] + " death:" + metrics.deathCount[sceneIndex] + " time:" + metrics.levelTime[sceneIndex] + " unfinished");
         }
     }
-
 }

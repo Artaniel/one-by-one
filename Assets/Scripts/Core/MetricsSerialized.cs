@@ -27,5 +27,4 @@ public class MetricsRecords
         }
         deathRooms = new Dictionary<string, int>();
     }
-
 }

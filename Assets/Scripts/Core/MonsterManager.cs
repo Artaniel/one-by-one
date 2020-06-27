@@ -106,8 +106,7 @@ public class MonsterManager : MonoBehaviour
             enemy.transform.position = RandomBorderSpawnPos();
         }
     }
-
-
+    
     private void SpawnMonsters(int waveNum)
     {
         var enemyWave = Instantiate(enemyWaves[waveNum], transform.position, Quaternion.identity);
@@ -189,7 +188,7 @@ public class MonsterManager : MonoBehaviour
     protected void EnemySpawnUpdate()
     {
         timeToNextSpawn -= Time.deltaTime;
-        if ((timeToNextSpawn < 0 || monsterList.Count == 0 && AllowEarlySpawns) && spawnIndex < enemyWaves.GetLength(0))
+        if ((timeToNextSpawn < 0 || (monsterList.Count == 0 && AllowEarlySpawns)) && spawnIndex < enemyWaves.GetLength(0))
         {
             timeToNextSpawn = timeToEachSpawn;
             SpawnMonsters(spawnIndex);

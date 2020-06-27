@@ -40,12 +40,12 @@ public class LightFlicker : MonoBehaviour
     {
         if (lightFlicker)
         {
-            light.intensity = lightStartingIntensity + Mathf.Sin(Time.time * sinSpeed) * SinFactor + flickerValue;
+            light.intensity = lightStartingIntensity + (Mathf.Sin(Time.time * sinSpeed) * SinFactor) + flickerValue;
         }
         if (spriteFlicker)
         {
             var newColor = sprite.color;
-            newColor.a = alphaStartingIntensity + Mathf.Sin(Time.time * sinSpeed) * SinFactor + flickerValue;
+            newColor.a = alphaStartingIntensity + (Mathf.Sin(Time.time * sinSpeed) * SinFactor) + flickerValue;
             sprite.color = newColor;
         }
 

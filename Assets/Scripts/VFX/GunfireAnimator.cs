@@ -17,13 +17,13 @@ public class GunfireAnimator : MonoBehaviour
     {
         if (lightenTimeLeft > 0)
         {
-            light.pointLightInnerRadius = Mathf.Min(0.05f * lightenPower, light.pointLightInnerRadius + 0.05f * lightenSpeed * Time.deltaTime);
-            light.pointLightOuterRadius = Mathf.Min(lightenPower, light.pointLightOuterRadius + lightenSpeed * Time.deltaTime);
+            light.pointLightInnerRadius = Mathf.Min(0.05f * lightenPower, light.pointLightInnerRadius + (0.05f * lightenSpeed * Time.deltaTime));
+            light.pointLightOuterRadius = Mathf.Min(lightenPower, light.pointLightOuterRadius + (lightenSpeed * Time.deltaTime));
             lightenTimeLeft = Mathf.Max(0, lightenTimeLeft - Time.deltaTime);
         }
         else
         {
-            light.pointLightInnerRadius = Mathf.Max(0, light.pointLightInnerRadius - 0.1f * fadeSpeed * Time.deltaTime);
+            light.pointLightInnerRadius = Mathf.Max(0, light.pointLightInnerRadius - (0.1f * fadeSpeed * Time.deltaTime));
             light.pointLightOuterRadius = Mathf.Max(0, light.pointLightOuterRadius - fadeSpeed * Time.deltaTime);
         }
     }

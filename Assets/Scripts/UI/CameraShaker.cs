@@ -45,5 +45,4 @@ public class CameraShaker : MonoBehaviour
     }
     
     private float shakeTimeLeft = 0;
-
 }

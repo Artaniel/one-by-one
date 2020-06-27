@@ -49,5 +49,4 @@ public class Settings : MonoBehaviour
         titleScreen.SetActive(true);
         settingsScreen.SetActive(false);
     }
-
 }

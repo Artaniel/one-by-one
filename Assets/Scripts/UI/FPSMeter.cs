@@ -26,6 +26,5 @@ public class FPSMeter : MonoBehaviour
             fpsSum += currentFPS;
             text.text = $"FPS: {(currentFPS).ToString("0.00")}. Average: { (fpsSum / calculations).ToString("0.00") }";
         }
-        
     }
 }

@@ -42,7 +42,7 @@ public class EnemyLaser : MonoBehaviour
         if (line.enabled && !Pause.Paused && !laserDidHit) {
             if (PlayerInTheRay())
             {
-                player.GetComponent<CharacterLife>().Damage(); ;
+                player.GetComponent<CharacterLife>().Damage();
                 laserDidHit = true;
             }
         }

@@ -40,7 +40,7 @@ public class CameraForLabirint : MonoBehaviour
 
     public void ChangeRoom(GameObject room, bool focus) {
         if (!followCamera)
-            cameraObj.transform.position = room.transform.position + 20 * Vector3.back;
+            cameraObj.transform.position = room.transform.position + (20 * Vector3.back);
         else if (focus)
             CameraFollowSetup(room);
         else
@@ -103,7 +103,7 @@ public class CameraForLabirint : MonoBehaviour
     }
 
     void CameraFollowUpdate(){
-        cameraDesiredPosition = player.transform.position - 20 * Vector3.forward;
+        cameraDesiredPosition = player.transform.position - (20 * Vector3.forward);
         var savedPos = cameraObj.transform.position;
         cameraObj.transform.position = cameraDesiredPosition;
         if (cameraComponent.ViewportToWorldPoint(Vector3.one).x - cameraComponent.ViewportToWorldPoint(Vector3.zero).x > cameraBoundsRight - cameraBoundsLeft)

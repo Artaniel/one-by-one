@@ -41,5 +41,4 @@ public class TutorialBullet : MonoBehaviour
         GetComponent<DynamicLightInOut>()?.FadeOut();
         Destroy(gameObject, 1);
     }
-
 }

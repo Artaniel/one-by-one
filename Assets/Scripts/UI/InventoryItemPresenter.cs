@@ -16,7 +16,6 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
     private Sprite originalFrame;
     bool onDrag = false;
 
-
     public void Init(Transform draggingparent)
     {
         draggingParent = draggingparent;

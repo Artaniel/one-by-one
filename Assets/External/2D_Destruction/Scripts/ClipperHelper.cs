@@ -34,11 +34,10 @@ public static class ClipperHelper {
                 clippedPoly.Add(new Vector2(p.X, p.Y) / multiplier);
             }
             clippedPolygons.Add(clippedPoly);
-
         }
         return clippedPolygons;
-        
     }
+
     public static List<List<Vector2>> clip(List<Vector2> boundary, List<Vector2> region)
     {
         Polygons boundaryPoly = createPolygons(boundary);
@@ -61,7 +60,6 @@ public static class ClipperHelper {
                 clippedPoly.Add(new Vector2(p.X, p.Y) / multiplier);
             }
             clippedPolygons.Add(clippedPoly);
-
         }
         return clippedPolygons;
     }
@@ -88,5 +86,4 @@ public static class ClipperHelper {
 
         return poly;
     }
-   
 }

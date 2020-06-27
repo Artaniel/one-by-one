@@ -26,6 +26,5 @@ public class ApplyNewYearHat : MonoBehaviour
                 newYearHat.SetActive(timeNow.Day <= toJanuary ? true : false);
             }
         }
-        
     }
 }

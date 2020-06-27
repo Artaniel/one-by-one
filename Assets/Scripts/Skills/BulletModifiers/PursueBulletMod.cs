@@ -67,7 +67,7 @@ public class PursueBulletMod : BulletModifier
         var difference = angle180fix(angle - currentAngle);
         if (Mathf.Abs(difference) < Mathf.Abs(pursueBulletAngle))
         {
-            bullet.transform.rotation = Quaternion.Euler(0, 0, currentAngle + difference * factorRotationSpeed * Time.deltaTime);
+            bullet.transform.rotation = Quaternion.Euler(0, 0, currentAngle + (difference * factorRotationSpeed * Time.deltaTime));
         }
     }
 

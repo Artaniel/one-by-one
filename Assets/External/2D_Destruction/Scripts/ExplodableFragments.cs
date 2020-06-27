@@ -15,7 +15,7 @@ public class ExplodableFragments : ExplodableAddon{
 
             fragment.layer = explodable.gameObject.layer;
 
-            fragExp.fragmentInEditor();
+            fragExp.FragmentInEditor();
         }
     }
 }

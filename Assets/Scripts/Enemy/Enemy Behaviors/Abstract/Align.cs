@@ -44,7 +44,7 @@ public abstract class Align : EnemyBehavior
         // var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
         if (hits.Length != 0 && hits[0].transform.gameObject.tag != "Player")
         {
-            bypassAngleAccumulator += Mathf.Sign(bypassAngleAccumulator + targetOrientation / 2) * bypassAngleAccumulationSpeed * Time.deltaTime;
+            bypassAngleAccumulator += Mathf.Sign(bypassAngleAccumulator + (targetOrientation / 2)) * bypassAngleAccumulationSpeed * Time.deltaTime;
         }
         else
         {
@@ -57,7 +57,7 @@ public abstract class Align : EnemyBehavior
     private RaycastHit2D[] RaycastHits(Vector2 direction, float distance)
     {
         //Debug.DrawLine(transform.position, direction1.normalized);
-        return Physics2D.RaycastAll(transform.position, new Vector2(transform.up.x, transform.up.y) * 0.5f + direction.normalized, distance);
+        return Physics2D.RaycastAll(transform.position, (new Vector2(transform.up.x, transform.up.y) * 0.5f) + direction.normalized, distance);
     }
 
     protected float targetOrientation;

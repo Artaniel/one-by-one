@@ -134,7 +134,7 @@ public class Inventory : MonoBehaviour
 
     private void PassiveRender(List<SkillBase> items, Transform container)
     {
-        for(int i = 0;i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             var img = container.GetChild(i).GetComponent<PassiveItemPresenter>();
             img.Render(items[i], this);
@@ -203,7 +203,7 @@ public class Inventory : MonoBehaviour
         string name;
         string stats;
         string description;
-    };
+    }
 
     public void UpdateToolTip(SkillBase skill)
     {

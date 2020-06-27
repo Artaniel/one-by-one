@@ -32,8 +32,8 @@ public class SinMovementMod : BulletModifier
         base.MoveModifier(bullet);
         pos = bullet.transform.position;
         if (!isCos)
-            bullet.transform.position = pos + axis * Mathf.Sin(Time.time * frequency) * R;
+            bullet.transform.position = pos + (axis * Mathf.Sin(Time.time * frequency) * R);
         else
-            bullet.transform.position = pos + axis * Mathf.Sin(Time.time * frequency + Mathf.PI) * R;
+            bullet.transform.position = pos + (axis * Mathf.Sin((Time.time * frequency) + Mathf.PI) * R);
     }
 }

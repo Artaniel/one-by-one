@@ -26,7 +26,7 @@ public class ActiveSpeedSkill : ActiveSkill
         character.speed *= 1.65f;
         if (!trail)
         {
-            trail = Instantiate(VFXTrail, player.transform.position - player.transform.up * 0.4f, Quaternion.identity, player.transform).GetComponent<TrailRenderer>();
+            trail = Instantiate(VFXTrail, player.transform.position - (player.transform.up * 0.4f), Quaternion.identity, player.transform).GetComponent<TrailRenderer>();
         }
         else
         {

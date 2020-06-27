@@ -41,7 +41,6 @@ public class Chapter1BossMirror : MirrorTriggerScript
             {
                 timer = 0;
                 DeactivateMirrorEffect();
-                DestroyMirror();
                 bossScript.StartFight();
             }
             return;
@@ -67,11 +66,6 @@ public class Chapter1BossMirror : MirrorTriggerScript
         lightSource.intensity = startingLightIntensity;
         BossSprite.color = new Color(1, 1, 1, 0);
         mirrorActivateParticles.Stop();
-    }
-
-    private void DestroyMirror()
-    {
-
     }
 
     private Light2D lightSource;

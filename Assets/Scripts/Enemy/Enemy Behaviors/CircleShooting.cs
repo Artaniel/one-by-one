@@ -19,7 +19,7 @@ public class CircleShooting : MonoBehaviour
     [SerializeField] private Animator spriteAnimation = null;
     [SerializeField] private Animator shadowAnimation = null;
 
-    private enum Status { move, open, shoot, close };
+    private enum Status { move, open, shoot, close }
     private Status status = Status.move;
 
     private GameObject player;
@@ -115,7 +115,7 @@ public class CircleShooting : MonoBehaviour
 
     private void ShootBullet(Transform from = null) {
         Vector3 dirrectionToPlayer = player.transform.position - transform.position;
-        float rotatingAngle = (360f / bulletsNumber) * bulletsWasShootCounter + Random.Range(-ramdomAngleRange, ramdomAngleRange)+180;
+        float rotatingAngle = ((360f / bulletsNumber) * bulletsWasShootCounter) + Random.Range(-ramdomAngleRange, ramdomAngleRange) + 180;
 
         var spawnPos = from != null ? from.position : transform.position;
         GameObject bullet = Instantiate(bulletPrefab, spawnPos, new Quaternion());
@@ -123,7 +123,7 @@ public class CircleShooting : MonoBehaviour
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("MonsterShot", audio);
 
-        var angle = Mathf.Atan2(dirrectionToPlayer.y, dirrectionToPlayer.x) * Mathf.Rad2Deg + rotatingAngle;
+        var angle = (Mathf.Atan2(dirrectionToPlayer.y, dirrectionToPlayer.x) * Mathf.Rad2Deg) + rotatingAngle;
         bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
         bulletsWasShootCounter++;        
     }

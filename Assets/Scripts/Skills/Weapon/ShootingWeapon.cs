@@ -63,7 +63,7 @@ public class ShootingWeapon : WeaponSkill
 
     private void AddToRandomAngle()
     {
-        randomShootingAngle = Mathf.Min(maxRndShootingAngle, randomShootingAngle + rndShootingAngleAmplifier * maxRndShootingAngle);
+        randomShootingAngle = Mathf.Min(maxRndShootingAngle, randomShootingAngle + (rndShootingAngleAmplifier * maxRndShootingAngle));
     }
 
     protected float GaussianRandom(float mean, float deviation)
@@ -72,13 +72,13 @@ public class ShootingWeapon : WeaponSkill
         float u2 = 1f - Random.Range(0, 1f);
         float randStdNormal = Mathf.Sqrt(-2f * Mathf.Log(u1)) *
                      Mathf.Sin(2f * Mathf.PI * u2); //random normal(0,1)
-        return mean + deviation * randStdNormal; //random normal(mean,stdDev^2)
+        return mean + (deviation * randStdNormal); //random normal(mean,stdDev^2)
     }
 
     public override void UpdateEffect()
     {
         base.UpdateEffect();
-        randomShootingAngle = Mathf.Max(0, randomShootingAngle - maxRndShootingAngle * rndShootingAngleRelease * Time.deltaTime);
+        randomShootingAngle = Mathf.Max(0, randomShootingAngle - (maxRndShootingAngle * rndShootingAngleRelease * Time.deltaTime));
     }
 
     protected void BulletInit(GameObject bullet)
@@ -107,7 +107,7 @@ public class ShootingWeapon : WeaponSkill
 
     public virtual float GunfirePower()
     {
-        return bulletDamage / 3 + timeBetweenAttacks / 7 + knockPower / 200 + additionalVisualPower;
+        return (bulletDamage / 3) + (timeBetweenAttacks / 7) + (knockPower / 200) + additionalVisualPower;
     }
 
     public virtual float GunfireDestructivePower()

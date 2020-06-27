@@ -38,10 +38,7 @@ public class SpawnFirstEnemy : MonoBehaviour
         yield return null;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        
-    }
+    private void OnTriggerEnter2D(Collider2D collider) { }
 
     private GameObject player;
     private SpriteRenderer monsterSprite;

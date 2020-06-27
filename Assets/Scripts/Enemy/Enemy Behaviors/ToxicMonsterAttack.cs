@@ -54,7 +54,7 @@ public class ToxicMonsterAttack : Shoot
         {
             var curAngleFactor = Mathf.Lerp(-angleFactor * distanceToPlayer, angleFactor * distanceToPlayer, 
                 i / (Attack2BulletCount - 1.0f));
-            ShootBulletStraight(target.transform.position + transform.right * curAngleFactor, SecondAttackBullet, 0f);
+            ShootBulletStraight(target.transform.position + (transform.right * curAngleFactor), SecondAttackBullet, 0f);
         }
     }
 }
