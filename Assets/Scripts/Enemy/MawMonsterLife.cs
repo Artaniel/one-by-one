@@ -6,7 +6,7 @@ public class MawMonsterLife : MonsterLife
 {
     public bool Opened = false;
 
-    protected override bool Vulnurable()
+    protected override bool Vulnerable()
     {
         return Opened && isBoy();
     }

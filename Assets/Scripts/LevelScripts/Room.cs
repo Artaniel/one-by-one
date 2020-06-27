@@ -56,7 +56,7 @@ public class Room : MonoBehaviour
         playerLife.HidePlayer();
         var dummy = Instantiate(
             playerLife.dummyPlayerPrefab, 
-            wayInDoor.transform.position + 4 * Direction.SideToVector3(wayInDoor.direction), 
+            wayInDoor.transform.position + (4 * Direction.SideToVector3(wayInDoor.direction)), 
             Quaternion.identity);
         dummy.GetComponent<DummyPlayerController>().SetDestination(wayInDoor.transform.position);
 

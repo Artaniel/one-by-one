@@ -197,7 +197,7 @@ public class MirrorBossEncounter : BossEncounter
             float angleOffset = Random.Range(0, 90f);
             for (int i = 0; i < circleProjectileCount; i++)
             {
-                Instantiate(projectilePrefab, bossInstance.position, Quaternion.Euler(0, 0, angleOffset + (360f * i) / circleProjectileCount));
+                Instantiate(projectilePrefab, bossInstance.position, Quaternion.Euler(0, 0, angleOffset + ((360f * i) / circleProjectileCount)));
             }
         }
 
@@ -226,15 +226,9 @@ public class MirrorBossEncounter : BossEncounter
             }
         }
 
-        private void BossFadeAway()
-        {
+        private void BossFadeAway() { }
 
-        }
-
-        private void BossAppear()
-        {
-
-        }
+        private void BossAppear() { }
 
         private float initialWait = 0;
         private float wait = 0;
@@ -336,7 +330,6 @@ public class MirrorBossEncounter : BossEncounter
                     break;
                 }
             }
-
         }
 
         protected void UpdateIncreaseSpeed()
@@ -406,9 +399,9 @@ public class MirrorBossEncounter : BossEncounter
             public void MoveToCenter(Vector3 roomCenter, float diff)
             {
                 R = R - diff;
-                xPos = xPos - diff * (xPos / R); // decrease proportionally to maintain symmetry
+                xPos = xPos - (diff * (xPos / R)); // decrease proportionally to maintain symmetry
 
-                var yPos = Mathf.Sqrt(4 * (R * R - xPos * xPos) / 9);
+                var yPos = Mathf.Sqrt(4 * ((R * R) - (xPos * xPos)) / 9);
                 transform.position = roomCenter + new Vector3(rightSemisphere ? xPos : -xPos, topSemisphere ? yPos : -yPos, 0);
             }
 
@@ -417,7 +410,7 @@ public class MirrorBossEncounter : BossEncounter
                 float semisphereSign = topSemisphere ? 1 : -1;
                 semisphereSign *= rightSemisphere ? 1 : -1;
                 float directionSign = direction ? 1 : -1;
-                xPos = Mathf.Clamp(xPos + 0.5f * semisphereSign * directionSign * diff * R, 0, R - 0.001f);
+                xPos = Mathf.Clamp(xPos + (0.5f * semisphereSign * directionSign * diff * R), 0, R - 0.001f);
                 if (xPos >= R - 0.005f && rightSemisphere)
                 {
                     topSemisphere = !direction;
@@ -483,7 +476,7 @@ public class MirrorBossEncounter : BossEncounter
         private EllipseBulletData SpawnBulletOnEllipseEdge(float xPos, float R, bool leftSemisphere, bool topSemisphere)
         {
             R = R + Random.Range(rRange.x, rRange.y);
-            var yPos = Mathf.Sqrt(9 * (R * R - xPos * xPos) / 4);
+            var yPos = Mathf.Sqrt(9 * ((R * R) - (xPos * xPos)) / 4);
             Transform newBullet = Instantiate(ellipseProjectilePrefab, 
                 roomCenter + new Vector3(leftSemisphere ? yPos : -yPos, topSemisphere ? xPos : -xPos, 0), Quaternion.identity).transform;
             return new EllipseBulletData(newBullet, R, xPos, leftSemisphere, topSemisphere, Random.Range(0, 2) == 1 ? true : false);
@@ -500,7 +493,6 @@ public class MirrorBossEncounter : BossEncounter
                 var bulletComp = bullet.transform.GetComponent<EnemyBulletLife>();
                 bulletComp.BulletSpeed = 15f;
             }
-
         }
 
         private GameObject ellipseProjectilePrefab;
@@ -532,7 +524,6 @@ public class MirrorBossEncounter : BossEncounter
 
         protected override void AttackStart()
         {
-
             base.AttackStart();
             startingColor = glassEffect.color;
         }
@@ -764,14 +755,14 @@ public class MirrorBossEncounter : BossEncounter
             newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
 
             var newBullet2 = Instantiate(projectile, BD.bossInstance.position, 
-                Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + (Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f)));
+                Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f))));
             newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
 
             if (BD.difficulty == "2")
             {
                 var newBullet3 = Instantiate(projectile, BD.bossInstance.position,
-                Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + (Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(10f, 40f)));
+                Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(10f, 40f))));
                 newBullet3.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
                 newBullet3.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
             }

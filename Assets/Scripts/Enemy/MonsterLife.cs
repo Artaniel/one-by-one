@@ -25,7 +25,7 @@ public class MonsterLife : MonoBehaviour
 
     [HideInInspector] public MonsterManager monsterManager = null;
 
-    protected virtual bool Vulnurable()
+    protected virtual bool Vulnerable()
     {
         return isBoy();
     }
@@ -58,10 +58,7 @@ public class MonsterLife : MonoBehaviour
         CustomUpdate();
     }
 
-    protected virtual void CustomUpdate()
-    {
-
-    }
+    protected virtual void CustomUpdate() { }
 
     private void FadeInLogic()
     {
@@ -80,7 +77,7 @@ public class MonsterLife : MonoBehaviour
     public void Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false)
     {
         if (HP <= 0) return; // Already dead
-        if ((THE_BOY && Vulnurable() || ignoreInvulurability) && SpecialConditions(source))
+        if (((THE_BOY && Vulnerable()) || ignoreInvulurability) && SpecialConditions(source))
         {
             var wasHp = HP;
             HP = Mathf.Max(minHpValue, HP - damage);
@@ -137,7 +134,6 @@ public class MonsterLife : MonoBehaviour
             playerLife.Damage();
         }
     }
-
 
     public void MakeBoy()
     {

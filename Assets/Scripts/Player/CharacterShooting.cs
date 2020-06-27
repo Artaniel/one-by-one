@@ -58,7 +58,6 @@ public class CharacterShooting : MonoBehaviour
         else if (currentWeapon == null || currentWeapon.logic == null) return;
         else if (Input.GetButton("Fire1"))
         {
-            
             Vector3 mousePos = Input.mousePosition;
             var ammoNeeded = currentWeapon.logic.AmmoConsumption();
             if (currentWeapon.ammoLeft >= ammoNeeded)

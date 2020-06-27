@@ -193,8 +193,7 @@ public class BulletLife : MonoBehaviour
 
     private void ApplyModsVFX()
     {
-        foreach (var mod in SortedMods()) mod.ApplyVFX(this);    
-        
+        foreach (var mod in SortedMods()) mod.ApplyVFX(this);      
     }
 
     protected virtual void EnvironmentCollider(Collider2D coll)
@@ -266,7 +265,7 @@ public class BulletLife : MonoBehaviour
 
     public void BlendSecondColor(Color color)
     {
-        Color newColor = color * 0.66f + sprite.color * 0.34f;
+        Color newColor = (color * 0.66f) + (sprite.color * 0.34f);
         sprite.color = newColor;
         var emitterMain = particlesEmitter.main;
         emitterMain.startColor = newColor;
