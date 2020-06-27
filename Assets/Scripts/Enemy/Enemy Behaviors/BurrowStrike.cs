@@ -14,8 +14,6 @@ public class BurrowStrike : Attack
     [SerializeField] private float diggingTime = 2f;
     [SerializeField] private GameObject clawAttack = null;
     [SerializeField] private float checkDistance = 6f;
-    // TODO: No hardcoded colors, please!
-    
 
     protected override void DoAttack()
     {
@@ -193,6 +191,7 @@ public class BurrowStrike : Attack
     private List<Vector4> startingColor;
     private float maxSpeedSaved = 0;
     private float maxRotationSaved = 0;
+    // TODO: No hardcoded colors, please!
     private Color burrowColor = new Color32(209, 188, 138, 0);
     private AIAgent aiAgent;
     private TMPro.TextMeshPro monsterName = null;

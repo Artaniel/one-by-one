@@ -107,7 +107,6 @@ public class SkillManager : MonoBehaviour
             LoadActiveSkills(skillsSavedInfo);
             LoadWeaponSkills(skillsSavedInfo);
             LoadPassiveSkills(skillsSavedInfo);
-
         }
         else
         {

@@ -88,31 +88,7 @@ public class ArenaEnemySpawner : MonoBehaviour
     private Vector2 RandomBorderSpawnPos()
     {
         var spawnPosition = new Vector2();
-        var dice = Random.Range(0, 4);
-        // North, South, East, West spawn positions
-        switch (dice)
-        {
-            case 0:
-                spawnPosition.y = RoomBounds.y;
-                spawnPosition.x = Random.Range(-RoomBounds.x, RoomBounds.x);
-                break;
-            case 1:
-                spawnPosition.y = -RoomBounds.y;
-                spawnPosition.x = Random.Range(-RoomBounds.x, RoomBounds.x);
-                break;
-            case 2:
-                spawnPosition.x = RoomBounds.x;
-                spawnPosition.y = Random.Range(-RoomBounds.y, RoomBounds.y);
-                break;
-            case 3:
-                spawnPosition.x = -RoomBounds.x;
-                spawnPosition.y = Random.Range(-RoomBounds.y, RoomBounds.y);
-                break;
-        }
-        if (labirintMode)
-        {
-            spawnPosition += (Vector2)gameObject.transform.position; // shift to room position
-        }
+        Debug.LogError("Use MonsterManager for handling monsters");
         return spawnPosition;
     }
 
@@ -123,40 +99,7 @@ public class ArenaEnemySpawner : MonoBehaviour
 
     private void SpawnMonsters(int waveNum)
     {
-        var enemyWave = Instantiate(enemyWaves[waveNum], transform.position, Quaternion.identity);
-
-        int enemiesInWave = enemyWave.transform.childCount;
-
-        for (int i = 0; i < enemiesInWave; i++)
-        {
-            var enemy = enemyWave.transform.GetChild(i).gameObject;
-            var behaviours = enemy.GetComponentsInChildren<EnemyBehavior>();
-            // Make enemies move towards player always
-            foreach (var behaviour in behaviours)
-            {
-                if (!(behaviour is Attack))
-                {
-                    behaviour.Activate();
-                    behaviour.timeToLoseAggro = -1; // never stop moving
-                }
-            }
-            // Set random enemy name from the dictionary
-            //enemy.GetComponentInChildren<TMPro.TextMeshPro>().text = currentEvilDictionary[sequenceIndex];
-
-            boysList.Add(enemy);
-            boysCount++;
-
-            if (!SpawnZone)
-            {
-                SetMonsterPosition(enemy);
-            }
-            else
-            {
-                enemy.transform.position = SpawnZone.RandomZonePosition();
-            }
-
-            sequenceIndex++;
-        }
+        Debug.LogError("Use MonsterManager for handling monsters");
     }
 
     // Update is called once per frame
@@ -174,35 +117,12 @@ public class ArenaEnemySpawner : MonoBehaviour
 
     public void KillThemAll()
     {
-        var iToKill = 0;
-        while (iToKill < boysList.Count)
-        {            
-            if (boysList[iToKill] != null) 
-            {
-                boysList[iToKill].GetComponent<MonsterLife>().Damage(null, 999, ignoreInvulurability: true);
-            }
-            iToKill++;
-        }
+        Debug.LogError("Use MonsterManager for handling monsters");
     }
 
     protected void EnemySpawnUpdate()
     {
-        timeToNextSpawn -= Time.deltaTime;
-        if ((timeToNextSpawn < 0 || boysCount == 0 && AllowEarlySpawns) && spawnIndex < enemyWaves.GetLength(0) &&
-            sequenceIndex < scenesController.monsterAdditionLimit + enemiesCount)
-        {
-            timeToNextSpawn = timeToEachSpawn;
-            SpawnMonsters(spawnIndex);
-            spawnIndex++;
-
-            if (spawnIndex >= enemyWaves.GetLength(0))
-            {
-                if (isInfSpawn)
-                {
-                    spawnIndex = 0;
-                }
-            }
-        }
+        Debug.LogError("Use MonsterManager for handling monsters");
     }
 
     public int EnemyCount()

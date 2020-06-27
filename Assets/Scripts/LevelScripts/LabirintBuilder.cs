@@ -165,8 +165,8 @@ public class LabirintBuilder : MonoBehaviour
             if (Labirint.instance.blueprints[i].contanerPrefab != null) {
                 lineColor = Color.blue;
                 Vector3 point = playerPosition + new Vector3(allRoomsPositions[i].x - numberOfRooms + 0.5f, allRoomsPositions[i].y - numberOfRooms + 0.5f, 0);
-                Debug.DrawLine(point + 0.25f * Vector3.up + 0.25f * Vector3.left, point + 0.25f * Vector3.down + 0.25f * Vector3.right, lineColor, 5f);
-                Debug.DrawLine(point + 0.25f * Vector3.down + 0.25f * Vector3.left, point + 0.25f * Vector3.up + 0.25f * Vector3.right, lineColor, 5f);
+                Debug.DrawLine(point + (0.25f * Vector3.up) + (0.25f * Vector3.left), point + (0.25f * Vector3.down) + (0.25f * Vector3.right), lineColor, 5f);
+                Debug.DrawLine(point + (0.25f * Vector3.down) + (0.25f * Vector3.left), point + (0.25f * Vector3.up) + (0.25f * Vector3.right), lineColor, 5f);
             }
         }
     }

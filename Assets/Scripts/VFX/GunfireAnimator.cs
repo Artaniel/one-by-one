@@ -5,8 +5,6 @@ using UnityEngine.Experimental.Rendering.LWRP;
 
 public class GunfireAnimator : MonoBehaviour
 {
-    
-
     new private Light2D light = null;
     
     void Start()
