@@ -69,14 +69,14 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: -6736182566132170281, guid: fdb97734bccdfc940b65b9674ff86c5f,
+  m_SortingOrder: -999
+  m_Sprite: {fileID: 7301925575355717561, guid: fb94ad7a6988fae4bb811a2d7b154977,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5529412}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.0227273, y: 1.307373}
+  m_Size: {x: 1.0714285, y: 1.3696289}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -92,7 +92,7 @@ Animator:
   m_GameObject: {fileID: 51824688}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: eb390c3bbb0e93a45b13f411badb6bcf, type: 2}
+  m_Controller: {fileID: 9100000, guid: d7ad5b2f66fab2a4484ed899ef8d5a0a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -503,6 +503,11 @@ MonoBehaviour:
     attackSound: []
   mouseCursorObj: {fileID: 8267320113450945890, guid: 011dba4647a268540bdff308c46fe50b,
     type: 3}
+  firstBulletShot:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!82 &8124210527876159285
 AudioSource:
   m_ObjectHideFlags: 0
@@ -626,6 +631,11 @@ MonoBehaviour:
     type: 3}
   dashActiveSkill: 0
   hpChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  playerHitEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
