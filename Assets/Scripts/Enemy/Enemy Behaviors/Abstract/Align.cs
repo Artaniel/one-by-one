@@ -36,37 +36,48 @@ public abstract class Align : EnemyBehavior
     private float AccumulateBypassAngle()
     {
         Vector2 direction = target.transform.position - transform.position;
-        direction = (direction.normalized + (new Vector2(transform.up.x, transform.up.y) * 0.5f)).normalized;
-        Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.cyan);
-
-        var hits = RaycastHits(direction, maxBypassRaycastDistance);
+        var hits = RaycastHits(direction, 50);
         hits = (from t in hits
-                where (t.transform.tag == "EnemyCollider" && t.transform.parent != transform) || t.transform.tag == "Environment" || t.transform.tag == "Player"
+                where t.transform.tag == "Player" || t.transform.tag == "Environment"
                 select t).ToArray();
-        // var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
-        if (hits.Length != 0 && hits[0].transform.gameObject.tag != "Player")
+        if (hits[0].transform.tag != "Player")
         {
-            if (bypassAngleAccumulator < 10)
+            Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.red);
+            direction = ((direction.normalized * 0.5f) + (new Vector2(transform.up.x, transform.up.y))).normalized;
+            Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.cyan);
+
+            hits = RaycastHits(direction, maxBypassRaycastDistance);
+            hits = (from t in hits
+                    where (t.transform.tag == "EnemyCollider" && t.transform.parent != transform) || t.transform.tag == "Environment"
+                    select t).ToArray();
+            // var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
+            if (hits.Length != 0)
             {
                 float localX = transform.InverseTransformVector(Vector2.Reflect(direction, hits[0].normal)).x;
-                if (localX < 0.4f)
+                if (Mathf.Abs(localX) < 0.1f)
                 {
-                    bypassAngleAccumulator += bypassAngleAccumulationSpeed * 2f * Time.deltaTime;
+                    bypassAngleAccumulator += bypassAngleAccumulationSpeed * 4f * Time.deltaTime;
+                }
+                else if (bypassAngleAccumulator < 2)
+                {
+                    bypassAngleAccumulator += Mathf.Sign(localX) * bypassAngleAccumulationSpeed * 4f * Time.deltaTime;
                 }
                 else
                 {
-                    bypassAngleAccumulator += Mathf.Sign(localX) * bypassAngleAccumulationSpeed * 2f * Time.deltaTime;
+                    bypassAngleAccumulator += Mathf.Sign(bypassAngleAccumulator) * bypassAngleAccumulationSpeed * 4f * Time.deltaTime;
                 }
             }
             else
             {
-                bypassAngleAccumulator += Mathf.Sign(bypassAngleAccumulator) * bypassAngleAccumulationSpeed * Time.deltaTime;
+                bypassAngleAccumulator -= Mathf.Sign(bypassAngleAccumulator) * bypassAngleAccumulationSpeed * Time.deltaTime * 1f;
             }
         }
         else
         {
-            bypassAngleAccumulator -= Mathf.Sign(bypassAngleAccumulator) * bypassAngleAccumulationSpeed * Time.deltaTime * 2f;
+            Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.green);
+            bypassAngleAccumulator = 0;
         }
+        
         return(MapToRange(bypassAngleAccumulator));
         // print(status + ": " + bypassAngleAccumulator + " -> " + targetOrientation);
     }

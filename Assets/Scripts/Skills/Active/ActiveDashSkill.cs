@@ -30,7 +30,7 @@ public class ActiveDashSkill : ActiveSkill
         if (!dashEffect)
         {
             dashEffect = Instantiate(VFXDash, player.transform.position, Quaternion.identity, player.transform).GetComponent<ParticleSystem>();
-            trail = player.transform.GetComponentInChildren<TrailRenderer>();
+            trail = dashEffect.GetComponentInChildren<TrailRenderer>();
         }
         else
         {
