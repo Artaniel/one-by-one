@@ -19,7 +19,7 @@ public class Shotgun : Pistol
     {
         for (int i = 0; i < shotNumber; i++)
         {       
-            var bullet = GameObject.Instantiate(currentBulletPrefab, attackManager.weaponTip.position,
+            var bullet = PoolManager.GetPool(currentBulletPrefab, attackManager.weaponTip.position,
                              Quaternion.Euler(0, 0, attackManager.weaponTip.rotation.eulerAngles.z + 90 + GaussianRandom(0, Mathf.Pow(arcAngle, 0.7f))));
             BulletInit(bullet);
             var bulLife = bullet.GetComponent<BulletLife>();

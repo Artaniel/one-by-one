@@ -169,7 +169,7 @@ public class BurrowStrike : Attack
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         clawInstance.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        rockDigEffect.GetComponent<DetachDestroyParticleEmitter>().TimeToDestroy = -0;
+        rockDigEffect.GetComponent<StopParticleEmitter>().TimeToDestroy = -0;
         for (int i = 0; i < spritesToFade.Count; i++)
         {
             spritesToFade[i].color = startingColor[i];

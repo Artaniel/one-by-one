@@ -42,7 +42,7 @@ public class ShootingWeapon : WeaponSkill
 
     public void SpawnBulletTowardsCursor(Vector3 mousePos, Transform shotFrom, float RandomAngle, float additionalAngleOffset = 0)
     {
-        var bullet = GameObject.Instantiate(currentBulletPrefab, shotFrom.position, Quaternion.Euler(0, 0, shotFrom.rotation.eulerAngles.z + 90 + GetRandomAngle()));
+        var bullet = PoolManager.GetPool(currentBulletPrefab, shotFrom.position, Quaternion.Euler(0, 0, shotFrom.rotation.eulerAngles.z + 90 + GetRandomAngle()));
         BulletInit(bullet);
     }
 
@@ -90,6 +90,7 @@ public class ShootingWeapon : WeaponSkill
             bulletLife.damage = bulletDamage;
             bulletLife.speed = bulletSpeed;
             bulletLife.timeToDestruction = timeToBulletDestruction;
+            bulletLife.TTDLeft = timeToBulletDestruction;
             foreach (var mod in bulletModifiers)
             {
                 bulletLife.AddMod(mod);
@@ -98,6 +99,7 @@ public class ShootingWeapon : WeaponSkill
             {
                 bulletLife.AddMod(mod);
             }
+            bulletLife.InitializeBullet();
         }
         for(int i = 0; i < bullet.transform.childCount; i++)
         {

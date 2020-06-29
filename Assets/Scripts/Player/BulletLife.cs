@@ -18,12 +18,22 @@ public class BulletLife : MonoBehaviour
     public bool phasing = false;
     public bool copiedBullet = false;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        var audio = GetComponent<AudioSource>();
+        audio = GetComponent<AudioSource>();
         bulletLight = GetComponentInChildren<Light2D>();
+        coll2D = GetComponent<Collider2D>();
+        dynamicLightInOut = GetComponent<DynamicLightInOut>();
+        startColor = sprite.color;
+    }
+
+    public virtual void InitializeBullet()
+    {
+        destroyed = false;
         AudioManager.Play("WeaponShot", audio);
         TTDLeft = timeToDestruction;
+        coll2D.enabled = true;
+        BeginEmitter();
         ActivateSpawnMods();
         ApplyModsVFX();
     }
@@ -196,6 +206,12 @@ public class BulletLife : MonoBehaviour
         foreach (var mod in SortedMods()) mod.ApplyVFX(this);      
     }
 
+    private void DeactivateMods()
+    {
+        foreach (var mod in SortedMods()) mod.DeactivateMod(this);
+        bulletMods.Clear();
+    }
+
     protected virtual void EnvironmentCollider(Collider2D coll)
     {
         ActivateHitEnvironmentMods(coll);
@@ -224,7 +240,7 @@ public class BulletLife : MonoBehaviour
 
     public GameObject BulletFullCopy()
     {
-        var bullet = Instantiate(gameObject, transform.position, transform.rotation);
+        var bullet = PoolManager.GetPool(gameObject, transform.position, transform.rotation);
         var bulletComp = bullet.GetComponent<BulletLife>();
         bulletComp.SetTimeLeft(timeToDestruction);
         bulletComp.speed = speed;
@@ -248,13 +264,22 @@ public class BulletLife : MonoBehaviour
 
     public virtual void DestroyBullet()
     {
+        if (destroyed) return;
+        destroyed = true;
         ActivateDestroyMods();
-        this.enabled = false;
-        GetComponent<Collider2D>().enabled = false;
-        GetComponent<DynamicLightInOut>()?.FadeOut();
-        Destroy(gameObject, 1);
-        Destroy(particlesEmitter.gameObject, 2);
+        //this.enabled = false;
+        coll2D.enabled = false;
+        dynamicLightInOut?.FadeOut();
+        speed = 0;
         StopEmitter();
+        DeactivateMods();
+        PoolManager.ReturnToPool(gameObject, 1);
+    }
+
+    private void BeginEmitter()
+    {
+        particlesEmitter?.Play(false);
+        sprite.color = startColor;
     }
 
     private void StopEmitter()
@@ -284,5 +309,10 @@ public class BulletLife : MonoBehaviour
     [SerializeField]
     private ParticleSystem particlesEmitter = null;
     private Light2D bulletLight;
+    new private AudioSource audio;
     public SpriteRenderer sprite = null;
+    private Collider2D coll2D = null;
+    private DynamicLightInOut dynamicLightInOut = null;
+    private Color startColor;
+    private bool destroyed = false;
 }

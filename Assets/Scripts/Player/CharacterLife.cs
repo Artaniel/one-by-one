@@ -181,8 +181,9 @@ public class CharacterLife : MonoBehaviour
     {
         if (hitEffect)
         {
-            var hitEff = Instantiate(hitEffect, transform.position, Quaternion.identity).GetComponent<PlayerDamagedVFX>();
-            hitEff.player = transform;
+            var hitEff = PoolManager.GetPool(hitEffect, transform.position, Quaternion.identity);
+            PoolManager.ReturnToPool(hitEff, 5f);
+            hitEff.GetComponent<PlayerDamagedVFX>().player = transform;
         }
         cameraShaker.ShakeCamera(2, 0.5f);
     }

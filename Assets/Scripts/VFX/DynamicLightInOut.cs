@@ -22,9 +22,16 @@ public class DynamicLightInOut : MonoBehaviour
     {
         light = GetComponentInChildren<Light2D>();
         startIntensity = light.intensity;
-        if (lifeSpanIn > 0) light.intensity = 0;
+        shouldFadeOutParam = shouldFadeOut;
+    }
+
+    void OnEnable()
+    {
+        light.intensity = startIntensity;
         lifeSpanLeftIn = lifeSpanIn;
         lifeSpanLeftOut = lifeSpanOut;
+        if (lifeSpanIn > 0) light.intensity = 0;
+        shouldFadeOut = shouldFadeOutParam;
     }
 
     // Update is called once per frame
@@ -46,4 +53,6 @@ public class DynamicLightInOut : MonoBehaviour
     {
         shouldFadeOut = true;
     }
+
+    private bool shouldFadeOutParam;
 }

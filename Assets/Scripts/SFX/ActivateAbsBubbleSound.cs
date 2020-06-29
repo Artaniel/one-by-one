@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActivateAbsBubbleSound : MonoBehaviour
 {   
-    void Start()
+    void OnEnable()
     {
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("Block", audio);
