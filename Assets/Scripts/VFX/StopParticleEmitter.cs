@@ -46,14 +46,15 @@ public class StopParticleEmitter : MonoBehaviour
 
     void Update()
     {
-        if (Pause.Paused) return;
+        if (Pause.Paused || stopped) return;
 
         timeToStopLeft -= Time.deltaTime;
-        if (timeToStopLeft < 0)
+        if (timeToStopLeft <= 0)
         {
             if (!stopped)
             {
                 stopped = true;
+                timeToStopLeft = TimeToDestroy; // For future iterations
                 if (findAllInChildren)
                 {
                     StopAllParticles();
@@ -65,6 +66,8 @@ public class StopParticleEmitter : MonoBehaviour
             }
         }
     }
+
+    public void Stop() => timeToStopLeft = -0;
 
     private bool stopped = false;
     private ParticleSystem[] allParticles = null;

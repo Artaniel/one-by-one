@@ -40,6 +40,8 @@ public class PoolManager : MonoBehaviour
         {
             //Debug.Log($"Retrieve from pool: {prefab.name}");
             result = pools[prefab.name].First.Value;
+            if (!result.obj) Debug.LogWarning($"{prefab.name} is NULL. OMG...");
+            if (!result.obj.transform) Debug.LogWarning($"{prefab.name} [transform] is NULL. OMG...");
             pools[prefab.name].RemoveFirst();
             result.obj.transform.position = pos;
             result.obj.transform.rotation = rot;
@@ -119,13 +121,6 @@ public class PoolManager : MonoBehaviour
             {
                 try
                 {
-                    pools[toPoolBuffer[i].name].AddFirst(toPoolBuffer[i]);
-                    toPoolBuffer[i].obj.SetActive(false);
-                    toPoolBuffer.RemoveAt(i);
-                    i--;
-                }
-                catch (System.Exception)
-                {
                     if (!toPoolBuffer[i].obj)
                     {
                         Debug.LogWarning($"Warning: {toPoolBuffer[i].name} is destroyed/null!");
@@ -134,8 +129,18 @@ public class PoolManager : MonoBehaviour
                     }
                     else
                     {
-                        print($"ERROR: {toPoolBuffer[i].name} not found in dictionary!");
+                        pools[toPoolBuffer[i].name].AddFirst(toPoolBuffer[i]);
+                        toPoolBuffer[i].obj.transform.SetParent(null);
+                        toPoolBuffer[i].obj.SetActive(false);
+                        toPoolBuffer.RemoveAt(i);
+                        i--;
                     }
+                }
+                catch (System.Exception)
+                {
+                    print($"ERROR: {toPoolBuffer[i].name} not found in dictionary!");
+                    toPoolBuffer.RemoveAt(i);
+                    i--;
                     continue;
                 }
             }

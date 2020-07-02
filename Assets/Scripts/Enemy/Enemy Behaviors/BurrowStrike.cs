@@ -169,7 +169,14 @@ public class BurrowStrike : Attack
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         clawInstance.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        rockDigEffect.GetComponent<StopParticleEmitter>().TimeToDestroy = -0;
+        foreach (var particle in rockDigEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            var particleEmission = particle.emission;
+            particleEmission.rateOverTime = new ParticleSystem.MinMaxCurve(particleEmission.rateOverTime.constant * (1 / 2.5f));
+            var particleShape = particle.shape;
+            particleShape.angle = particleShape.angle * (1 / 4f);
+        }
+        rockDigEffect.GetComponent<StopParticleEmitter>().Stop();
         rockDigEffect.transform.SetParent(null);
         PoolManager.ReturnToPool(rockDigEffect, 1.5f);
         for (int i = 0; i < spritesToFade.Count; i++)
