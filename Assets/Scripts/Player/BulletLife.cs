@@ -30,6 +30,7 @@ public class BulletLife : MonoBehaviour
     public virtual void InitializeBullet()
     {
         destroyed = false;
+        copiedBullet = false;
         AudioManager.Play("WeaponShot", audio);
         TTDLeft = timeToDestruction;
         coll2D.enabled = true;
