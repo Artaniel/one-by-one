@@ -18,8 +18,7 @@ public class Shotgun : Pistol
     public override void Attack(CharacterShooting attackManager, Vector3 mousePos)
     {
         for (int i = 0; i < shotNumber; i++)
-        {
-            
+        {       
             var bullet = GameObject.Instantiate(currentBulletPrefab, attackManager.weaponTip.position,
                              Quaternion.Euler(0, 0, attackManager.weaponTip.rotation.eulerAngles.z + 90 + GaussianRandom(0, Mathf.Pow(arcAngle, 0.7f))));
             BulletInit(bullet);
@@ -36,5 +35,4 @@ public class Shotgun : Pistol
     {
         return base.GunfirePower() * shotNumber;
     }
-
 }

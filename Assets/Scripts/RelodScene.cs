@@ -114,26 +114,3 @@ public class RelodScene : MonoBehaviour
         Canvas.transform.GetChild(1).gameObject.SetActive(true);
     }
 }
-
-/*[CustomEditor(typeof(RelodScene))]
-public class MyEditorClass : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // If we call base the default inspector will get drawn too.
-        // Remove this line if you don't want that to happen.
-        //base.OnInspectorGUI();
-
-        RelodScene myReload = target as RelodScene;
-
-        myReload.NextSceneName = EditorGUILayout.TextField("NextLevel", myReload.NextSceneName);
-        myReload.SceneNumber = EditorGUILayout.IntField("Scene Number", myReload.SceneNumber);
-        myReload.isPointVictory = EditorGUILayout.Toggle("isPointVictory", myReload.isPointVictory);
-
-        if (myReload.isPointVictory)
-        {
-            myReload.pointsToVictory = EditorGUILayout.IntField("Points to victory:", myReload.pointsToVictory);
-
-        }
-    }
-}*/

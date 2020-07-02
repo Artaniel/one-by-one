@@ -26,7 +26,6 @@ public class BlockDistantAttacks : EnemyBehavior
         if (Vector3.Distance(target.transform.position, gameObject.transform.position) <= DistanceToActivate)
         {
             TTALeft -= Time.deltaTime;
-
         }
         else
         {

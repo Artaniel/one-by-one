@@ -41,7 +41,9 @@ public class LaserSight : PassiveSkill
             }
             else
             {
-                line.SetPosition(1, (Vector3.Normalize(camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20f) - player.transform.position) * 100f) + camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20));
+                line.SetPosition(1, 
+                    (Vector3.Normalize(camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20f) - player.transform.position) * 100f) 
+                    + camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20));
                 // backup variant, ignoring the wall if cant find it
             }
         }
@@ -61,5 +63,4 @@ public class LaserSight : PassiveSkill
             line.transform.parent = player.transform;
         }
     }
-
 }

@@ -17,7 +17,6 @@ public class ContiniousOutlineAppear : MonoBehaviour
                 " is not ContiniousOutline shader on object: " + gameObject.name);
             activated = false;
         }
-        
     }
     
     private void Update()
@@ -31,7 +30,7 @@ public class ContiniousOutlineAppear : MonoBehaviour
 
     protected float Accumulate(float accumulator)
     {
-        return accumulator + Mathf.Abs(Mathf.Sin(Time.time * 4)) * Time.deltaTime / 13;
+        return accumulator + (Mathf.Abs(Mathf.Sin(Time.time * 4)) * Time.deltaTime / 13);
     }
 
     public void Activate()

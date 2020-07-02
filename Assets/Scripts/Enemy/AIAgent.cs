@@ -78,7 +78,7 @@ public class AIAgent : MonoBehaviour
             movement += i.Move();
         }
 
-        Vector2 displacement = (moveSpeedMult * Time.deltaTime) * movement ;
+        Vector2 displacement = (moveSpeedMult * Time.deltaTime) * movement;
         steering = new EnemySteering();
 
         Vector2 velocityFallBack =

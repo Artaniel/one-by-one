@@ -14,6 +14,5 @@ public class SkillBaseEditor : Editor
         {
             SkillAssetLoader.RegisterSkills();
         }
-
     }
 }

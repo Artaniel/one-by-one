@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform draggingParent = null;
     [SerializeField] public GameObject cellPrefab = null;
     [SerializeField] private GameObject passivePrefab = null;
+    [SerializeField] private TMPro.TextMeshProUGUI tooltipText = null;
     public Sprite ActiveFrame = null;
     public Sprite BaseFrame = null;
     public Sprite EmptyFrame = null;
@@ -133,7 +134,7 @@ public class Inventory : MonoBehaviour
 
     private void PassiveRender(List<SkillBase> items, Transform container)
     {
-        for(int i = 0;i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             var img = container.GetChild(i).GetComponent<PassiveItemPresenter>();
             img.Render(items[i], this);
@@ -194,6 +195,27 @@ public class Inventory : MonoBehaviour
     {
         cell.GetComponent<Image>().sprite = frame;
     }
+
+    #region Tooltip
+
+    struct Tooltip
+    {
+        string name;
+        string stats;
+        string description;
+    }
+
+    public void UpdateToolTip(SkillBase skill)
+    {
+        tooltipText.text = skill.description;
+    }
+
+    public void RemoveToolTip()
+    {
+        tooltipText.text = "";
+    }
+
+    #endregion
 
     private List<SkillBase> nonEquippedActiveSkills = null;
     private List<SkillBase> equippedActiveSkills = null;

@@ -32,7 +32,7 @@ public class CameraFollowScript : MonoBehaviour
 
         if (distance > 0)
         {
-            Vector3 newCameraPosition = transform.position + cameraMoveDir * distance * cameraMoveSpeed * Time.deltaTime;
+            Vector3 newCameraPosition = transform.position + (cameraMoveDir * distance * cameraMoveSpeed * Time.deltaTime);
             float distanceAfterMoving = Vector3.Distance(newCameraPosition, cameraFollowPosition);
             if (distanceAfterMoving > distance)
             {

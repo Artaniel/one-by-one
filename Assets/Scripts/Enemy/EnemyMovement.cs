@@ -14,6 +14,7 @@ public class EnemyMovement : MonoBehaviour
     {
         lifeComp = GetComponent<MonsterLife>();
         Player = GameObject.FindGameObjectWithTag("Player");
+        Debug.LogError("Old enemy movement script. Get rid of it ASAP");
     }
 
     protected void MoveAndRotate()
@@ -59,8 +60,8 @@ public class EnemyMovement : MonoBehaviour
 
     protected virtual void Rotation()
     {
-        float z = Mathf.Atan2((Player.transform.position.y - transform.position.y), (Player.transform.position.x - transform.position.x)) * Mathf.Rad2Deg - 90;
-        transform.eulerAngles = new Vector3(0, 0, z);
+        //float z = Mathf.Atan2((Player.transform.position.y - transform.position.y), (Player.transform.position.x - transform.position.x)) * Mathf.Rad2Deg - 90;
+        //transform.eulerAngles = new Vector3(0, 0, z);
     }
 
     public void StopMovement(float time)

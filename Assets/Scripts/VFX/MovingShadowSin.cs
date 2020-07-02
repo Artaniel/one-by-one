@@ -17,7 +17,7 @@ public class MovingShadowSin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float val = startScale - Mathf.Abs(Mathf.Sin(Time.time * 6)) / 4;
+        float val = startScale - (Mathf.Abs(Mathf.Sin(Time.time * 6)) / 4);
         transform.localScale = new Vector3(val, val, val);
     }
 }

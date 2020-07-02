@@ -20,7 +20,7 @@ public class ExplosionForce : MonoBehaviour {
     /// </summary>
     /// <param name="position">location of the explosion</param>
 	public void DoExplosion(Vector3 position, float additionalPower){
-        GetComponent<Explodable>().explode();
+        GetComponent<Explodable>().Explode();
         StartCoroutine(WaitAndExplode(position, additionalPower));
 	}
 
@@ -58,11 +58,10 @@ public class ExplosionForce : MonoBehaviour {
 
         if (upliftModifer != 0)
         {
-            float upliftWearoff = 1 - upliftModifier / explosionRadius;
+            float upliftWearoff = 1 - (upliftModifier / explosionRadius);
             Vector3 upliftForce = Vector2.up * explosionForce * upliftWearoff;
             upliftForce.z = 0;
             body.AddForce(upliftForce);
         }
-		
 	}
 }

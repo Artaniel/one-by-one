@@ -39,7 +39,7 @@ public class PlayerDamagedVFX : MonoBehaviour
             var trail = evilTrails[i];
             trail.Translate(trail.up * Time.deltaTime * animationSpeed * 2 * selfSpeedMult[i], Space.World);
             var trailAngles = trail.eulerAngles;
-            trailAngles.z += 50 * Time.deltaTime * animationSpeed * selfSpeedMult[i] + 5 * Mathf.Sin(20 * Time.time);
+            trailAngles.z += (50 * Time.deltaTime * animationSpeed * selfSpeedMult[i]) + (5 * Mathf.Sin(20 * Time.time));
             trail.eulerAngles = trailAngles;
             trail.Translate(-(trail.position - player.position) * Time.deltaTime, Space.World);
         }

@@ -79,7 +79,6 @@ public class NotificationUI : MonoBehaviour
             notificationText.text = text;
         } 
         // else Debug.Log("Not changing notification because urgency is lower than current");
-        
     }
 
     private void Update()

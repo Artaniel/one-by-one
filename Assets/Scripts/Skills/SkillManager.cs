@@ -104,54 +104,9 @@ public class SkillManager : MonoBehaviour
             file.Close();
 
             skills = new List<SkillBase>();
-            if (skillsSavedInfo.equiptedActiveSkills != null)
-            {
-                activeSkills = new List<EquippedActiveSkill>();
-                foreach (var skill in skillsSavedInfo.equiptedActiveSkills)
-                {
-                    if (!String.IsNullOrEmpty(skill))
-                        AddSkill(Instantiate(registeredSkills[skill] as ActiveSkill));
-                }
-            }
-            if (skillsSavedInfo.nonEquiptedWeapons != null)
-            {
-                equippedWeapons = new List<EquippedWeapon>();
-                foreach (var skill in skillsSavedInfo.equiptedWeaponsSkills)
-                {
-                    if (!String.IsNullOrEmpty(skill))
-                        AddSkill(Instantiate(registeredSkills[skill] as WeaponSkill));
-                }
-            }
-            if (equippedWeapons.Count > 0)
-            {
-                equippedWeapon = equippedWeapons[skillsSavedInfo.currentWeaponIndex];
-                attackManager.LoadNewWeapon(equippedWeapon);
-                ApplyWeaponSprites();
-            }
-
-            foreach (var skill in skillsSavedInfo.nonEquiptedActiveSkills)
-            {
-                if (!String.IsNullOrEmpty(skill))
-                {
-                    var skilInst = Instantiate(registeredSkills[skill] as ActiveSkill);
-                    skills.Add(skilInst);
-                    inventoryActiveSkills.Add(skilInst);
-                }
-            }
-            foreach (var skill in skillsSavedInfo.passiveSkills)
-            {
-                if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as PassiveSkill));
-            }
-            foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
-            {
-                if (!String.IsNullOrEmpty(skill))
-                {
-                    var skilInst = Instantiate(registeredSkills[skill] as WeaponSkill);
-                    skills.Add(skilInst);
-                    inventoryWeaponSkills.Add(skilInst);
-                }
-            }
-
+            LoadActiveSkills(skillsSavedInfo);
+            LoadWeaponSkills(skillsSavedInfo);
+            LoadPassiveSkills(skillsSavedInfo);
         }
         else
         {
@@ -166,6 +121,64 @@ public class SkillManager : MonoBehaviour
                 forceSkillRewrite = false;
                 LoadSkills();
             }
+        }
+    }
+
+    private void LoadActiveSkills(SkillsRecord skillsSavedInfo)
+    {
+        if (skillsSavedInfo.equiptedActiveSkills != null)
+        {
+            activeSkills = new List<EquippedActiveSkill>();
+            foreach (var skill in skillsSavedInfo.equiptedActiveSkills)
+            {
+                if (!String.IsNullOrEmpty(skill))
+                    AddSkill(Instantiate(registeredSkills[skill] as ActiveSkill));
+            }
+        }
+        foreach (var skill in skillsSavedInfo.nonEquiptedActiveSkills)
+        {
+            if (!String.IsNullOrEmpty(skill))
+            {
+                var skilInst = Instantiate(registeredSkills[skill] as ActiveSkill);
+                skills.Add(skilInst);
+                inventoryActiveSkills.Add(skilInst);
+            }
+        }
+    }
+
+    private void LoadWeaponSkills(SkillsRecord skillsSavedInfo)
+    {
+        if (skillsSavedInfo.nonEquiptedWeapons != null)
+        {
+            equippedWeapons = new List<EquippedWeapon>();
+            foreach (var skill in skillsSavedInfo.equiptedWeaponsSkills)
+            {
+                if (!String.IsNullOrEmpty(skill))
+                    AddSkill(Instantiate(registeredSkills[skill] as WeaponSkill));
+            }
+        }
+        if (equippedWeapons.Count > 0)
+        {
+            equippedWeapon = equippedWeapons[skillsSavedInfo.currentWeaponIndex];
+            attackManager.LoadNewWeapon(equippedWeapon);
+            ApplyWeaponSprites();
+        }
+        foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
+        {
+            if (!String.IsNullOrEmpty(skill))
+            {
+                var skilInst = Instantiate(registeredSkills[skill] as WeaponSkill);
+                skills.Add(skilInst);
+                inventoryWeaponSkills.Add(skilInst);
+            }
+        }
+    }
+
+    private void LoadPassiveSkills(SkillsRecord skillsSavedInfo)
+    {
+        foreach (var skill in skillsSavedInfo.passiveSkills)
+        {
+            if (!String.IsNullOrEmpty(skill)) skills.Add(Instantiate(registeredSkills[skill] as PassiveSkill));
         }
     }
 
@@ -268,7 +281,6 @@ public class SkillManager : MonoBehaviour
                 inventoryWeaponSkills.Add(skill as WeaponSkill);
             }
             else EquipWeapon(skill as WeaponSkill);
-
         }
         RefreshUI();
     }
@@ -306,7 +318,6 @@ public class SkillManager : MonoBehaviour
 
     private void InitAfterRewrite()
     {
-
         foreach (var s in skills)
         {
             if (forceSkillRewrite)
@@ -352,7 +363,17 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
-        // Check for a key pressed for active skill
+        HandleSkillActivation();
+        ActiveSkillUpdate();
+        HandleWeaponSwitch();
+        WeaponUpdate();
+        PassiveUpdate();
+        TemporaryModsLowerTimerAndFilter();
+    }
+
+    // Check for a key pressed for active skill
+    private void HandleSkillActivation()
+    {
         for (int i = 0; i < activeSkills.Count; i++)
         {
             if (Input.GetKeyDown(keys[i]) && activeSkills.Count >= i && activeSkills[i].cooldown <= 0f)
@@ -362,8 +383,11 @@ public class SkillManager : MonoBehaviour
                 activeSkills[i].cooldown = activeSkills[i].skill.cooldownDuration;
             }
         }
+    }
 
-        // Update effect, cooldown and active time left for active skill
+    // Update effect, cooldown and active time left for active skill
+    private void ActiveSkillUpdate()
+    {
         float[] skillCooldownsProportion = new float[SkillsUI.skillCount];
         bool[] isActiveSkill = new bool[SkillsUI.skillCount];
         for (int i = 0; i < activeSkills.Count; i++)
@@ -384,8 +408,22 @@ public class SkillManager : MonoBehaviour
             isActiveSkill[i] = activeSkills[i].activeTimeLeft > 0;
         }
         skillsUI.UpdateSkillRecoverVisualCooldown(skillCooldownsProportion, isActiveSkill);
+    }
 
-        // Switch weapon
+    // Update effect of passive skills
+    private void PassiveUpdate()
+    {
+        foreach (var s in skills)
+        {
+            if (s is PassiveSkill)
+            {
+                s.UpdateEffect();
+            }
+        }
+    }
+
+    private void HandleWeaponSwitch()
+    {
         if ((Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight)) && equippedWeapons.Count != 0)
         {
             var newWeaponIndex = 0;
@@ -402,8 +440,11 @@ public class SkillManager : MonoBehaviour
                 attackManager.LoadNewWeapon(equippedWeapon);
             ApplyWeaponSprites();
         }
+    }
 
-        // Update reload time of all weapons & call update
+    // Update reload time of all weapons & call update
+    private void WeaponUpdate()
+    {
         float[] weaponCooldownsProportion = new float[SkillsUI.weaponsCount];
         int j = 0;
         foreach (var weapon in equippedWeapons)
@@ -423,17 +464,11 @@ public class SkillManager : MonoBehaviour
             skillsUI.UpdateWeaponReloadVisualCooldown(weaponCooldownsProportion, equippedWeapon.weaponIndex);
             equippedWeapon.logic?.UpdateEquippedEffect();
         }
+    }
 
-        // Update effect of passive skills
-        foreach (var s in skills)
-        {
-            if (s is PassiveSkill)
-            {
-                s.UpdateEffect();
-            }
-        }
-
-        // Update temporary weapon mods
+    // Update temporary weapon mods
+    private static void TemporaryModsLowerTimerAndFilter()
+    {
         for (int i = 0; i < temporaryBulletMods.Count; i++)
         {
             temporaryBulletMods[i].modifierTime -= Time.deltaTime;

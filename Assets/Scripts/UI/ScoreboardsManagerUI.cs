@@ -39,7 +39,6 @@ public class ScoreboardsManagerUI : MonoBehaviour
     private bool hardcoreBoardRetrieved = false;
     private bool boardsShown = false;
     
-
     private void Start()
     {
         Ping();

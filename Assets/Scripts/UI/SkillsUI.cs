@@ -125,8 +125,6 @@ public class SkillsUI : MonoBehaviour
                     weaponCells[cellIndex].GetChild(1).GetComponent<Image>().color = Color.clear;
                 }
             }
-
-            
         }
     }
 }

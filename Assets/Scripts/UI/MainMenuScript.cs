@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class MainMenuScript : MonoBehaviour
 {
     [SerializeField]
@@ -25,7 +24,6 @@ public class MainMenuScript : MonoBehaviour
     enum Difficulty { Easy, Normal, Hardcore }
     private Difficulty stageDifficulty = Difficulty.Normal;
     
-
     #region Monobehaviour functions
 
     void Start()

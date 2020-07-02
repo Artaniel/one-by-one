@@ -34,8 +34,6 @@ public class NextMonsterSkill : ActiveSkill
         Destroy(outlineGameObj); 
     }
 
-
-
     private GameObject currentBoy;
     private GameObject outlineGameObj;
 }

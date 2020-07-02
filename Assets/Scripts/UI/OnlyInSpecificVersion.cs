@@ -10,17 +10,10 @@ public class OnlyInSpecificVersion : MonoBehaviour
     void Start()
     {
 #if UNITY_WEBGL
-
 #else
         if (onlyInBrowser) {
             gameObject.SetActive(false);
         }
 #endif
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

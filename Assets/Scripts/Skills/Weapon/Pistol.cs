@@ -11,5 +11,4 @@ public class Pistol : ShootingWeapon
         ammoMagazine = 6;
         timeBetweenAttacks = 0.5f;
     }
-
 }
