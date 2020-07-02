@@ -7,10 +7,8 @@ public class DynamicLightInOut : MonoBehaviour
 {
     private new Light2D light;
     private float startIntensity;
-    [SerializeField]
-    private float lifeSpanIn = 0.25f;
-    [SerializeField]
-    private float lifeSpanOut = 0.25f;
+    [SerializeField] private float lifeSpanIn = 0.25f;
+    [SerializeField] private float lifeSpanOut = 0.25f;
     private float lifeSpanLeftIn;
     private float lifeSpanLeftOut;
 

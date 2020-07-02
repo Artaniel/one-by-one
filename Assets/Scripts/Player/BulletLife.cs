@@ -40,7 +40,7 @@ public class BulletLife : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Pause.Paused) return;
+        if (Pause.Paused || destroyed) return;
         TTDLeft -= Time.fixedDeltaTime;
         Move();
         UpdateMods();
@@ -58,6 +58,8 @@ public class BulletLife : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
+        if (destroyed) return;
+
         if (coll.CompareTag("EnemyCollider"))
         {
             EnemyCollider(coll);
@@ -267,7 +269,6 @@ public class BulletLife : MonoBehaviour
         if (destroyed) return;
         destroyed = true;
         ActivateDestroyMods();
-        //this.enabled = false;
         coll2D.enabled = false;
         dynamicLightInOut?.FadeOut();
         speed = 0;

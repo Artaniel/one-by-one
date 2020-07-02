@@ -26,9 +26,13 @@ public class ReflectBullets : MonoBehaviour
                 coll.transform.eulerAngles = new Vector3(0, 0, rot);
                 bulletLife.KnockBack(aiAgent);
                 TurnBulletIntoEnemy(bulletLife);
-                var reflectionAnim = Instantiate(bulletReflectAnim, coll.transform.position, Quaternion.Euler(0, 0, rot - 90)).GetComponentInChildren<Animation>();
+                var reflection = PoolManager.GetPool(bulletReflectAnim, coll.transform.position, Quaternion.Euler(0, 0, rot - 90));
+                var reflectionAnim = reflection.GetComponentInChildren<Animation>();
                 reflectionAnim.wrapMode = WrapMode.Once;
-                Instantiate(bulletReflectedEffect, bulletLife.transform);
+                PoolManager.ReturnToPool(reflection, 2f);
+
+                var reflectBullet = PoolManager.GetPool(bulletReflectedEffect, bulletLife.transform);
+                PoolManager.ReturnToPool(reflectBullet, bulletLife.TTDLeft);
             }
         }
     }

@@ -17,13 +17,13 @@ public class PoolManager : MonoBehaviour
     {
         public GameObject obj;
         public float timeLife;
-
-        public string name { get => obj.name; }
+        public string name;
 
         public PoolObject(GameObject Obj, float TimeLife)
         {
             obj = Obj;
             timeLife = TimeLife;
+            name = obj.name;
         }
     }
 
@@ -50,6 +50,32 @@ public class PoolManager : MonoBehaviour
         {
             //Debug.Log($"Creating new object: {prefab.name}");
             result.obj = GameObject.Instantiate(prefab, pos, rot);
+            result.obj.name = prefab.name;
+            return result.obj;
+        }
+    }
+
+    public static GameObject GetPool(GameObject prefab, Transform toTransform)
+    {
+        var pools = instance.pools;
+        if (!pools.ContainsKey(prefab.name))
+        {
+            pools[prefab.name] = new LinkedList<PoolObject>();
+        }
+        PoolObject result;
+        if (pools[prefab.name].Count > 0)
+        {
+            result = pools[prefab.name].First.Value;
+            pools[prefab.name].RemoveFirst();
+            result.obj.transform.position = toTransform.position;
+            result.obj.transform.rotation = toTransform.rotation;
+            result.obj.transform.SetParent(toTransform);
+            result.obj.SetActive(true);
+            return result.obj;
+        }
+        else
+        {
+            result.obj = GameObject.Instantiate(prefab, toTransform);
             result.obj.name = prefab.name;
             return result.obj;
         }
@@ -91,10 +117,27 @@ public class PoolManager : MonoBehaviour
 
             if (toPoolBuffer[i].timeLife < 0)
             {
-                pools[toPoolBuffer[i].name].AddFirst(toPoolBuffer[i]);
-                toPoolBuffer[i].obj.SetActive(false);
-                toPoolBuffer.RemoveAt(i);
-                i--;
+                try
+                {
+                    pools[toPoolBuffer[i].name].AddFirst(toPoolBuffer[i]);
+                    toPoolBuffer[i].obj.SetActive(false);
+                    toPoolBuffer.RemoveAt(i);
+                    i--;
+                }
+                catch (System.Exception)
+                {
+                    if (!toPoolBuffer[i].obj)
+                    {
+                        Debug.LogWarning($"Warning: {toPoolBuffer[i].name} is destroyed/null!");
+                        toPoolBuffer.RemoveAt(i);
+                        i--;
+                    }
+                    else
+                    {
+                        print($"ERROR: {toPoolBuffer[i].name} not found in dictionary!");
+                    }
+                    continue;
+                }
             }
         }
     }

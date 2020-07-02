@@ -6,9 +6,16 @@ public class SelfDestroy : MonoBehaviour
 {
     [SerializeField]
     private float timer = 0.5f;
+    public bool toPool = true;
 
-    void Start()
+    void OnEnable()
     {
-        Destroy(gameObject, timer);
+        StartCoroutine(NextFrame()); // Cause OnEnable interrupts execution order
+    }
+
+    private IEnumerator NextFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        PoolManager.ReturnToPool(gameObject, timer);
     }
 }

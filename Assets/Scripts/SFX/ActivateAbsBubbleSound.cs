@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActivateAbsBubbleSound : MonoBehaviour
-{   
+{
+    new private AudioSource audio;
+
+    void Awake()
+    {
+        audio = GetComponent<AudioSource>();
+    }
+
     void OnEnable()
     {
-        var audio = GetComponent<AudioSource>();
         AudioManager.Play("Block", audio);
     } 
 }

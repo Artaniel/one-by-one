@@ -118,7 +118,7 @@ public class CircleShooting : MonoBehaviour
         float rotatingAngle = ((360f / bulletsNumber) * bulletsWasShootCounter) + Random.Range(-ramdomAngleRange, ramdomAngleRange) + 180;
 
         var spawnPos = from != null ? from.position : transform.position;
-        GameObject bullet = Instantiate(bulletPrefab, spawnPos, new Quaternion());
+        GameObject bullet = PoolManager.GetPool(bulletPrefab, spawnPos, new Quaternion());
 
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("MonsterShot", audio);

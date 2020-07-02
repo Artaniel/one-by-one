@@ -175,14 +175,10 @@ public class MonsterLife : MonoBehaviour
 
     private GameObject BulletAbsorb()
     {
-        if (absorbPrefab)
-        {
-            var absorb = PoolManager.GetPool(absorbPrefab, gameObject.transform.position, Quaternion.identity);
-            absorb.transform.SetParent(gameObject.transform);
-            PoolManager.ReturnToPool(absorb, 0.5f);
-            return absorb;
-        }
-        return null;
+        invulnurabilityShield = PoolManager.GetPool(absorbPrefab, gameObject.transform.position, Quaternion.identity);
+        invulnurabilityShield.transform.SetParent(gameObject.transform);
+        PoolManager.ReturnToPool(invulnurabilityShield, 0.5f);
+        return invulnurabilityShield;
     }
     
     /// <param name="percentage01Range">Should be between 0 and 1</param>
@@ -232,6 +228,7 @@ public class MonsterLife : MonoBehaviour
     private IEnumerator DestoryGameObject()
     {
         yield return new WaitForSeconds(0.15f);
+        if (invulnurabilityShield) invulnurabilityShield.transform.SetParent(null);
         Destroy(gameObject);
     }
 

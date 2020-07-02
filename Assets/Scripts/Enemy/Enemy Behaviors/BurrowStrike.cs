@@ -21,7 +21,7 @@ public class BurrowStrike : Attack
 
         aiAgent.moveSpeedMult /= 100; // 0
         aiAgent.maxRotation = 30f;
-        rockDigEffect = Instantiate(burrowEffect, transform);
+        rockDigEffect = PoolManager.GetPool(burrowEffect, transform);
         rockDigEffect.transform.Translate(-transform.up * 0.8f, Space.World);
 
         currentState = BurrowState.Burrowing;
@@ -164,12 +164,14 @@ public class BurrowStrike : Attack
     protected void CompleteAttack()
     {
         currentState = BurrowState.None;
-        var clawInstance = Instantiate(clawAttack, transform.position + (transform.up * 2f), Quaternion.identity);
+        var clawInstance = PoolManager.GetPool(clawAttack, transform.position + (transform.up * 2f), Quaternion.identity);
         var offset = new Vector2(clawInstance.transform.position.x - transform.position.x, clawInstance.transform.position.y - transform.position.y);
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         clawInstance.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         rockDigEffect.GetComponent<StopParticleEmitter>().TimeToDestroy = -0;
+        rockDigEffect.transform.SetParent(null);
+        PoolManager.ReturnToPool(rockDigEffect, 1.5f);
         for (int i = 0; i < spritesToFade.Count; i++)
         {
             spritesToFade[i].color = startingColor[i];

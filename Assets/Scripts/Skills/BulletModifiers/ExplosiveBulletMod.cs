@@ -42,7 +42,7 @@ public class ExplosiveBulletMod : BulletModifier
 
     protected virtual void ExplosiveWave(Collider2D[] enemys, BulletLife bullet)
     {
-        var vfxPref = Instantiate(explosiveVfxPrefab, bullet.transform.position, bullet.transform.rotation);
+        var vfxPref = PoolManager.GetPool(explosiveVfxPrefab, bullet.transform.position, bullet.transform.rotation);
         foreach (var i in enemys)
         {
             var monsterLife = i.gameObject.GetComponentInParent<MonsterLife>();
