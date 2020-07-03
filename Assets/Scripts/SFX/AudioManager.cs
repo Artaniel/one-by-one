@@ -19,13 +19,8 @@ public class AudioManager : MonoBehaviour
 
     private const float lowestSoundValue = 0.3f;
 
-    [SerializeField]
-    private AudioSource SourceMusic = null; // duplicate of static for inspector
-
-    [SerializeField]
-    AudioClip[] musicList = null;
-    [SerializeField]
-    private bool restartMusicOnLoad = false;
+    [SerializeField] AudioClip[] musicList = null;
+    [SerializeField] private bool restartMusicOnLoad = false;
 
     public bool softMusicStop = true;
 

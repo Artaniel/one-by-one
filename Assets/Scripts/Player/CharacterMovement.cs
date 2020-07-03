@@ -89,7 +89,7 @@ public class CharacterMovement : MonoBehaviour
                 AudioManager.Play("Walk", audio);
             }
             anim.Play($"HeroWalk/{weaponType}");
-            //shadowAnim.Play("HeroShadow");
+            //shadowAnim.Play("HeroShadow"); k
         }
     }
 

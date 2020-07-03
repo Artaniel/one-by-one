@@ -432,7 +432,7 @@ public class MirrorBossEncounter : BossEncounter
             base.AttackStart();
             TestEllipse();
             Camera.main.GetComponent<CameraFocusOn>().FocusOn(roomCenter, attackLength, 4f);
-            if (BD.difficulty == "2") ellipseToCenterSpeed = 8.75f;
+            //if (BD.difficulty == "2") ellipseToCenterSpeed = 8.75f;
         }
 
         protected override void AttackUpdate()
@@ -504,7 +504,6 @@ public class MirrorBossEncounter : BossEncounter
         private GameObject ellipseInstance;
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(-0.5f, 4);
-        private float ellipseToCenterSpeed = 8.3f;
         private float ellipseStartR = 24;
         private Dictionary<Transform, float> bulletEllipseParameters = new Dictionary<Transform, float>();
         private Dictionary<Transform, bool> bulletEllipseSemisphere = new Dictionary<Transform, bool>();

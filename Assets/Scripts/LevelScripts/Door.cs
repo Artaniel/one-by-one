@@ -15,18 +15,15 @@ public class Door : MonoBehaviour
     [HideInInspector] public bool unlockOnTimer = false;
     private float timer = 1f;
     
-    [SerializeField] public Direction.Side direction;
+    [SerializeField] public Direction.Side direction = Direction.Side.UNSET;
     public string sceneName=""; // name of scene to change on enter this door
     public bool isSpawned = false;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Transform doorVisual;
+    [SerializeField] private Transform doorVisual = null;
 
-    [SerializeField]
-    private GameObject arrowSprite;
-    private Camera camera;
-
-    [SerializeField] Sprite baseSprite;
-    [SerializeField] Sprite visitedSprite;
+    [SerializeField] private GameObject arrowSprite = null;
+    new private Camera camera;
+    
+    [SerializeField] Sprite visitedSprite = null;
 
     void Awake()
     {

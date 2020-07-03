@@ -11,7 +11,7 @@ public class CharacterShooting : MonoBehaviour
     [HideInInspector] public SkillManager.EquippedWeapon currentWeapon;
 
     [SerializeField] private GameObject mouseCursorObj = null;
-    private Rigidbody2D rigidbody;
+    new private Rigidbody2D rigidbody;
 
     [HideInInspector] public UnityEvent firstBulletShot = new UnityEvent();
 

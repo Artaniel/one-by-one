@@ -13,7 +13,6 @@ public class CameraForLabirint : MonoBehaviour
     private float cameraBoundsRight;
     private float cameraBoundsUp;
     private float cameraBoundsDown;
-    private bool cameraIsFree = false;
 
     public static CameraForLabirint instance;
 
@@ -57,7 +56,6 @@ public class CameraForLabirint : MonoBehaviour
 
     public void CameraFreeSetup()
     {
-        cameraIsFree = true;
         cameraBoundsLeft = Mathf.NegativeInfinity;
         cameraBoundsRight = Mathf.Infinity;
         cameraBoundsUp = Mathf.Infinity;
