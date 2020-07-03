@@ -693,8 +693,8 @@ public class MirrorBossEncounter : BossEncounter
         public override void StartPhase()
         {
             base.StartPhase();
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<CurrentEnemySelector>().enableScanning = true;
-            BD.GetComponentInChildren<ContiniousOutlineAppear>().Activate();
+            Labirint.instance.GetComponent<CurrentEnemySelector>().enableScanning = true;
+            Labirint.GetCurrentRoom().GetComponentInChildren<ContiniousOutlineAppear>().Activate();
             if (BD.bossInstance) // in debug mode there is no boss
             {
                 BD.bossInstance.gameObject.SetActive(false);

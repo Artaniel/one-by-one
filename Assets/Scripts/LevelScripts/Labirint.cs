@@ -31,6 +31,7 @@ public class Labirint : MonoBehaviour
     public List<MonsterRoomModifier> commonMRMods;
     [SerializeField] public string welcomeText = "";
     [HideInInspector] static public Room currentRoom;
+    [HideInInspector] public bool OneRoomMode = false;
 
     private void Awake()
     {
@@ -42,7 +43,10 @@ public class Labirint : MonoBehaviour
         if (builder == null)
         {
             //InitBlueprints();
-            Debug.LogError("Cant find labirint builder script");
+            Debug.Log("Cant find labirint builder script. One Room labirint mode");
+            blueprints = new RoomBlueprint[1];
+            blueprints[0] = new RoomBlueprint();
+            OneRoomMode = true;
         }
         else
         {
