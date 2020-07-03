@@ -14194,7 +14194,7 @@ GameObject:
   - component: {fileID: 5581556330081833290}
   m_Layer: 0
   m_Name: Ch1Boss Manager
-  m_TagString: GameController
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14322,46 +14322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bd3f554176e8346bda601eba74e71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossSpawnEffect: {fileID: 7668204213015730388, guid: 96defb8a66b0d5e4eb747f52876c28dc,
-    type: 3}
-  BossPrefab: {fileID: 4165841188981252901, guid: 306ec4e7589b35947a7c4f97bf941493,
-    type: 3}
-  BossBulletMiddle: {fileID: 1671438991049873951, guid: 7d4327cf053de9a4797acf15c9a12277,
-    type: 3}
-  HomingBullet: {fileID: 7014290374269072689, guid: b33efc05b1497cd439c4d7f455bfa93d,
-    type: 3}
-  Phase1PlayerNameLabel: {fileID: 0}
-  BossRoomEntrance: {fileID: 5581556329869952033}
-  BigBurstBulletAmount: 12
-  MediumBurstBulletAmount: 8
-  Phase1StaticShooters: {fileID: 5581556329789042591}
-  Phase1StatueOfShooters: {fileID: 5581556328961941546}
-  GlassSprite: {fileID: 5581556329677444814}
-  leftSpawnZone: {fileID: 4558542469363388132}
-  rightSpawnZone: {fileID: 4558542468605030163}
-  Phase2Monsters:
-  - {fileID: 5157507255320454297, guid: 22eff29559e39984d8287a12d653b5a8, type: 3}
-  - {fileID: 2873645921850147136, guid: 49e2859874a9916439d03436ec6cfa94, type: 3}
-  - {fileID: 8122783078331616378, guid: 0d86570df5d218e4293d07ddf7d4760c, type: 3}
-  - {fileID: 4653389663735491910, guid: c810a750a555ce84091332819db92524, type: 3}
-  - {fileID: 5157507255320454297, guid: 22eff29559e39984d8287a12d653b5a8, type: 3}
-  - {fileID: 2873645921850147136, guid: 49e2859874a9916439d03436ec6cfa94, type: 3}
-  - {fileID: 5157507255320454297, guid: 22eff29559e39984d8287a12d653b5a8, type: 3}
-  - {fileID: 2611012751803154452, guid: e008d69018ee3cf46a35061dfdf8de46, type: 3}
-  - {fileID: 8122783078331616378, guid: 0d86570df5d218e4293d07ddf7d4760c, type: 3}
-  - {fileID: 8122783078331616378, guid: 0d86570df5d218e4293d07ddf7d4760c, type: 3}
-  - {fileID: 2611012751803154452, guid: e008d69018ee3cf46a35061dfdf8de46, type: 3}
-  - {fileID: 5157507255320454297, guid: 22eff29559e39984d8287a12d653b5a8, type: 3}
-  - {fileID: 2873645921850147136, guid: 49e2859874a9916439d03436ec6cfa94, type: 3}
-  Phase2TimeToEachMonsterSpawn: 0.97
-  phase4FadeIn: 1.5
-  MirrorCrack: {fileID: 5581556330222149846}
-  BurstBulletAmount: 30
-  BulletSpeedRange: {x: 7, y: 15}
-  AfterBossFadeInExtraTime: 0.3
-  Phase4AfterAttackIdleTime: 2.75
-  Phase4Shards: {fileID: 5581556329679722887}
-  NextSceneName: FinalCredits
 --- !u!114 &5581556330081833288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14743,32 +14703,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5}
-  m_EdgeRadius: 0
---- !u!61 &5581556328784287121
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5852278972717419470}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 1.88}
-    newSize: {x: 0.64, y: 1.88}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.48, y: 1.88}
   m_EdgeRadius: 0
 --- !u!1 &5581556328821206977
 GameObject:
@@ -15644,32 +15578,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5581556329722287182
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5852278974389964891}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 1.88}
-    newSize: {x: 0.64, y: 1.88}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.48, y: 1.88}
-  m_EdgeRadius: 0
 --- !u!1 &5581556329748017826
 GameObject:
   m_ObjectHideFlags: 0
@@ -16361,6 +16269,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &5581556328784287121
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852278972717419470}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 1.88}
+    newSize: {x: 0.64, y: 1.88}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.48, y: 1.88}
+  m_EdgeRadius: 0
+--- !u!61 &5581556329722287182
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852278974389964891}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 1.88}
+    newSize: {x: 0.64, y: 1.88}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.48, y: 1.88}
+  m_EdgeRadius: 0
 --- !u!1001 &1317120791144459509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17024,11 +16984,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5581556329601014467}
     m_Modifications:
-    - target: {fileID: 5146936435766494599, guid: 4f93de409de0f8a4aac6ef302b2f3020,
-        type: 3}
-      propertyPath: m_Name
-      value: LastPhaseMovePosition
-      objectReference: {fileID: 0}
     - target: {fileID: 5146936435766494601, guid: 4f93de409de0f8a4aac6ef302b2f3020,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17093,6 +17048,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 3.11195
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146936435766494599, guid: 4f93de409de0f8a4aac6ef302b2f3020,
+        type: 3}
+      propertyPath: m_Name
+      value: LastPhaseMovePosition
       objectReference: {fileID: 0}
     - target: {fileID: 5146936435766494600, guid: 4f93de409de0f8a4aac6ef302b2f3020,
         type: 3}
@@ -17221,6 +17181,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.6
       objectReference: {fileID: 0}
+    - target: {fileID: 4079890185448350724, guid: 683a473eedafca0478dd390eee40a577,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2036422325750357296, guid: 683a473eedafca0478dd390eee40a577,
         type: 3}
       propertyPath: m_IsActive
@@ -17236,29 +17201,18 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2036422326219715897, guid: 683a473eedafca0478dd390eee40a577,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2036422324412952235, guid: 683a473eedafca0478dd390eee40a577,
         type: 3}
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4079890185448350724, guid: 683a473eedafca0478dd390eee40a577,
+    - target: {fileID: 2036422326219715897, guid: 683a473eedafca0478dd390eee40a577,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 3
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 683a473eedafca0478dd390eee40a577, type: 3}
---- !u!1 &5852278974389964891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2036422324412952237, guid: 683a473eedafca0478dd390eee40a577,
-    type: 3}
-  m_PrefabInstance: {fileID: 5581556330282319606}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5852278972717419470 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2036422326219715896, guid: 683a473eedafca0478dd390eee40a577,
@@ -17283,6 +17237,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5581556330282319606}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5852278974389964891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2036422324412952237, guid: 683a473eedafca0478dd390eee40a577,
+    type: 3}
+  m_PrefabInstance: {fileID: 5581556330282319606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6260443053454776873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17290,11 +17250,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5581556329601014467}
     m_Modifications:
-    - target: {fileID: 5146936435766494599, guid: 4f93de409de0f8a4aac6ef302b2f3020,
-        type: 3}
-      propertyPath: m_Name
-      value: Phase1MinibombTeleportZone
-      objectReference: {fileID: 0}
     - target: {fileID: 5146936435766494601, guid: 4f93de409de0f8a4aac6ef302b2f3020,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17359,6 +17314,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 15.05427
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146936435766494599, guid: 4f93de409de0f8a4aac6ef302b2f3020,
+        type: 3}
+      propertyPath: m_Name
+      value: Phase1MinibombTeleportZone
       objectReference: {fileID: 0}
     - target: {fileID: 5146936435766494600, guid: 4f93de409de0f8a4aac6ef302b2f3020,
         type: 3}
