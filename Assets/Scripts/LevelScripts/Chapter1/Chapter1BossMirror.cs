@@ -5,10 +5,8 @@ using UnityEngine.Experimental.Rendering.LWRP;
 
 public class Chapter1BossMirror : MirrorTriggerScript
 {
-    [SerializeField]
-    private SpriteRenderer BossSprite = null;
-    [SerializeField]
-    private ParticleSystem mirrorActivateParticles = null;
+    [SerializeField] private SpriteRenderer BossSprite = null;
+    [SerializeField] private ParticleSystem mirrorActivateParticles = null;
 
     private bool isActive = false;
 
@@ -17,7 +15,7 @@ public class Chapter1BossMirror : MirrorTriggerScript
     private float timeToActivate = 7;
     private bool finallyActivated = false;
 
-    private MirrorBossEncounter bossScript;
+    [SerializeField] private MirrorBossEncounter bossScript;
 
     protected override void ActivateMirrorEffect(GameObject objectNearMirror)
     {
@@ -30,7 +28,6 @@ public class Chapter1BossMirror : MirrorTriggerScript
     {
         lightSource = GetComponentInParent<Light2D>();
         startingLightIntensity = lightSource.intensity;
-        bossScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<MirrorBossEncounter>();
     }
 
     private void Update()
