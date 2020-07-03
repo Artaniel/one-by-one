@@ -677,6 +677,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1567550026609961793}
+  - component: {fileID: 1152882781860569572}
   m_Layer: 0
   m_Name: GunTip
   m_TagString: Untagged
@@ -699,6 +700,24 @@ Transform:
   m_Father: {fileID: 4305704709305310689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!114 &1152882781860569572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199985846643363209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d87a99b45cc7b42b970109d4bbcc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponTipPositions:
+  - {x: -0.321, y: -1.057, z: 0}
+  - {x: 0, y: -1.17, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!1001 &1505494499553844365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -706,6 +725,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4305704709854959873}
     m_Modifications:
+    - target: {fileID: 2004566509979668110, guid: d40250721e21fb640a3bd4181e3f06b5,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerHealthBar
+      objectReference: {fileID: 0}
     - target: {fileID: 6640788202129163617, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_Name
@@ -820,11 +844,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004566509979668110, guid: d40250721e21fb640a3bd4181e3f06b5,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 9196971933642235979, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}

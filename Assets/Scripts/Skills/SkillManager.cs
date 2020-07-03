@@ -224,6 +224,7 @@ public class SkillManager : MonoBehaviour
     {
         RelodScene.OnSceneChange.AddListener(SaveSkills);
         skillsUI = GameObject.FindGameObjectWithTag("Canvas").GetComponent<SkillsUI>();
+        characterMovement = GetComponent<CharacterMovement>();
     }
 
     List<WeaponSkill> inventoryWeaponSkills = new List<WeaponSkill>();
@@ -259,6 +260,7 @@ public class SkillManager : MonoBehaviour
         equippedWeapon = null;
         attackManager.currentWeapon = null;
         equippedWeapons.Clear();
+        characterMovement.UpdateWeaponType(WeaponSkill.WeaponType.Empty);
         equippedWeapons = new List<EquippedWeapon>();
     }
 
@@ -301,6 +303,7 @@ public class SkillManager : MonoBehaviour
         if (attackManager && equippedWeapons.Count != 0)
         {
             attackManager.LoadNewWeapon(equippedWeapon, instant: true);
+            characterMovement.UpdateWeaponType(equippedWeapon.logic.weaponType);
         }
     }
 
@@ -436,6 +439,7 @@ public class SkillManager : MonoBehaviour
                 ReloadWeaponIfNeeded();
             }
             equippedWeapon = equippedWeapons[newWeaponIndex];
+            characterMovement.UpdateWeaponType(equippedWeapon.logic.weaponType);
             foreach (var weapon in equippedWeapons)
                 attackManager.LoadNewWeapon(equippedWeapon);
             ApplyWeaponSprites();
@@ -496,6 +500,7 @@ public class SkillManager : MonoBehaviour
         {
             equippedWeapon = equippedWeapons[0];
             attackManager.LoadNewWeapon(equippedWeapon, instant: true);
+            characterMovement.UpdateWeaponType(equippedWeapon.logic.weaponType);
         }
         skill.InitializeSkill();
     }
@@ -551,4 +556,5 @@ public class SkillManager : MonoBehaviour
     private KeyCode rotateWeaponRight = KeyCode.E;
     private CharacterShooting attackManager;
     private SkillsUI skillsUI;
+    private CharacterMovement characterMovement;
 }

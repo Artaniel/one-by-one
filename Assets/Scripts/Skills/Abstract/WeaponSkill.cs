@@ -10,6 +10,9 @@ public abstract class WeaponSkill : SkillBase
     public int ammoMagazine;
     //public int bulletsLeft;
 
+    public enum WeaponType { Automatic, Pistol, Heavy, Melee, Empty }
+    public WeaponType weaponType = WeaponType.Automatic;
+
     //public abstract void Shoot(Vector3 mousePos, Vector3 screenPoint);
 
     public override void InitializeSkill() { }
