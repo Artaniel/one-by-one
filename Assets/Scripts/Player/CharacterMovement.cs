@@ -80,7 +80,7 @@ public class CharacterMovement : MonoBehaviour
         {
             AudioManager.PauseSource("Walk", audio);
             anim.Play($"HeroIdle/{weaponType}");
-            shadowAnim.Play("ShadowIdle");
+            //shadowAnim.Play("ShadowIdle");
         }
         else
         {
@@ -89,7 +89,7 @@ public class CharacterMovement : MonoBehaviour
                 AudioManager.Play("Walk", audio);
             }
             anim.Play($"HeroWalk/{weaponType}");
-            shadowAnim.Play("HeroShadow");
+            //shadowAnim.Play("HeroShadow");
         }
     }
 

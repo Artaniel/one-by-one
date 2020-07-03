@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Your first gun
   pickupSprite: {fileID: 21300000, guid: 323539962650d264f836f66a8c60f80d, type: 3}
+  miniIcon: {fileID: 0}
   price: 10
   attackSound:
   - {fileID: 8300000, guid: f0e0a83e3a2a3974d9465ce770f082a2, type: 3}
   reloadTime: 3
   timeBetweenAttacks: 0.2
   ammoMagazine: 17
+  weaponType: 1
   bulletPrefab: {fileID: 6191924688321695861, guid: ee50d9a2dc4a6074fac8d27b86a21ee4,
     type: 3}
   bulletDamage: 2
@@ -29,6 +31,7 @@ MonoBehaviour:
   maxRndShootingAngle: 30
   rndShootingAngleAmplifier: 0.45
   rndShootingAngleRelease: 1.25
+  additionalVisualPower: 0
   bulletModifiers:
   - {fileID: 11400000, guid: 57df758a5157bb74b974d334abfbff5d, type: 2}
   - {fileID: 11400000, guid: ce2bb1f432e2870429fd20ee463c41dc, type: 2}
