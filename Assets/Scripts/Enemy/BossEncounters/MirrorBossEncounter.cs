@@ -673,7 +673,7 @@ public class MirrorBossEncounter : BossEncounter
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
-                new MirrorSpawnEnemy(bossData, 0.75f, BD.tankPrefab),  // perfect
+                new MirrorSpawnEnemy(bossData, 0.55f, BD.tankPrefab),  // perfect
                 new MirrorScreenEffect(bossData, 0.85f, 1),
                 new BreakMirror(bossData, 0.2f),
                 new MirrorScreenEffect(bossData, 0.2f, 0),
