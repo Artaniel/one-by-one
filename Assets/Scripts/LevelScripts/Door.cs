@@ -12,7 +12,8 @@ public class Door : MonoBehaviour
     public bool locked = false; 
     private GameObject player;
 
-    [HideInInspector] public bool unlockOnTimer = false;
+    [HideInInspector] public bool unlockOnTimer = true;
+    public bool dontUnlockAuto = false;
     private float timer = 1f;
     
     [SerializeField] public Direction.Side direction = Direction.Side.UNSET;
@@ -60,7 +61,7 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        if (isSpawned && unlockOnTimer && locked) {
+        if (!dontUnlockAuto && isSpawned && unlockOnTimer && locked) {
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
@@ -84,12 +85,12 @@ public class Door : MonoBehaviour
         }
     }
 
-    public void Unlock() {
+    public void Unlock(bool forceAnimation = false) {
         doorLight = GetComponentInChildren<Light2D>();
         if (locked && isSpawned)
         {
             locked = false;
-            if (!Labirint.instance || !Labirint.instance.blueprints[room.roomID].visited)
+            if (forceAnimation || !Labirint.instance || !Labirint.instance.blueprints[room.roomID].visited)
             {
                 foreach (var animation in GetComponentsInChildren<Animation>())
                 {

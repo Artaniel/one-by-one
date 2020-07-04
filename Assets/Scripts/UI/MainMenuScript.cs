@@ -205,7 +205,7 @@ public class MainMenuScript : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("TutorialFor03");
+            SceneManager.LoadScene("TutorialTesting");
         }
     }
 
