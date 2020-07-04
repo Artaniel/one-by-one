@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class LizardWaveFace : Align
 {
-    [SerializeField]
-    private float wavePeriod = 2f; 
-    [SerializeField]
-    private float waveAmp = 40f;
-    [SerializeField]
-    private float behaviourBlockTime = 0.5f; // without this may get stuck
+    [SerializeField] protected float wavePeriod = 2f; 
+    [SerializeField] protected float waveAmp = 40f;
+    [SerializeField] private float behaviourBlockTime = 0.5f; // without this may get stuck
 
     protected override void Start()
     {
@@ -35,7 +32,7 @@ public class LizardWaveFace : Align
     }
 
     //delta orientation from line of sight to wave trajectory
-    private float WaveFluctuation() {
+    protected float WaveFluctuation() {
         if (Mathf.Max(behaviourBlockTime -= Time.deltaTime, 0) > 0) return 0;
 
         wavePhase += Time.deltaTime / wavePeriod;
