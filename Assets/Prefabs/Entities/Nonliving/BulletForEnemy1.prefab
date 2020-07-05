@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1613301677454036974}
   - component: {fileID: 4537968617460850083}
   - component: {fileID: 2029696957105847991}
-  - component: {fileID: 6961320020642883888}
   - component: {fileID: 2529535576517682936}
+  - component: {fileID: 6961320020642883888}
   - component: {fileID: 1786847184912288164}
   - component: {fileID: 6619943019373027219}
   m_Layer: 0
@@ -136,21 +136,6 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!114 &6961320020642883888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7556247329906426865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f264236d76b866469097838aa0dc827, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeSpanIn: 0.25
-  lifeSpanOut: 0.25
-  shouldFadeOut: 0
 --- !u!114 &2529535576517682936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +154,21 @@ MonoBehaviour:
   sinSpeed: 1
   lightFlicker: 1
   spriteFlicker: 0
+--- !u!114 &6961320020642883888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556247329906426865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f264236d76b866469097838aa0dc827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeSpanIn: 0.25
+  lifeSpanOut: 0.25
+  shouldFadeOut: 0
 --- !u!82 &1786847184912288164
 AudioSource:
   m_ObjectHideFlags: 0
