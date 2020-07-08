@@ -7,24 +7,22 @@ public class CharacterShooting : MonoBehaviour
 {
     public Transform weaponTip = null;
 
-    [HideInInspector]
-    public bool shotFrame = false; //flag for reactions on shot
-    [HideInInspector]
-    public SkillManager.EquippedWeapon currentWeapon;
+    [HideInInspector] public bool shotFrame = false; //flag for reactions on shot
+    [HideInInspector] public SkillManager.EquippedWeapon currentWeapon;
 
-    [SerializeField]
-    private GameObject mouseCursorObj = null;
-    private Rigidbody2D rigidbody;
+    [SerializeField] private GameObject mouseCursorObj = null;
+    new private Rigidbody2D rigidbody;
 
     [HideInInspector] public UnityEvent firstBulletShot = new UnityEvent();
 
     public void LoadNewWeapon(SkillManager.EquippedWeapon weapon, bool instant = false)
     {
         currentWeapon = weapon;
-        timeBetweenAttacks = instant ? 0 : weapon.logic.timeBetweenAttacks;
+        timeBetweenAttacks = instant ? 0 : Mathf.Max(0.7f, weapon.logic.timeBetweenAttacks);
+        weaponTipDynamic.ChoosePosition(weapon.logic.weaponType);
     }
 
-    private void Start()
+    private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
@@ -33,6 +31,7 @@ public class CharacterShooting : MonoBehaviour
         Cursor.visible = false;
         GameObject.Instantiate(mouseCursorObj);
         skillManager = GetComponent<SkillManager>();
+        weaponTipDynamic = weaponTip.GetComponent<WeaponTipDynamic>();
     }
 
     private void FixedUpdate()
@@ -113,4 +112,6 @@ public class CharacterShooting : MonoBehaviour
 
     private KeyCode reloadButton = KeyCode.R;
     private SkillManager skillManager;
+
+    private WeaponTipDynamic weaponTipDynamic;
 }

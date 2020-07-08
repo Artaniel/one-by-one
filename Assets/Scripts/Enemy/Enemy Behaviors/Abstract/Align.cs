@@ -33,7 +33,7 @@ public abstract class Align : EnemyBehavior
         }
     }
 
-    private float AccumulateBypassAngle()
+    protected float AccumulateBypassAngle()
     {
         Vector2 direction = target.transform.position - transform.position;
         var hits = RaycastHits(direction, 50);

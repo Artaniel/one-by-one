@@ -15,17 +15,12 @@ public class AudioManager : MonoBehaviour
     public static float userPrefMusic { get; private set; } = 0.5f;
 
     // Name -> (time since last sound, maximum value)
-    public static Dictionary<string, Vector2> Clips = new Dictionary<string, Vector2>();
+    public static Dictionary<string, float> Clips = new Dictionary<string, float>();
 
     private const float lowestSoundValue = 0.3f;
 
-    [SerializeField]
-    private AudioSource SourceMusic = null; // duplicate of static for inspector
-
-    [SerializeField]
-    AudioClip[] musicList = null;
-    [SerializeField]
-    private bool restartMusicOnLoad = false;
+    [SerializeField] AudioClip[] musicList = null;
+    [SerializeField] private bool restartMusicOnLoad = false;
 
     public bool softMusicStop = true;
 
@@ -123,13 +118,13 @@ public class AudioManager : MonoBehaviour
     {
         if (Clips.ContainsKey(name))
         {
-            float ltp = Clips[name].x;
-            volume = Mathf.Lerp(Clips[name].y / 5, Clips[name].y, Time.time - ltp); //sound suppression for multiple identical effects in short time
-            Clips[name] = new Vector2(Time.time, Clips[name].y);
+            float ltp = Clips[name];
+            volume = Mathf.Lerp(volume / 5, volume, Time.time - ltp); //sound suppression for multiple identical effects in short time
+            Clips[name] = Time.time;
         }
         else
         {
-            Clips.Add(name, new Vector2(Time.time, volume));
+            Clips.Add(name, Time.time);
         }
         return volume * userPrefSound;
     }

@@ -23,7 +23,7 @@ public class TutorialBullet : MonoBehaviour
     {
         if (coll.GetComponent<Door>() != null)
         {
-            coll.GetComponent<Door>().Unlock();
+            coll.GetComponent<Door>().Unlock(forceAnimation: true);
             coll.GetComponent<BoxCollider2D>().enabled = false; // remove blocker collider
             Destroy(gameObject, 0.1f);
         }
