@@ -22,9 +22,14 @@ MonoBehaviour:
   maxInviteLevel: 1
   timeBeforeGroupeAggroOff: 3
   agroBlockTime: 2
-  cooldownRange: {x: 3, y: 5}
+  cooldownRange: {x: 1, y: 2}
   attackSpeedModifier: 1
---- !u!114 &208817427
+  active: 1
+  minDistanceToActivate: 5
+  startCooldownReduce: 2
+  trueSwitchCooldownReduce: 2
+  falseSwitchCooldownReduce: 1
+--- !u!114 &1978656871
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,7 +38,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 863436265230841360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7015bf3edc97b14a9aae453e0a81840, type: 3}
+  m_Script: {fileID: 11500000, guid: 54eebc6022776634fa68b1f4090b68b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  additionalSpeedMult: 1
+--- !u!114 &1978656880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863436265230841360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a63b3382e5609146935e14638fa450b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
@@ -49,11 +68,8 @@ MonoBehaviour:
   timeToTarget: 0.1
   rotateAtStart: 1
   bypassAngleAccumulationSpeed: 0
-  wavePeriod: 2
-  waveAmp: 40
-  behaviourBlockTime: 0.5
-  active: 1
-  beetleRotationFixed: 0
+  offsetAngleMax: 40
+  cooldownRange: {x: 2, y: 3}
 --- !u!1001 &2129544426068734014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ladybug Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 609941799683754579, guid: 905a829c24a49a248bd9eb057fd5d175,
+        type: 3}
+      propertyPath: maxRotation
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3461237024448705096, guid: 905a829c24a49a248bd9eb057fd5d175,
         type: 3}
@@ -141,17 +162,17 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3573358192437443049, guid: 905a829c24a49a248bd9eb057fd5d175,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7b6f2736b4b01d2408fb8da0e2c87b50, type: 2}
     - target: {fileID: 3573358192437443046, guid: 905a829c24a49a248bd9eb057fd5d175,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -7589805889568022584, guid: 44813a97b54365843b977058815db619,
         type: 3}
-    - target: {fileID: 3573358192437443049, guid: 905a829c24a49a248bd9eb057fd5d175,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 7b6f2736b4b01d2408fb8da0e2c87b50, type: 2}
     - target: {fileID: 6384651232604138173, guid: 905a829c24a49a248bd9eb057fd5d175,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -162,7 +183,9 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 3.3125
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7335928526048931172, guid: 905a829c24a49a248bd9eb057fd5d175, type: 3}
+    - {fileID: 4975537791937263033, guid: 905a829c24a49a248bd9eb057fd5d175, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 905a829c24a49a248bd9eb057fd5d175, type: 3}
 --- !u!1 &863436265230841360 stripped
 GameObject:

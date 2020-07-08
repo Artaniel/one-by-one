@@ -6,7 +6,7 @@ using UnityEngine;
 /// Beetle switches between directed movement and
 /// random X degrees (+/-) in local coordinates
 /// </summary>
-public class BeetleFace : LizardWaveFace
+public class BeetleFace : LizardWaveFace, ITwoModesSwitch
 {
     public bool active = true;
 
@@ -15,24 +15,24 @@ public class BeetleFace : LizardWaveFace
     protected override void Awake()
     {
         base.Awake();
+        GetComponent<ModeSwitcher>().AddSwitcheable(this);
+        aiAgent = GetComponent<AIAgent>();
         animator = GetComponentInChildren<Animator>();
         beetleRotationFixed = transform.eulerAngles.z + (Random.Range(60, 120) * Mathf.Sign(Random.value - 0.5f));
+        if (active) Switch(active);
     }
 
-    public void Switch()
+    public void Switch(bool mode)
     {
-        active = !active;
+        active = mode;
         beetleRotationFixed = transform.eulerAngles.z + (Random.Range(60, 120) * Mathf.Sign(Random.value - 0.5f));
+        waveAmp = active ? 40 : 0;
+        aiAgent.maxRotation *= active ? 0.4f : 2.5f;
+        aiAgent.maxSpeed *= active ? 0.75f : (1f / 0.75f);
         if (active)
-        {
             animator.Play("Beetle_stop");
-            waveAmp = 40f;
-        }
         else
-        {
             animator.Play("Beetle_start");
-            waveAmp = 0;
-        }
     }
 
     public override float GetRotation(float ampRotation = 0)
@@ -56,4 +56,5 @@ public class BeetleFace : LizardWaveFace
     }
 
     private Animator animator;
+    private AIAgent aiAgent;
 }

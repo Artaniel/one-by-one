@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6857600261919761798}
   - component: {fileID: 6857600261919761793}
   - component: {fileID: 6857600261919761792}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Crystal_4
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ Transform:
   m_LocalScale: {x: -0.8452085, y: 0.763267, z: 0.92715}
   m_Children:
   - {fileID: 6857600260947251461}
-  - {fileID: 6857600261911617218}
+  - {fileID: 4453717815794346452}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 8.816}
@@ -281,6 +281,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1614993486991907795, guid: c9688ec54b2975941a61f98cde33f11a,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1624060494579274912, guid: c9688ec54b2975941a61f98cde33f11a,
         type: 3}
@@ -717,11 +722,6 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxGradient.m_Mode
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1614993486991907795, guid: c9688ec54b2975941a61f98cde33f11a,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 7606398713360245119, guid: c9688ec54b2975941a61f98cde33f11a,
         type: 3}
       propertyPath: m_Enabled
@@ -731,7 +731,7 @@ PrefabInstance:
     - {fileID: 7606398713360245119, guid: c9688ec54b2975941a61f98cde33f11a, type: 3}
     - {fileID: 8759461727205714199, guid: c9688ec54b2975941a61f98cde33f11a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c9688ec54b2975941a61f98cde33f11a, type: 3}
---- !u!4 &6857600261911617218 stripped
+--- !u!4 &4453717815794346452 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7126348118460609600, guid: c9688ec54b2975941a61f98cde33f11a,
     type: 3}

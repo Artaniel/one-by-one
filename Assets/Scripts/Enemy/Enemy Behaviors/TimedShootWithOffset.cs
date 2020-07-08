@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class TimedShootWithOffset : TimedAttack
 {
-    [SerializeField]
-    protected float randomShotAngle = 15f;
-    [SerializeField]
-    protected GameObject bullet = null;
-    [SerializeField]
-    protected Vector2 bulletSpawnOffset = new Vector2(0, 0);
-    [SerializeField]
-    protected bool isSpawnOffsetWorldCoordinates = true;
-    [SerializeField]
-    protected GameObject attackVFX = null;
+    [SerializeField] protected float randomShotAngle = 15f;
+    [SerializeField] protected GameObject bullet = null;
+    [SerializeField] protected Vector2 bulletSpawnOffset = new Vector2(0, 0);
+    [SerializeField] protected bool isSpawnOffsetWorldCoordinates = true;
+    [SerializeField] protected GameObject attackVFX = null;
+    [SerializeField] protected bool rotationBased = false;
 
     protected override void Awake()
     {
@@ -21,18 +17,25 @@ public class TimedShootWithOffset : TimedAttack
         shiftScript = gameObject.GetComponent<ShiftAfterShoot>();
     }
     
-    protected virtual void ShootBulletStraight(Vector2 direction, GameObject bulletToSpawn, float randomAngle)
+    protected virtual void ShootBullet(Vector2 direction, GameObject bulletToSpawn, float angleOffset)
     {
-        var bullet = Instantiate(bulletToSpawn, transform.position, new Quaternion());
+        var bullet = Instantiate(
+            bulletToSpawn, 
+            transform.position, 
+            rotationBased ? Quaternion.Euler(0, 0, transform.eulerAngles.z + 90 + angleOffset) : new Quaternion());
         bullet.GetComponent<EnemyBulletLife>().BulletSpeed *= attackSpeedModifier;
 
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("MonsterShot", audio);
 
-        var offset = new Vector2(direction.x - transform.position.x, direction.y - transform.position.y);
-        var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-        angle += Random.Range(-randomAngle, randomAngle);
-        bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+        if (!rotationBased)
+        {
+            var offset = new Vector2(direction.x - transform.position.x, direction.y - transform.position.y);
+            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+            angle += angleOffset;
+            bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        
         bullet.transform.Translate(bulletSpawnOffset, isSpawnOffsetWorldCoordinates ? Space.World : Space.Self);
     }
 
@@ -51,10 +54,11 @@ public class TimedShootWithOffset : TimedAttack
     protected override void CompleteAttack()
     {
         Vector3 playerPos = target.transform.position;
-        ShootBulletStraight(playerPos, bullet, randomShotAngle);
+        float randomAngle = Random.Range(-randomShotAngle, randomShotAngle);
+        ShootBullet(playerPos, bullet, randomAngle);
 
         if (shiftScript != null) shiftScript.DoShift();
     }
 
-    private ShiftAfterShoot shiftScript;
+    protected ShiftAfterShoot shiftScript;
 }
