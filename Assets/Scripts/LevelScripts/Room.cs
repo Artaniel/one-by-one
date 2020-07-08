@@ -251,7 +251,7 @@ public class Room : MonoBehaviour
         else {
             map = null; //to prevent telepot in case of crash
         }
-        //DrawDebug();
+        DrawDebug();
     }
 
     private void GetWallTilemap()

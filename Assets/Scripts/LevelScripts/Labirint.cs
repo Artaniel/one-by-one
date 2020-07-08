@@ -42,6 +42,7 @@ public class Labirint : MonoBehaviour
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
         {
+            //InitBlueprints();
             Debug.Log("Cant find labirint builder script. One Room labirint mode");
             blueprints = new RoomBlueprint[1];
             blueprints[0] = new RoomBlueprint();
@@ -93,8 +94,7 @@ public class Labirint : MonoBehaviour
     void StartingRoomSpawn() {
         if (GameObject.FindGameObjectWithTag("Room") == null)
         {
-            ActivateRoom(0);
-            PreloadRooms();
+            SpawnRoom(0);
             OnRoomChanged(0);
             blueprints[0].instance.GetComponent<Room>().ArenaInitCheck();
             blueprints[0].instance.GetComponent<Room>().LightsOn();
@@ -110,7 +110,6 @@ public class Labirint : MonoBehaviour
             startingRoom.GetComponent<MonsterManager>()?.Init();
             startingRoom.LightsOn();
             startingRoom.DoorsInit();
-            PreloadRooms();
             OnRoomChanged(0);
             startingRoom.DoorsInit(); // да, надо 2 раза. Первый чтобы нашло массив дверей до соединения их с соседями, второй чтобы развешало Locked флаг
             startingRoom.ArenaInitCheck();
@@ -123,18 +122,24 @@ public class Labirint : MonoBehaviour
         roomsToActivate.Add(currentRoomID);
         
         foreach (var side in Direction.sides)
+        {
             if (blueprints[currentRoomID].rooms.ContainsKey(side))
+            {
                 roomsToActivate.Add(blueprints[currentRoomID].rooms[side]);
-
-        //disable rooms who are not neighbirs
-        List<int> toRemove = new List<int>();
-        foreach (int roomID in activeRooms)
-            if (!roomsToActivate.Contains(roomID))
-            {                
-                blueprints[roomID].instance.SetActive(false);
-                toRemove.Add(roomID);
             }
-        foreach (int roomID in toRemove) { // because cant remove from list in foreach of same list
+        }
+
+        //destroy rooms who are not neighbirs
+        List<int> toDestroy = new List<int>();  
+        foreach (int roomID in activeRooms) {
+            if (!roomsToActivate.Contains(roomID)) 
+            {
+                blueprints[roomID].instance.GetComponent<Room>().DisconnectRoom();
+                Destroy(blueprints[roomID].instance);
+                toDestroy.Add(roomID);
+            }
+        }
+        foreach (int roomID in toDestroy) { // because cant remove from list in foreach of same list
             activeRooms.Remove(roomID);
         }
 
@@ -142,7 +147,7 @@ public class Labirint : MonoBehaviour
         foreach (int roomID in roomsToActivate) {
             if (!activeRooms.Contains(roomID))
             {
-                ActivateRoom(roomID);
+                SpawnRoom(roomID);
                 Room currentRoom = blueprints[currentRoomID].instance.GetComponent<Room>();
                 Room newRoom = blueprints[roomID].instance.GetComponent<Room>();
                 Door oldDoor = null;
@@ -188,16 +193,8 @@ public class Labirint : MonoBehaviour
         door2.connectedDoor = door1;
     }
 
-    void ActivateRoom(int id)
-    {
-        if (blueprints[id].instance)
-            blueprints[id].instance.SetActive(true);
-        else SpawnRoom(id);
+    void SpawnRoom(int id) {
         activeRooms.Add(id);
-    }
-
-    void SpawnRoom(int id)
-    {
         blueprints[id].instance = (GameObject)Instantiate(blueprints[id].prefab, Vector3.zero, Quaternion.identity); // zero position to move prefab under player
         blueprints[id].instance.GetComponent<Room>().roomID = id;
         blueprints[id].instance.GetComponent<Room>().DoorsInit();
@@ -208,7 +205,7 @@ public class Labirint : MonoBehaviour
         blueprints[currentRoomID].instance.GetComponent<ArenaEnemySpawner>()?.KillThemAll();
         blueprints[currentRoomID].instance.GetComponent<Room>().DisconnectRoom();
         Destroy(blueprints[currentRoomID].instance);
-        ActivateRoom(currentRoomID);
+        SpawnRoom(currentRoomID);
         blueprints[currentRoomID].instance.transform.position = savedPosition;
 
         foreach (var side in Direction.sides)
@@ -315,35 +312,4 @@ public class Labirint : MonoBehaviour
             EventManager.Notify($"{welcomeText} Game saved!", 1);
         }
     }
-
-    private void PreloadRooms() {
-        if (blueprints[0].instance)
-        {
-            List<int> growZoneRoomsIDs = new List<int>();
-            growZoneRoomsIDs.Add(0);
-            while (growZoneRoomsIDs.Count>0) {
-                Debug.Log(growZoneRoomsIDs[0]);
-                foreach (Direction.Side side in Direction.sides)
-                {
-                    if (blueprints[growZoneRoomsIDs[0]].rooms.ContainsKey(side)) // if next room should exist
-                        if (blueprints[blueprints[growZoneRoomsIDs[0]].rooms[side]].instance == null) // if it does not exist
-                        {
-                            SpawnRoom(blueprints[growZoneRoomsIDs[0]].rooms[side]);
-                            Door oldDoor = blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().doorsSided[side];
-                            Door newDoor = blueprints[blueprints[growZoneRoomsIDs[0]].rooms[side]].instance.GetComponent<Room>().doorsSided[Direction.InvertSide(side)];
-                            oldDoor.SpawnDoor();
-                            newDoor.SpawnDoor();
-                            ConnectDoors(oldDoor, newDoor);                            
-                            Vector3 offset = oldDoor.transform.localPosition + OffsetFromRoomBounds(oldDoor, newDoor, side) - newDoor.transform.localPosition; 
-                            blueprints[blueprints[growZoneRoomsIDs[0]].rooms[side]].instance.transform.position = blueprints[growZoneRoomsIDs[0]].instance.transform.position + offset; // set position for new room
-                            growZoneRoomsIDs.Add(blueprints[growZoneRoomsIDs[0]].rooms[side]);
-                            activeRooms.Add(blueprints[growZoneRoomsIDs[0]].rooms[side]); // leave active to prevent errors on tilemap calculations for neighbor rooms
-                        }
-                }
-                growZoneRoomsIDs.Remove(growZoneRoomsIDs[0]);
-            }
-        }
-        else Debug.LogError("labirint preload error. Didn't get 0 room");        
-    }
-
 }
