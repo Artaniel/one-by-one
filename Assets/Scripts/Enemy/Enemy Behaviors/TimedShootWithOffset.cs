@@ -17,7 +17,7 @@ public class TimedShootWithOffset : TimedAttack
         shiftScript = gameObject.GetComponent<ShiftAfterShoot>();
     }
     
-    protected virtual void ShootBullet(Vector2 direction, GameObject bulletToSpawn, float angleOffset)
+    protected virtual GameObject ShootBullet(Vector2 direction, GameObject bulletToSpawn, float angleOffset)
     {
         var bullet = Instantiate(
             bulletToSpawn, 
@@ -37,6 +37,7 @@ public class TimedShootWithOffset : TimedAttack
         }
         
         bullet.transform.Translate(bulletSpawnOffset, isSpawnOffsetWorldCoordinates ? Space.World : Space.Self);
+        return bullet;
     }
 
     protected override void AttackAnimation()

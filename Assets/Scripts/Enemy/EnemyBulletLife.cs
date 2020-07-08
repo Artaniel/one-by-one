@@ -9,11 +9,13 @@ public class EnemyBulletLife : MonoBehaviour
     public float BulletLifeLength = 3f;
     public float ignoreCollisionTime = 0.35f;
     public bool phasing = false;
+    public GameObject explosion;
 
     public UnityEvent bulletDestroyed = new UnityEvent();
 
     protected virtual void Start()
     {
+        hasExplosion = explosion;
         Destroy(gameObject, BulletLifeLength);
     }
 
@@ -21,13 +23,18 @@ public class EnemyBulletLife : MonoBehaviour
     {
         if (Pause.Paused) return;
 
-        transform.Translate(Vector2.right * BulletSpeed * Time.deltaTime, Space.Self);
+        Move();
         ignoreCollisionTime -= Time.deltaTime;
         BulletLifeLength -= Time.deltaTime;
         if (BulletLifeLength <= 0)
         {
             DestroyBullet();
         }
+    }
+
+    protected virtual void Move()
+    {
+        transform.Translate(Vector2.right * BulletSpeed * Time.deltaTime, Space.Self);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D coll)
@@ -46,8 +53,11 @@ public class EnemyBulletLife : MonoBehaviour
 
     protected void DestroyBullet()
     {
+        if (hasExplosion) Instantiate(explosion, transform.position, Quaternion.identity);
         bulletDestroyed.Invoke();
         Destroy(gameObject, 2 + BulletLifeLength);
         this.enabled = false;
     }
+
+    private bool hasExplosion = false;
 }
