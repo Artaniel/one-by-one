@@ -344,5 +344,4 @@ public class Labirint : MonoBehaviour
         }
         else Debug.LogError("labirint preload error. Didn't get 0 room");        
     }
-
 }
