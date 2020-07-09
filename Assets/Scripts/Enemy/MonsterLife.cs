@@ -227,8 +227,8 @@ public class MonsterLife : MonoBehaviour
 
     private IEnumerator DestoryGameObject()
     {
-        yield return new WaitForSeconds(0.15f);
         if (invulnurabilityShield) invulnurabilityShield.transform.SetParent(null);
+        yield return new WaitForSeconds(0.15f);
         Destroy(gameObject);
     }
 

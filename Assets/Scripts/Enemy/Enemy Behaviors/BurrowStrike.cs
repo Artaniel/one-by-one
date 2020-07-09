@@ -175,6 +175,8 @@ public class BurrowStrike : Attack
             particleEmission.rateOverTime = new ParticleSystem.MinMaxCurve(particleEmission.rateOverTime.constant * (1 / 2.5f));
             var particleShape = particle.shape;
             particleShape.angle = particleShape.angle * (1 / 4f);
+            var particleMain = particle.main;
+            particleMain.startSize = new ParticleSystem.MinMaxCurve(particleMain.startSize.constant * (1 / 0.7f));
         }
         rockDigEffect.GetComponent<StopParticleEmitter>().Stop();
         rockDigEffect.transform.SetParent(null);

@@ -282,6 +282,9 @@ public class BulletLife : MonoBehaviour
     {
         particlesEmitter?.Play(false);
         sprite.color = startColor;
+        var emitterMain = particlesEmitter.main;
+        emitterMain.startColor = startColor;
+        bulletLight.color = startColor;
     }
 
     private void StopEmitter()

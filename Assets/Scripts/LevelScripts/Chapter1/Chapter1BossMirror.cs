@@ -15,7 +15,7 @@ public class Chapter1BossMirror : MirrorTriggerScript
     private float timeToActivate = 7;
     private bool finallyActivated = false;
 
-    [SerializeField] private MirrorBossEncounter bossScript;
+    [SerializeField] private MirrorBossEncounter bossScript = null;
 
     protected override void ActivateMirrorEffect(GameObject objectNearMirror)
     {

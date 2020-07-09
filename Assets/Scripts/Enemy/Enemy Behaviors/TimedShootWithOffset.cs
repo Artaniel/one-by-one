@@ -63,6 +63,15 @@ public class TimedShootWithOffset : TimedAttack
         if (shiftScript != null) shiftScript.DoShift();
     }
 
+    protected void OnDestroy()
+    {
+        if (attackAnimation && attackAnimation.activeSelf)
+        {
+            attackAnimation.transform.SetParent(null);
+            PoolManager.ReturnToPool(attackAnimation);
+        }
+    }
+
     private GameObject attackAnimation;
 
     protected ShiftAfterShoot shiftScript;

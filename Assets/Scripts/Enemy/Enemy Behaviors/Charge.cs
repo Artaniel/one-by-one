@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MoveForward))]
 public class Charge : TimedAttack
 {
-    [SerializeField] private MoveForward simpleMoveForward;
-    [SerializeField] private MoveForward otherMoveForward;
+    [SerializeField] private MoveForward simpleMoveForward = null;
+    [SerializeField] private MoveForward otherMoveForward = null;
 
     protected override void Awake()
     {
@@ -40,6 +40,5 @@ public class Charge : TimedAttack
     private AIAgent aiAgent;
     
     //private MoveBehaviour[] moveBehaviours;
-    private bool attackActive = false;
     private float savedRotation;
 }

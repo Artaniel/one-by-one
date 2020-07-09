@@ -6,9 +6,9 @@ public class EnemyPointMissle : EnemyBulletLife
 {
     private float anglesPerSecond = 45f;
 
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         var offset = new Vector2(destination.x - transform.position.x, destination.y - transform.position.y);
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         var currentAngle = transform.rotation.eulerAngles.z;
@@ -50,5 +50,4 @@ public class EnemyPointMissle : EnemyBulletLife
     }
 
     private Vector3 destination;
-    private float startingAngles = 0;
 }

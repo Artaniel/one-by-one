@@ -97,7 +97,6 @@ public class MosquitoMove : MoveForward
 
     Coroutine attackAndWait;
     private Vector3 movePosition = Vector2.zero;
-    private bool lockCoroutine = false;
     private Attack[] attacks;
     private ArenaEnemySpawner arena;
     private float monsterSize;
