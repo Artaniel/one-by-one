@@ -49,7 +49,7 @@ public class TimedShootWithOffset : TimedAttack
                 attackVFX, 
                 transform.position + new Vector3(bulletSpawnOffset.x, bulletSpawnOffset.y), 
                 Quaternion.identity);
-            attackAnimation.transform.parent = transform;
+            attackAnimation.transform.SetParent(transform);
         }
     }
 
@@ -61,15 +61,6 @@ public class TimedShootWithOffset : TimedAttack
         ShootBullet(playerPos, bullet, randomAngle);
 
         if (shiftScript != null) shiftScript.DoShift();
-    }
-
-    protected void OnDestroy()
-    {
-        if (attackAnimation && attackAnimation.activeSelf)
-        {
-            attackAnimation.transform.SetParent(null);
-            PoolManager.ReturnToPool(attackAnimation);
-        }
     }
 
     private GameObject attackAnimation;

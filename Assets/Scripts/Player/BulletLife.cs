@@ -125,10 +125,12 @@ public class BulletLife : MonoBehaviour
     // Bullet mods
 
     // Instantiates bullet mod and adds to mod list
-    public void AddMod(BulletModifier mod)
+    public BulletModifier AddMod(BulletModifier mod)
     {
-        bulletMods.Add(Instantiate(mod));
+        var modInstance = Instantiate(mod);
+        bulletMods.Add(modInstance);
         listNotSorted = true;
+        return modInstance;
     }
 
     private void UpdateMods()
@@ -245,6 +247,7 @@ public class BulletLife : MonoBehaviour
     {
         var bullet = PoolManager.GetPool(gameObject, transform.position, transform.rotation);
         var bulletComp = bullet.GetComponent<BulletLife>();
+        bulletComp.startColor = startColor;
         bulletComp.SetTimeLeft(timeToDestruction);
         bulletComp.speed = speed;
         bulletComp.damage = damage;
@@ -255,6 +258,8 @@ public class BulletLife : MonoBehaviour
         {
             bulletComp.AddMod(mod);
         }
+
+        bulletComp.InitializeBullet();
 
         return bullet;
     }

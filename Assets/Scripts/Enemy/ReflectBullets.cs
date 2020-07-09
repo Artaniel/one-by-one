@@ -6,6 +6,7 @@ public class ReflectBullets : MonoBehaviour
 {
     [SerializeField] private GameObject bulletReflectAnim = null;
     [SerializeField] private GameObject bulletReflectedEffect = null;
+    [SerializeField] private EnemyReflectBulletMod reflectBulletMod = null;
 
     private void Start()
     {
@@ -30,24 +31,14 @@ public class ReflectBullets : MonoBehaviour
                 var reflectionAnim = reflection.GetComponentInChildren<Animation>();
                 reflectionAnim.wrapMode = WrapMode.Once;
                 PoolManager.ReturnToPool(reflection, 2f);
-
-                var reflectBullet = PoolManager.GetPool(bulletReflectedEffect, bulletLife.transform);
-                PoolManager.ReturnToPool(reflectBullet, bulletLife.TTDLeft);
             }
         }
     }
 
     private void TurnBulletIntoEnemy(BulletLife bullet)
     {
-        bullet.piercing = true;
-        // Make less collider size 
-        var collider = bullet.GetComponent<BoxCollider2D>();
-        collider.size *= 0.75f;
-
-        var enemyBullet = bullet.gameObject.AddComponent<EnemyBulletLife>();
-        enemyBullet.BulletSpeed = 0;
-        enemyBullet.BulletLifeLength = Mathf.Infinity;
-        enemyBullet.ignoreCollisionTime = 0;
+        var instance = bullet.AddMod(reflectBulletMod);
+        instance.ApplyModifier(bullet);
     }
 
     private AIAgent aiAgent = null;
