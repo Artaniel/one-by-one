@@ -12,7 +12,7 @@ public class SpawnOnDeath : MonoBehaviour
     {
         if (infusedVFX != null)
         {
-            Instantiate(infusedVFX, transform);
+            infusedVFXSpawned = PoolManager.GetPool(infusedVFX, transform);
         }
 
         var monster = GetComponent<MonsterLife>();
@@ -27,8 +27,10 @@ public class SpawnOnDeath : MonoBehaviour
     private void OnMonsterDeath()
     {
         if (spawnBlock) return;
-        var obj = Instantiate(toSpawn, transform.position, keepParentRotation ? transform.rotation : Quaternion.identity);
+        PoolManager.ReturnToPool(infusedVFXSpawned);
+        PoolManager.GetPool(toSpawn, transform.position, keepParentRotation ? transform.rotation : Quaternion.identity);
     }
 
     public bool spawnBlock = false;
+    private GameObject infusedVFXSpawned;
 }

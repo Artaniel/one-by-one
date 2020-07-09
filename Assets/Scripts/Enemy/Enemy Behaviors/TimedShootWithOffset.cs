@@ -19,10 +19,11 @@ public class TimedShootWithOffset : TimedAttack
     
     protected virtual GameObject ShootBullet(Vector2 direction, GameObject bulletToSpawn, float angleOffset)
     {
-        var bullet = Instantiate(
-            bulletToSpawn, 
-            transform.position, 
-            rotationBased ? Quaternion.Euler(0, 0, transform.eulerAngles.z + 90 + angleOffset) : new Quaternion());
+        var bullet = PoolManager.GetPool(
+          bulletToSpawn, 
+          transform.position, 
+          rotationBased ? Quaternion.Euler(0, 0, transform.eulerAngles.z + 90 + angleOffset) : new Quaternion());
+          
         bullet.GetComponent<EnemyBulletLife>().BulletSpeed *= attackSpeedModifier;
 
         var audio = GetComponent<AudioSource>();
@@ -44,22 +45,25 @@ public class TimedShootWithOffset : TimedAttack
     {
         if (attackVFX != null)
         {
-            var attackAnimation = Instantiate(
+            attackAnimation = PoolManager.GetPool(
                 attackVFX, 
                 transform.position + new Vector3(bulletSpawnOffset.x, bulletSpawnOffset.y), 
                 Quaternion.identity);
-            attackAnimation.transform.parent = transform;
+            attackAnimation.transform.SetParent(transform);
         }
     }
 
     protected override void CompleteAttack()
     {
         Vector3 playerPos = target.transform.position;
+
         float randomAngle = Random.Range(-randomShotAngle, randomShotAngle);
         ShootBullet(playerPos, bullet, randomAngle);
 
         if (shiftScript != null) shiftScript.DoShift();
     }
+
+    private GameObject attackAnimation;
 
     protected ShiftAfterShoot shiftScript;
 }

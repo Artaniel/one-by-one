@@ -9,7 +9,7 @@ public class Shoot : Attack
 
     protected virtual void ShootBulletStraight(Vector2 direction, GameObject bulletToSpawn, float randomAngle)
     {
-        var bullet = Instantiate(bulletToSpawn, transform.position, new Quaternion());
+        var bullet = PoolManager.GetPool(bulletToSpawn, transform.position, new Quaternion());
 
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("MonsterShot", audio);

@@ -12,19 +12,26 @@ public class PlayerDamagedVFX : MonoBehaviour
     public Transform player = null;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         var childCnt = transform.childCount;
         for (int i = 0; i < childCnt; i++)
         {
             evilTrails.Add(transform.GetChild(i));
             evilEntity.Add(evilTrails[i].GetComponent<SpriteRenderer>());
+        }
+    }
+
+    void OnEnable()
+    {
+        timePassed = 0;
+        selfSpeedMult.Clear();
+        var childCnt = transform.childCount;
+        for (int i = 0; i < childCnt; i++)
+        {
             selfSpeedMult.Add(1f + Random.Range(-0.5f, 0.5f));
             evilTrails[i].localRotation = Quaternion.Euler(0, 0, 360f / childCnt * i);
-        }
-        foreach (var trail in evilTrails)
-        {
-            trail.transform.parent = null;
+            evilTrails[i].position = transform.position;
         }
     }
 

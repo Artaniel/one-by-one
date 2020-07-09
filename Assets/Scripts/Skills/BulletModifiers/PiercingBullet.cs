@@ -10,4 +10,10 @@ public class PiercingBullet : BulletModifier
         base.SpawnModifier(bullet);
         bullet.piercing = true;
     }
+
+    public override void DeactivateMod(BulletLife bullet)
+    {
+        base.DeactivateMod(bullet);
+        bullet.piercing = false;
+    }
 }

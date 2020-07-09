@@ -44,11 +44,6 @@ public class MonsterLife : MonoBehaviour
     {
         FadeIn(fadeInTime);
         sprites = GetComponentsInChildren<SpriteRenderer>();
-        
-        if (absorbPrefab == null)
-        {
-            absorbPrefab = Resources.Load<GameObject>("AbsorbBubble.prefab");
-        }
     }
 
     private void Update()
@@ -96,7 +91,8 @@ public class MonsterLife : MonoBehaviour
     protected virtual void PreDestroyEffect()
     {
         usedNames.Remove(monsterName.text);
-        var enemyExplosion = Instantiate(enemyExplosionPrefab, transform.position, Quaternion.identity);
+        var enemyExplosion = PoolManager.GetPool(enemyExplosionPrefab, transform.position, Quaternion.identity);
+        PoolManager.ReturnToPool(enemyExplosion, 3);
     }
 
     public void FadeIn(float _fadeInTime)
@@ -179,14 +175,10 @@ public class MonsterLife : MonoBehaviour
 
     private GameObject BulletAbsorb()
     {
-        if (absorbPrefab)
-        {
-            var absorb = Instantiate(absorbPrefab, gameObject.transform.position, Quaternion.identity);
-            absorb.transform.SetParent(gameObject.transform);
-            Destroy(absorb, 0.5f);
-            return absorb;
-        }
-        return null;
+        invulnurabilityShield = PoolManager.GetPool(absorbPrefab, gameObject.transform.position, Quaternion.identity);
+        invulnurabilityShield.transform.SetParent(gameObject.transform);
+        PoolManager.ReturnToPool(invulnurabilityShield, 0.5f);
+        return invulnurabilityShield;
     }
     
     /// <param name="percentage01Range">Should be between 0 and 1</param>
@@ -200,7 +192,7 @@ public class MonsterLife : MonoBehaviour
     {
         if (invulnurabilityShield)
         {
-            Destroy(invulnurabilityShield);
+            PoolManager.ReturnToPool(invulnurabilityShield);
         }
         minHpValue = minValue;
     }
@@ -209,10 +201,10 @@ public class MonsterLife : MonoBehaviour
     {
         if (!invulnurabilityShield && absorbPrefab)
         {
-            invulnurabilityShield = Instantiate(absorbPrefab, gameObject.transform.position, Quaternion.identity);
+            invulnurabilityShield = PoolManager.GetPool(absorbPrefab, gameObject.transform.position, Quaternion.identity);
             invulnurabilityShield.transform.SetParent(gameObject.transform);
             invulnurabilityShield.GetComponentInChildren<SpriteRenderer>().color = Color.black;
-            Destroy(invulnurabilityShield, 0.5f);
+            PoolManager.ReturnToPool(invulnurabilityShield, 0.5f);
         }
     }
 
@@ -235,6 +227,7 @@ public class MonsterLife : MonoBehaviour
 
     private IEnumerator DestoryGameObject()
     {
+        if (invulnurabilityShield) invulnurabilityShield.transform.SetParent(null);
         yield return new WaitForSeconds(0.15f);
         Destroy(gameObject);
     }

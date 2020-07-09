@@ -8,9 +8,8 @@ public class ToxicMonsterBulletLife : EnemyBulletLife
     GameObject ToxicPuddle = null;
     [SerializeField]
     private float HomingEulerAnglesPerSecond = 45f;
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
