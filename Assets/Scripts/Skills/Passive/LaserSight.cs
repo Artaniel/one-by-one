@@ -6,7 +6,6 @@ using System.Linq;
 [CreateAssetMenu(fileName = "LaserSight", menuName = "ScriptableObject/PassiveSkill/LaserSight", order = 11)]
 public class LaserSight : PassiveSkill
 {
-    private bool active = false;
     private LineRenderer line;
     public GameObject laserRendererPrefab;
     private GameObject player;

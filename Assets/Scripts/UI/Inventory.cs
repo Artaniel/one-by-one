@@ -12,7 +12,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform passiveSkillsContainer = null;
     [SerializeField] private Transform draggingParent = null;
     [SerializeField] public GameObject cellPrefab = null;
-    [SerializeField] private GameObject passivePrefab = null;
     [SerializeField] private TMPro.TextMeshProUGUI tooltipText = null;
     public Sprite ActiveFrame = null;
     public Sprite BaseFrame = null;

@@ -170,11 +170,11 @@ public class Room : MonoBehaviour
         {
             int monstersToKill = Mathf.Min(monsterManager.EnemyCount(), monsterManager.killsToOpen);
             if (roomType == RoomType.arena && !Labirint.instance.blueprints[roomID].visited)
-                monsterManager.roomLighting.LabirintRoomEnterDark(monstersToKill);
+                monsterManager.roomLighting?.LabirintRoomEnterDark(monstersToKill);
             else
-                monsterManager.roomLighting.LabirintRoomEnterBright();
+                monsterManager.roomLighting?.LabirintRoomEnterBright();
         }
-        else GetComponent<RoomLighting>().LabirintRoomEnterBright(); // exception for room without monsters
+        else GetComponent<RoomLighting>()?.LabirintRoomEnterBright(); // exception for room without monsters
     }
     
     public Dictionary<Direction.Side, float> GetBordersFromTilemap() {
@@ -327,9 +327,22 @@ public class Room : MonoBehaviour
         }
     }
 
+    private Vector3 GetRandomDoorPosition() {
+        Vector3 result;
+        if (doorsSided.ContainsKey(Direction.Side.LEFT)) result = doorsSided[Direction.Side.LEFT].transform.position;
+        else if (doorsSided.ContainsKey(Direction.Side.RIGHT)) result = doorsSided[Direction.Side.RIGHT].transform.position;
+        else if (doorsSided.ContainsKey(Direction.Side.UP)) result = doorsSided[Direction.Side.UP].transform.position;
+        else if (doorsSided.ContainsKey(Direction.Side.DOWN)) result = doorsSided[Direction.Side.DOWN].transform.position;
+        else {
+            Door door = GetComponentInChildren<Door>();
+            if (door != null) result = door.transform.position;
+            else result = transform.position; // лучше позиция комнаты, чем ничего если дверей точно нет
+        }
+        return result;
+    }
     private bool GetInboundsPoint() { //эвристика, чертим линию от левой двери вправо пока не найдем пустую клетку.
         bool found = false;
-        Vector3Int currentPos = walls.WorldToCell(doorsSided[Direction.Side.LEFT].transform.position);
+        Vector3Int currentPos = walls.WorldToCell(GetRandomDoorPosition());
         while (!found && (currentPos.x<rightBorder)&& brakeCounter<100) {
             //Debug.Log(currentPos.x.ToString()+" "+ rightBorder.ToString());
             brakeCounter++;

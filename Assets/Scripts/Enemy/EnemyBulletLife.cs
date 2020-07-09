@@ -9,6 +9,7 @@ public class EnemyBulletLife : MonoBehaviour
     public float BulletLifeLength = 3f;
     public float ignoreCollisionTime = 0.35f;
     public bool phasing = false;
+    public GameObject explosion;
 
     public UnityEvent bulletDestroyed = new UnityEvent();
 
@@ -18,6 +19,7 @@ public class EnemyBulletLife : MonoBehaviour
         dynamicLight = GetComponent<DynamicLightInOut>();
         lightFlicker = GetComponent<LightFlicker>();
         startingColor = sprite.color;
+        hasExplosion = explosion;
     }
 
     protected virtual void OnEnable()
@@ -31,13 +33,18 @@ public class EnemyBulletLife : MonoBehaviour
     {
         if (Pause.Paused || destroyed) return;
 
-        transform.Translate(Vector2.right * BulletSpeed * Time.deltaTime, Space.Self);
+        Move();
         ignoreCollisionTime -= Time.deltaTime;
         bulletLifeLeft -= Time.deltaTime;
         if (bulletLifeLeft <= 0)
         {
             DestroyBullet();
         }
+    }
+
+    protected virtual void Move()
+    {
+        transform.Translate(Vector2.right * BulletSpeed * Time.deltaTime, Space.Self);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D coll)
@@ -58,6 +65,9 @@ public class EnemyBulletLife : MonoBehaviour
     {
         destroyed = true;
         sprite.color = Color.clear;
+
+        if (hasExplosion) PoolManager.GetPool(explosion, transform.position, Quaternion.identity);
+        
         bulletDestroyed.Invoke();
         dynamicLight?.FadeOut();
         lightFlicker?.Disable();
@@ -70,4 +80,6 @@ public class EnemyBulletLife : MonoBehaviour
     private float bulletLifeLeft;
     private DynamicLightInOut dynamicLight;
     private LightFlicker lightFlicker;
+    
+    private bool hasExplosion = false;
 }

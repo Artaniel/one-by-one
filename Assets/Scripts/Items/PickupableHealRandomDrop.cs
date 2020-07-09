@@ -9,7 +9,7 @@ public class PickupableHealRandomDrop : PickupableHeal
     {
         var player = GameObject.FindGameObjectWithTag("Player");
         var hpMan = player.GetComponent<CharacterLife>();
-        var chance = Mathf.Lerp(0.33f, 0.1f, (float)((hpMan.GetHp() - 1) / (hpMan.GetMaxHp() - 1))) * hpMan.GetHpDropChanceAmplifier();
+        var chance = Mathf.Lerp(0.2f, 0.1f, (float)((hpMan.GetHp() - 1) / (hpMan.GetMaxHp() - 1))) * hpMan.GetHpDropChanceAmplifier();
         System.Random rand = new System.Random();
         if (rand.NextDouble() > chance)
         {

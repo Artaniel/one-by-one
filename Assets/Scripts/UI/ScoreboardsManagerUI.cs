@@ -18,7 +18,6 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     [SerializeField] private Transform NormalScoreboard = null;
     [SerializeField] private Transform HardcoreScoreboard = null;
-    [SerializeField] private GameObject ScoreboardItemPrefab = null;
     [SerializeField] private AlphaManager scoreboardsAlphaManager = null;
 
     [SerializeField] private AlphaManager errorAlphaManager = null;
@@ -28,12 +27,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     [SerializeField] private AlphaManager loadingAlphaManager = null;
     
-    [SerializeField]
-    private string scoreboardServer = "https://gd64.pythonanywhere.com/";
-    
-    private bool pressed = false;
-
-    private bool nameInputSkipped = false;
+    [SerializeField] private string scoreboardServer = "https://gd64.pythonanywhere.com/";
     
     private bool normalBoardRetrieved = false;
     private bool hardcoreBoardRetrieved = false;
@@ -146,7 +140,6 @@ public class ScoreboardsManagerUI : MonoBehaviour
 
     public void SkipInput()
     {
-        nameInputSkipped = true;
         HideInput();
     }
 

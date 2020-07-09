@@ -8,23 +8,12 @@ public class ArenaEnemySpawner : MonoBehaviour
 {
     public Vector2 RoomBounds = new Vector2(15, 10);
 
-    [SerializeField]
-    private float timeToEachSpawn = 5;
-    [SerializeField]
-    private float timeToNextSpawn = 0;
-
-    [SerializeField]
-    protected GameObject[] enemyWaves = null;
-
-
+    [SerializeField] protected GameObject[] enemyWaves = null;
 
     public ZoneScript SpawnZone = null;
 
-    [SerializeField]
-    protected bool AllowEarlySpawns = true;
-
-    [SerializeField]
-    private bool isInfSpawn = false;
+    [SerializeField] protected bool AllowEarlySpawns = true;
+    [SerializeField] private bool isInfSpawn = false;
 
     public static int boysCount = 0;
 

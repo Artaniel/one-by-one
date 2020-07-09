@@ -161,7 +161,7 @@ public class RoomLighting : MonoBehaviour
     public void SetSceneLight() {
         if (sceneLight == null) {
             var arena = GetComponent<ArenaEnemySpawner>();
-            if (Labirint.instance)
+            if (Labirint.instance && !Labirint.instance.OneRoomMode)
             {
                 sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
                 previousLight = sceneLight.intensity;

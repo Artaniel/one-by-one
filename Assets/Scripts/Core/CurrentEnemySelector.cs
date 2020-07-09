@@ -73,7 +73,6 @@ public class CurrentEnemySelector : MonoBehaviour
         var enemyLife = theEnemy.GetComponent<MonsterLife>();
         enemyLife.MakeBoy();
         CurrentEnemyUI.SetCurrentEnemy(theEnemy.GetComponentInChildren<TMPro.TextMeshPro>().text);
-        timeSinceActivated = 0;
 
         if (enemyHint) enemyHint.SetupHint(theEnemy.transform);
     }
@@ -107,8 +106,6 @@ public class CurrentEnemySelector : MonoBehaviour
 
     private float timeToNextScan = float.PositiveInfinity;
     private float timeToEachScan = 0.25f;
-    private float timeToHint = 4f;
-    private float timeSinceActivated = 0;
 
     private List<GameObject> enemiesOnScreen = new List<GameObject>();
     private Camera currentCamera;

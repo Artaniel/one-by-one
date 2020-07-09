@@ -7,7 +7,6 @@ public class MainMenuCursorCreation : MonoBehaviour
     // TODO: use CharacterShooting class inheritance maybe
 
     [SerializeField] private GameObject mouseCursorObj = null;
-    [SerializeField] private Texture2D spriteTexture = null;
 
     // Start is called before the first frame update
     void Start()

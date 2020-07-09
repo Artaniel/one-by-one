@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIAgent : MonoBehaviour
 {
-    public float maxSpeed = 3.5f;
+    public float maxSpeed = 300f;
     public float maxRotation = 200f;
     public float velocityFallBackPower = 3f;
     public float knockBackStability = 1f;
