@@ -15,17 +15,18 @@ public class EnemyPointMissle : EnemyBulletLife
         // В формуле учитываются: 
         // 1) градусы до цели
         // 2) (расстояние до цели) / 4 
-        anglesPerSecond = Mathf.Abs(angle180fix(angle - currentAngle)) * (2f * BulletSpeed / Vector3.Distance(destination, transform.position));
+        // Mathf.Abs(angle180fix(angle - currentAngle))
+        anglesPerSecond = Vector3.Angle(destination - transform.position, transform.up) * (2.5f * BulletSpeed / Vector3.Distance(destination, transform.position));
     }
 
     protected override void Move()
     {
-        if (Vector3.Distance(destination, transform.position) < 0.25f) DestroyBullet();
+        if (Vector3.Distance(destination, transform.position) < 0.35f) DestroyBullet();
         
         var offset = new Vector2(destination.x - transform.position.x, destination.y - transform.position.y);
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         var currentAngle = transform.rotation.eulerAngles.z;
-        var difference = angle180fix(angle - currentAngle);
+        difference = angle180fix(angle - currentAngle);
 
         transform.rotation = Quaternion.Euler(0, 0, currentAngle + (Mathf.Sign(difference) * anglesPerSecond * Time.deltaTime));
         transform.Translate(Vector2.right * BulletSpeed * Time.deltaTime, Space.Self);
@@ -50,4 +51,5 @@ public class EnemyPointMissle : EnemyBulletLife
     }
 
     private Vector3 destination;
+    private float difference;
 }
