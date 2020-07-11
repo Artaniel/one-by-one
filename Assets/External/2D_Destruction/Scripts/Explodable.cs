@@ -14,7 +14,7 @@ public class Explodable : MonoBehaviour
 
     public string fragmentLayer = "Default";
     public string sortingLayerName = "Default";
-    public int orderInLayer = 2;
+    public int orderInLayer = 3;
 
     public enum ShatterType
     {
