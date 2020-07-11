@@ -5,18 +5,13 @@ using UnityEngine.Experimental.Rendering.LWRP;
 
 public class LightFlicker : MonoBehaviour
 {
-    [SerializeField]
-    private Vector2 FlickerValueRange = new Vector2(-0.02f, 0.02f);
-    [SerializeField]
-    private Vector2 FlickerPeriodRange = new Vector2(0.25f, 0.25f);
-    [SerializeField]
-    private float SinFactor = 0.3f;
-    [SerializeField]
-    private float sinSpeed = 1f;
-    [SerializeField]
-    bool lightFlicker = true;
-    [SerializeField]
-    bool spriteFlicker = false;
+    [SerializeField] private Vector2 FlickerValueRange = new Vector2(-0.02f, 0.02f);
+    [SerializeField] private Vector2 FlickerPeriodRange = new Vector2(0.25f, 0.25f);
+    [SerializeField] private float SinFactor = 0.3f;
+    [SerializeField] private float sinSpeed = 1f;
+    [SerializeField] bool lightFlicker = true;
+    [SerializeField] bool spriteFlicker = false;
+    private bool disabled = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,9 +30,16 @@ public class LightFlicker : MonoBehaviour
         flickerValue = 0;
     }
 
+    void OnEnable()
+    {
+        disabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (disabled) return;
+
         if (lightFlicker)
         {
             light.intensity = lightStartingIntensity + (Mathf.Sin(Time.time * sinSpeed) * SinFactor) + flickerValue;
@@ -56,6 +58,8 @@ public class LightFlicker : MonoBehaviour
             timeToFlicker = Random.Range(FlickerPeriodRange.x, FlickerPeriodRange.y);
         }
     }
+
+    public void Disable() => disabled = true;
 
     new private Light2D light;
     private SpriteRenderer sprite;

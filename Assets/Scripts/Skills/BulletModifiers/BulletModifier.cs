@@ -60,6 +60,8 @@ public class BulletModifier : ScriptableObject
         if (bulletMaterial != null) bullet.sprite.material = bulletMaterial;
     }
 
+    public virtual void DeactivateMod(BulletLife bullet) { }
+
     // WIP SEGMENT
     public enum BulletTypes
     {

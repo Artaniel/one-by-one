@@ -40,7 +40,7 @@ public abstract class Align : EnemyBehavior
         hits = (from t in hits
                 where t.transform.tag == "Player" || t.transform.tag == "Environment"
                 select t).ToArray();
-        if (hits[0].transform.tag != "Player")
+        if (hits.Length > 0 && hits[0].transform.tag != "Player")
         {
             Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.red);
             direction = ((direction.normalized * 0.5f) + (new Vector2(transform.up.x, transform.up.y))).normalized;

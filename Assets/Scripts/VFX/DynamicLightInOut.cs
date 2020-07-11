@@ -7,10 +7,8 @@ public class DynamicLightInOut : MonoBehaviour
 {
     private new Light2D light;
     private float startIntensity;
-    [SerializeField]
-    private float lifeSpanIn = 0.25f;
-    [SerializeField]
-    private float lifeSpanOut = 0.25f;
+    [SerializeField] private float lifeSpanIn = 0.25f;
+    [SerializeField] private float lifeSpanOut = 0.25f;
     private float lifeSpanLeftIn;
     private float lifeSpanLeftOut;
 
@@ -22,9 +20,16 @@ public class DynamicLightInOut : MonoBehaviour
     {
         light = GetComponentInChildren<Light2D>();
         startIntensity = light.intensity;
-        if (lifeSpanIn > 0) light.intensity = 0;
+        shouldFadeOutParam = shouldFadeOut;
+    }
+
+    void OnEnable()
+    {
+        light.intensity = startIntensity;
         lifeSpanLeftIn = lifeSpanIn;
         lifeSpanLeftOut = lifeSpanOut;
+        if (lifeSpanIn > 0) light.intensity = 0;
+        shouldFadeOut = shouldFadeOutParam;
     }
 
     // Update is called once per frame
@@ -46,4 +51,6 @@ public class DynamicLightInOut : MonoBehaviour
     {
         shouldFadeOut = true;
     }
+
+    private bool shouldFadeOutParam;
 }

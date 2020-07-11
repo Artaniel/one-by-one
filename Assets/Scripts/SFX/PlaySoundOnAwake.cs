@@ -12,7 +12,7 @@ public class PlaySoundOnAwake : MonoBehaviour
     [SerializeField]
     private string clipName = "";
 
-    void Awake()
+    void OnEnable()
     {
         if (shouldPlaySound)
         {

@@ -29,8 +29,8 @@ public class ArenaFireflySpawner : MonoBehaviour
                     Random.Range(borders[Direction.Side.LEFT], borders[Direction.Side.RIGHT]),
                     Random.Range(borders[Direction.Side.DOWN], borders[Direction.Side.UP]));
             timeToNextSpawn = Random.Range(timeToEachSpawn.x, timeToEachSpawn.y);
-            var aFirefly = Instantiate(firefly, fireflyPos, Quaternion.identity);
-            Destroy(aFirefly, 10);
+            var aFirefly = PoolManager.GetPool(firefly, fireflyPos, Quaternion.identity);
+            PoolManager.ReturnToPool(aFirefly, 10);
         }
     }
 
