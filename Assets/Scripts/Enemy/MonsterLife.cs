@@ -25,6 +25,8 @@ public class MonsterLife : MonoBehaviour
 
     [HideInInspector] public MonsterManager monsterManager = null;
 
+    [SerializeField] private float timeKillToDestroyGObject = 0.15f;
+
     protected virtual bool Vulnerable()
     {
         return isBoy();
@@ -235,7 +237,7 @@ public class MonsterLife : MonoBehaviour
 
     private IEnumerator DestoryGameObject()
     {
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(timeKillToDestroyGObject);
         Destroy(gameObject);
     }
 
