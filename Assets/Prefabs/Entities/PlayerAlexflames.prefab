@@ -440,7 +440,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 5
-  m_LinearDrag: 3
+  m_LinearDrag: 15
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -725,11 +725,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4305704709854959873}
     m_Modifications:
-    - target: {fileID: 2004566509979668110, guid: d40250721e21fb640a3bd4181e3f06b5,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerHealthBar
-      objectReference: {fileID: 0}
     - target: {fileID: 6640788202129163617, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_Name
@@ -844,6 +839,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004566509979668110, guid: d40250721e21fb640a3bd4181e3f06b5,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 9196971933642235979, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
