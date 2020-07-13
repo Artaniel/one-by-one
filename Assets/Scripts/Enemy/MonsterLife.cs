@@ -231,7 +231,8 @@ public class MonsterLife : MonoBehaviour
     {
         if (invulnurabilityShield) invulnurabilityShield.transform.SetParent(null);
         yield return new WaitForSeconds(timeKillToDestroyGObject);
-        Destroy(gameObject);
+        Destroy(gameObject, 10f);
+        gameObject.SetActive(false);
     }
 
     private float minHpValue = 0;
