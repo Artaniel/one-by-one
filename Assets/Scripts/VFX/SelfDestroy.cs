@@ -15,7 +15,7 @@ public class SelfDestroy : MonoBehaviour
 
     private IEnumerator NextFrame()
     {
-        yield return new WaitForEndOfFrame();
-        if (gameObject) PoolManager.ReturnToPool(gameObject, timer);
+        yield return new WaitForSeconds(timer);
+        if (gameObject) PoolManager.ReturnToPool(gameObject);
     }
 }
