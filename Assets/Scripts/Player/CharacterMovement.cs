@@ -38,7 +38,7 @@ public class CharacterMovement : MonoBehaviour
     
     private void Movement()
     {
-        if (!dashActiveSkill) direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        if (!dashActiveSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
         if (rigidbody.velocity.magnitude > speed * Mathf.Max(0, speedMultiplier))
             rigidbody.AddForce(direction * speed * Mathf.Max(0, speedMultiplier) * 10f); // множитель подобран на глаз, возможно надо покалибровать вместе с трением
         else
