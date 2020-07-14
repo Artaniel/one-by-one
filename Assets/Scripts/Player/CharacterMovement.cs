@@ -37,10 +37,13 @@ public class CharacterMovement : MonoBehaviour
     }
     
     private void Movement()
-    { 
+    {
         if (!dashActiveSkill) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
-        rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier);
-        
+        if (rigidbody.velocity.magnitude > speed * Mathf.Max(0, speedMultiplier))
+            rigidbody.AddForce(direction * speed * Mathf.Max(0, speedMultiplier) * 10f); // множитель подобран на глаз, возможно надо покалибровать вместе с трением
+        else
+            rigidbody.velocity = direction * speed * Mathf.Max(0, speedMultiplier);
+
         if (CharacterLife.isDeath) return;
 
         if (animationSwitch) UpdateSwitchAnimation();
