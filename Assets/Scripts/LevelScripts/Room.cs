@@ -68,16 +68,17 @@ public class Room : MonoBehaviour
         LightsOn();
 
         Labirint.instance.OnRoomChanged(roomID);
-        StartCoroutine(DelayedEnterRoom(player, dummy));
+        StartCoroutine(DelayedEnterRoom(player, dummy, wayInDoor.transform.position));
     }
 
-    private IEnumerator DelayedEnterRoom(GameObject player, GameObject dummy)
+    private IEnumerator DelayedEnterRoom(GameObject player, GameObject dummy, Vector3 position)
     {
         yield return new WaitForSeconds(0.35f);
         
         ArenaInitCheck();
         
         Destroy(dummy);
+        player.transform.position = position;
         player.GetComponent<CharacterLife>().RevealPlayer();
 
         var playerMove = player.GetComponent<CharacterMovement>();

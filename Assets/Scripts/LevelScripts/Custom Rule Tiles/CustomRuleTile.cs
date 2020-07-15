@@ -30,9 +30,11 @@ namespace UnityEngine
         public const int basicRulesCount = 3;
         public const int gTilesMax = 7;
         public const int bTilesMax = 6;
-        public TileBase[] t1 = new TileBase[6], t2 = new TileBase[6], t3 = new TileBase[6], t4 = new TileBase[6], t5 = new TileBase[6], t6 = new TileBase[6], t7 = new TileBase[6];
+        //public TileBase[] t1 = new TileBase[6], t2 = new TileBase[6], t3 = new TileBase[6], t4 = new TileBase[6], t5 = new TileBase[6], t6 = new TileBase[6], t7 = new TileBase[6];
+        public TileBase[] t1, t2, t3, t4, t5, t6, t7;
         public TileBase[][] gTiles = new TileBase[gTilesMax][];
-        public TileBase[] n1 = new TileBase[6], n2 = new TileBase[6], n3 = new TileBase[6], n4 = new TileBase[6], n5 = new TileBase[6], n6 = new TileBase[6];
+        //public TileBase[] n1 = new TileBase[6], n2 = new TileBase[6], n3 = new TileBase[6], n4 = new TileBase[6], n5 = new TileBase[6], n6 = new TileBase[6];
+        public TileBase[] n1, n2, n3, n4, n5, n6;
         public TileBase[][] bTiles = new TileBase[bTilesMax][];
 
         [Serializable]

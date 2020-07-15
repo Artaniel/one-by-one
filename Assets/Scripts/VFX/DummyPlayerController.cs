@@ -9,6 +9,7 @@ public class DummyPlayerController : MonoBehaviour
 
     public void SetDestination(Vector3 destination)
     {
+        speed = (destination - transform.position).magnitude / 0.35f;
         this.destination = destination;
         //RotateInstantlyTowardsTarget(destination);
     }

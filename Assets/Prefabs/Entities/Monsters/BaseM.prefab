@@ -190,6 +190,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   monsterManager: {fileID: 0}
+  timeKillToDestroyGObject: 0.15
   OnThisDead:
     m_PersistentCalls:
       m_Calls: []
@@ -241,6 +242,7 @@ MonoBehaviour:
   agroBlockTime: 2
   timeToMaxSpeedAmp: 0
   timeToMaxSpeed: 0.33
+  speedMult: 1
 --- !u!114 &2483354354873438170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +452,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 2949591346383789042, guid: d91967908398c33468c9e51fb89608c6,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -635,12 +637,12 @@ PrefabInstance:
       propertyPath: baseEulerRotation.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
