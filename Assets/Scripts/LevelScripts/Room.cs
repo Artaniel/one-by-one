@@ -393,7 +393,7 @@ public class Room : MonoBehaviour
         List<Vector3Int> freshCells = new List<Vector3Int>();
         freshCells.Add(new Vector3Int(x, y, 0));
         List<Vector3Int> nextGenegationCells;
-        List<Vector3Int> posibleShifts = new List<Vector3Int> { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
+        Vector3Int[] posibleShifts = new Vector3Int[8] { Vector3Int.up, Vector3Int.up + Vector3Int.right, Vector3Int.right, Vector3Int.right + Vector3Int.down, Vector3Int.down, Vector3Int.down + Vector3Int.left, Vector3Int.left, Vector3Int.left + Vector3Int.up };
         Vector3Int arrayToTilemap = new Vector3Int(leftBorder, botBorder, 0);
         Vector3Int newCell;
         while (freshCells.Count > 0)

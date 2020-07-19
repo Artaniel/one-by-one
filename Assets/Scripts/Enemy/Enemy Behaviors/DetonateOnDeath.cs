@@ -6,13 +6,22 @@ public class DetonateOnDeath : MonoBehaviour
 {
     [SerializeField] private float blastRadius = 1f;
     [SerializeField] private float detonateDelay = 0.5f;
+    [SerializeField] private GameObject detonationVFX = null;
+    [SerializeField] private float detonateDamageDuration = 0.25f;
     private bool detonateOnTimer = false;
     private float timer = 0f;
-
+    private float detonateTimer = 0f;
+    private bool attached = true;
+    private GameObject detonationVFXInstance;
 
     private void Awake()
     {
-        MonsterLife.OnEnemyDead.AddListener(StartDetonation);
+        GetComponent<MonsterLife>().OnThisDead.AddListener(StartDetonation);
+    }
+
+    private void OnEnable()
+    {
+        attached = true;
     }
 
     private void Blast()
@@ -41,7 +50,10 @@ public class DetonateOnDeath : MonoBehaviour
         if (!detonateOnTimer)
         {
             detonateOnTimer = true;
+            detonateTimer = detonateDamageDuration;
             timer = detonateDelay;
+            detonationVFXInstance = PoolManager.GetPool(detonationVFX, transform);
+            GetComponentInChildren<Animator>().Play("Detonate");
         }
     }
 
@@ -49,7 +61,13 @@ public class DetonateOnDeath : MonoBehaviour
     {
         if (detonateOnTimer && !Pause.Paused) {
             timer -= Time.deltaTime;
-            if (timer <= 0) {
+            if (timer <= 0 && detonateTimer >= 0) {
+                if (attached)
+                {
+                    attached = false;
+                    detonationVFXInstance.transform.SetParent(null);
+                }
+                detonateTimer -= Time.deltaTime;
                 Blast();
             }
         }
