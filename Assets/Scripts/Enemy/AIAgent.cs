@@ -12,6 +12,7 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public float rotation;
     [HideInInspector] public Vector2 externalVelocity;
     public float moveSpeedMult = 1f;
+    public bool needsOOBCheck = true;
     protected EnemySteering steering;
 
     [Header("All Behaviours activation condition")]
@@ -88,7 +89,7 @@ public class AIAgent : MonoBehaviour
 
         rigidbody.velocity = (externalVelocity + displacement) * 50 * Time.fixedDeltaTime;
 
-        OOBCheck();
+        if (needsOOBCheck) OOBCheck();
 
         rotation = 0;
     }

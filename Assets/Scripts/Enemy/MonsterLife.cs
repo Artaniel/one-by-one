@@ -74,7 +74,7 @@ public class MonsterLife : MonoBehaviour
     public void Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false)
     {
         if (HP <= 0) return; // Already dead
-        if (((THE_BOY && Vulnerable()) || ignoreInvulurability) && SpecialConditions(source))
+        if ((Vulnerable() || ignoreInvulurability) && SpecialConditions(source))
         {
             var wasHp = HP;
             HP = Mathf.Max(minHpValue, HP - damage);

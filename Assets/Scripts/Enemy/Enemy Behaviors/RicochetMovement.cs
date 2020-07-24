@@ -15,8 +15,9 @@ public class RicochetMovement : MoveForward
     [SerializeField] private RotateOption rotateOption = RotateOption.Randomly;
     [SerializeField] private float blockTimeAfterHit = 0.75f;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         switch (rotateOption)
         {
             case RotateOption.Randomly:

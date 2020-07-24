@@ -41,8 +41,9 @@ public class BurrowStrike : Attack
         animators = GetComponentsInChildren<Animator>();
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         maxSpeedSaved = aiAgent.moveSpeedMult;
         maxRotationSaved = aiAgent.maxRotation;
     }

@@ -8,8 +8,9 @@ public class LizardBooster : Attack
     [SerializeField]
     private float boostTime = 2.0f;
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         baseSpeed = agent.moveSpeedMult;
         boostTimeLeft = 0.0f;
     }

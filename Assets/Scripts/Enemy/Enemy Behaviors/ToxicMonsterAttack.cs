@@ -18,8 +18,9 @@ public class ToxicMonsterAttack : Shoot
     [SerializeField]
     private int OrbitalCount = 3;
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         SpawnOrbitals();
     }
 

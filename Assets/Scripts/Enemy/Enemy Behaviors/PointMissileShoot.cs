@@ -5,7 +5,7 @@ using UnityEngine;
 public class PointMissileShoot : TimedShootWithOffset
 {
     [Header("Point Missle Shot Parameters"), SerializeField] private float circleRadius = 3f;
-    [SerializeField] private GameObject missilePointer;
+    [SerializeField] private GameObject missilePointer = null;
 
     protected override GameObject ShootBullet(Vector2 direction, GameObject bulletToSpawn, float angleOffset)
     {
