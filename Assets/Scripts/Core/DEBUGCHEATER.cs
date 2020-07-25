@@ -12,6 +12,7 @@ public class DEBUGCHEATER : MonoBehaviour
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         characterLife = GetComponent<CharacterLife>();
         collider2D = GetComponent<CircleCollider2D>();
+        canvas.GetComponentInChildren<FPSMeter>().cheating = true;
     }
 
     // Update is called once per frame

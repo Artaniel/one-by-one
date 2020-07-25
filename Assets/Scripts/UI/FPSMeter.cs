@@ -25,6 +25,9 @@ public class FPSMeter : MonoBehaviour
             var currentFPS = 1 / Time.deltaTime;
             fpsSum += currentFPS;
             text.text = $"FPS: {(currentFPS).ToString("0.00")}. Average: { (fpsSum / calculations).ToString("0.00") }";
+            if (cheating) text.text += "  <b>CHEATING</b>!";
         }
     }
+
+    [HideInInspector] public bool cheating;
 }
