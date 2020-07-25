@@ -4042,8 +4042,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7731244289545846743}
   m_HandleRect: {fileID: 1456598429588633067}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5104,6 +5104,7 @@ GameObject:
   - component: {fileID: 6563420234755276741}
   - component: {fileID: 4312022267077491894}
   - component: {fileID: 5642023016367078763}
+  - component: {fileID: 1532956795698901700}
   m_Layer: 5
   m_Name: BossHealth
   m_TagString: Untagged
@@ -5179,6 +5180,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbfa783a69604c840b378f0100ae2fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderAlphaManager:
+    managerName: 
+    transparencySetter: {fileID: 1532956795698901700}
+    fadeInTime: 0.75
+    showTime: 2
+    fadeOutTime: 0.5
+    autoHide: 0
+--- !u!114 &1532956795698901700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778957144201215123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e0c3c3f7834a92b50f117722d211b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7842085024746608037

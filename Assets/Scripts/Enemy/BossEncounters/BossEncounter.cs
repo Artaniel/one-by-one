@@ -247,6 +247,7 @@ public abstract class BossEncounter : MonoBehaviour
     protected void SetupBossHPSlider()
     {
         bossHPSlider = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<BossHealthSlider>();
+        bossHPSlider.Show();
         bossHP.hpChangedEvent.AddListener(UpdateBossHP);
         UpdateBossHP();
     }

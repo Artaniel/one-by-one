@@ -10,7 +10,7 @@ public class CurrentEnemyUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        var canvasEnemyName = Instantiate(CanvasPrefab);
+        canvasEnemyName = Instantiate(CanvasPrefab);
         if (GameObject.FindGameObjectWithTag("Room") != null) {  // in labirint mode, to delete with parent
             canvasEnemyName.transform.SetParent(transform); // отключить!!!!!
         }
@@ -54,6 +54,8 @@ public class CurrentEnemyUI : MonoBehaviour
         newCurrentEnemy = enemyName;
     }
 
+    public static GameObject GetCanvasInstance() => canvasEnemyName;
+
     private const float transitionTime = 0.35f;
     private static float timeSinceLastNewName = 1;
     private static float newUIwidth = 40;
@@ -64,4 +66,5 @@ public class CurrentEnemyUI : MonoBehaviour
     private GameObject gameController;
     private static RectTransform enemyNameUICenter = null;
     public static TMPro.TextMeshProUGUI EnemyName;
+    private static GameObject canvasEnemyName;
 }
