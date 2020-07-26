@@ -23,5 +23,4 @@ public class AcidDrop : MonoBehaviour
     public void StartMove() {
         isMoving = true;
     }
-
 }

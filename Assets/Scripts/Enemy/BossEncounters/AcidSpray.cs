@@ -63,20 +63,26 @@ public class AcidSpray : MonoBehaviour
         }
     }
 
-    public void LaunchSpray()
+    public void LaunchSpray() // sould be called from external source
     {
+        SetBlueZones();
+        SetupDrops();
+    }
+
+    private void SetBlueZones() {
         blueZonesPositions = new float[blueZonesNumber];
         float randomPosition = 0; bool overlap; int brakeCounter = 0;
         if (blueZonesNumber * blueZonesHight >= sprayZoneHeight)
             Debug.LogError("Spray zone setup error. Blue zones total bigger than spray zone.");
-        else {
+        else
+        {
             for (int i = 0; i < blueZonesNumber; i++)
             {
                 overlap = true;
-                while (overlap && (brakeCounter<1000))
+                while (overlap && (brakeCounter < 1000))
                 {
                     brakeCounter++;
-                    randomPosition = Random.Range(blueZonesHight / 2f, sprayZoneHeight - blueZonesHight / 2f);
+                    randomPosition = Random.Range(blueZonesHight / 2f, sprayZoneHeight - (blueZonesHight / 2f));
                     overlap = false;
                     if (i > 0)
                         for (int j = 0; j < i; j++)
@@ -84,7 +90,7 @@ public class AcidSpray : MonoBehaviour
                             if (Mathf.Abs(blueZonesPositions[j] - randomPosition) < blueZonesHight)
                             {
                                 overlap = true;
-                                j = i+2; // brake loop
+                                j = i + 2; // brake loop
                             }
                         }
                 }
@@ -92,9 +98,10 @@ public class AcidSpray : MonoBehaviour
                 blueZonesPositions[i] = randomPosition;
             }
         }
+    }
 
-        Vector2 targetPos;
-        brakeCounter = 0;
+    private void SetupDrops() {
+        bool overlap; float randomPosition = 0; int brakeCounter = 0; Vector2 targetPos;
         foreach (GameObject drop in pool)
         {
             drop.SetActive(true);
@@ -112,7 +119,7 @@ public class AcidSpray : MonoBehaviour
                         overlap = true;
             }
             if (brakeCounter == 1000) Debug.LogError("Error in AcidSpray, 2nd loop. Probably no space between blue zones available.");
-            targetPos = transform.position + transform.up * randomPosition + transform.right * Random.Range(-0.5f, 0.5f) * sprayZoneWidth;
+            targetPos = transform.position + (transform.up * randomPosition) + (transform.right * Random.Range(-0.5f, 0.5f) * sprayZoneWidth);
             drop.GetComponent<AcidDrop>().targetPosition = targetPos;
             drop.GetComponent<AcidDrop>().StartMove();
             poolReserve.Remove(drop);
@@ -129,22 +136,22 @@ public class AcidSpray : MonoBehaviour
 
     private void DebugDraw() {
         ///green rectangle for spray zone
-        Debug.DrawLine(transform.position + transform.right * sprayZoneWidth / 2, transform.position - transform.right * sprayZoneWidth / 2, Color.green);
-        Debug.DrawLine(transform.position + transform.right * sprayZoneWidth / 2, transform.position + transform.right * sprayZoneWidth / 2 + transform.up * sprayZoneHeight, Color.green);
-        Debug.DrawLine(transform.position - transform.right * sprayZoneWidth / 2, transform.position - transform.right * sprayZoneWidth / 2 + transform.up * sprayZoneHeight, Color.green);
-        Debug.DrawLine(transform.position + transform.right * sprayZoneWidth / 2 + transform.up * sprayZoneHeight, 
-            transform.position - transform.right * sprayZoneWidth / 2 + transform.up * sprayZoneHeight, Color.green);
+        Debug.DrawLine(transform.position + (transform.right * sprayZoneWidth / 2), transform.position - (transform.right * sprayZoneWidth / 2), Color.green);
+        Debug.DrawLine(transform.position + (transform.right * sprayZoneWidth / 2), transform.position + (transform.right * sprayZoneWidth / 2) + (transform.up * sprayZoneHeight), Color.green);
+        Debug.DrawLine(transform.position - (transform.right * sprayZoneWidth / 2), transform.position - (transform.right * sprayZoneWidth / 2) + (transform.up * sprayZoneHeight), Color.green);
+        Debug.DrawLine(transform.position + (transform.right * sprayZoneWidth / 2) + (transform.up * sprayZoneHeight), 
+            transform.position - (transform.right * sprayZoneWidth / 2) + (transform.up * sprayZoneHeight), Color.green);
         
         foreach (var blueZonePosition in blueZonesPositions)
         {//blue rectangle for blue zone
-            Debug.DrawLine(transform.position + transform.up * (blueZonePosition - blueZonesHight / 2) + transform.right * sprayZoneWidth / 2,
-                transform.position + transform.up * (blueZonePosition - blueZonesHight / 2) - transform.right * sprayZoneWidth / 2, Color.blue);
-            Debug.DrawLine(transform.position + transform.up * (blueZonePosition + blueZonesHight / 2) + transform.right * sprayZoneWidth / 2,
-                transform.position + transform.up * (blueZonePosition + blueZonesHight / 2) - transform.right * sprayZoneWidth / 2, Color.blue);
-            Debug.DrawLine(transform.position + transform.up * (blueZonePosition - blueZonesHight / 2) + transform.right * sprayZoneWidth / 2,
-                transform.position + transform.up * (blueZonePosition + blueZonesHight / 2) + transform.right * sprayZoneWidth / 2, Color.blue);
-            Debug.DrawLine(transform.position + transform.up * (blueZonePosition - blueZonesHight / 2) - transform.right * sprayZoneWidth / 2,
-                transform.position + transform.up * (blueZonePosition + blueZonesHight / 2) - transform.right * sprayZoneWidth / 2, Color.blue);
+            Debug.DrawLine(transform.position + (transform.up * (blueZonePosition - blueZonesHight / 2)) + (transform.right * sprayZoneWidth / 2),
+                transform.position + (transform.up * (blueZonePosition - blueZonesHight / 2)) - (transform.right * sprayZoneWidth / 2), Color.blue);
+            Debug.DrawLine(transform.position + (transform.up * (blueZonePosition + blueZonesHight / 2)) + (transform.right * sprayZoneWidth / 2),
+                transform.position + (transform.up * (blueZonePosition + blueZonesHight / 2)) - (transform.right * sprayZoneWidth / 2), Color.blue);
+            Debug.DrawLine(transform.position + (transform.up * (blueZonePosition - blueZonesHight / 2)) + (transform.right * sprayZoneWidth / 2),
+                transform.position + (transform.up * (blueZonePosition + blueZonesHight / 2)) + (transform.right * sprayZoneWidth / 2), Color.blue);
+            Debug.DrawLine(transform.position + (transform.up * (blueZonePosition - blueZonesHight / 2)) - (transform.right * sprayZoneWidth / 2),
+                transform.position + (transform.up * (blueZonePosition + blueZonesHight / 2)) - (transform.right * sprayZoneWidth / 2), Color.blue);
         }
     }
 }
