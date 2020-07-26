@@ -10,7 +10,7 @@ public class AcidSpray : MonoBehaviour
     [SerializeField] private float velocityNormal = 10; //V
     [SerializeField] private float velocityFluctoation = 10; //Vd
 
-    [SerializeField] private GameObject[] dropsPrefabs;
+    [SerializeField] private GameObject[] dropsPrefabs = null;
     [SerializeField] private int blueZonesNumber = 2; //N2
     [SerializeField] private float blueZonesHight = 3f; //h2
 
@@ -20,7 +20,8 @@ public class AcidSpray : MonoBehaviour
     private void Awake()
     {
         InitPool();
-        LaunchSpray(); // не забыть убрать, не должно запускаться при старте
+        SetBlueZones();
+        //LaunchSpray(); // не забыть убрать, не должно запускаться при старте
     }
 
     private void InitPool()
@@ -65,7 +66,6 @@ public class AcidSpray : MonoBehaviour
 
     public void LaunchSpray() // sould be called from external source
     {
-        SetBlueZones();
         SetupDrops();
     }
 
