@@ -100,8 +100,8 @@ public class CharacterShooting : MonoBehaviour
     {
         attackSpeedMult += addToAttackSpeedValue;
     }
-
-    public static GameObject GetCursor() => gameCursor;
+    
+    public static Transform GetCursor() => gameCursor.transform;
 
     private float timeBetweenAttacks = 0;
 

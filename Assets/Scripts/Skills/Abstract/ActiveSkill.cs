@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class ActiveSkill : SkillBase
 {
-    public float activeDuration;
-    public float cooldownDuration;
+    public float activeDuration = 3f;
+    public float cooldownDuration = 5f;
 
     public override void InitializeSkill() { }
 

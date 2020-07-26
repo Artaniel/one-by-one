@@ -59,10 +59,6 @@ public class MonsterManager : MonoBehaviour
                 monsterRoomModifiers.ForEach(mod => mod.ApplyModifier(monsterLife));
                 monsterLife.monsterManager = this;
             }
-            else
-            {
-                print("If this piece of code triggers, then the condition above is truly necessary");
-            }
         }
         killCount = 0;
     }

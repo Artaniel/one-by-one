@@ -17,6 +17,7 @@ public class BulletLife : MonoBehaviour
     public bool piercing = false;
     public bool phasing = false;
     public bool copiedBullet = false;
+    public bool selfInit = false;
 
     protected virtual void Awake()
     {
@@ -25,6 +26,11 @@ public class BulletLife : MonoBehaviour
         coll2D = GetComponent<Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
         startColor = sprite.color;
+    }
+
+    protected void OnEnable()
+    {
+        if (selfInit) InitializeBullet();
     }
 
     public virtual void InitializeBullet()
@@ -277,7 +283,6 @@ public class BulletLife : MonoBehaviour
         ActivateDestroyMods();
         coll2D.enabled = false;
         dynamicLightInOut?.FadeOut();
-        speed = 0;
         StopEmitter();
         DeactivateMods();
         PoolManager.ReturnToPool(gameObject, 1);

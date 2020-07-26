@@ -22,7 +22,7 @@ public class DEBUGCHEATER : MonoBehaviour
         {
             canvas.SetActive(!canvas.activeSelf);
             CurrentEnemyUI.GetCanvasInstance().SetActive(!CurrentEnemyUI.GetCanvasInstance().activeSelf);
-            CharacterShooting.GetCursor().SetActive(!CharacterShooting.GetCursor().activeSelf);
+            CharacterShooting.GetCursor().gameObject.SetActive(!CharacterShooting.GetCursor().gameObject.activeSelf);
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
