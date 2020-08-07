@@ -149,6 +149,7 @@ public class MonsterManager : MonoBehaviour
     void WinCheck() {
         if ((monsterList.Count == 0 && spawnIndex == enemyWaves.GetLength(0)) || (killCount>=killsToOpen)) {
             room.UnlockRoom();
+            if (room.fireScript != null) room.fireScript.cleanedRoom = true;
             while (monsterList.Count>0)
             {
                 if (monsterList[0].GetComponent<MonsterDrop>()!=null)

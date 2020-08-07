@@ -20,6 +20,7 @@ public class Room : MonoBehaviour
 
     [HideInInspector] public MonsterManager monsterManager;
     [HideInInspector] public List<MonsterRoomModifier> externalMRMods = new List<MonsterRoomModifier>();
+    [HideInInspector] public FireOnTilemap fireScript;
 
     private void Awake()
     {
@@ -101,6 +102,7 @@ public class Room : MonoBehaviour
                 if (GetComponent<ArenaEnemySpawner>() != null)
                     GetComponent<ArenaEnemySpawner>().KillThemAll();
                 TimerUnlockRoom();
+                fireScript.cleanedRoom = true;
             }
         }
         else
@@ -223,46 +225,50 @@ public class Room : MonoBehaviour
         return result;
     }
 
-    private Tilemap walls = null;
+    [HideInInspector] public Tilemap wallsTilemap = null;
     private int brakeCounter = 0;
     private Vector3Int inboundsPosituion;
-    private int[,] map; // 0 - dont know, 1 - oob, 2 - inbounds, 3 - border
-    private int topBorder,botBorder,leftBorder,rightBorder;
+    [HideInInspector] public int[,] OOBmap; // 0 - dont know, 1 - oob, 2 - inbounds, 3 - border
+    [HideInInspector] public int topBorder,botBorder,leftBorder,rightBorder;
 
-    private void FillOOB()
+    public void FillOOB()
     {
-        GetWallTilemap();
-        Dictionary<Direction.Side, float> borders = GetBordersFromTilemap();
-        topBorder = walls.WorldToCell(new Vector3(0, borders[Direction.Side.UP], 0)).y + 3;
-        botBorder = walls.WorldToCell(new Vector3(0, borders[Direction.Side.DOWN], 0)).y - 3;
-        leftBorder = walls.WorldToCell(new Vector3(borders[Direction.Side.LEFT], 0, 0)).x - 3;
-        rightBorder = walls.WorldToCell(new Vector3(borders[Direction.Side.RIGHT], 0, 0)).x + 3;
-
-        map = new int[rightBorder - leftBorder + 1, topBorder - botBorder + 1];
-        FillOuterCell2(0, 0);
-        brakeCounter = 0;
-        if (GetInboundsPoint()) // if can find inside point
+        if (OOBmap == null)
         {
+            GetWallTilemap();
+            Dictionary<Direction.Side, float> borders = GetBordersFromTilemap();
+            topBorder = wallsTilemap.WorldToCell(new Vector3(0, borders[Direction.Side.UP], 0)).y + 3;
+            botBorder = wallsTilemap.WorldToCell(new Vector3(0, borders[Direction.Side.DOWN], 0)).y - 3;
+            leftBorder = wallsTilemap.WorldToCell(new Vector3(borders[Direction.Side.LEFT], 0, 0)).x - 3;
+            rightBorder = wallsTilemap.WorldToCell(new Vector3(borders[Direction.Side.RIGHT], 0, 0)).x + 3;
+
+            OOBmap = new int[rightBorder - leftBorder + 1, topBorder - botBorder + 1];
+            FillOuterCell2(0, 0);
             brakeCounter = 0;
-            FillInboundsCell2(inboundsPosituion.x-leftBorder, inboundsPosituion.y-botBorder);
-            FillRest();
-            PaintBorder();
+            if (GetInboundsPoint()) // if can find inside point
+            {
+                brakeCounter = 0;
+                FillInboundsCell2(inboundsPosituion.x - leftBorder, inboundsPosituion.y - botBorder);
+                FillRest();
+                PaintBorder();
+            }
+            else
+            {
+                OOBmap = null; //to prevent telepot in case of crash
+            }
+            //DrawDebug();
         }
-        else {
-            map = null; //to prevent telepot in case of crash
-        }
-        //DrawDebug();
     }
 
     private void GetWallTilemap()
     { // get walls tilemap layer and set it to var walls
-        if (walls == null)
+        if (wallsTilemap == null)
         {
             Tilemap[] tilemaps = GetComponentsInChildren<Tilemap>();
             foreach (Tilemap tilemap in tilemaps)
             {
                 if (tilemap.tag == "Environment")
-                    walls = tilemap;
+                    wallsTilemap = tilemap;
             }
         }
     }
@@ -314,10 +320,10 @@ public class Room : MonoBehaviour
                         if (newCell.x >= 0 && newCell.y >= 0 &&
                         newCell.x <= rightBorder-leftBorder && newCell.y <= topBorder-botBorder)
                         {
-                            if ((map[newCell.x, newCell.y] == 0) && !(walls.HasTile(oldCell + arrayToTilemap) && !walls.HasTile(newCell + arrayToTilemap)))
+                            if ((OOBmap[newCell.x, newCell.y] == 0) && !(wallsTilemap.HasTile(oldCell + arrayToTilemap) && !wallsTilemap.HasTile(newCell + arrayToTilemap)))
                             {
                                 nextGenegationCells.Add(newCell);
-                                map[newCell.x, newCell.y] = 1;
+                                OOBmap[newCell.x, newCell.y] = 1;
                             }
                         }
                     }
@@ -342,11 +348,11 @@ public class Room : MonoBehaviour
     }
     private bool GetInboundsPoint() { //эвристика, чертим линию от левой двери вправо пока не найдем пустую клетку.
         bool found = false;
-        Vector3Int currentPos = walls.WorldToCell(GetRandomDoorPosition());
+        Vector3Int currentPos = wallsTilemap.WorldToCell(GetRandomDoorPosition());
         while (!found && (currentPos.x<rightBorder)&& brakeCounter<100) {
             //Debug.Log(currentPos.x.ToString()+" "+ rightBorder.ToString());
             brakeCounter++;
-            if (!walls.HasTile(currentPos)) {
+            if (!wallsTilemap.HasTile(currentPos)) {
                 found = true;
                 inboundsPosituion = currentPos;
                 return true;
@@ -410,10 +416,10 @@ public class Room : MonoBehaviour
                             if (newCell.x >= 0 && newCell.y >= 0 &&
                             newCell.x <= rightBorder - leftBorder && newCell.y <= topBorder - botBorder)
                             {
-                                if ((map[newCell.x, newCell.y] == 0) && !walls.HasTile(newCell + arrayToTilemap))
+                                if ((OOBmap[newCell.x, newCell.y] == 0) && !wallsTilemap.HasTile(newCell + arrayToTilemap))
                                 {
                                     nextGenegationCells.Add(newCell);
-                                    map[newCell.x, newCell.y] = 2;
+                                    OOBmap[newCell.x, newCell.y] = 2;
                                 }
                             }
                         }
@@ -429,8 +435,8 @@ public class Room : MonoBehaviour
         {
             for (int y = 0; y < topBorder - botBorder - 1; y++)
             {
-                if (map[x, y] == 0)
-                    map[x, y] = 1;
+                if (OOBmap[x, y] == 0)
+                    OOBmap[x, y] = 1;
             }
         }
     }
@@ -441,17 +447,17 @@ public class Room : MonoBehaviour
         {
             for (int y = 1; y < topBorder - botBorder - 1; y++)
             {
-                if (map[x, y] == 1) {
+                if (OOBmap[x, y] == 1) {
                     isborder = false;
-                    isborder = isborder || (map[x + 1,  y]      == 2); // if has inbounds cell in any of 9 dirrections
-                    isborder = isborder || (map[x + 1,  y + 1]  == 2);
-                    isborder = isborder || (map[x,      y + 1]  == 2);
-                    isborder = isborder || (map[x - 1,  y + 1]  == 2);
-                    isborder = isborder || (map[x - 1,  y]      == 2);
-                    isborder = isborder || (map[x - 1,  y - 1]  == 2);
-                    isborder = isborder || (map[x,      y - 1]  == 2);
-                    isborder = isborder || (map[x + 1,  y - 1]  == 2);
-                    if (isborder) map[x, y] = 3;
+                    isborder = isborder || (OOBmap[x + 1,  y]      == 2); // if has inbounds cell in any of 9 dirrections
+                    isborder = isborder || (OOBmap[x + 1,  y + 1]  == 2);
+                    isborder = isborder || (OOBmap[x,      y + 1]  == 2);
+                    isborder = isborder || (OOBmap[x - 1,  y + 1]  == 2);
+                    isborder = isborder || (OOBmap[x - 1,  y]      == 2);
+                    isborder = isborder || (OOBmap[x - 1,  y - 1]  == 2);
+                    isborder = isborder || (OOBmap[x,      y - 1]  == 2);
+                    isborder = isborder || (OOBmap[x + 1,  y - 1]  == 2);
+                    if (isborder) OOBmap[x, y] = 3;
                 }                
             }
         }
@@ -459,13 +465,13 @@ public class Room : MonoBehaviour
 
     public bool PositionIsInbounds(Vector3 position) {
         bool result = true;
-        if (map != null && walls !=null) {
-            Vector3Int positionOnTilemap = walls.WorldToCell(position);
+        if (OOBmap != null && wallsTilemap !=null) {
+            Vector3Int positionOnTilemap = wallsTilemap.WorldToCell(position);
             if (positionOnTilemap.x<leftBorder || positionOnTilemap.x>rightBorder ||
                 positionOnTilemap.y>topBorder || positionOnTilemap.y<botBorder) {
                 result = false;
             }
-            else if (map[positionOnTilemap.x - leftBorder, positionOnTilemap.y - botBorder] == 1)
+            else if (OOBmap[positionOnTilemap.x - leftBorder, positionOnTilemap.y - botBorder] == 1)
                 result = false;
         }
         return result;
@@ -493,12 +499,12 @@ public class Room : MonoBehaviour
         for (int x = leftBorder; x < rightBorder - 1; x++)
             for (int y = botBorder; y < topBorder - 1; y++)
             {
-                if (map[x - leftBorder, y - botBorder] == 1)
-                    Debug.DrawRay(walls.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.red, 99f);
-                if (map[x - leftBorder, y - botBorder] == 2)
-                    Debug.DrawRay(walls.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.green, 99f);                
-                if (map[x - leftBorder, y - botBorder] == 3)
-                    Debug.DrawRay(walls.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.yellow, 99f);
+                if (OOBmap[x - leftBorder, y - botBorder] == 1)
+                    Debug.DrawRay(wallsTilemap.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.red, 99f);
+                if (OOBmap[x - leftBorder, y - botBorder] == 2)
+                    Debug.DrawRay(wallsTilemap.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.green, 99f);                
+                if (OOBmap[x - leftBorder, y - botBorder] == 3)
+                    Debug.DrawRay(wallsTilemap.CellToWorld(new Vector3Int(x, y, 0)), Vector3.up, Color.yellow, 99f);
             }
     }
 }
