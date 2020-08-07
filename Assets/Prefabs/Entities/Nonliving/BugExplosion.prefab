@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7157660584674300531}
   - component: {fileID: 7157660584674300534}
   - component: {fileID: 7157660584674300535}
-  - component: {fileID: 7157660584674300552}
+  - component: {fileID: 2732881446986524079}
+  - component: {fileID: 2232707990484403928}
   m_Layer: 0
   m_Name: BugExplosion
   m_TagString: Untagged
@@ -145,7 +146,20 @@ MonoBehaviour:
   min: {x: 0, y: 0}
   max: {x: 2, y: 2}
   maxTime: 0.4
---- !u!114 &7157660584674300552
+--- !u!114 &2732881446986524079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7157660584674300530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e2512fa7e4b80d4186da1caabadd2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreTime: 0.5
+--- !u!114 &2232707990484403928
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,3 +172,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0.917
+  toPool: 1

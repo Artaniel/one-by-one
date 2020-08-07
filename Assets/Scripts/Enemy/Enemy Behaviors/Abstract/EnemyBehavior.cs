@@ -29,7 +29,10 @@ public abstract class EnemyBehavior : MonoBehaviour
     {
         agent = gameObject.GetComponent<AIAgent>();
         target = GameObject.FindGameObjectWithTag("Player");
+    }
 
+    protected virtual void Start()
+    {
         if (proximityCheckOption.Count == 0)
         {
             proximityCheckOption = agent.proximityCheckOption;

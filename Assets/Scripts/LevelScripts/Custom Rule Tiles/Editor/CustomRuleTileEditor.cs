@@ -289,11 +289,58 @@ namespace UnityEditor
         {
             if (good)
             {
-                Array.Resize(ref tile.gTiles[i], tile.acceptedSetSize[i]);
+                switch (i)
+                {
+                    case 0:
+                        Array.Resize(ref tile.t1, tile.acceptedSetSize[i]);
+                        break;
+                    case 1:
+                        Array.Resize(ref tile.t2, tile.acceptedSetSize[i]);
+                        break;
+                    case 2:
+                        Array.Resize(ref tile.t3, tile.acceptedSetSize[i]);
+                        break;
+                    case 3:
+                        Array.Resize(ref tile.t4, tile.acceptedSetSize[i]);
+                        break;
+                    case 4:
+                        Array.Resize(ref tile.t5, tile.acceptedSetSize[i]);
+                        break;
+                    case 5:
+                        Array.Resize(ref tile.t6, tile.acceptedSetSize[i]);
+                        break;
+                    case 6:
+                        Array.Resize(ref tile.t7, tile.acceptedSetSize[i]);
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
-                Array.Resize(ref tile.bTiles[i], tile.declinedSetSize[i]);
+                switch (i)
+                {
+                    case 0:
+                        Array.Resize(ref tile.n1, tile.declinedSetSize[i]);
+                        break;
+                    case 1:
+                        Array.Resize(ref tile.n2, tile.declinedSetSize[i]);
+                        break;
+                    case 2:
+                        Array.Resize(ref tile.n3, tile.declinedSetSize[i]);
+                        break;
+                    case 3:
+                        Array.Resize(ref tile.n4, tile.declinedSetSize[i]);
+                        break;
+                    case 4:
+                        Array.Resize(ref tile.n5, tile.declinedSetSize[i]);
+                        break;
+                    case 5:
+                        Array.Resize(ref tile.n6, tile.declinedSetSize[i]);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

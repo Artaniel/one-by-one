@@ -5,9 +5,9 @@ using UnityEngine;
 public abstract class WeaponSkill : SkillBase
 {
     public AudioClip[] attackSound;
-    public float reloadTime;
-    public float timeBetweenAttacks;
-    public int ammoMagazine;
+    public float reloadTime = 3f;
+    public float timeBetweenAttacks = 1f;
+    public int ammoMagazine = 6;
     //public int bulletsLeft;
 
     public enum WeaponType { Automatic, Pistol, Heavy, Melee, Empty }

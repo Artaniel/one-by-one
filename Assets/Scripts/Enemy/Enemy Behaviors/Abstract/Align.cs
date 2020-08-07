@@ -6,13 +6,15 @@ public abstract class Align : EnemyBehavior
     public float timeToTarget = 0.1f;
     public bool rotateAtStart = true;
 
-    protected float maxBypassRaycastDistance = 3f;
+    protected float maxBypassRaycastDistance = 4f;
     [SerializeField, Header("If bypass is needed choose 70. It is good")]
     protected float bypassAngleAccumulationSpeed = 0; // 70 is a good normal value
     protected float bypassAngleAccumulator = 50;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+
         if (rotateAtStart) RotateInstantlyTowardsTarget();
     }
 
@@ -33,22 +35,24 @@ public abstract class Align : EnemyBehavior
         }
     }
 
+    // TODO: все-таки заставить делать обход врагов
     protected float AccumulateBypassAngle()
     {
         Vector2 direction = target.transform.position - transform.position;
-        var hits = RaycastHits(direction, 50);
+        var dirnorm = direction.normalized;
+        var hits = RaycastHits(direction, maxBypassRaycastDistance);
         hits = (from t in hits
                 where t.transform.tag == "Player" || t.transform.tag == "Environment"
                 select t).ToArray();
         if (hits.Length > 0 && hits[0].transform.tag != "Player")
         {
-            Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.red);
+            Debug.DrawRay(transform.position, dirnorm * maxBypassRaycastDistance, Color.red);
             direction = ((direction.normalized * 0.5f) + (new Vector2(transform.up.x, transform.up.y))).normalized;
             Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.cyan);
 
             hits = RaycastHits(direction, maxBypassRaycastDistance);
             hits = (from t in hits
-                    where (t.transform.tag == "EnemyCollider" && t.transform.parent != transform) || t.transform.tag == "Environment"
+                    where t.transform.tag == "Environment"
                     select t).ToArray();
             // var status = hits.Length != 0 && hits[0].transform.gameObject.tag != "Player" ? "Found wall" : "Wall not found, " + hits.Length;
             if (hits.Length != 0)
@@ -74,7 +78,7 @@ public abstract class Align : EnemyBehavior
         }
         else
         {
-            Debug.DrawRay(transform.position, direction * maxBypassRaycastDistance, Color.green);
+            Debug.DrawRay(transform.position, dirnorm * maxBypassRaycastDistance, Color.green);
             bypassAngleAccumulator = 0;
         }
         

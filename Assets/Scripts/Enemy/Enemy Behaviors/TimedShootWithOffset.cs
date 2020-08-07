@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TimedShootWithOffset : TimedAttack
 {
-    [SerializeField] protected float randomShotAngle = 15f;
-    [SerializeField] protected GameObject bullet = null;
-    [SerializeField] protected Vector2 bulletSpawnOffset = new Vector2(0, 0);
+    public float randomShotAngle = 15f;
+    public GameObject bullet = null;
+    public Vector2 bulletSpawnOffset = new Vector2(0, 0);
     [SerializeField] protected bool isSpawnOffsetWorldCoordinates = true;
     [SerializeField] protected GameObject attackVFX = null;
     [SerializeField] protected bool rotationBased = false;

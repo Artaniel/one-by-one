@@ -5,7 +5,6 @@ using UnityEngine;
 public class ReflectBullets : MonoBehaviour
 {
     [SerializeField] private GameObject bulletReflectAnim = null;
-    [SerializeField] private GameObject bulletReflectedEffect = null;
     [SerializeField] private EnemyReflectBulletMod reflectBulletMod = null;
 
     private void Start()

@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
 
     // Name -> (time since last sound, maximum value)
     public static Dictionary<string, float> Clips = new Dictionary<string, float>();
+    public static Dictionary<string, float> clipSavedVolume = new Dictionary<string, float>();
 
     private const float lowestSoundValue = 0.3f;
 
@@ -119,12 +120,14 @@ public class AudioManager : MonoBehaviour
         if (Clips.ContainsKey(name))
         {
             float ltp = Clips[name];
+            volume = clipSavedVolume[name];
             volume = Mathf.Lerp(volume / 5, volume, Time.time - ltp); //sound suppression for multiple identical effects in short time
             Clips[name] = Time.time;
         }
         else
         {
             Clips.Add(name, Time.time);
+            clipSavedVolume.Add(name, volume);
         }
         return volume * userPrefSound;
     }

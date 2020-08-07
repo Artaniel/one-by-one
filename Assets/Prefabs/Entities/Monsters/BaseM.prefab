@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1035709932181455956}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.08, y: 1.08, z: 1}
   m_Children: []
   m_Father: {fileID: 8624421033595261174}
   m_RootOrder: 2
@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: abea49c1b8a873a42b337e2b9cb66392, type: 2}
+  - {fileID: 2100000, guid: 2b146e53f54ea424a92518fb7fe1a7c7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -190,6 +190,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   monsterManager: {fileID: 0}
+  timeKillToDestroyGObject: 0.15
   OnThisDead:
     m_PersistentCalls:
       m_Calls: []
@@ -215,6 +216,7 @@ MonoBehaviour:
   rotation: 0
   externalVelocity: {x: 0, y: 0}
   moveSpeedMult: 1
+  needsOOBCheck: 1
   proximityCheckOption: 01000000
   timeToLoseAggro: -1
 --- !u!114 &1731130980099116965
@@ -241,6 +243,7 @@ MonoBehaviour:
   agroBlockTime: 2
   timeToMaxSpeedAmp: 0
   timeToMaxSpeed: 0.33
+  speedMult: 1
 --- !u!114 &2483354354873438170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +453,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 2949591346383789042, guid: d91967908398c33468c9e51fb89608c6,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -635,12 +638,12 @@ PrefabInstance:
       propertyPath: baseEulerRotation.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 207385517049205066, guid: d40250721e21fb640a3bd4181e3f06b5,
+    - target: {fileID: 8666994749709915682, guid: d40250721e21fb640a3bd4181e3f06b5,
         type: 3}
       propertyPath: m_IsActive
       value: 0

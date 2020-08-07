@@ -16,7 +16,7 @@ public class CircularSpawnOnStart : MonoBehaviour
         for (int i = 0; i < count; i ++)
         {
             float angle = 360f / count * i;
-            var obj = Instantiate(objectToSpawn, transform.position, Quaternion.Euler(0, 0, angle));
+            var obj = PoolManager.GetPool(objectToSpawn, transform.position, Quaternion.Euler(0, 0, angle));
             obj.transform.Translate(direction * radius);
         }            
     }

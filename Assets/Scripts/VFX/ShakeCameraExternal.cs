@@ -11,6 +11,11 @@ public class ShakeCameraExternal : MonoBehaviour
     void Start()
     {
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
+        if (shakeOnStart) ShakeCamera();
+    }
+
+    public void ShakeCamera()
+    {
         cameraShaker.ShakeCamera(intensity, shakeLength);
     }
 

@@ -40,10 +40,11 @@ public class ShootingWeapon : WeaponSkill
         SpawnBulletTowardsCursor(mousePos, shotFrom, GetRandomAngle(RandomAngleMode.GAUSSIAN));
     }
 
-    public void SpawnBulletTowardsCursor(Vector3 mousePos, Transform shotFrom, float RandomAngle, float additionalAngleOffset = 0)
+    public GameObject SpawnBulletTowardsCursor(Vector3 mousePos, Transform shotFrom, float RandomAngle, float additionalAngleOffset = 0)
     {
         var bullet = PoolManager.GetPool(currentBulletPrefab, shotFrom.position, Quaternion.Euler(0, 0, shotFrom.rotation.eulerAngles.z + 90 + GetRandomAngle()));
         BulletInit(bullet);
+        return bullet;
     }
 
     public enum RandomAngleMode {

@@ -186,6 +186,8 @@ public abstract class BossEncounter : MonoBehaviour
     protected virtual void Start()
     {
         bossHP = GetComponent<MonsterLife>();
+        if (bossHP) SetupBossHPSlider();
+
         if (startFromPhase == 0)
         {
             StartEncounter();
@@ -200,6 +202,7 @@ public abstract class BossEncounter : MonoBehaviour
 
     protected virtual void StartEncounter()
     {
+        encounterStarted = true;
         NextPhaseOrFinish();
     } 
 
@@ -241,6 +244,20 @@ public abstract class BossEncounter : MonoBehaviour
         return (!bossHP ? 0 : bossHP.HP / bossHP.maxHP);
     }
 
+    protected void SetupBossHPSlider()
+    {
+        bossHPSlider = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<BossHealthSlider>();
+        bossHPSlider.Show();
+        bossHP.hpChangedEvent.AddListener(UpdateBossHP);
+        UpdateBossHP();
+    }
+
+    protected void UpdateBossHP()
+    {
+        bossHPSlider.UpdateSlider(
+            bossHP.HP / bossHP.maxHP);
+    }
+
     protected virtual void EncounterUpdate() { }
     protected virtual void EncounterSuccess() { }
 
@@ -250,4 +267,5 @@ public abstract class BossEncounter : MonoBehaviour
     protected bool encounterStarted = false;
     protected bool encounterOver = false;
     public MonsterLife bossHP = null;
+    private BossHealthSlider bossHPSlider;
 }

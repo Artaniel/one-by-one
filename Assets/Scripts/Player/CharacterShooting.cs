@@ -29,7 +29,7 @@ public class CharacterShooting : MonoBehaviour
         cameraShaker = mainCamera.GetComponent<CameraShaker>();
         gunfireAnimator = GetComponentInChildren<GunfireAnimator>();
         Cursor.visible = false;
-        GameObject.Instantiate(mouseCursorObj);
+        gameCursor = Instantiate(mouseCursorObj);
         skillManager = GetComponent<SkillManager>();
         weaponTipDynamic = weaponTip.GetComponent<WeaponTipDynamic>();
     }
@@ -100,6 +100,8 @@ public class CharacterShooting : MonoBehaviour
     {
         attackSpeedMult += addToAttackSpeedValue;
     }
+    
+    public static Transform GetCursor() => gameCursor.transform;
 
     private float timeBetweenAttacks = 0;
 
@@ -114,4 +116,6 @@ public class CharacterShooting : MonoBehaviour
     private SkillManager skillManager;
 
     private WeaponTipDynamic weaponTipDynamic;
+
+    private static GameObject gameCursor;
 }
