@@ -14,7 +14,7 @@ public static class Direction
         DOWN,
         LEFT
     }
-    
+
     /// Array that contains 4 sides to iterate on: down, left, right, up 
     public static readonly Side[] sides = new Side[] { Side.DOWN, Side.LEFT, Side.RIGHT, Side.UP };
 
@@ -69,4 +69,9 @@ public static class Direction
                 return Vector2Int.zero;
         }
     }
+
+    public static Vector3Int[] eightDirectionsVectors = new Vector3Int[8] {
+        Vector3Int.up, Vector3Int.up + Vector3Int.right, Vector3Int.right, Vector3Int.right + Vector3Int.down,
+        Vector3Int.down, Vector3Int.down + Vector3Int.left, Vector3Int.left, Vector3Int.left + Vector3Int.up
+    };
 }
