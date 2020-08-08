@@ -70,7 +70,7 @@ public static class Direction
         }
     }
 
-    public static Vector3Int[] eightDirrectionsVectors = new Vector3Int[8] {
+    public static Vector3Int[] eightDirectionsVectors = new Vector3Int[8] {
         Vector3Int.up, Vector3Int.up + Vector3Int.right, Vector3Int.right, Vector3Int.right + Vector3Int.down,
         Vector3Int.down, Vector3Int.down + Vector3Int.left, Vector3Int.left, Vector3Int.left + Vector3Int.up
     };
