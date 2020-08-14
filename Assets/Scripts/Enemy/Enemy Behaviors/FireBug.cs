@@ -10,9 +10,10 @@ public class FireBug : MonoBehaviour
     private void Awake()
     {
         monsterLife = GetComponent<MonsterLife>();
+        MonsterLife.OnEnemyDead.AddListener(DeathCheck);
     }
 
-    private void Update()
+    private void DeathCheck()
     {
         if (monsterLife.HP <= 0) {
             FireOnTilemap.StartFire(transform.position, firePrefab);
