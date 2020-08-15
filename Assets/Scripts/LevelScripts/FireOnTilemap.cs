@@ -75,6 +75,13 @@ public class FireOnTilemap : MonoBehaviour
                     trees.Add(tree);
             }
         }
+        if (TryGetComponent<MonsterManager>(out MonsterManager monsterManager))
+        {
+            if (monsterManager.EnemyCount() == 0)
+            { // exception for spawn fire script on last monster in room
+                cleanedRoom = true;
+            }
+        }
     }
 
     private void StartFireInternal(Vector2 firePosition) {
