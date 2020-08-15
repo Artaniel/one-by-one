@@ -47,7 +47,7 @@ public class BusyBugSpawner : MonoBehaviour
         {
             spriteComp.material.SetFloat("_BlurAmount", Mathf.Lerp(blurRange.x, blurRange.y, lerpParam));
             busyBug.GetComponent<AIAgent>().maxSpeed = Mathf.Lerp(speedRange.x, speedRange.y, lerpParam);
-            spriteComp.sortingOrder = 7 + (int)(lerpParam * 7);
+            spriteComp.sortingOrder = 9 + (int)(lerpParam * 7);
         }
     }
 
