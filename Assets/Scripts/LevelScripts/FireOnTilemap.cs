@@ -13,6 +13,7 @@ public class FireOnTilemap : MonoBehaviour
     [SerializeField] private float spreadCheckPeriod = 0.1f; //Tm
     private float extinguishTimer, spreadTimer;
     static private GameObject firePrefabStatic = null;
+    static public bool damageMobsAllowed = false;
 
     private List<GameObject> activeFires;
     private Vector3Int arrayToTilemap;
@@ -21,11 +22,14 @@ public class FireOnTilemap : MonoBehaviour
     public bool dryRoom = false;
     public bool cleanedRoom = false;
 
+    private GameObject player;
+
     private void Awake()
     {
         if (!room) room = GetComponent<Room>();
         if (!room) Debug.LogError("Fire can't find Room script");
         Init();
+        player = GameObject.FindWithTag("Player");
     }
 
     private void Start()
@@ -130,6 +134,9 @@ public class FireOnTilemap : MonoBehaviour
         {
             ExtinguishTimerTick();
             SpreadTimerCheck();
+            PlayerDamageCheck();
+            if (damageMobsAllowed)
+                DamageMobs();
         }
     }
 
@@ -197,6 +204,24 @@ public class FireOnTilemap : MonoBehaviour
                 if (fireMap[j, i] == 2 || fireMap[j, i] == 3) // if was default
                     fireMap[j, i] = 6; // change to flamable
             }
+        }
+    }
+
+    private void PlayerDamageCheck() {
+        Vector3Int testedPosition = room.wallsTilemap.WorldToCell(player.transform.position) - arrayToTilemap;
+        if (fireMap[testedPosition.x, testedPosition.y] == 4)  // if on tile with fire
+            player.GetComponent<CharacterLife>().Damage(1);        
+    }
+
+    private void DamageMobs()
+    {
+        Vector3Int testedPosition;
+        GameObject currentBoy = Labirint.instance.GetComponent<CurrentEnemySelector>().currentBoy;
+        if (currentBoy)
+        {
+            testedPosition = room.wallsTilemap.WorldToCell(currentBoy.transform.position) - arrayToTilemap;
+            if (fireMap[testedPosition.x, testedPosition.y] == 4) // if on tile with fire
+                currentBoy.GetComponent<MonsterLife>().Damage(gameObject, 1);
         }
     }
 }
