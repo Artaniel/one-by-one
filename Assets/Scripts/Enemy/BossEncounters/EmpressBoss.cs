@@ -11,6 +11,7 @@ public class EmpressBoss : BossEncounter
     [SerializeField] private AudioClip beetleSummon = null;
     [SerializeField] private AudioSource bossAttackSFXSource = null;
     [SerializeField] private Transform[] minibugSpawnPositions = null;
+    [SerializeField] private Animator[] wingsAnimators = null;
 
     public class EmpressFight : BossPhase
     {
@@ -190,6 +191,10 @@ public class EmpressBoss : BossEncounter
             timer = 1.25f;
             BD.bossAttackSFXSource.clip = BD.windSFX;
             AudioManager.Play("WindSFX", BD.bossAttackSFXSource);
+            foreach (var animator in BD.wingsAnimators)
+            {
+                animator.Play("HugeWingSwing");
+            }
             base.AttackStart();
         }
 
@@ -254,12 +259,13 @@ public class EmpressBoss : BossEncounter
 
     private void SegmentDestroyed()
     {
-        hpManager.Damage(null, hpManager.maxHP / 6f, true);
+        hpManager.Damage(null, hpManager.maxHP / segmentsCount, true);
     }
 
     private void SetupDamageableSegments()
     {
         var segments = GetComponentsInChildren<VulnerableMonster>();
+        segmentsCount = segments.Length;
         foreach (var segment in segments)
         {
             segment.OnThisDead.AddListener(SegmentDestroyed);
@@ -270,4 +276,5 @@ public class EmpressBoss : BossEncounter
     private List<AIAgent> spawnedMonsters = new List<AIAgent>();
     private Blur ppBlur = null;
     private MonsterLife hpManager;
+    private int segmentsCount;
 }

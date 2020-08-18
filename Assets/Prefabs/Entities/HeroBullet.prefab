@@ -4811,10 +4811,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4bda4ebe4f4ed45b514d3690867755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 8
+  timeToDestruction: 1
+  damage: 2
+  TTDLeft: 0.5
   bulletMods: []
   piercing: 0
   phasing: 0
   copiedBullet: 0
+  selfInit: 0
   particlesEmitter: {fileID: 4364573488591142210}
   sprite: {fileID: 6191924689547157748}
 --- !u!50 &1804933526
@@ -4891,7 +4896,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f0e0a83e3a2a3974d9465ce770f082a2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

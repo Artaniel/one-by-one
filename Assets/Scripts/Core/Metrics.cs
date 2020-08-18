@@ -26,8 +26,17 @@ public class Metrics : MonoBehaviour
         if (metrics == null) {
             LoadMetrics();
         }
-        metrics.levelSceneName[sceneIndex] = SceneManager.GetActiveScene().name;
-        metrics.deathRooms = new Dictionary<string, int>();
+        try
+        {
+            metrics.levelSceneName[sceneIndex] = SceneManager.GetActiveScene().name;
+            metrics.deathRooms = new Dictionary<string, int>();
+        }
+        catch (System.Exception)
+        {
+            OnNewGame();
+            metrics.levelSceneName[sceneIndex] = SceneManager.GetActiveScene().name;
+            metrics.deathRooms = new Dictionary<string, int>();
+        }
     }
 
     private void Update()
