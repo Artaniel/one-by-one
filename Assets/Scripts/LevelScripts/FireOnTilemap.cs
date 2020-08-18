@@ -13,6 +13,7 @@ public class FireOnTilemap : MonoBehaviour
     [SerializeField] private float spreadCheckPeriod = 0.1f; //Tm
     private float extinguishTimer, spreadTimer;
     static private GameObject firePrefabStatic = null;
+    static public bool damageMobsAllowed = false;
 
     private List<GameObject> activeFires;
     private Vector3Int arrayToTilemap;
@@ -21,10 +22,17 @@ public class FireOnTilemap : MonoBehaviour
     public bool dryRoom = false;
     public bool cleanedRoom = false;
 
+    private GameObject player;
+    private CharacterLife characterLife;
+    private CurrentEnemySelector currentEnemySelector;
+
     private void Awake()
     {
         if (!room) room = GetComponent<Room>();
         if (!room) Debug.LogError("Fire can't find Room script");
+        player = GameObject.FindWithTag("Player");
+        characterLife = player.GetComponent<CharacterLife>();
+        currentEnemySelector = Labirint.instance.GetComponent<CurrentEnemySelector>();
         Init();
     }
 
@@ -82,6 +90,12 @@ public class FireOnTilemap : MonoBehaviour
                 cleanedRoom = true;
             }
         }
+
+        damageMobsAllowed = false;
+        foreach (SkillBase skill in player.GetComponent<SkillManager>().skills) {
+            if (skill is FireDamageOnMonsters)
+                damageMobsAllowed = true;
+        }
     }
 
     private void StartFireInternal(Vector2 firePosition) {
@@ -130,6 +144,9 @@ public class FireOnTilemap : MonoBehaviour
         {
             ExtinguishTimerTick();
             SpreadTimerCheck();
+            PlayerDamageCheck();
+            if (damageMobsAllowed)
+                DamageMobs();
         }
     }
 
@@ -197,6 +214,23 @@ public class FireOnTilemap : MonoBehaviour
                 if (fireMap[j, i] == 2 || fireMap[j, i] == 3) // if was default
                     fireMap[j, i] = 6; // change to flamable
             }
+        }
+    }
+
+    private void PlayerDamageCheck() {
+        Vector3Int testedPosition = room.wallsTilemap.WorldToCell(player.transform.position) - arrayToTilemap;
+        if (fireMap[testedPosition.x, testedPosition.y] == 4)  // if on tile with fire
+            characterLife.Damage(1);        
+    }
+
+    private void DamageMobs()
+    {
+        GameObject currentBoy = currentEnemySelector.currentBoy;
+        if (currentBoy)
+        {
+            Vector3Int testedPosition = room.wallsTilemap.WorldToCell(currentBoy.transform.position) - arrayToTilemap;
+            if (fireMap[testedPosition.x, testedPosition.y] == 4) // if on tile with fire
+                currentBoy.GetComponent<MonsterLife>().Damage(gameObject, 1);
         }
     }
 }
