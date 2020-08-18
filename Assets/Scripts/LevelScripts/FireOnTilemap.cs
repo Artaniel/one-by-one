@@ -23,13 +23,17 @@ public class FireOnTilemap : MonoBehaviour
     public bool cleanedRoom = false;
 
     private GameObject player;
+    private CharacterLife characterLife;
+    private CurrentEnemySelector currentEnemySelector;
 
     private void Awake()
     {
         if (!room) room = GetComponent<Room>();
         if (!room) Debug.LogError("Fire can't find Room script");
-        Init();
         player = GameObject.FindWithTag("Player");
+        characterLife = player.GetComponent<CharacterLife>();
+        currentEnemySelector = Labirint.instance.GetComponent<CurrentEnemySelector>();
+        Init();
     }
 
     private void Start()
@@ -85,6 +89,12 @@ public class FireOnTilemap : MonoBehaviour
             { // exception for spawn fire script on last monster in room
                 cleanedRoom = true;
             }
+        }
+
+        damageMobsAllowed = false;
+        foreach (SkillBase skill in player.GetComponent<SkillManager>().skills) {
+            if (skill is FireDamageOnMonsters)
+                damageMobsAllowed = true;
         }
     }
 
@@ -210,16 +220,15 @@ public class FireOnTilemap : MonoBehaviour
     private void PlayerDamageCheck() {
         Vector3Int testedPosition = room.wallsTilemap.WorldToCell(player.transform.position) - arrayToTilemap;
         if (fireMap[testedPosition.x, testedPosition.y] == 4)  // if on tile with fire
-            player.GetComponent<CharacterLife>().Damage(1);        
+            characterLife.Damage(1);        
     }
 
     private void DamageMobs()
     {
-        Vector3Int testedPosition;
-        GameObject currentBoy = Labirint.instance.GetComponent<CurrentEnemySelector>().currentBoy;
+        GameObject currentBoy = currentEnemySelector.currentBoy;
         if (currentBoy)
         {
-            testedPosition = room.wallsTilemap.WorldToCell(currentBoy.transform.position) - arrayToTilemap;
+            Vector3Int testedPosition = room.wallsTilemap.WorldToCell(currentBoy.transform.position) - arrayToTilemap;
             if (fireMap[testedPosition.x, testedPosition.y] == 4) // if on tile with fire
                 currentBoy.GetComponent<MonsterLife>().Damage(gameObject, 1);
         }
