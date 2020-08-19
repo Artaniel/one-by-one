@@ -7,9 +7,9 @@ public class FireOnTilemap : MonoBehaviour
     public Room room;
     private int[,] fireMap; // 2,3 - default. 1 - wall. 4 - active fire. 5 - ended fire. 6 - highly flamable;
     [SerializeField] private GameObject firePrefab;
-    [SerializeField] private float extinguishProbability = 0.05f; //Rd, 
+    [SerializeField] private float extinguishProbability = 0.015f; //Rd, 
     private float extinguishCheckPeriod = 0.25f;
-    [SerializeField] private float spreadProbability = 0.5f; //Rm
+    [SerializeField] private float spreadProbability = 0.25f; //Rm
     [SerializeField] private float spreadCheckPeriod = 0.1f; //Tm
     private float extinguishTimer, spreadTimer;
     static private GameObject firePrefabStatic = null;
@@ -77,7 +77,7 @@ public class FireOnTilemap : MonoBehaviour
         trees = new List<GameObject>();
         foreach (GameObject tree in GameObject.FindGameObjectsWithTag("Environment"))
         {
-            if (tree.name.Contains("tree") || tree.name.Contains("Tree"))
+            if (tree.name.Contains("tree") || tree.name.Contains("Tree") || tree.name.Contains("Bush") || tree.name.Contains("bush"))
             {
                 if (room.RectIsInbounds(tree.transform.position.x, tree.transform.position.y, 0, 0)) // if in this room                
                     trees.Add(tree);
@@ -127,7 +127,11 @@ public class FireOnTilemap : MonoBehaviour
         Vector3Int tilemapPosition = room.wallsTilemap.WorldToCell(fireObject.transform.position) - arrayToTilemap;
         fireMap[tilemapPosition.x, tilemapPosition.y] = returnCellToDelault ? 2 : 5;
         activeFires.Remove(fireObject);
-        PoolManager.ReturnToPool(fireObject);
+        var spriteRend = fireObject.GetComponent<SpriteRenderer>();
+        spriteRend.sortingOrder = 1;
+        var fireMat = spriteRend.material;
+        fireMat.SetFloat("_TimeParameter", 0);
+        //PoolManager.ReturnToPool(fireObject);
         foreach (GameObject tree in trees)
             if ((room.wallsTilemap.WorldToCell(tree.transform.position) - arrayToTilemap) == tilemapPosition)
                 BurnOutTree(tree);
@@ -140,7 +144,7 @@ public class FireOnTilemap : MonoBehaviour
 
     private void Update()
     {
-        if (!Pause.Paused)
+        if (!Pause.Paused && Labirint.currentRoom == room)
         {
             ExtinguishTimerTick();
             SpreadTimerCheck();
@@ -160,7 +164,7 @@ public class FireOnTilemap : MonoBehaviour
 
     private void ExtinguishChecks() {
         float currentExtinguishProbability = extinguishProbability;
-        if (dryRoom) currentExtinguishProbability /= 10f;
+        if (dryRoom) currentExtinguishProbability /= 2f;
         if (cleanedRoom) currentExtinguishProbability *= 10f;
         if (activeFires.Count > 0)
             for (int i = activeFires.Count - 1; i >= 0; i--)
@@ -179,7 +183,7 @@ public class FireOnTilemap : MonoBehaviour
     private void SpreadCheck() {
         float currentSpreadProbability = spreadProbability;
         if (cleanedRoom) currentSpreadProbability /= 10f;
-        if (dryRoom) currentSpreadProbability *= 10f;
+        if (dryRoom) currentSpreadProbability *= 2f;
         if (activeFires.Count > 0)
             if (Random.Range(0f, 1f) <= currentSpreadProbability) {
             List<Vector3Int> fireSpreadPossiblePositions = new List<Vector3Int>();

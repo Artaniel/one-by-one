@@ -105,7 +105,6 @@ public class RelodScene : MonoBehaviour
     {
         TotalValue = 0;
         Canvas.transform.GetChild(1).gameObject.SetActive(false);
-        MonsterLife.ClearUsedNames();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

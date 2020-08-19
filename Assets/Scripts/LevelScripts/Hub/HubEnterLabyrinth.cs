@@ -13,6 +13,7 @@ public class HubEnterLabyrinth : MonoBehaviour
     {
         if (loading) return;
         loading = true;
+        RelodScene.OnSceneChange?.Invoke();
         SceneManager.LoadScene(sceneToLoad);
     }
 

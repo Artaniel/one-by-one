@@ -312,7 +312,7 @@ public class MirrorBossEncounter : BossEncounter
                 var angle = 360 / bombProjectileCount * i;
                 var bullet = PoolManager.GetPool(miniProjectilePrefab, bossInstance.position, Quaternion.Euler(0, 0, angle));
                 var bulletComp = bullet.GetComponent<EnemyBulletLife>();
-                bulletComp.BulletSpeed += projectileAdditionalSpeed;
+                bulletComp.BulletSpeed = 2 + projectileAdditionalSpeed;
                 miniBombBullets.Add(bulletComp);
             }
             RandomTeleportInZone();
@@ -597,6 +597,7 @@ public class MirrorBossEncounter : BossEncounter
             int zoneIndex = Random.Range(0, spawnZones.Length);
             Vector2 randomPosition = spawnZones[zoneIndex].RandomZonePosition();
             var monster = Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
+            monster.GetComponent<AIAgent>().proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
             var monsterAttack = monster.GetComponent<Attack>();
             if (monsterAttack) monsterAttack.ForceAttack();
             monster.GetComponent<MonsterDrop>().anyDropChance = 0;
@@ -875,6 +876,6 @@ public class MirrorBossEncounter : BossEncounter
         yield return new WaitForSeconds(2f);
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();
-        SceneManager.LoadScene("Scoreboard");
+        SceneManager.LoadScene("LabirintChapter2");
     }
 }

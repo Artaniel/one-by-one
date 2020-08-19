@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6861324507000105599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216060529538857379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64404e7a0591e514c922cdf6d69d0f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePrefab: {fileID: 7248662407900214079, guid: 12e1577af6e14eb4aac3de36645db27c,
+    type: 3}
+--- !u!1001 &6861324506424354043
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2368423294823193944, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_Name
+      value: Lava DetonateBug
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.11753082
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -8.998307
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477591730875066686, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 833495456, guid: 136674774ace1304a975c00633c6a10e, type: 3}
+      propertyPath: detonationVFX
+      value: 
+      objectReference: {fileID: 1172741326425197012, guid: b0d57a69b733aea48ae765d8a98e1048,
+        type: 3}
+    - target: {fileID: 522252414556709520, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8344260198187281058, guid: 58046369ce9ea1540839adb1f5212968,
+        type: 3}
+    - target: {fileID: 522252414556709535, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c328dde8eeefbcb4f8371f643b2d34f4, type: 2}
+    - target: {fileID: 6453398600691325728, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2878087801201666817, guid: 3483a5daf64ca0744bc1aa7568909b54,
+        type: 3}
+    - target: {fileID: 2318049717999068902, guid: 136674774ace1304a975c00633c6a10e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: cc3fe8025c4037544a572bf7d001d5b5, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 136674774ace1304a975c00633c6a10e, type: 3}
+--- !u!1 &9216060529538857379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2368423294823193944, guid: 136674774ace1304a975c00633c6a10e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6861324506424354043}
+  m_PrefabAsset: {fileID: 0}

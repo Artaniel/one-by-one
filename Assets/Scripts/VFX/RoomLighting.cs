@@ -146,7 +146,7 @@ public class RoomLighting : MonoBehaviour
     public void LabirintRoomEnterBright() 
     {
         enabled = true;
-        maxvalue = 1;
+        maxvalue = maxvalue == 0 ? 1 : maxvalue;
         TotalValue = 1;
 
         RecalculateLight();
@@ -161,15 +161,13 @@ public class RoomLighting : MonoBehaviour
     public void SetSceneLight() {
         if (sceneLight == null) {
             var arena = GetComponent<ArenaEnemySpawner>();
+            sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
             if (Labirint.instance && !Labirint.instance.OneRoomMode)
             {
-                sceneLight = Labirint.instance.GetComponentInChildren<Light2D>();
                 previousLight = sceneLight.intensity;
             }
             else // initial light
             {
-                sceneLight = GetComponentInChildren<Light2D>();
-
                 Light = DefaultLight;
                 if (arena) maxvalue = arena.EnemyCount();
 

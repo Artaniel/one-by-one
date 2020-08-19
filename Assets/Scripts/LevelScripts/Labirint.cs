@@ -51,6 +51,7 @@ public class Labirint : MonoBehaviour
         {
             builder.BuildLabirint(this);
         }
+        MonsterLife.ClearUsedNames();
         StartingRoomSpawn();
     }
 
