@@ -751,11 +751,19 @@ public class MirrorBossEncounter : BossEncounter
         protected void Attack()
         {
             var newBullet = PoolManager.GetPool(projectile, BD.bossInstance.position, Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + Random.Range(-10f, 10f)));
+            if (newBullet.TryGetComponent(out Chapter1BossInfusedBullet infusedBullet))
+            {
+                Destroy(infusedBullet);
+            }
             newBullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
 
             var newBullet2 = PoolManager.GetPool(projectile, BD.bossInstance.position, 
                 Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f))));
+            if (newBullet2.TryGetComponent(out Chapter1BossInfusedBullet infusedBullet2))
+            {
+                Destroy(infusedBullet2);
+            }
             newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
 
@@ -763,6 +771,10 @@ public class MirrorBossEncounter : BossEncounter
             {
                 var newBullet3 = PoolManager.GetPool(projectile, BD.bossInstance.position,
                 Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(10f, 40f))));
+                if (newBullet3.TryGetComponent(out Chapter1BossInfusedBullet infusedBullet3))
+                {
+                    Destroy(infusedBullet3);
+                }
                 newBullet3.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
                 newBullet3.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
             }

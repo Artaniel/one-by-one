@@ -25,7 +25,7 @@ public class VectorAttack : ActiveSkill
     public override void UpdateEffect()
     {
         base.UpdateEffect();
-        var secondPointLimited = aimStart + Vector3.ClampMagnitude(cursor.position - aimStart, aimLength);
+        var secondPointLimited = aimStart + ((cursor.position - aimStart).normalized * aimLength);
         aimInstance.SetPosition(1, secondPointLimited);
     }
 

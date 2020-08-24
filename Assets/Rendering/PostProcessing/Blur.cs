@@ -21,8 +21,9 @@ public sealed class BlurRenderer : PostProcessEffectRenderer<Blur>
     {
         var sheet = context.propertySheets.Get(Shader.Find("Hidden/Custom/Blur"));
         sheet.properties.SetFloat("_BlurSize", settings.blurSize);
-        var rt = context.GetScreenSpaceTemporaryRT();
-        context.command.BlitFullscreenTriangle(context.source, rt, sheet, 0);
-        context.command.BlitFullscreenTriangle(rt, context.destination, sheet, 1);
+        int tex = Shader.PropertyToID("_MainTex");
+        context.GetScreenSpaceTemporaryRT(context.command, tex);
+        context.command.BlitFullscreenTriangle(context.source, tex, sheet, 0);
+        context.command.BlitFullscreenTriangle(tex, context.destination, sheet, 1);
     }
 }

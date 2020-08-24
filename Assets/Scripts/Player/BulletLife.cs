@@ -105,7 +105,7 @@ public class BulletLife : MonoBehaviour
     {
         ActivateDamageEnemyMods(monster);
 
-        monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier);
+        monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: 0.5f);
         if (monster.HP <= 0)
         {
             ActivateKillMods(monster);

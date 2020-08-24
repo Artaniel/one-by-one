@@ -15,9 +15,10 @@ public class LaserSight : PassiveSkill
     {
         if (!Pause.Paused && !CharacterLife.isDeath)
         {
-            Vector3 gunPoint = player.GetComponent<CharacterShooting>().weaponTip.position;
+            var weaponTip = player.GetComponent<CharacterShooting>().weaponTip;
+            Vector3 gunPoint = weaponTip.position;
             line.SetPosition(0, gunPoint);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(gunPoint, camera.ScreenToWorldPoint(Input.mousePosition) + (Vector3.forward * 20) - gunPoint, 100f);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(gunPoint, (weaponTip.up * 20), 100f);
 
             hits = (from t in hits
                     where t.transform.gameObject.tag == "Environment"

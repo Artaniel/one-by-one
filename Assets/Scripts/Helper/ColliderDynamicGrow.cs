@@ -42,7 +42,7 @@ public class ColliderDynamicGrow : MonoBehaviour
 
     void Update()
     {
-        if (Pause.Paused && !shouldGrow) return;
+        if (Pause.Paused || !shouldGrow) return;
 
         if (colliderType == ColliderType.Box)
         {

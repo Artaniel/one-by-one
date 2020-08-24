@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 429552300}
   - component: {fileID: 429552302}
   - component: {fileID: 429552301}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BOOM bug 2 anim-Sheet2_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 2628054092089206477, guid: 92ebc211763e49547b3a851c18f7e7ee,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 808128292316151511}
   - component: {fileID: 8020363348839299365}
   - component: {fileID: 7694270614208824594}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 9020816392318596256}
   - component: {fileID: 3522659124436680484}
   - component: {fileID: 3359069976075366303}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 4227739967200042616}
   - component: {fileID: 1323505354869337850}
   - component: {fileID: 4793644416506591684}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 4917660289556549791}
   - component: {fileID: 5693572828496906662}
   - component: {fileID: 7319312214894709611}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -638,7 +638,7 @@ GameObject:
   - component: {fileID: 6238714793797122898}
   - component: {fileID: 227583625964508423}
   - component: {fileID: 7700879342070753303}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -829,10 +829,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   target: {fileID: 0}
-  proximityCheckOption: 
-  proximityCheckDistance: 19
+  proximityCheckOption: 02000000
+  proximityCheckDistance: 25
   invertProximityCheck: 0
-  timeToLoseAggro: -1
+  timeToLoseAggro: 1.5
   moveInviteRadius: 2
   maxInviteLevel: 1
   timeBeforeGroupeAggroOff: 3
@@ -901,7 +901,7 @@ GameObject:
   - component: {fileID: 4433761705035764872}
   - component: {fileID: 357550322906639511}
   - component: {fileID: 5818226098230981636}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1031,7 +1031,7 @@ GameObject:
   - component: {fileID: 2714501929828143408}
   - component: {fileID: 3599847035280680706}
   - component: {fileID: 4376845490047940158}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1165,7 +1165,7 @@ GameObject:
   - component: {fileID: 6831177401188522548}
   - component: {fileID: 3681783047978218146}
   - component: {fileID: 7893849534173209836}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1295,7 +1295,7 @@ GameObject:
   - component: {fileID: 2359615346196089646}
   - component: {fileID: 3477398547867506681}
   - component: {fileID: 8948882173906745663}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1426,7 +1426,7 @@ GameObject:
   - component: {fileID: 3097615131668060399}
   - component: {fileID: 4435612762151003674}
   - component: {fileID: 2595976778930426671}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1556,7 +1556,7 @@ GameObject:
   - component: {fileID: 9074342872150636566}
   - component: {fileID: 3448640423924379885}
   - component: {fileID: 3107922441934774724}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mosquito Variant piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1686,6 +1686,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mosquito Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5894915500748629136, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8624421033595261174, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1741,47 +1746,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.15900001
       objectReference: {fileID: 0}
-    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: maxSpeed
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727021126239856414, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727021126239856414, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727021126239856414, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: maxHP
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Sprite
+      propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -1566247494152891824, guid: 8ca32941c468a5444bbbd424bb5f2508,
-        type: 3}
-    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 908d4eb5380ae9044aa04eb2e6e31431, type: 2}
     - target: {fileID: 8985563269723331831, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1802,11 +1771,52 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 7727021126239856414, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_Mesh
-      value: 
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7727021126239856414, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727021126239856414, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 515
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: maxHP
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1566247494152891824, guid: 8ca32941c468a5444bbbd424bb5f2508,
+        type: 3}
+    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 908d4eb5380ae9044aa04eb2e6e31431, type: 2}
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -1837,9 +1847,68 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 1.245884
       objectReference: {fileID: 0}
+    - target: {fileID: 5749680861489563573, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849849318250332381, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: proximityCheckOption.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: proximityCheckOption.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: proximityCheckDistance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: invertProximityCheck
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: timeToLoseAggro
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817045, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985563269723331829, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225790468889400222, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267769188258830449, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 264665939529223537, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2483354354873438170, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}
-    - {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}
 --- !u!1 &8407024063172766899 stripped
 GameObject:

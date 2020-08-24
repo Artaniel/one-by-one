@@ -503,7 +503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   target: {fileID: 0}
-  proximityCheckOption: 
+  proximityCheckOption: 01000000
   proximityCheckDistance: 19
   invertProximityCheck: 0
   timeToLoseAggro: -1
@@ -960,15 +960,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeleportMonster Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 732a19e36ed53c740a6825fc15799ac6, type: 3}
-    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+      propertyPath: maxSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_Volume
-      value: 0.35
+      propertyPath: maxHP
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8624421033595261174, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
@@ -1025,15 +1025,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: maxHP
-      value: 4.5
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 732a19e36ed53c740a6825fc15799ac6, type: 3}
+    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.35
       objectReference: {fileID: 0}
-    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: maxSpeed
-      value: 200
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1458479867593550323, guid: 4fea40be44f19504a9e6f722a46bdccf,
+        type: 3}
+    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.4642857
+      objectReference: {fileID: 0}
+    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
@@ -1061,27 +1077,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1458479867593550323, guid: 4fea40be44f19504a9e6f722a46bdccf,
-        type: 3}
-    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.4642857
-      objectReference: {fileID: 0}
-    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023892104855816099, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: b1b17cdb4889ad245a19e4f56a3b859f, type: 2}
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -1112,6 +1107,11 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 4023892104855816099, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b1b17cdb4889ad245a19e4f56a3b859f, type: 2}
     - target: {fileID: 5894915500748629138, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Offset.y

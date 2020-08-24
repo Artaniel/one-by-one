@@ -110,7 +110,7 @@ public class ShootingWeapon : WeaponSkill
 
     public virtual float GunfirePower()
     {
-        return (bulletDamage / 3) + (timeBetweenAttacks / 7) + (knockPower / 200) + additionalVisualPower;
+        return (bulletDamage / 3) + (timeBetweenAttacks / 7) + (knockPower / 100) + additionalVisualPower;
     }
 
     public virtual float GunfireDestructivePower()

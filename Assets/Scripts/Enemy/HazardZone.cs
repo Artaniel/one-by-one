@@ -35,7 +35,7 @@ public class HazardZone : MonoBehaviour
 
     protected virtual void HarmEnemy(GameObject enemy)
     {
-        enemy.GetComponentInParent<MonsterLife>().Damage(null, enemyDamage);
+        enemy.GetComponentInParent<MonsterLife>().Damage(gameObject, enemyDamage);
     }
 
     protected float ignoreTimeStamp = 0;

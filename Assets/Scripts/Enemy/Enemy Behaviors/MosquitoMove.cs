@@ -25,7 +25,7 @@ public class MosquitoMove : MoveForward
         }
 
         var coll = GetComponentInChildren<BoxCollider2D>();
-        monsterSize = (coll.size.x + coll.size.y) / 2f;
+        monsterSize = coll.size.x + coll.size.y / 2;
     }
 
     public override Vector2 Move()
@@ -34,7 +34,7 @@ public class MosquitoMove : MoveForward
         timeToMaxSpeedAmp += Time.deltaTime;
 
         var distanceToPointClamped = Mathf.Clamp01(Vector3.Distance(movePosition, transform.position));
-        if (distanceToPointClamped < 1f && attackAndWait == null)
+        if (distanceToPointClamped < 2f && attackAndWait == null)
             attackAndWait = StartCoroutine(AttackAndWait());
 
         Vector2 movement = (movePosition - transform.position).normalized;

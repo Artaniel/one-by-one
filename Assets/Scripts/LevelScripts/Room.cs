@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 public class Room : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class Room : MonoBehaviour
     [HideInInspector] public MonsterManager monsterManager;
     [HideInInspector] public List<MonsterRoomModifier> externalMRMods = new List<MonsterRoomModifier>();
     public FireOnTilemap fireScript;
+
+    public static UnityEvent OnAnyRoomEnter = new UnityEvent();
+    public static UnityEvent OnAnyRoomLeave = new UnityEvent();
+    public UnityEvent OnThisEnter = new UnityEvent();
+    public UnityEvent OnThisLeave = new UnityEvent();
 
     private void Awake()
     {
@@ -85,6 +91,9 @@ public class Room : MonoBehaviour
         var playerMove = player.GetComponent<CharacterMovement>();
         playerMove.shouldDoOOBCheck = true;
         playerMove.AddToSpeedMultiplier(100);
+
+        OnAnyRoomEnter.Invoke();
+        OnThisEnter.Invoke();
     }
 
     public void ArenaInitCheck()
@@ -156,6 +165,9 @@ public class Room : MonoBehaviour
 
         Labirint.instance.blueprints[roomID].visited = true;
         Labirint.instance.currentRoomID = -1;
+
+        OnAnyRoomLeave.Invoke();
+        OnThisLeave.Invoke();
     }
 
     public void LightsOut()

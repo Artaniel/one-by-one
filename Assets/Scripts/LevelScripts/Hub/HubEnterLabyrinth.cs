@@ -11,6 +11,8 @@ public class HubEnterLabyrinth : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
+        if (!coll.CompareTag("Player")) return;
+
         if (loading) return;
         loading = true;
         RelodScene.OnSceneChange?.Invoke();

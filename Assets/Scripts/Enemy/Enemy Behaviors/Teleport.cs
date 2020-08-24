@@ -19,6 +19,8 @@ public class Teleport : TimedAttack
             arena = Labirint.GetCurrentRoom().GetComponent<ArenaEnemySpawner>();
         }
         maxspeedSaved = agent.maxSpeed;
+
+        notWalkableMask = LayerMask.GetMask("Solid", "Abyss", "Ground");
     }
 
     protected override void CompleteAttack()
@@ -48,8 +50,7 @@ public class Teleport : TimedAttack
             if (inbounds)
             {
                 // We need teleport position not to be a solid object
-                var canDrawDirectLine = !(Physics2D.Raycast(target.transform.position, NVector,
-                NVector.magnitude, LayerMask.GetMask("Solid")));
+                var canDrawDirectLine = !(Physics2D.Raycast(target.transform.position, NVector, NVector.magnitude, notWalkableMask));
                 Debug.DrawRay(target.transform.position, NVector, Color.green, 1);
                 //var hasWallSurrounding = Physics2D.OverlapCircle(target.transform.position + NVector, 2.5f, LayerMask.GetMask("Solid")) == null;
                 if (canDrawDirectLine)
@@ -97,4 +98,6 @@ public class Teleport : TimedAttack
     private float maxspeedSaved = 0f; //to hold maxSpeed when monster is stopped
     private bool shakeMode = false;
     private ArenaEnemySpawner arena;
+
+    private int notWalkableMask;
 }

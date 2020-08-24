@@ -12,6 +12,12 @@ public class EmpressBoss : BossEncounter
     [SerializeField] private AudioSource bossAttackSFXSource = null;
     [SerializeField] private Transform[] minibugSpawnPositions = null;
     [SerializeField] private Animator[] wingsAnimators = null;
+    [SerializeField] private SpriteRenderer[] spritesToWornOut = null;
+    [SerializeField] private Material wornOutMaterialPrefab = null;
+    [SerializeField] private SpriteRenderer leftWing = null;
+    [SerializeField] private SpriteRenderer rightWing = null;
+    private Material wornOutMaterial = null;
+    private Material wingWornOutMaterial = null;
 
     public class EmpressFight : BossPhase
     {
@@ -113,7 +119,7 @@ public class EmpressBoss : BossEncounter
         private GameObject SummonBug()
         {
             bugsFired++;
-            int bugID = Random.Range(0, explosiveBugs.Length);
+            int bugID = bugsFired == 1 || bugsFired == bugsCount ? 1 : 0;
             var bug = PoolManager.GetPool(explosiveBugs[bugID], BD.transform.position, Quaternion.identity);
             var bugAIAgent = bug.GetComponent<AIAgent>();
             bugAIAgent.proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
@@ -231,6 +237,7 @@ public class EmpressBoss : BossEncounter
         SetupDamageableSegments();
 
         StartCoroutine(StartNextFrame());
+        SetupVFX();
     }
 
     private IEnumerator StartNextFrame()
@@ -242,6 +249,7 @@ public class EmpressBoss : BossEncounter
     protected override void Update()
     {
         if (CharacterLife.isDeath) return;
+        UpdateWornOut();
 
         base.Update();
     }
@@ -270,6 +278,25 @@ public class EmpressBoss : BossEncounter
         {
             segment.OnThisDead.AddListener(SegmentDestroyed);
         }
+    }
+
+    private void SetupVFX()
+    {
+        wornOutMaterial = Instantiate(wornOutMaterialPrefab);
+        wingWornOutMaterial = Instantiate(leftWing.material);
+        leftWing.sharedMaterial = wingWornOutMaterial;
+        rightWing.sharedMaterial = wingWornOutMaterial;
+
+        for (int i = 0; i < spritesToWornOut.Length; i++)
+        {
+            spritesToWornOut[i].sharedMaterial = wornOutMaterial;
+        }
+    }
+
+    private void UpdateWornOut()
+    {
+        wornOutMaterial.SetFloat("_WornOut", bossHP.HP / bossHP.maxHP);
+        wingWornOutMaterial.SetFloat("_WornOut", bossHP.HP / bossHP.maxHP);
     }
 
     private AudioSource audioSource;

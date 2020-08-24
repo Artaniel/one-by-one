@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class FireOnTilemap : MonoBehaviour
 {
@@ -68,6 +69,7 @@ public class FireOnTilemap : MonoBehaviour
 
     private void Init()
     {
+        room.fireScript = this;
         if (room.OOBmap == null) room.FillOOB();
         fireMap = room.OOBmap;
         activeFires = new List<GameObject>();
@@ -95,6 +97,11 @@ public class FireOnTilemap : MonoBehaviour
         foreach (SkillBase skill in player.GetComponent<SkillManager>().skills) {
             if (skill is FireDamageOnMonsters)
                 damageMobsAllowed = true;
+        }
+
+        if (dryRoom)
+        {
+            ppVolume = GetComponent<PostProcessVolume>();
         }
     }
 
@@ -152,6 +159,7 @@ public class FireOnTilemap : MonoBehaviour
             if (damageMobsAllowed)
                 DamageMobs();
         }
+        if (dryRoom) UpdateDryVFX();
     }
 
     private void ExtinguishTimerTick() {
@@ -237,4 +245,14 @@ public class FireOnTilemap : MonoBehaviour
                 currentBoy.GetComponent<MonsterLife>().Damage(gameObject, 1);
         }
     }
+
+    private void UpdateDryVFX()
+    {
+        if (Labirint.currentRoom == room)
+            ppVolume.weight = Mathf.Clamp01(ppVolume.weight + Time.deltaTime);
+        else
+            ppVolume.weight = Mathf.Clamp01(ppVolume.weight - Time.deltaTime);
+    }
+
+    private PostProcessVolume ppVolume;
 }

@@ -23,6 +23,11 @@ public class BurrowStrike : Attack
         aiAgent.maxRotation = 30f;
         rockDigEffect = PoolManager.GetPool(burrowEffect, transform);
         rockDigEffect.transform.Translate(-transform.up * 0.8f, Space.World);
+        foreach (var particle in rockDigEffect.GetComponentsInChildren<ParticleSystem>())
+        {
+            var particleMain = particle.main;
+            particleMain.startSize = new ParticleSystem.MinMaxCurve(1);
+        }
 
         currentState = BurrowState.Burrowing;
         timeToNextState = burrowTime;

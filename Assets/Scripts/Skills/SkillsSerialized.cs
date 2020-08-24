@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class SkillsRecord
 {
-    private const int activeSkillsMaxCount = 10;
+    private const int activeSkillsMaxCount = 255;
     private const int passiveSkillsMaxCount = 255;
-    private const int weaponMaxCount = 10;
+    private const int weaponMaxCount = 255;
 
     public string[] nonEquiptedActiveSkills;
     public string[] passiveSkills;

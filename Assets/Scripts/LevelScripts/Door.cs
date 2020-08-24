@@ -75,6 +75,7 @@ public class Door : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
     {
         if (isSpawned && !locked && collision.gameObject == player) {
+            locked = true; timer = 1f;
             if (sceneName == "") {
                 connectedDoor.room.MoveToRoom(connectedDoor);
             } else {
@@ -87,6 +88,8 @@ public class Door : MonoBehaviour
 
     public void Unlock(bool forceAnimation = false) {
         doorLight = GetComponentInChildren<Light2D>();
+        if (doorLight) doorLightColor = doorLight.color;
+
         if (locked && isSpawned)
         {
             locked = false;
@@ -108,6 +111,8 @@ public class Door : MonoBehaviour
     public void Lock()
     {
         doorLight = GetComponentInChildren<Light2D>();
+        if (doorLight) doorLightColor = doorLight.color;
+
         if (isSpawned)
         {
             locked = true;
@@ -231,9 +236,10 @@ public class Door : MonoBehaviour
     {
         if (doorLight && connectedDoor && Labirint.instance.blueprints[connectedDoor.room.roomID].visited)
         {
-            doorLight.intensity = Mathf.Clamp01(doorLight.intensity - Time.deltaTime);
+            doorLight.color = Color.Lerp(Color.white, doorLightColor, timer);
         }
     }
 
     private Light2D doorLight;
+    private Color doorLightColor;
 }

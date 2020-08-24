@@ -71,10 +71,10 @@ public class MonsterLife : MonoBehaviour
 
     protected virtual void HitEffect() { }
 
-    public void Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false)
+    public void Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false, float ignoreSourceTime = 0)
     {
         if (HP <= 0) return; // Already dead
-        if ((Vulnerable() || ignoreInvulurability) && SpecialConditions(source))
+        if (((Vulnerable() && (!source || !damageSources.ContainsKey(source) || Time.time - damageSources[source] > 0)) || ignoreInvulurability) && SpecialConditions(source))
         {
             var wasHp = HP;
             HP = Mathf.Max(minHpValue, HP - damage);
@@ -83,6 +83,8 @@ public class MonsterLife : MonoBehaviour
 
             if (HP <= 0) DestroyMonster(source, damage);
             else         HitEffect();
+
+            if (ignoreSourceTime > 0) damageSources[source] = Time.time + ignoreSourceTime;
         }
         else
         {
@@ -247,4 +249,5 @@ public class MonsterLife : MonoBehaviour
     private CharacterLife playerLife; // optimisation for collision stay
 
     public UnityEvent OnThisDead = new UnityEvent();
+    private Dictionary<GameObject, float> damageSources = new Dictionary<GameObject, float>();
 }

@@ -39,6 +39,9 @@ public class Labirint : MonoBehaviour
         DifficultyLoad();
         SaveLevelProgressIfNeeded();
 
+        Room.OnAnyRoomEnter = new UnityEngine.Events.UnityEvent();
+        Room.OnAnyRoomLeave = new UnityEngine.Events.UnityEvent();
+
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
         {
