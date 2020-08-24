@@ -26,8 +26,7 @@ public class ActiveShockWave : ActiveSkill
                 }
             }
             if (visualEffectPrefab)
-                Instantiate(visualEffectPrefab, player.transform.position, Quaternion.identity);
+                PoolManager.GetPool(visualEffectPrefab, player.transform.position, Quaternion.identity);
         }
     }
-
 }
