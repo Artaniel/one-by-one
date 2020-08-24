@@ -111,7 +111,9 @@ public class FireOnTilemap : MonoBehaviour
         if (fireStatusIndex == 2 || fireStatusIndex == 3 || fireStatusIndex == 6) // if default state or flamable
         {
             fireMap[tilemapPosition.x, tilemapPosition.y] = 4;
-            activeFires.Add(PoolManager.GetPool(firePrefab, room.wallsTilemap.CellToWorld(tilemapPosition + arrayToTilemap) , Quaternion.identity));
+            GameObject newFire = PoolManager.GetPool(firePrefab, room.wallsTilemap.CellToWorld(tilemapPosition + arrayToTilemap), Quaternion.identity);
+            newFire.transform.parent = room.transform;
+            activeFires.Add(newFire);
             foreach (GameObject tree in trees) 
                 if ((room.wallsTilemap.WorldToCell(tree.transform.position) - arrayToTilemap) == tilemapPosition) 
                     LitTree(tree);
