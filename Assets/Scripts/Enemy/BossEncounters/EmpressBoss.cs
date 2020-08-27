@@ -123,6 +123,7 @@ public class EmpressBoss : BossEncounter
             var bug = PoolManager.GetPool(explosiveBugs[bugID], BD.transform.position, Quaternion.identity);
             var bugAIAgent = bug.GetComponent<AIAgent>();
             bugAIAgent.proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
+            bug.GetComponent<MonsterDrop>().anyDropChance = 0;
             return bug;
         }
         

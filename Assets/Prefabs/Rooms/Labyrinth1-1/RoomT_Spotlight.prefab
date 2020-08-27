@@ -6014,7 +6014,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7649372692661880249}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.992308, y: -1.3947048, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7649372693994212829}
@@ -6046,6 +6046,22 @@ MonoBehaviour:
   containerAlreadySpawned: 0
   monsterManager: {fileID: 0}
   externalMRMods: []
+  fireScript: {fileID: 0}
+  OnThisEnter:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnThisLeave:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  wallsTilemap: {fileID: 0}
+  topBorder: 0
+  botBorder: 0
+  leftBorder: 0
+  rightBorder: 0
 --- !u!114 &4720455508926177889
 MonoBehaviour:
   m_ObjectHideFlags: 0

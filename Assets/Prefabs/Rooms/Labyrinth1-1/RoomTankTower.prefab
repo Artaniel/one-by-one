@@ -822,7 +822,7 @@ Tilemap:
   - first: {x: -7, y: 3, z: 0}
     second:
       m_TileIndex: 7
-      m_TileSpriteIndex: 22
+      m_TileSpriteIndex: 23
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -1578,7 +1578,7 @@ Tilemap:
   - first: {x: -7, y: 13, z: 0}
     second:
       m_TileIndex: 7
-      m_TileSpriteIndex: 17
+      m_TileSpriteIndex: 22
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -1650,7 +1650,7 @@ Tilemap:
   - first: {x: -6, y: 14, z: 0}
     second:
       m_TileIndex: 6
-      m_TileSpriteIndex: 10
+      m_TileSpriteIndex: 21
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -2028,8 +2028,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: c3857c71893c94f4ab613102321fe85f, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 5d10698cadb635345ba17cd7375006dc, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 8b6d4856ce431b54a8086753b35882f1, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: ded4faaf3f157df47902dcadadf826a6, type: 3}
   - m_RefCount: 4
@@ -2042,20 +2042,20 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 6935fd0457b096442ac2cdcdf0aae03e, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 21300000, guid: 3813787fd5b69094c8e3a06cddb81999, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 8805eacfa5dee5f4d9e5423bb92240b1, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: a19dcdf643314de4894bb20d21740e08, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: b0408944e66d63a4cb5edaa7b9ccf3fa, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 8b6d4856ce431b54a8086753b35882f1, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 8805eacfa5dee5f4d9e5423bb92240b1, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: c66954677ac3ecd40996609ff73dbd7b, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 00eed8750f80efa45b2683334132cf57, type: 3}
   - m_RefCount: 1
@@ -6792,7 +6792,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5741378036006381125}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.905305, y: 2.7139082, z: -30.502766}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5741378037356015137}
@@ -6825,6 +6825,22 @@ MonoBehaviour:
   containerAlreadySpawned: 0
   monsterManager: {fileID: 0}
   externalMRMods: []
+  fireScript: {fileID: 0}
+  OnThisEnter:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnThisLeave:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  wallsTilemap: {fileID: 0}
+  topBorder: 0
+  botBorder: 0
+  leftBorder: 0
+  rightBorder: 0
 --- !u!114 &7207749856899105181
 MonoBehaviour:
   m_ObjectHideFlags: 0

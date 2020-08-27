@@ -68,8 +68,7 @@ public class Room : MonoBehaviour
         dummy.GetComponent<DummyPlayerController>().SetDestination(wayInDoor.transform.position);
 
         var playerMove = player.GetComponent<CharacterMovement>();
-        playerMove.shouldDoOOBCheck = false;
-        playerMove.AddToSpeedMultiplier(-100);
+        playerMove.enabled = false;
         player.transform.position = wayInDoor.transform.position;
 
         LightsOn();
@@ -89,8 +88,7 @@ public class Room : MonoBehaviour
         player.GetComponent<CharacterLife>().RevealPlayer();
 
         var playerMove = player.GetComponent<CharacterMovement>();
-        playerMove.shouldDoOOBCheck = true;
-        playerMove.AddToSpeedMultiplier(100);
+        playerMove.enabled = true;
 
         OnAnyRoomEnter.Invoke();
         OnThisEnter.Invoke();
@@ -165,6 +163,7 @@ public class Room : MonoBehaviour
 
         Labirint.instance.blueprints[roomID].visited = true;
         Labirint.instance.currentRoomID = -1;
+        LockRoom();
 
         OnAnyRoomLeave.Invoke();
         OnThisLeave.Invoke();

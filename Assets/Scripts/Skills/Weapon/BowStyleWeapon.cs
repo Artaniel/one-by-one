@@ -7,6 +7,8 @@ public class BowStyleWeapon : ShootingWeapon
 {
     [Header("Charging weapon parameters")]
     public float minChargingTime = 0.5f;
+    [Header("Bow bullet modifier REQUIRED")]
+    public BowBulletMod bowBulletModifier = null;
 
     public override void InitializeSkill()
     {
@@ -15,14 +17,12 @@ public class BowStyleWeapon : ShootingWeapon
         characterMovement = Player.GetComponent<CharacterMovement>();
         charging = false;
 
-        foreach (var bulletMod in bulletModifiers)
-        {
-            if (bulletMod is BowBulletMod) bowBulletMod = Instantiate(bulletMod as BowBulletMod);
-        }
+        bowBulletMod = Instantiate(bowBulletModifier);
     }
 
     public override void Attack(CharacterShooting attackManager, Vector3 mousePos)
     {
+        this.attackManager = attackManager;
         if (!charging) ChargeShot();
     }
 
@@ -33,6 +33,7 @@ public class BowStyleWeapon : ShootingWeapon
         {
             if (Input.GetButton("Fire1"))
             {
+                attackManager.currentWeapon.reloadTimeLeft += Time.deltaTime;
                 chargingTime += Time.deltaTime;
             }
             else if (chargingTime > minChargingTime)
@@ -53,6 +54,7 @@ public class BowStyleWeapon : ShootingWeapon
         chargingTime = 0;
 
         characterMovement.AddToSpeedMultiplier(0.5f);
+        shootingEvents.Invoke();
     }
 
     protected virtual void ChargeShot()
@@ -84,4 +86,5 @@ public class BowStyleWeapon : ShootingWeapon
     protected float chargingTime = 0;
     protected float savedReloadTime;
     protected BowBulletMod bowBulletMod;
+    protected CharacterShooting attackManager;
 }

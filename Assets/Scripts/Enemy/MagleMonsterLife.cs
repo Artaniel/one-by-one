@@ -22,7 +22,7 @@ public class MagleMonsterLife : MonsterLife
         if (shieldOperational && isBoy())
         {
             spriteAnimation.Play("Maggle-start-run");
-            shadowAnimation.Play("Maggle-start-roll");
+            shadowAnimation.Play("Maggle-start-run");
             shieldReflect.enabled = false;
             shieldOperational = false;
 

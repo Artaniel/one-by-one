@@ -14,7 +14,7 @@ public class Door : MonoBehaviour
 
     [HideInInspector] public bool unlockOnTimer = true;
     public bool dontUnlockAuto = false;
-    private float timer = 1f;
+    private float timer = 0.5f;
     
     [SerializeField] public Direction.Side direction = Direction.Side.UNSET;
     public string sceneName=""; // name of scene to change on enter this door
@@ -75,7 +75,8 @@ public class Door : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
     {
         if (isSpawned && !locked && collision.gameObject == player) {
-            locked = true; timer = 1f;
+            locked = true;
+            timer = timerMax;
             if (sceneName == "") {
                 connectedDoor.room.MoveToRoom(connectedDoor);
             } else {
@@ -117,7 +118,7 @@ public class Door : MonoBehaviour
         {
             locked = true;
             //animation?
-            timer = 1f;
+            timer = timerMax;
         }
         else
         {
@@ -236,10 +237,11 @@ public class Door : MonoBehaviour
     {
         if (doorLight && connectedDoor && Labirint.instance.blueprints[connectedDoor.room.roomID].visited)
         {
-            doorLight.color = Color.Lerp(Color.white, doorLightColor, timer);
+            doorLight.color = Color.Lerp(Color.white, doorLightColor, timer / timerMax);
         }
     }
 
     private Light2D doorLight;
     private Color doorLightColor;
+    private float timerMax = 0.5f;
 }
