@@ -5501,7 +5501,6 @@ GameObject:
   - component: {fileID: 7894535608185880438}
   - component: {fileID: 4542504908632687321}
   - component: {fileID: 5474973246101071954}
-  - component: {fileID: 5474973246101071964}
   m_Layer: 9
   m_Name: RoomJMeadowWithPocket 1
   m_TagString: Room
@@ -5647,18 +5646,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 0
   priority: 0
---- !u!114 &5474973246101071964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5054565895912593581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82946b1ea29fdb4da676d95890db830, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &125554350047606598
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5726,15 +5713,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1269537660399803246, guid: 7bea081156cfd444f82f9946fe0d2dff,
-        type: 3}
-      propertyPath: direction
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1269537660399803247, guid: 7bea081156cfd444f82f9946fe0d2dff,
         type: 3}
       propertyPath: m_Offset.x
       value: -2.354849
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269537660399803246, guid: 7bea081156cfd444f82f9946fe0d2dff,
+        type: 3}
+      propertyPath: direction
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bea081156cfd444f82f9946fe0d2dff, type: 3}
@@ -6066,11 +6053,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1269537660399803246, guid: 7bea081156cfd444f82f9946fe0d2dff,
-        type: 3}
-      propertyPath: direction
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1269537660399803247, guid: 7bea081156cfd444f82f9946fe0d2dff,
         type: 3}
       propertyPath: m_Offset.x
@@ -6090,6 +6072,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269537660399803246, guid: 7bea081156cfd444f82f9946fe0d2dff,
+        type: 3}
+      propertyPath: direction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bea081156cfd444f82f9946fe0d2dff, type: 3}
@@ -6266,11 +6253,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1269537660399803246, guid: 7bea081156cfd444f82f9946fe0d2dff,
-        type: 3}
-      propertyPath: direction
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1269537660399803247, guid: 7bea081156cfd444f82f9946fe0d2dff,
         type: 3}
       propertyPath: m_Offset.x
@@ -6290,6 +6272,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 1.660965
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269537660399803246, guid: 7bea081156cfd444f82f9946fe0d2dff,
+        type: 3}
+      propertyPath: direction
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bea081156cfd444f82f9946fe0d2dff, type: 3}
