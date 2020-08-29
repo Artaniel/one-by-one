@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
+using UnityEngine.SceneManagement;
 
 public class BulletLife : MonoBehaviour
 {
@@ -19,6 +20,13 @@ public class BulletLife : MonoBehaviour
     public bool copiedBullet = false;
     public bool selfInit = false;
 
+    public static List<GameObject> bullets = new List<GameObject>();
+
+    static BulletLife()
+    {
+        SceneManager.sceneLoaded += RefreshBulletsList;
+    }
+
     protected virtual void Awake()
     {
         audio = GetComponent<AudioSource>();
@@ -26,6 +34,8 @@ public class BulletLife : MonoBehaviour
         coll2D = GetComponent<Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
         startColor = sprite.color;
+        emitterStartColor = particlesEmitter.main.startColor.color;
+        lightStartColor = bulletLight.color;
     }
 
     protected void OnEnable()
@@ -43,6 +53,7 @@ public class BulletLife : MonoBehaviour
         BeginEmitter();
         ActivateSpawnMods();
         ApplyModsVFX();
+        bullets.Add(gameObject);
     }
 
     void FixedUpdate()
@@ -285,6 +296,7 @@ public class BulletLife : MonoBehaviour
         dynamicLightInOut?.FadeOut();
         StopEmitter();
         DeactivateMods();
+        bullets.Remove(gameObject);
         PoolManager.ReturnToPool(gameObject, 1);
     }
 
@@ -293,8 +305,8 @@ public class BulletLife : MonoBehaviour
         particlesEmitter?.Play(false);
         sprite.color = startColor;
         var emitterMain = particlesEmitter.main;
-        emitterMain.startColor = startColor;
-        bulletLight.color = startColor;
+        emitterMain.startColor = emitterStartColor;
+        bulletLight.color = lightStartColor;
     }
 
     private void StopEmitter()
@@ -305,16 +317,23 @@ public class BulletLife : MonoBehaviour
 
     public void BlendSecondColor(Color color)
     {
-        Color newColor = (color * 0.66f) + (sprite.color * 0.34f);
+        Color newColor = color + (sprite.color * 0.34f);
         sprite.color = newColor;
         var emitterMain = particlesEmitter.main;
+        Color newEmitterColor = color + (emitterMain.startColor.color * 0.34f);
         emitterMain.startColor = newColor;
+        Color lightColor = color + (bulletLight.color * 0.34f);
         bulletLight.color = newColor;
     }
 
     public void AddToDamageMultiplier(float addValue)
     {
         damageMultiplier += addValue;
+    }
+
+    private static void RefreshBulletsList(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        bullets.Clear();
     }
 
     private bool listNotSorted = true;
@@ -329,5 +348,7 @@ public class BulletLife : MonoBehaviour
     private Collider2D coll2D = null;
     private DynamicLightInOut dynamicLightInOut = null;
     private Color startColor;
+    private Color emitterStartColor;
+    private Color lightStartColor;
     private bool destroyed = false;
 }

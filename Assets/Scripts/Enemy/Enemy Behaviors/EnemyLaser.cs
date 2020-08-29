@@ -30,11 +30,20 @@ public class EnemyLaser : MonoBehaviour
         laserDidHit = false;
         laserStartPos = fromPosition;
         laserEndPos = toPosition;
+
+        if (TryGetComponent(out ParticleSystem particleSystem))
+        {
+            particleSystem.Play();
+        }
     }
 
     public void ShootStop()
     {
         line.enabled = false;
+        if (TryGetComponent(out ParticleSystem particleSystem))
+        {
+            particleSystem.Stop();
+        }
     }
 
     private void Update()

@@ -30,9 +30,9 @@ public class EmpressBoss : BossEncounter
             endHpPercentage = 0;
             attacks = new List<BossAttack>()
             {
-                new SwarmAttack(BD, 5),
-                new ForTheEmpress(BD, 4),
-                new HiveMind(BD, 5),
+                //new SwarmAttack(BD, 5),
+                //new ForTheEmpress(BD, 4),
+                //new HiveMind(BD, 5),
                 new WingsAttack(BD, 3.5f)
             };
         }
@@ -220,6 +220,13 @@ public class EmpressBoss : BossEncounter
             foreach (var monster in monsters)
             {
                 monster.KnockBack((monster.transform.position - boss.position).normalized * 20f);
+            }
+            Vector3 bulletDir;
+            foreach (var bullet in BulletLife.bullets)
+            {
+                bulletDir = Quaternion.LookRotation(Vector3.forward, (bullet.transform.position - boss.position).normalized).eulerAngles;
+                bullet.transform.rotation = Quaternion.Euler(0, 0, bulletDir.z + 90f);
+                
             }
         }
 
