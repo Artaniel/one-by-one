@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 
 public class EmpressBoss : BossEncounter
 {
@@ -305,6 +306,13 @@ public class EmpressBoss : BossEncounter
     {
         wornOutMaterial.SetFloat("_WornOut", bossHP.HP / bossHP.maxHP);
         wingWornOutMaterial.SetFloat("_WornOut", bossHP.HP / bossHP.maxHP);
+    }
+
+    protected override void EncounterSuccess()
+    {
+        RelodScene.OnSceneChange?.Invoke();
+        HubEpisodeAvailabilityManager.EpisodeComplited(1);
+        SceneManager.LoadScene("Hub");
     }
 
     private AudioSource audioSource;

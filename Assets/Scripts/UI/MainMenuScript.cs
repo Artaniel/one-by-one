@@ -92,6 +92,7 @@ public class MainMenuScript : MonoBehaviour
     // old and simple
     public void NewGame()
     {
+        HubEpisodeAvailabilityManager.ClearComplitedEpisodesList();
         switch (stageDifficulty)
         {
             case Difficulty.Easy:

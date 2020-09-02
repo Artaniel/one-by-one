@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -269,6 +269,27 @@ PolygonCollider2D:
       - {x: 0.6736363, y: -0.54609853}
       - {x: 0.5516769, y: -0.24730182}
       - {x: 0.6559439, y: 0.07829318}
+--- !u!1 &337396368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 774265636321449685, guid: 45176517a59ac8e47bbd24621039ebb8,
+    type: 3}
+  m_PrefabInstance: {fileID: 7088395194330529626}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &337396369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337396368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92dfba88fcfc47546943033c5a1bcb3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entrances:
+  - {fileID: 1529573837}
+  - {fileID: 1439502013}
 --- !u!1001 &581943726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -280,6 +301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Crystal_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6857600261919761795, guid: f60c7d55523c3ae488ddea678e372de1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6857600261919761799, guid: f60c7d55523c3ae488ddea678e372de1,
         type: 3}
@@ -384,6 +410,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165841188981252901, guid: 306ec4e7589b35947a7c4f97bf941493,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2247092661878191898, guid: 306ec4e7589b35947a7c4f97bf941493,
         type: 3}
@@ -1857,6 +1888,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JBush_3-2(tree)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440783572877742222, guid: 294c3900f9db83941a9c045de5395ad3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843028256440492175, guid: 294c3900f9db83941a9c045de5395ad3,
         type: 3}
@@ -6130,6 +6166,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_cluster_6 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7383086462099998125, guid: cf036f185d61b3a48a5b91477b888ea2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7383086462099998127, guid: cf036f185d61b3a48a5b91477b888ea2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6254,6 +6295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Acid Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 8875299949320073391, guid: a90532076719afd4a90428caca1d28da,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8875299949320073378, guid: a90532076719afd4a90428caca1d28da,
         type: 3}
