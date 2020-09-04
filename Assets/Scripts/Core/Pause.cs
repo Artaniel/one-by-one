@@ -72,10 +72,11 @@ public class Pause : MonoBehaviour
             postProcess.weight = 0;
         }
     }
+
     public void GoToMenu()
     {
         SetPause(false);
-        SceneManager.LoadScene("MainMenu");
+        SceneLoading.LoadScene("MainMenu");
     }
 
     public void ExitSave()

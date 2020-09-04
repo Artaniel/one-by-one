@@ -97,15 +97,13 @@ public class MainMenuScript : MonoBehaviour
         {
             case Difficulty.Easy:
                 Debug.Log("Easy mode new game attempt. Should not be here.");
-                SceneManager.LoadScene("EasyTutorialScene1");
+                SceneLoading.LoadScene("EasyTutorialScene1");
                 break;
-            case Difficulty.Normal:
-                //SceneManager.LoadScene("TutorialScene");       
+            case Difficulty.Normal: 
                 PlayerPrefs.SetString("Gamemode", "1");
                 LoadTutorialOrLabirint("Hub");
                 break;
             case Difficulty.Hardcore:
-                //SceneManager.LoadScene("HardTutorialScene");
                 PlayerPrefs.SetString("Gamemode", "2");
                 LoadTutorialOrLabirint("Hub");
                 break;
@@ -117,7 +115,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void NewYear()
     {
-        SceneManager.LoadScene("NewYearLevel");
+        SceneLoading.LoadScene("NewYearLevel");
     }
 
     public void ClickButtonSettings()
@@ -128,7 +126,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ClickButtonLoadGame()
     {
-        SceneManager.LoadScene(PlayerPrefs.GetInt("CurrentScene"));
+        SceneLoading.LoadScene(PlayerPrefs.GetInt("CurrentScene"));
         Metrics.OnContinueGame();
     }
 
@@ -202,11 +200,11 @@ public class MainMenuScript : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("FinishedTutorialOnce", -1) != -1 || true) // ВРЕМЕННОЕ РЕШЕНИЕ, СКИП ТУТОРИАЛА
         {
-            SceneManager.LoadScene(labirintName);
+            SceneLoading.LoadScene(labirintName);
         }
         else
         {
-            SceneManager.LoadScene("TutorialTesting");
+            SceneLoading.LoadScene("TutorialTesting");
         }
     }
 

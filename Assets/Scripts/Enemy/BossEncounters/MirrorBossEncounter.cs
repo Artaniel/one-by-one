@@ -889,6 +889,6 @@ public class MirrorBossEncounter : BossEncounter
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();
         HubEpisodeAvailabilityManager.EpisodeComplited(0);
-        SceneManager.LoadScene("Hub");
+        SceneLoading.LoadScene("Hub");
     }
 }

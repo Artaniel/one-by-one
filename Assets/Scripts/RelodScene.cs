@@ -75,7 +75,7 @@ public class RelodScene : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && !CharacterLife.isDeath)
         {
             Canvas.transform.GetChild(0).gameObject.SetActive(false);
-            SceneManager.LoadScene(NextSceneName);
+            SceneLoading.LoadScene(NextSceneName);
             Metrics.OnWin();
             MonsterLife.ClearUsedNames();
             OnSceneChange?.Invoke();
@@ -105,7 +105,7 @@ public class RelodScene : MonoBehaviour
     {
         TotalValue = 0;
         Canvas.transform.GetChild(1).gameObject.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneLoading.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void PressR()

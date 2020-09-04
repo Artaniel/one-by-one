@@ -312,7 +312,7 @@ public class EmpressBoss : BossEncounter
     {
         RelodScene.OnSceneChange?.Invoke();
         HubEpisodeAvailabilityManager.EpisodeComplited(1);
-        SceneManager.LoadScene("Hub");
+        SceneLoading.LoadScene("Hub");
     }
 
     private AudioSource audioSource;
