@@ -303,10 +303,10 @@ public class Labirint : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftControl)) // ctrl+R => reboot
-            SceneLoading.LoadScene(SceneManager.GetActiveScene().name);
+            SceneLoading.LoadScene(SceneManager.GetActiveScene().name, true);
 
         if (CharacterLife.isDeath && Input.GetKeyDown(KeyCode.R)) // death && R => reboot
-            SceneLoading.LoadScene(SceneManager.GetActiveScene().name);
+            SceneLoading.LoadScene(SceneManager.GetActiveScene().name, true);
     }
 
     private void SaveLevelProgressIfNeeded()

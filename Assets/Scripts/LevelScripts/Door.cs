@@ -82,7 +82,7 @@ public class Door : MonoBehaviour
             } else {
                 Metrics.OnWin();
                 RelodScene.OnSceneChange?.Invoke();
-                SceneLoading.LoadScene(sceneName);
+                SceneLoading.NextLevel(sceneName);
             }
         }
     }

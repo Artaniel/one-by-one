@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoading : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class SceneLoading : MonoBehaviour
     static private int nextSceneBuildIndex = 0;
     static private string nextSceneName = "";
     static private bool readFromString = true;
-    [SerializeField] private float minWaitTime = 5f;
+    static private bool ASAP = false;
+    [SerializeField] private Image panelImage;
+    [SerializeField] private Text text;
 
     private void Awake()
     {
@@ -54,6 +57,11 @@ public class SceneLoading : MonoBehaviour
         }
     }
 
+    static public void LoadScene(string sceneName, bool loadASAP) {
+        ASAP = loadASAP;
+        LoadScene(sceneName);
+    }
+
     IEnumerator SceneTransition()
     {
         instance.loadingCanvas.enabled = true;
@@ -64,10 +72,43 @@ public class SceneLoading : MonoBehaviour
             asyncOperation = SceneManager.LoadSceneAsync(nextSceneBuildIndex);
         asyncOperation.allowSceneActivation = false;
 
-        yield return new WaitForSeconds(minWaitTime);
+        const float minWaitTime = 1.5f;
+        const float fadeTime = 0.5f;
+        float fadePhase;
+        float startTime = Time.time;
+        while (Time.time <= startTime + fadeTime) {
+            fadePhase = (Time.time - startTime) / fadeTime;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, fadePhase);
+            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, fadePhase);
+            yield return null;
+        }
+
+        if (!ASAP)
+            yield return new WaitForSeconds(minWaitTime - 2*fadeTime);
         yield return asyncOperation.isDone;
+        
+        asyncOperation.allowSceneActivation = true;
+
+        startTime = Time.time;
+        while (Time.time <= startTime + fadeTime)
+        {
+            fadePhase = (Time.time - startTime) / fadeTime;
+            text.color = new Color(text.color.r, text.color.g, text.color.b, 1 - fadePhase);
+            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 1 - fadePhase);
+            yield return null;
+        }
 
         instance.loadingCanvas.enabled = false;
-        asyncOperation.allowSceneActivation = true;
+        ASAP = false; //clear varible for next use
+    }
+
+    static public void CompleteEpisode(int episodeID)
+    {
+        HubEpisodeAvailabilityManager.EpisodeComplited(episodeID);
+        LoadScene("Hub");
+    }
+
+    static public void NextLevel(string nextSceneName) { 
+        LoadScene(nextSceneName);
     }
 }

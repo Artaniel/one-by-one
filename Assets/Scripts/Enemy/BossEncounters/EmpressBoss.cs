@@ -311,8 +311,7 @@ public class EmpressBoss : BossEncounter
     protected override void EncounterSuccess()
     {
         RelodScene.OnSceneChange?.Invoke();
-        HubEpisodeAvailabilityManager.EpisodeComplited(1);
-        SceneLoading.LoadScene("Hub");
+        SceneLoading.CompleteEpisode(1); 
     }
 
     private AudioSource audioSource;

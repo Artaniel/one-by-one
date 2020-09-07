@@ -888,7 +888,6 @@ public class MirrorBossEncounter : BossEncounter
         yield return new WaitForSeconds(2f);
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();
-        HubEpisodeAvailabilityManager.EpisodeComplited(0);
-        SceneLoading.LoadScene("Hub");
+        SceneLoading.CompleteEpisode(0);
     }
 }
