@@ -36,6 +36,7 @@ public class BulletLife : MonoBehaviour
         startColor = sprite.color;
         emitterStartColor = particlesEmitter.main.startColor.color;
         lightStartColor = bulletLight.color;
+        startSize = transform.localScale;
     }
 
     protected void OnEnable()
@@ -50,6 +51,7 @@ public class BulletLife : MonoBehaviour
         AudioManager.Play("WeaponShot", audio);
         TTDLeft = timeToDestruction;
         coll2D.enabled = true;
+        transform.localScale = startSize;
         BeginEmitter();
         ActivateSpawnMods();
         ApplyModsVFX();
@@ -269,6 +271,7 @@ public class BulletLife : MonoBehaviour
         bulletComp.speed = speed;
         bulletComp.damage = damage;
         bulletComp.copiedBullet = true;
+        bulletComp.startSize = startSize;
         
         bulletComp.bulletMods = new List<BulletModifier>();
         foreach (var mod in bulletMods)
@@ -351,4 +354,7 @@ public class BulletLife : MonoBehaviour
     private Color emitterStartColor;
     private Color lightStartColor;
     private bool destroyed = false;
+
+    [System.NonSerialized]
+    public Vector3 startSize = Vector3.one;
 }
