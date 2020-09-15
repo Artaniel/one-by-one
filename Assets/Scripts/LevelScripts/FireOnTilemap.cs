@@ -55,12 +55,15 @@ public class FireOnTilemap : MonoBehaviour
         if (!firePrefabStatic) firePrefabStatic = firePrefab;
         if (!Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>())
         {
-            FireOnTilemap currentScript = Labirint.GetCurrentRoom().AddComponent<FireOnTilemap>();
-            currentScript.room = Labirint.currentRoom;
-            Labirint.GetCurrentRoom().GetComponent<Room>().fireScript = currentScript;
-            currentScript.firePrefab = firePrefab;
-            currentScript.Init();
-            currentScript.StartFireInternal(firePosition);
+            if (Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(firePosition.x, firePosition.y, 0, 0)) //if in this room, to deny spawn after move to another room
+            {
+                FireOnTilemap currentScript = Labirint.GetCurrentRoom().AddComponent<FireOnTilemap>();
+                currentScript.room = Labirint.currentRoom;
+                Labirint.GetCurrentRoom().GetComponent<Room>().fireScript = currentScript;
+                currentScript.firePrefab = firePrefab;
+                currentScript.Init();
+                currentScript.StartFireInternal(firePosition);
+            }
         }
         else {
             Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>().StartFireInternal(firePosition);

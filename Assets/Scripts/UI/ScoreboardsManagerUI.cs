@@ -107,7 +107,7 @@ public class ScoreboardsManagerUI : MonoBehaviour
         else if (managerName == "Scoreboard_Scoreboards" || managerName == "Scoreboard_Error")
         {
             PlayerPrefs.SetInt("CurrentScene", 0);
-            SceneManager.LoadScene(nextScene);
+            SceneLoading.LoadScene(nextScene);
         }
     }
 
