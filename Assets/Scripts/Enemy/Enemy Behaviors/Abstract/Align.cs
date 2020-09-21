@@ -89,7 +89,7 @@ public abstract class Align : EnemyBehavior
     private RaycastHit2D[] RaycastHits(Vector2 direction, float distance)
     {
         //Debug.DrawLine(transform.position, direction1.normalized);
-        return Physics2D.RaycastAll(transform.position, direction, distance);
+        return Physics2D.RaycastAll(transform.position, direction, distance, LayerMask.GetMask("Solid"));
     }
 
     protected float targetOrientation;

@@ -17,6 +17,7 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        startColor = spriteRenderer.color;
     }
 
     void Update()
@@ -37,6 +38,8 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
     {
         if (coll.CompareTag("Player"))
         {
+            if (spriteRenderer.color.a == 1)
+                startColor = spriteRenderer.color;
             shouldBeTransparent = true;
             timeToTransLeft = timeToTrans;
             spriteColor = spriteRenderer.color;
