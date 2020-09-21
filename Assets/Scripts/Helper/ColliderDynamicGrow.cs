@@ -30,6 +30,7 @@ public class ColliderDynamicGrow : MonoBehaviour
 
     void OnEnable()
     {
+        timer = 0;
         if (colliderType == ColliderType.Box)
         {
             BoxColliderInit(boxColl);
@@ -43,6 +44,7 @@ public class ColliderDynamicGrow : MonoBehaviour
     void Update()
     {
         if (Pause.Paused || !shouldGrow) return;
+        timer += Time.deltaTime;
 
         if (colliderType == ColliderType.Box)
         {
@@ -52,8 +54,6 @@ public class ColliderDynamicGrow : MonoBehaviour
         {
             CircleColliderIncrease(circleColl);
         }
-        
-        timer += Time.deltaTime;
     }
 
     void BoxColliderInit(BoxCollider2D coll)

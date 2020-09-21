@@ -71,25 +71,38 @@ public class MonsterLife : MonoBehaviour
 
     protected virtual void HitEffect() { }
 
-    public void Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false, float ignoreSourceTime = 0)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source">Object that causes damage. Can be null</param>
+    /// <param name="damage">Damage value</param>
+    /// <param name="ignoreInvulurability">Should ignore invulnerability</param>
+    /// <param name="ignoreSourceTime">How long should this source be ignored</param>
+    /// <returns>Was object damaged? No means the source is ignored or monster is dead</returns>
+    public bool Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false, float ignoreSourceTime = 0)
     {
-        if (HP <= 0) return; // Already dead
-        if (((Vulnerable() && (!source || !damageSources.ContainsKey(source) || Time.time - damageSources[source] > 0)) || ignoreInvulurability) && SpecialConditions(source))
+        if (HP <= 0) return false; // Already dead
+        if (!source || !damageSources.ContainsKey(source) || Time.time - damageSources[source] > 0)
         {
-            var wasHp = HP;
-            HP = Mathf.Max(minHpValue, HP - damage);
-            if (wasHp != HP) hpChangedEvent?.Invoke();
-            else UndamagedAnimation();
-
-            if (HP <= 0) DestroyMonster(source, damage);
-            else         HitEffect();
-
             if (ignoreSourceTime > 0) damageSources[source] = Time.time + ignoreSourceTime;
+
+            if ((Vulnerable() || ignoreInvulurability) && SpecialConditions(source))
+            {
+                var wasHp = HP;
+                HP = Mathf.Max(minHpValue, HP - damage);
+                if (wasHp != HP) hpChangedEvent?.Invoke();
+                else UndamagedAnimation();
+
+                if (HP <= 0) DestroyMonster(source, damage);
+                else HitEffect();
+            }
+            else
+            {
+                BulletAbsorb();
+            }
+            return true;
         }
-        else
-        {
-            BulletAbsorb();
-        }
+        return false;
     }
 
     protected virtual void PreDestroyEffect()

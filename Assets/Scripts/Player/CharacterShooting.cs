@@ -25,6 +25,7 @@ public class CharacterShooting : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        playerAnim = GetComponentInChildren<Animator>();
         mainCamera = Camera.main;
         cameraShaker = mainCamera.GetComponent<CameraShaker>();
         gunfireAnimator = GetComponentInChildren<GunfireAnimator>();
@@ -72,6 +73,7 @@ public class CharacterShooting : MonoBehaviour
                     var shootingWeapon = currentWeapon.logic as ShootingWeapon;
                     cameraShaker.ShakeCamera(shootingWeapon.GunfireDestructivePower());
                     gunfireAnimator.LightenUp(0.07f, maxPower: shootingWeapon.GunfirePower());
+                    playerAnim.SetBool("Attacks", true);
                 }
                 
                 shotFrame = true;
@@ -86,6 +88,10 @@ public class CharacterShooting : MonoBehaviour
         if (Input.GetKeyDown(reloadButton))
         {
             skillManager.ReloadWeaponIfNeeded();
+        }
+        if (!shotFrame)
+        {
+            playerAnim.SetBool("Attacks", false);
         }
     }
 
@@ -118,4 +124,6 @@ public class CharacterShooting : MonoBehaviour
     private WeaponTipDynamic weaponTipDynamic;
 
     private static GameObject gameCursor;
+
+    private Animator playerAnim;
 }

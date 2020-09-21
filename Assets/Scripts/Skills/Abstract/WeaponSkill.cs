@@ -12,6 +12,7 @@ public abstract class WeaponSkill : SkillBase
 
     public enum WeaponType { Automatic, Pistol, Heavy, Melee, Empty }
     public WeaponType weaponType;
+    public static WeaponType[] weaponTypes = new WeaponType[] { WeaponType.Automatic, WeaponType.Pistol, WeaponType.Heavy, WeaponType.Melee, WeaponType.Empty };
 
     //public abstract void Shoot(Vector3 mousePos, Vector3 screenPoint);
 

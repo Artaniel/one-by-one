@@ -46,8 +46,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (CharacterLife.isDeath) return;
 
-        if (animationSwitch) UpdateSwitchAnimation();
-        else UpdateMoveAnimation();
+        UpdateMoveAnimation();
     }
 
     public void AddToSpeedMultiplier(float addValue)
@@ -75,6 +74,11 @@ public class CharacterMovement : MonoBehaviour
             anim.Play("AfterSwitch");
         weaponType = newWeaponType;
         animationSwitch = true;
+        foreach (var weaponType in WeaponSkill.weaponTypes)
+        {
+            anim.ResetTrigger($"Take {weaponType}");
+        }
+        anim.SetTrigger($"Take {weaponType}");
     }
 
     private void UpdateMoveAnimation()
@@ -82,7 +86,7 @@ public class CharacterMovement : MonoBehaviour
         if (rigidbody.velocity.sqrMagnitude == 0f)
         {
             AudioManager.PauseSource("Walk", audio);
-            anim.Play($"HeroIdle/{weaponType}");
+            anim.SetBool("Moves", false);
             //shadowAnim.Play("ShadowIdle");
         }
         else
@@ -91,32 +95,9 @@ public class CharacterMovement : MonoBehaviour
             {
                 AudioManager.Play("Walk", audio);
             }
-            anim.Play($"HeroWalk/{weaponType}");
+            anim.SetBool("Moves", true);
             //shadowAnim.Play("HeroShadow"); k
         }
-    }
-
-    private void UpdateSwitchAnimation()
-    {
-        var clipInfo = anim.GetCurrentAnimatorClipInfo(0);
-        if (clipInfo.Length == 0)
-        {
-            Debug.LogWarning("КРЯ!");
-            return;
-        }
-        string clipName = clipInfo[0].clip.name;
-        if (clipName == "Hero_walk_empty")
-        {
-            if (weaponType == WeaponSkill.WeaponType.Empty)
-            {
-                animationSwitch = false;
-            }
-            else
-            {
-                anim.Play($"HeroWalk/{weaponType}/Switch");
-            }
-        }
-        else if (!clipName.EndsWith("switch", System.StringComparison.OrdinalIgnoreCase)) animationSwitch = false;
     }
 
     private WeaponSkill.WeaponType weaponType = WeaponSkill.WeaponType.Empty;

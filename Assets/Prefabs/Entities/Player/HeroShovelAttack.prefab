@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 32686703425727028}
   - component: {fileID: 32686703425727026}
+  - component: {fileID: 7654814764810121590}
   m_Layer: 2
   m_Name: Sprite
   m_TagString: Untagged
@@ -24,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32686703425727029}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.32, y: 0.76, z: 0}
-  m_LocalScale: {x: 0.85, y: 2.0875, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1152986244278374931}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &32686703425727026
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -69,9 +70,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 6783778666613334145, guid: 15e859b311be6ca40aee0feb9945c83e,
+  m_Sprite: {fileID: 1577143017576440098, guid: aeda0e292eca359449fa649c5740ad34,
     type: 3}
-  m_Color: {r: 0, g: 0.5955162, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -81,6 +82,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7654814764810121590
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32686703425727029}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a9466a796c0573d46961eacb2656aa62, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &697489352880255308
 GameObject:
   m_ObjectHideFlags: 0
@@ -4857,6 +4877,7 @@ GameObject:
   - component: {fileID: 1152986243815308033}
   - component: {fileID: 1142062078002576075}
   - component: {fileID: 978473845444275368}
+  - component: {fileID: 3785556325313520704}
   m_Layer: 2
   m_Name: HeroShovelAttack
   m_TagString: Untagged
@@ -4897,8 +4918,8 @@ MonoBehaviour:
   damage: 2
   TTDLeft: 0.5
   bulletMods: []
-  piercing: 0
-  phasing: 0
+  piercing: 1
+  phasing: 1
   copiedBullet: 0
   selfInit: 0
   particlesEmitter: {fileID: 8753885129073348516}
@@ -4937,7 +4958,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010204792, y: 0}
+  m_Offset: {x: 0, y: -0.25125718}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4948,7 +4969,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.51287794, y: 0.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &1142062078002576075
 MonoBehaviour:
@@ -5061,6 +5082,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3785556325313520704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152986243421758099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86bff5173fcbee4d824fdf4f69c75bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldGrow: 1
+  min: {x: 0, y: 0}
+  max: {x: 1.25, y: 2}
+  maxTime: 0.14
 --- !u!1 &1152986244278375020
 GameObject:
   m_ObjectHideFlags: 0
@@ -5085,14 +5122,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152986244278375020}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.027390182, y: -0.257, z: 5.97664}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 32686703425727028}
   m_Father: {fileID: 1152986243421758096}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4634260048582183230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5109,7 +5146,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.7
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 0.3
   m_LightVolumeOpacity: 0.6
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
