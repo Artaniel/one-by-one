@@ -79,7 +79,8 @@ public class AIAgent : MonoBehaviour
             movement += i.Move();
         }
 
-        Vector2 displacement = (moveSpeedMult * Time.deltaTime) * movement;
+        //Vector2 displacement = (moveSpeedMult * Time.deltaTime) * movement;
+        Vector2 displacement = moveSpeedMult * movement;
         steering = new EnemySteering();
 
         Vector2 velocityFallBack =
@@ -87,7 +88,8 @@ public class AIAgent : MonoBehaviour
 
         externalVelocity -= velocityFallBack;
 
-        rigidbody.velocity = (externalVelocity + displacement) * 50 * Time.fixedDeltaTime;
+        //rigidbody.velocity = (externalVelocity + displacement) * 50 * Time.fixedDeltaTime;
+        rigidbody.velocity = (externalVelocity + displacement);
 
         if (needsOOBCheck) OOBCheck();
 
