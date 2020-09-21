@@ -5,9 +5,9 @@ using UnityEngine;
 public class RailMove : MoveBehaviour
 {
     [SerializeField] private Transform[] rail;
-    private enum RailMoveMode {endToEnd, loop};
+    private enum RailMoveMode {endToEnd, loop}
     [SerializeField] private RailMoveMode railMode = RailMoveMode.endToEnd;
-    private enum MoveStage {wait, go};
+    private enum MoveStage {wait, go}
     private MoveStage moveStage = MoveStage.wait;
     [SerializeField] private float waitTime = 1f;
     private float timer = 1f;
