@@ -14,7 +14,7 @@ public class RailMove : MoveBehaviour
     private int nextPointIndex = 0;
     private bool goingBack = false;
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         if (rail != null) {
@@ -71,8 +71,7 @@ public class RailMove : MoveBehaviour
             }
         } else {
             nextPointIndex++;
-            if (nextPointIndex >= rail.Length) //reached end and move to first point
-                nextPointIndex = 0;
+            nextPointIndex %= rail.Length;//reached end and move to first point
         }
     }
 }
