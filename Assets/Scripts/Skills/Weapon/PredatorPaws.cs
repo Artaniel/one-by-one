@@ -14,9 +14,10 @@ public class PredatorPaws : ShootingWeapon
         rigidbody2D = Player.GetComponent<Rigidbody2D>();
     }
 
-    public override void ShootingWeaponAttack(CharacterShooting attackManager, Vector3 mousePos, Transform shotFrom)
+    public override void ShootingWeaponAttack(CharacterShooting attackManager, Transform shotFrom)
     {
-        base.ShootingWeaponAttack(attackManager, mousePos, shotFrom);
+        var mousePos = CharacterShooting.GetCursor().position;
+        base.ShootingWeaponAttack(attackManager, shotFrom);
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
         rigidbody2D.velocity += ((Vector2)(mousePos - shotFrom.position)).normalized * pushPower;
     }
