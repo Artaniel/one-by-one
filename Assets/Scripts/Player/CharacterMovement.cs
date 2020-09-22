@@ -73,7 +73,6 @@ public class CharacterMovement : MonoBehaviour
         else
             anim.Play("AfterSwitch");
         weaponType = newWeaponType;
-        animationSwitch = true;
         foreach (var weaponType in WeaponSkill.weaponTypes)
         {
             anim.ResetTrigger($"Take {weaponType}");
@@ -101,5 +100,4 @@ public class CharacterMovement : MonoBehaviour
     }
 
     private WeaponSkill.WeaponType weaponType = WeaponSkill.WeaponType.Empty;
-    private bool animationSwitch = false; 
 }

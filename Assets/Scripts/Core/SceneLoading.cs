@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class SceneLoading : MonoBehaviour
 {
     static public SceneLoading instance;
-    [SerializeField] private Canvas loadingCanvas;    
+    [SerializeField] private Canvas loadingCanvas = null;    
     static private int nextSceneBuildIndex = 0;
     static private string nextSceneName = "";
     static private bool readFromString = true;
     static private bool ASAP = false;
-    [SerializeField] private Image panelImage;
-    [SerializeField] private Text text;
+    [SerializeField] private Image panelImage = null;
+    [SerializeField] private Text text = null;
 
     private void Awake()
     {

@@ -5,7 +5,6 @@ using UnityEngine;
 public class InstantFireOnEnter : MonoBehaviour
 {
     public GameObject firePrefab;
-    private bool ignited = false;
     private Room currentRoom;
 
     void Start()
