@@ -53,9 +53,9 @@ public class FireOnTilemap : MonoBehaviour
 
     static public void StartFire(Vector2 firePosition, GameObject firePrefab) {
         if (!firePrefabStatic) firePrefabStatic = firePrefab;
-        if (!Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>())
+        if (Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(firePosition.x, firePosition.y, 0, 0)) //if in this room, to deny spawn after move to another room
         {
-            if (Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(firePosition.x, firePosition.y, 0, 0)) //if in this room, to deny spawn after move to another room
+            if (!Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>())
             {
                 FireOnTilemap currentScript = Labirint.GetCurrentRoom().AddComponent<FireOnTilemap>();
                 currentScript.room = Labirint.currentRoom;
@@ -64,9 +64,10 @@ public class FireOnTilemap : MonoBehaviour
                 currentScript.Init();
                 currentScript.StartFireInternal(firePosition);
             }
-        }
-        else {
-            Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>().StartFireInternal(firePosition);
+            else
+            {
+                Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>().StartFireInternal(firePosition);
+            }
         }
     }
 

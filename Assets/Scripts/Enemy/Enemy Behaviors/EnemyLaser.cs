@@ -61,7 +61,6 @@ public class EnemyLaser : MonoBehaviour
                 }
             }
         }
-        Debug.DrawLine(Vector3.zero, closeWallHitPoint);
         return closeWallHitPoint;
     }
 
@@ -88,8 +87,7 @@ public class EnemyLaser : MonoBehaviour
 
     private void Update()
     {
-        if (line.enabled && !Pause.Paused
-            ) {
+        if (line.enabled && !Pause.Paused) {
             if (PlayerInTheRay())
             {
                 player.GetComponent<CharacterLife>().Damage();                

@@ -10,7 +10,7 @@ public class FireBug : MonoBehaviour
     private void Awake()
     {
         monsterLife = GetComponent<MonsterLife>();
-        MonsterLife.OnEnemyDead.AddListener(DeathCheck);
+        monsterLife.OnThisDead.AddListener(DeathCheck);
     }
 
     private void DeathCheck()
