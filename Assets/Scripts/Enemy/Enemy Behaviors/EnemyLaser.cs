@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class EnemyLaser : MonoBehaviour
 {
-    [SerializeField] private LineRenderer line;
-    private bool laserDidHit = false;
+    public LineRenderer line;
     private GameObject player;
     [SerializeField] private float laserWight = 0.1f;
     
     private Vector3 laserStartPos;
     private Vector3 laserEndPos;
+
+    [SerializeField] private GameObject laserEndPrefab;
+    private GameObject laserEndInstance = null;
 
     private void Awake()
     {
@@ -27,13 +29,48 @@ public class EnemyLaser : MonoBehaviour
         line.SetPosition(1, toPosition);
         line.startWidth = laserWight;
         line.endWidth = laserWight;
-        laserDidHit = false;
         laserStartPos = fromPosition;
         laserEndPos = toPosition;
 
         if (TryGetComponent(out ParticleSystem particleSystem))
         {
             particleSystem.Play();
+        }
+
+        if (laserEndPrefab) {
+            laserEndInstance = PoolManager.Instantiate(laserEndPrefab, laserEndPos, Quaternion.identity);
+        }
+    }
+
+    public void ShootStartDirection(Vector3 fromPosition, Vector3 direction) {
+        laserEndPos = GetLaserHitPoint(fromPosition, direction);
+        ShootStart(fromPosition, laserEndPos);
+    }
+
+    private Vector3 GetLaserHitPoint(Vector3 fromPosition, Vector3 direction) {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(fromPosition, direction);
+        float minDistance = Mathf.Infinity;
+        Vector3 closeWallHitPoint = Vector3.zero;
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider.tag == "Environment")
+            {
+                if (Vector2.Distance(transform.position, hit.point) < minDistance) {
+                    minDistance = Vector2.Distance(transform.position, hit.point);
+                    closeWallHitPoint = hit.point;
+                }
+            }
+        }
+        return closeWallHitPoint;
+    }
+
+    public void UpdateLaser(Vector3 fromPosition, Vector3 direction) {
+        if (line.enabled) {
+            laserEndPos = GetLaserHitPoint(fromPosition, direction);
+            line.SetPosition(0, fromPosition);
+            line.SetPosition(1, laserEndPos);
+            if (laserEndPrefab)
+                laserEndInstance.transform.position = laserEndPos;
         }
     }
 
@@ -44,15 +81,16 @@ public class EnemyLaser : MonoBehaviour
         {
             particleSystem.Stop();
         }
+        if (laserEndInstance)
+            PoolManager.Destroy(laserEndInstance);
     }
 
     private void Update()
     {
-        if (line.enabled && !Pause.Paused && !laserDidHit) {
+        if (line.enabled && !Pause.Paused) {
             if (PlayerInTheRay())
             {
-                player.GetComponent<CharacterLife>().Damage();
-                laserDidHit = true;
+                player.GetComponent<CharacterLife>().Damage();                
             }
         }
     }
