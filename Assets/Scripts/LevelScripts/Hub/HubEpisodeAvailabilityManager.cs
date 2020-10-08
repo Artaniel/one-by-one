@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HubEpisodeAvailabilityManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] entrances; // id in this array same as called from bosses win scripts
+    [SerializeField] private GameObject[] entrances = null; // id in this array same as called from bosses win scripts
 
     private void Awake()
     {

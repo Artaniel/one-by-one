@@ -54,7 +54,6 @@ public class BowStyleWeapon : ShootingWeapon
         chargingTime = 0;
 
         characterMovement.AddToSpeedMultiplier(0.5f);
-        shootingEvents.Invoke();
     }
 
     protected virtual void ChargeShot()
@@ -69,7 +68,7 @@ public class BowStyleWeapon : ShootingWeapon
 
     protected virtual void FinishAttack()
     {
-        var bullet = SpawnBulletTowardsCursor(CharacterShooting.GetCursor().position, attackManager.weaponTip, 0).GetComponent<BulletLife>();
+        var bullet = SpawnBulletTowardsCursor(attackManager.weaponTip, 0).GetComponent<BulletLife>();
         if (bowBulletMod)
         {
             bowBulletMod.chargePower = Mathf.Clamp(chargingTime / minChargingTime, 1, 2);

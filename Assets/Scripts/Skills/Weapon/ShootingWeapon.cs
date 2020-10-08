@@ -15,6 +15,7 @@ public class ShootingWeapon : WeaponSkill
     public float rndShootingAngleAmplifier = 0.15f;
     public float rndShootingAngleRelease = 0.5f;
     public float additionalVisualPower = 0;
+    public float delayBeforeAttack = 0;
     [System.NonSerialized]
     public GameObject currentBulletPrefab;
     public static UnityEvent shootingEvents;
@@ -30,17 +31,35 @@ public class ShootingWeapon : WeaponSkill
 
     public override void Attack(CharacterShooting attackManager, Vector3 mousePos)
     {
-        ShootingWeaponAttack(attackManager, mousePos, attackManager.weaponTip);
+        if (delayBeforeAttack <= 0)
+        {
+            CompleteAttack(attackManager);
+        }
+        else
+        {
+            attackManager.StartCoroutine(DelayedAttack(attackManager));
+        }
+    }
+
+    protected virtual void CompleteAttack(CharacterShooting attackManager)
+    {
+        ShootingWeaponAttack(attackManager, attackManager.weaponTip);
         AddToRandomAngle();
         shootingEvents?.Invoke();
     }
 
-    public virtual void ShootingWeaponAttack(CharacterShooting attackManager, Vector3 mousePos, Transform shotFrom)
+    protected virtual IEnumerator DelayedAttack(CharacterShooting attackManager)
     {
-        SpawnBulletTowardsCursor(mousePos, shotFrom, GetRandomAngle(RandomAngleMode.GAUSSIAN));
+        yield return new WaitForSeconds(delayBeforeAttack);
+        CompleteAttack(attackManager);
     }
 
-    public GameObject SpawnBulletTowardsCursor(Vector3 mousePos, Transform shotFrom, float RandomAngle, float additionalAngleOffset = 0)
+    public virtual void ShootingWeaponAttack(CharacterShooting attackManager, Transform shotFrom)
+    {
+        SpawnBulletTowardsCursor(shotFrom, GetRandomAngle(RandomAngleMode.GAUSSIAN));
+    }
+
+    public GameObject SpawnBulletTowardsCursor(Transform shotFrom, float RandomAngle, float additionalAngleOffset = 0)
     {
         var bullet = PoolManager.GetPool(currentBulletPrefab, shotFrom.position, Quaternion.Euler(0, 0, shotFrom.rotation.eulerAngles.z + 90 + GetRandomAngle()));
         BulletInit(bullet);

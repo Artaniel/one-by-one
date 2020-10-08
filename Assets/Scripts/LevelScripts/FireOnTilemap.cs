@@ -125,8 +125,7 @@ public class FireOnTilemap : MonoBehaviour
     }
 
     private void LitTree(GameObject tree) { // сюда надо поместить поведение для подожженных деревьев
-        if (tree.TryGetComponent<SpriteRenderer>(out SpriteRenderer sprite))
-            sprite.color = Color.red;
+        tree.GetComponent<BurningTree>().Burn();
     }
 
     static public void EndFire(GameObject fireObject) {
@@ -151,8 +150,7 @@ public class FireOnTilemap : MonoBehaviour
     }
 
     private void BurnOutTree(GameObject tree) { // сюда логику выгорания деревьев
-        if (tree.TryGetComponent<SpriteRenderer>(out SpriteRenderer sprite))
-            sprite.color = Color.black;
+        tree.GetComponent<BurningTree>().FinishBurning();
     }
 
     private void Update()

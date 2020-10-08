@@ -118,12 +118,12 @@ public class BulletLife : MonoBehaviour
     {
         ActivateDamageEnemyMods(monster);
 
-        monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: 0.5f);
+        bool damaged = monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: 0.5f);
         if (monster.HP <= 0)
         {
             ActivateKillMods(monster);
         }
-        if (initiator == null) // if the cause of "damage" is not a mod
+        if (initiator == null && damaged) // if the cause of "damage" is not a mod
         {
             // KnockBack
             var enemy = monster.GetComponent<AIAgent>();

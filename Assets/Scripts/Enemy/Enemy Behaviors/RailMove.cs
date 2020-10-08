@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RailMove : MoveBehaviour
 {
-    [SerializeField] private Transform[] rail;
+    [SerializeField] private Transform[] rail = null;
     private enum RailMoveMode {endToEnd, loop}
     [SerializeField] private RailMoveMode railMode = RailMoveMode.endToEnd;
     private enum MoveStage {wait, go}

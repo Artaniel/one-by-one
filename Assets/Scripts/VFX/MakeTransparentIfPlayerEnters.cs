@@ -7,7 +7,7 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
     private bool shouldBeTransparent;
     private SpriteRenderer spriteRenderer;
     private Color startColor = Color.white;
-    private Color destColor = new Color(1, 1, 1, 0.5f);
+    private Color destColor;
     private Color spriteColor;
     private float timeToTrans = 0.5f;
     private float timeToTransLeft = 0;
@@ -39,7 +39,10 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
         if (coll.CompareTag("Player"))
         {
             if (spriteRenderer.color.a == 1)
+            {
                 startColor = spriteRenderer.color;
+                destColor = new Color(startColor.r, startColor.g, startColor.b, 0.5f);
+            }
             shouldBeTransparent = true;
             timeToTransLeft = timeToTrans;
             spriteColor = spriteRenderer.color;

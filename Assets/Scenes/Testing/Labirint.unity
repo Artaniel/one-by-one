@@ -187,6 +187,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2779356524495442489, guid: c181f6f94fad9734cb70ce8fd2f59a55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2779356524495442493, guid: c181f6f94fad9734cb70ce8fd2f59a55,
         type: 3}
       propertyPath: m_Tiles.Array.size
@@ -7579,11 +7584,6 @@ PrefabInstance:
       propertyPath: m_CompositePaths.m_Paths.Array.data[2].Array.data[23].y
       value: -2.292713
       objectReference: {fileID: 0}
-    - target: {fileID: 2779356524495442489, guid: c181f6f94fad9734cb70ce8fd2f59a55,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c181f6f94fad9734cb70ce8fd2f59a55, type: 3}
 --- !u!1 &395013960
@@ -7817,38 +7817,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b38f5738ea76fc47bbc9479eb38ab82, type: 3}
---- !u!1 &1052655778 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7557523555709609451, guid: c181f6f94fad9734cb70ce8fd2f59a55,
-    type: 3}
-  m_PrefabInstance: {fileID: 341931396}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1052655783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1052655778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bf1d570aec33f489213f9aaf8577e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToEachSpawn: 5
-  timeToNextSpawn: 0
-  enemyWaves:
-  - {fileID: 6808004857076444991, guid: 11ca3967030eef04787ff71d7a861d1c, type: 3}
-  spawnZones: []
-  killsToOpen: 999
-  RoomBounds: {x: 15, y: 10}
-  spawnAvailable: 0
-  roomLighting: {fileID: 0}
-  strayMonsters: []
-  monsterList: []
-  room: {fileID: 0}
-  monsterRoomModifiers: []
-  AllowEarlySpawns: 1
 --- !u!1001 &1224920528
 PrefabInstance:
   m_ObjectHideFlags: 0
