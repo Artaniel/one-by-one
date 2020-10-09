@@ -30,7 +30,9 @@ public class LabirintBuilder : MonoBehaviour
     private Vector2Int startPosition;
     private Vector2Int endPosition;
     private Vector2Int currentPosition;
-    private int lastRoomID;    
+    private int lastRoomID;
+
+    static public int seed;
 
     private void Init()
     {
@@ -54,6 +56,8 @@ public class LabirintBuilder : MonoBehaviour
         correctPathRoomsPositions.Add(startPosition);
         map[startPosition.x, startPosition.y] = 0;
         lastRoomID = 0;
+
+        SeedCheck();
 
         MakeCorrectPath();
         MakeDeadEnds();
@@ -254,5 +258,20 @@ public class LabirintBuilder : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) // Alt+M => DrawMap
             DrawMap();
+    }
+
+    private void SeedCheck() {
+        if (seed != 0)
+            Random.InitState(seed);
+    }
+
+    static public void SetupSeed(string seedString) {
+        seed = seedString.GetHashCode();
+        Debug.Log("seed="+ seedString);
+        Debug.Log(seed);
+    }
+
+    static public void ResetSeed() {
+        seed = 0;
     }
 }
