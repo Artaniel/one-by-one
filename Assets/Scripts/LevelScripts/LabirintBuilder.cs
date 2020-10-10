@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LabirintBuilder : MonoBehaviour
 {
@@ -262,7 +263,9 @@ public class LabirintBuilder : MonoBehaviour
 
     private void SeedCheck() {
         if (seed != 0)
-            Random.InitState(seed);
+        {
+            Random.InitState(seed + SceneManager.GetActiveScene().name.GetHashCode());
+        }
     }
 
     static public void SetupSeed(string seedString) {

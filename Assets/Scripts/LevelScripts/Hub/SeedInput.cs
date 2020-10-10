@@ -15,6 +15,8 @@ public class SeedInput : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         panel.SetActive(true);
+        Pause.SetPause(true, false);
+        UnityEngine.Cursor.visible = true;
     }
 
     public void LaunchButton()
@@ -30,5 +32,7 @@ public class SeedInput : MonoBehaviour
 
     public void CancelButton() {
         panel.SetActive(false);
+        Pause.SetPause(false, false);
+        UnityEngine.Cursor.visible = false;
     }
 }

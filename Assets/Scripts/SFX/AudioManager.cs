@@ -194,19 +194,25 @@ public class AudioManager : MonoBehaviour
     private static ulong savedTime = 0;
     public static void PauseMusic()
     {
-        musicPaused = true;
-        if (!softMusicPause) audioSourceMusic.Pause();
-        savedTime = (ulong)audioSourceMusic.time; // это не работает
-        savedPauseVolume = audioSourceMusic.volume;
+        if (audioSourceMusic)
+        {
+            musicPaused = true;
+            if (!softMusicPause) audioSourceMusic.Pause();
+            savedTime = (ulong)audioSourceMusic.time; // это не работает
+            savedPauseVolume = audioSourceMusic.volume;
+        }
     }
 
     public static void ResumeMusic()
     {
-        musicPaused = false;
-        audioSourceMusic.volume = savedPauseVolume;
-        if (!audioSourceMusic.isPlaying)
+        if (audioSourceMusic)
         {
-            audioSourceMusic.Play(savedTime);
+            musicPaused = false;
+            audioSourceMusic.volume = savedPauseVolume;
+            if (!audioSourceMusic.isPlaying)
+            {
+                audioSourceMusic.Play(savedTime);
+            }
         }
     }
 
