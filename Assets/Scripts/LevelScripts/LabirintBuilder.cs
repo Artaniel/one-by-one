@@ -33,7 +33,7 @@ public class LabirintBuilder : MonoBehaviour
     private Vector2Int currentPosition;
     private int lastRoomID;
 
-    static public int seed;
+    static public string seed = "";
 
     private void Init()
     {
@@ -262,19 +262,25 @@ public class LabirintBuilder : MonoBehaviour
     }
 
     private void SeedCheck() {
-        if (seed != 0)
+        seed = PlayerPrefs.GetString("seed");
+        if (seed != "")
         {
-            Random.InitState(seed + SceneManager.GetActiveScene().name.GetHashCode());
+            Random.InitState(seed.GetHashCode() + SceneManager.GetActiveScene().name.GetHashCode());
+            Debug.Log("seed = "+seed);
         }
+        else
+            Debug.Log("no seed");
     }
 
-    static public void SetupSeed(string seedString) {
-        seed = seedString.GetHashCode();
-        Debug.Log("seed="+ seedString);
-        Debug.Log(seed);
+    static public void SetupSeed(string seedInput) {
+        seed = seedInput;
+        PlayerPrefs.SetString("seed", seed);
+        PlayerPrefs.Save();
     }
 
     static public void ResetSeed() {
-        seed = 0;
+        seed = "";
+        PlayerPrefs.SetString("seed", seed);
+        PlayerPrefs.Save();
     }
 }

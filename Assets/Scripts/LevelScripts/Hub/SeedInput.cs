@@ -10,29 +10,43 @@ public class SeedInput : MonoBehaviour
     public GameObject panel;
     public InputField seedInput;
 
-    private bool loading = false;
+    private void Awake()
+    {
+        string s = PlayerPrefs.GetString("seed");
+        if (s != "") seedInput.text = s;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        panel.SetActive(true);
-        Pause.SetPause(true, false);
-        UnityEngine.Cursor.visible = true;
+        if (collision.tag == "Player")
+        {
+            panel.SetActive(true);
+            Pause.SetPause(true, false);
+            UnityEngine.Cursor.visible = true;
+        }
     }
 
-    public void LaunchButton()
+    public void SetSeed()
     {
-        LabirintBuilder.SetupSeed(seedInput.text);
-        if (!loading)
+        if (seedInput.text != "")
         {
-            loading = true;
-            RelodScene.OnSceneChange?.Invoke();
-            SceneLoading.LoadScene(sceneToLoad);
+            LabirintBuilder.SetupSeed(seedInput.text);
         }
+        else
+            LabirintBuilder.ResetSeed();
+        panel.SetActive(false);
+        Pause.SetPause(false, false);
+        UnityEngine.Cursor.visible = false;
     }
 
     public void CancelButton() {
         panel.SetActive(false);
         Pause.SetPause(false, false);
         UnityEngine.Cursor.visible = false;
+    }
+
+    public void ResetSeed() {
+        seedInput.text = "";
+        LabirintBuilder.ResetSeed();
     }
 }

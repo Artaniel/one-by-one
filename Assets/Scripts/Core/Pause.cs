@@ -76,7 +76,6 @@ public class Pause : MonoBehaviour
     public void GoToMenu()
     {
         SetPause(false);
-        LabirintBuilder.ResetSeed();
         SceneLoading.LoadScene("MainMenu");
     }
 

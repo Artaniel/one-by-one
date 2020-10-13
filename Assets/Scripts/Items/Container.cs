@@ -34,8 +34,8 @@ public class Container : MonoBehaviour
             }
             if (summ > 0) // exception for 0 chances for all items
             {
-                if (LabirintBuilder.seed != 0) {
-                    Random.InitState(LabirintBuilder.seed + transform.position.GetHashCode());
+                if (LabirintBuilder.seed != "") {
+                    Random.InitState(LabirintBuilder.seed.GetHashCode() + transform.position.GetHashCode());
                 }
                 float random = Random.Range(0f, summ);
                 int i = 0;
