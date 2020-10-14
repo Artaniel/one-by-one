@@ -27,6 +27,7 @@ public class Room : MonoBehaviour
     public static UnityEvent OnAnyRoomLeave = new UnityEvent();
     public UnityEvent OnThisEnter = new UnityEvent();
     public UnityEvent OnThisLeave = new UnityEvent();
+    public UnityEvent OnThisClear = new UnityEvent();
 
     private void Awake()
     {
@@ -133,6 +134,7 @@ public class Room : MonoBehaviour
             door.Unlock();
         }
         CameraForLabirint.instance.CameraFreeSetup();
+        OnThisClear.Invoke();
     }
 
     public void LockRoom()
