@@ -15845,7 +15845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startFromPhase: 0
-  bossHP: {fileID: 0}
+  bossHP: {fileID: 4636306439447045287}
   player: {fileID: 0}
   bossInstance: {fileID: 5934316277085604916}
   entranceDoor: {fileID: 8322244785690137086}
@@ -16856,6 +16856,22 @@ MonoBehaviour:
   containerAlreadySpawned: 0
   monsterManager: {fileID: 0}
   externalMRMods: []
+  fireScript: {fileID: 0}
+  OnThisEnter:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnThisLeave:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  wallsTilemap: {fileID: 0}
+  topBorder: 0
+  botBorder: 0
+  leftBorder: 0
+  rightBorder: 0
 --- !u!1 &5581556329633036306
 GameObject:
   m_ObjectHideFlags: 0
@@ -18035,26 +18051,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror
       objectReference: {fileID: 0}
-    - target: {fileID: 8336659878960022570, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8336659879890899114, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
-        type: 3}
-      propertyPath: enemyBulletColor.r
-      value: 0.573
-      objectReference: {fileID: 0}
-    - target: {fileID: 8336659879890899114, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
-        type: 3}
-      propertyPath: enemyBulletColor.g
-      value: 0.14865568
-      objectReference: {fileID: 0}
-    - target: {fileID: 8336659879890899114, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
-        type: 3}
-      propertyPath: enemyBulletColor.b
-      value: 0.573
-      objectReference: {fileID: 0}
     - target: {fileID: 8336659879890899118, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18110,10 +18106,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8336659880581011510, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
+    - target: {fileID: 8336659879890899114, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
         type: 3}
-      propertyPath: timeToActivate
-      value: 1.5
+      propertyPath: enemyBulletColor.r
+      value: 0.573
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336659879890899114, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
+        type: 3}
+      propertyPath: enemyBulletColor.g
+      value: 0.14865568
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336659879890899114, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
+        type: 3}
+      propertyPath: enemyBulletColor.b
+      value: 0.573
       objectReference: {fileID: 0}
     - target: {fileID: 8336659879890899115, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
         type: 3}
@@ -18125,10 +18131,20 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0.2964706
       objectReference: {fileID: 0}
+    - target: {fileID: 8336659878960022570, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 630552809088929668, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
         type: 3}
       propertyPath: m_Intensity
       value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336659880581011510, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03,
+        type: 3}
+      propertyPath: timeToActivate
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d153fc7c6c4fe4f8ac1bc7ba4d9b03, type: 3}
@@ -18265,6 +18281,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 306ec4e7589b35947a7c4f97bf941493, type: 3}
+--- !u!114 &4636306439447045287 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 946551748472577929, guid: 306ec4e7589b35947a7c4f97bf941493,
+    type: 3}
+  m_PrefabInstance: {fileID: 5581556328803040046}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58da13fd64b65214a8e7bc4585fa2df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5934316277085604916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2247092661878191898, guid: 306ec4e7589b35947a7c4f97bf941493,
@@ -18711,12 +18739,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 683a473eedafca0478dd390eee40a577, type: 3}
---- !u!1 &5852278972717419470 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2036422326219715896, guid: 683a473eedafca0478dd390eee40a577,
-    type: 3}
-  m_PrefabInstance: {fileID: 5581556330282319606}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8322244785690137086 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4470709261213052680, guid: 683a473eedafca0478dd390eee40a577,
@@ -18738,6 +18760,12 @@ Transform:
 --- !u!1 &5852278974389964891 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2036422324412952237, guid: 683a473eedafca0478dd390eee40a577,
+    type: 3}
+  m_PrefabInstance: {fileID: 5581556330282319606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5852278972717419470 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2036422326219715896, guid: 683a473eedafca0478dd390eee40a577,
     type: 3}
   m_PrefabInstance: {fileID: 5581556330282319606}
   m_PrefabAsset: {fileID: 0}

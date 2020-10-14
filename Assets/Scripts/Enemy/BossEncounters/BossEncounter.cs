@@ -185,7 +185,7 @@ public abstract class BossEncounter : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        bossHP = GetComponent<MonsterLife>();
+        if (!bossHP) bossHP = GetComponent<MonsterLife>();
         if (bossHP) SetupBossHPSlider();
 
         if (startFromPhase == 0)
@@ -249,7 +249,6 @@ public abstract class BossEncounter : MonoBehaviour
         bossHPSlider = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<BossHealthSlider>();
         bossHPSlider.Show();
         bossHP.hpChangedEvent.AddListener(UpdateBossHP);
-        UpdateBossHP();
     }
 
     protected void UpdateBossHP()

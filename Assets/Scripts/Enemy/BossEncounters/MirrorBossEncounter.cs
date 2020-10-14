@@ -67,6 +67,7 @@ public class MirrorBossEncounter : BossEncounter
             BD.bossInstance.gameObject.SetActive(true);
             BD.bossInstance.position = BD.bossSpawnPosition.position;
             BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(1f);
+            BD.UpdateBossHP();
         }
 
         private MirrorBossEncounter BD;
@@ -858,7 +859,7 @@ public class MirrorBossEncounter : BossEncounter
             new MirrorPhase(this),
             new ConfrontPhase(this),
         };
-        
+
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);
     }
     
