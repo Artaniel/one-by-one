@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LabirintBuilder : MonoBehaviour
 {
@@ -30,7 +31,9 @@ public class LabirintBuilder : MonoBehaviour
     private Vector2Int startPosition;
     private Vector2Int endPosition;
     private Vector2Int currentPosition;
-    private int lastRoomID;    
+    private int lastRoomID;
+
+    static public string seed = "";
 
     private void Init()
     {
@@ -54,6 +57,8 @@ public class LabirintBuilder : MonoBehaviour
         correctPathRoomsPositions.Add(startPosition);
         map[startPosition.x, startPosition.y] = 0;
         lastRoomID = 0;
+
+        SeedCheck();
 
         MakeCorrectPath();
         MakeDeadEnds();
@@ -254,5 +259,28 @@ public class LabirintBuilder : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) // Alt+M => DrawMap
             DrawMap();
+    }
+
+    private void SeedCheck() {
+        seed = PlayerPrefs.GetString("seed");
+        if (seed != "")
+        {
+            Random.InitState(seed.GetHashCode() + SceneManager.GetActiveScene().name.GetHashCode());
+            Debug.Log("seed = "+seed);
+        }
+        else
+            Debug.Log("no seed");
+    }
+
+    static public void SetupSeed(string seedInput) {
+        seed = seedInput;
+        PlayerPrefs.SetString("seed", seed);
+        PlayerPrefs.Save();
+    }
+
+    static public void ResetSeed() {
+        seed = "";
+        PlayerPrefs.SetString("seed", seed);
+        PlayerPrefs.Save();
     }
 }
