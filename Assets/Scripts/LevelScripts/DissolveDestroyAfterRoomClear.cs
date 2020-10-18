@@ -28,7 +28,10 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
         if (stopCollider) coll.enabled = true;
         dissolveParam = 0;
         
-        room.OnThisClear.AddListener(StartDissolve);
+        if (room.cleared)
+            StartDissolve();
+        else 
+            room.OnThisClear.AddListener(StartDissolve);
     }
 
     private void Update()

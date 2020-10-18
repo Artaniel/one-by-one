@@ -15,6 +15,8 @@ public class SceneLoading : MonoBehaviour
     [SerializeField] private Image panelImage = null;
     [SerializeField] private Text text = null;
 
+    private static string[] episodes = { "LabirintChapter1", "LabirintChapter2" };
+
     private void Awake()
     {
         if (!instance)
@@ -105,7 +107,8 @@ public class SceneLoading : MonoBehaviour
     static public void CompleteEpisode(int episodeID)
     {
         HubEpisodeAvailabilityManager.EpisodeComplited(episodeID);
-        LoadScene("Hub");
+        NextLevel(episodes[episodeID + 1]);
+        //LoadScene("Hub");
     }
 
     static public void NextLevel(string nextSceneName) { 

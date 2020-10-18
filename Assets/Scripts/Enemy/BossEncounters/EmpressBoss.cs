@@ -17,6 +17,7 @@ public class EmpressBoss : BossEncounter
     [SerializeField] private Material wornOutMaterialPrefab = null;
     [SerializeField] private SpriteRenderer leftWing = null;
     [SerializeField] private SpriteRenderer rightWing = null;
+    [SerializeField] private float musicStartFrom = 18f;
     private Material wornOutMaterial = null;
     private Material wingWornOutMaterial = null;
 
@@ -31,9 +32,9 @@ public class EmpressBoss : BossEncounter
             endHpPercentage = 0;
             attacks = new List<BossAttack>()
             {
-                //new SwarmAttack(BD, 5),
-                //new ForTheEmpress(BD, 4),
-                //new HiveMind(BD, 5),
+                new SwarmAttack(BD, 5),
+                new ForTheEmpress(BD, 4),
+                new HiveMind(BD, 5),
                 new WingsAttack(BD, 3.5f)
             };
         }
@@ -247,6 +248,9 @@ public class EmpressBoss : BossEncounter
 
         StartCoroutine(StartNextFrame());
         SetupVFX();
+        print("yes");
+        AudioManager.PauseMusic();
+        AudioManager.PlayMusic(GetComponent<AudioSource>(), musicStartFrom);
     }
 
     private IEnumerator StartNextFrame()

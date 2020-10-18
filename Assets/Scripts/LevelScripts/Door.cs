@@ -61,7 +61,7 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        if (!dontUnlockAuto && isSpawned && unlockOnTimer && locked) {
+        if (!dontUnlockAuto && isSpawned && unlockOnTimer && locked && room == Labirint.currentRoom) {
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
@@ -77,6 +77,7 @@ public class Door : MonoBehaviour
         if (isSpawned && !locked && collision.gameObject == player) {
             locked = true;
             timer = timerMax;
+            unlockOnTimer = false;
             if (sceneName == "") {
                 connectedDoor.room.MoveToRoom(connectedDoor);
             } else {

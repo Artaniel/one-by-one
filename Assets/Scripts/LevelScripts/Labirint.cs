@@ -24,7 +24,7 @@ public class Labirint : MonoBehaviour
     public RoomBlueprint[] blueprints; 
     private List<int> activeRooms = new List<int>();
     public int currentRoomID = 0;
-    private const float distanceToNewDoor = 0; // distance from old door no new door, defines distance between rooms
+    [SerializeField] private float addDistanceToNewDoor = 0; // distance from old door no new door, defines distance between rooms
     static public Labirint instance;
     private Vector3 respawnPoint;
     public string difficultySetting = "1";
@@ -276,7 +276,6 @@ public class Labirint : MonoBehaviour
     }
 
     private Vector3 OffsetFromRoomBounds(Door oldDoor, Door newDoor, Direction.Side side) {
-        Vector3 result = Direction.SideToVector3(side) * distanceToNewDoor;
         float distanceDoorToBorderOld;
         float distanceDoorToBorderNew;
         if (side == Direction.Side.UP || side == Direction.Side.DOWN)
@@ -289,13 +288,19 @@ public class Labirint : MonoBehaviour
             distanceDoorToBorderOld = Mathf.Abs(oldDoor.room.GetBordersFromTilemap()[side] - oldDoor.transform.position.x);
             distanceDoorToBorderNew = Mathf.Abs(newDoor.room.GetBordersFromTilemap()[Direction.InvertSide(side)] - newDoor.transform.position.x);
         }
-        if (distanceDoorToBorderOld + distanceDoorToBorderNew > distanceToNewDoor)
-        {
-            result = Direction.SideToVector3(side) * (distanceDoorToBorderOld + distanceDoorToBorderNew);
-        }
-        else {
-            result = Direction.SideToVector3(side) * distanceToNewDoor;
-        }
+
+        Vector3 result = Direction.SideToVector3(side) * (distanceDoorToBorderOld + distanceDoorToBorderNew);
+        float resultMagnitude = result.magnitude;
+        result = result.normalized * (resultMagnitude + addDistanceToNewDoor);
+
+        //if (distanceDoorToBorderOld + distanceDoorToBorderNew > addDistanceToNewDoor)
+        //{
+        //    result = Direction.SideToVector3(side) * (distanceDoorToBorderOld + distanceDoorToBorderNew);
+        //}
+        //else {
+        //    result = Direction.SideToVector3(side) * distanceToNewDoor;
+        //    print($"2 {result} {result.magnitude}");
+        //}
 
         return result;
     }

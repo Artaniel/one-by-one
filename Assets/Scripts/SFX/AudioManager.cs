@@ -104,7 +104,7 @@ public class AudioManager : MonoBehaviour
 
         if (expectedMusicIndex == 0){
             audioSourceMusic.Stop();
-        } else if (!audioSourceMusic.isPlaying || audioSourceMusic.clip != musicList[expectedMusicIndex])
+        } else if (!audioSourceMusic.isPlaying || audioSourceMusic.clip.name != musicList[expectedMusicIndex].name)
         {
             audioSourceMusic.Stop();
             audioSourceMusic.clip = musicList[expectedMusicIndex];

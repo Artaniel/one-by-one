@@ -19,6 +19,7 @@ public class Room : MonoBehaviour
     public Transform possibleContainerPosition;
     public bool containerAlreadySpawned = false;
 
+    [HideInInspector] public bool cleared { get; private set; } = false;
     [HideInInspector] public MonsterManager monsterManager;
     [HideInInspector] public List<MonsterRoomModifier> externalMRMods = new List<MonsterRoomModifier>();
     public FireOnTilemap fireScript;
@@ -130,6 +131,7 @@ public class Room : MonoBehaviour
     }
 
     public void UnlockRoom(){
+        cleared = true;
         foreach (Door door in doors) {
             door.Unlock();
         }

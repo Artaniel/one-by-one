@@ -10,7 +10,7 @@ public class MonsterManager : MonoBehaviour
     [SerializeField] protected List<ZoneScript> spawnZones = new List<ZoneScript>();
     public int killsToOpen = 999; // if more than monsters in the room, iot will open when all is dead
 
-    [HideInInspector] public Vector2 RoomBounds = new Vector2(15, 10);
+    [HideInInspector] public Vector2 RoomBounds = new Vector2(14.5f, 9.5f);
     [HideInInspector] public bool spawnAvailable = false;
     [HideInInspector] public RoomLighting roomLighting;
     [HideInInspector] public List<GameObject> strayMonsters;
