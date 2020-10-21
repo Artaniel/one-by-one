@@ -262,7 +262,6 @@ public class FireOnTilemap : MonoBehaviour
     private PostProcessVolume ppVolume;
 
     private void StopAllFires() {
-        Debug.Log("!");
         for (int i = activeFires.Count - 1; i >= 0; i--)
         {
             EndFireInternal(activeFires[i], false);
