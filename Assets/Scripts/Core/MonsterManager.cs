@@ -144,7 +144,7 @@ public class MonsterManager : MonoBehaviour
 
     void WinCheck() {
         if ((monsterList.Count == 0 && spawnIndex == enemyWaves.GetLength(0)) || (killCount>=killsToOpen)) {
-            room.UnlockRoom();
+            room.TimerUnlockRoom();
             if (room.fireScript) room.fireScript.cleanedRoom = true;
             while (monsterList.Count>0)
             {

@@ -82,14 +82,6 @@ public class RelodScene : MonoBehaviour
         }
     }
 
-    protected virtual void ProcessRoomVictory()
-    {
-        CurrentEnemyUI.SetCurrentEnemy(" ");
-        isVictory = true;
-        //Metrics.OnWin();
-        GetComponent<Room>().UnlockRoom();
-    }
-
     /// <summary>
     /// Updates isVictory field and returns it
     /// </summary>

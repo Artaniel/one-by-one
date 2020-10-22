@@ -29,7 +29,6 @@ public class BulletLife : MonoBehaviour
 
     protected virtual void Awake()
     {
-        audio = GetComponent<AudioSource>();
         bulletLight = GetComponentInChildren<Light2D>();
         coll2D = GetComponent<Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
@@ -48,7 +47,6 @@ public class BulletLife : MonoBehaviour
     {
         destroyed = false;
         copiedBullet = false;
-        AudioManager.Play("WeaponShot", audio);
         TTDLeft = timeToDestruction;
         coll2D.enabled = true;
         transform.localScale = startSize;
@@ -346,7 +344,6 @@ public class BulletLife : MonoBehaviour
     [SerializeField]
     private ParticleSystem particlesEmitter = null;
     private Light2D bulletLight;
-    new private AudioSource audio;
     public SpriteRenderer sprite = null;
     private Collider2D coll2D = null;
     private DynamicLightInOut dynamicLightInOut = null;

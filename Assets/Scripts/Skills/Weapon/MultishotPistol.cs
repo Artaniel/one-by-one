@@ -15,11 +15,11 @@ public class MultishotPistol : Pistol
         description = "Your second gun";
     }
 
-    public override void Attack(CharacterShooting attackManager, Vector3 mousePos)
+    protected override void CompleteAttack(CharacterShooting attackManager)
     {
         for (int i = 0; i < shotNumber; i++)
         {
-            var bullet = PoolManager.GetPool(currentBulletPrefab, attackManager.weaponTip.position, 
+            var bullet = PoolManager.GetPool(currentBulletPrefab, attackManager.weaponTip.position,
                 Quaternion.Euler(0, 0, attackManager.weaponTip.rotation.eulerAngles.z + 90 + Mathf.Lerp(-arcAngle / 2, arcAngle / 2, i / (shotNumber - 1.0f))));
             BulletInit(bullet);
         }

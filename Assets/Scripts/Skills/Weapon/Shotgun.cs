@@ -15,10 +15,10 @@ public class Shotgun : Pistol
         description = "Blast heads to problems";
     }
 
-    public override void Attack(CharacterShooting attackManager, Vector3 mousePos)
+    protected override void CompleteAttack(CharacterShooting attackManager)
     {
         for (int i = 0; i < shotNumber; i++)
-        {       
+        {
             var bullet = PoolManager.GetPool(currentBulletPrefab, attackManager.weaponTip.position,
                              Quaternion.Euler(0, 0, attackManager.weaponTip.rotation.eulerAngles.z + 90 + GaussianRandom(0, Mathf.Pow(arcAngle, 0.7f))));
             BulletInit(bullet);

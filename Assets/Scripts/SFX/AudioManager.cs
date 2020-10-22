@@ -149,6 +149,14 @@ public class AudioManager : MonoBehaviour
         source.PlayOneShot(source.clip, userPrefSound * volume);
     }
 
+    public static void Play(AudioClip clip)
+    {
+        if (!clip) return;
+
+        audioSourceSFX.clip = clip;
+        Play(clip.name, audioSourceSFX);
+    }
+
     public static void PauseSource(string name, AudioSource source)
     {
         if (source != null)

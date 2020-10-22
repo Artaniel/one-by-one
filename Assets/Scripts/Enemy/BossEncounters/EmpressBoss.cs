@@ -248,9 +248,6 @@ public class EmpressBoss : BossEncounter
 
         StartCoroutine(StartNextFrame());
         SetupVFX();
-        print("yes");
-        AudioManager.PauseMusic();
-        AudioManager.PlayMusic(GetComponent<AudioSource>(), musicStartFrom);
     }
 
     private IEnumerator StartNextFrame()

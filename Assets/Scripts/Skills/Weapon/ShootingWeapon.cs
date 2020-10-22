@@ -31,6 +31,7 @@ public class ShootingWeapon : WeaponSkill
 
     public override void Attack(CharacterShooting attackManager, Vector3 mousePos)
     {
+        AudioManager.Play(attackSound);
         if (delayBeforeAttack <= 0)
         {
             CompleteAttack(attackManager);

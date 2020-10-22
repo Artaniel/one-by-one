@@ -12,7 +12,7 @@ public class Door : MonoBehaviour
     public bool locked = false; 
     private GameObject player;
 
-    [HideInInspector] public bool unlockOnTimer = true;
+    public bool unlockOnTimer = true;
     public bool dontUnlockAuto = false;
     private float timer = 0.5f;
     
@@ -61,7 +61,7 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        if (!dontUnlockAuto && isSpawned && unlockOnTimer && locked && room == Labirint.currentRoom) {
+        if (!dontUnlockAuto && isSpawned && unlockOnTimer && locked) {
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
@@ -89,6 +89,7 @@ public class Door : MonoBehaviour
     }
 
     public void Unlock(bool forceAnimation = false) {
+        unlockOnTimer = false;
         doorLight = GetComponentInChildren<Light2D>();
         if (doorLight) doorLightColor = doorLight.color;
 
@@ -106,7 +107,6 @@ public class Door : MonoBehaviour
                     animation.Play("Open");
                 }
             }
-            timer = 0;
         }
     }
 

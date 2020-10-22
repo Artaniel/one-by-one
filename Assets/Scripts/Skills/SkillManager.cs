@@ -207,7 +207,7 @@ public class SkillManager : MonoBehaviour
         public float reloadTimeLeft;
         public float lastTimeEquipped;
         public int weaponIndex;
-        public AudioClip[] attackSound;
+        public AudioClip attackSound;
 
         public EquippedWeapon(WeaponSkill weapon, int weaponIndex)
         {

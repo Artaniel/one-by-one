@@ -130,15 +130,6 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void UnlockRoom(){
-        cleared = true;
-        foreach (Door door in doors) {
-            door.Unlock();
-        }
-        CameraForLabirint.instance.CameraFreeSetup();
-        OnThisClear.Invoke();
-    }
-
     public void LockRoom()
     {
         if (doors!=null)
@@ -149,12 +140,14 @@ public class Room : MonoBehaviour
     }
 
     public void TimerUnlockRoom() {
+        cleared = true;
         foreach (Door door in doors)
         {
             door.unlockOnTimer = true;
             door.Lock();
         }
         CameraForLabirint.instance.CameraFreeSetup();
+        OnThisClear.Invoke();
     }
 
     public void LeaveRoom() {
