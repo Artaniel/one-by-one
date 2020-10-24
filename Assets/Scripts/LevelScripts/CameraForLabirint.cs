@@ -18,6 +18,10 @@ public class CameraForLabirint : MonoBehaviour
 
     private Camera cameraComponent;
 
+    private Vector3 cameraDesiredPosition = Vector3.zero;
+    private float cameraSpeed = 4f;
+    public float shiftMax = 20f;
+
     private void Awake()
     {
         instance = this;
@@ -33,6 +37,9 @@ public class CameraForLabirint : MonoBehaviour
         if (followCamera && !CharacterLife.isDeath)
         {
             CameraFollowUpdate();
+            if (Input.GetKey(KeyCode.LeftControl)) {
+                ShiftToMouse();
+            }
             MoveCamToDestination(cameraObj.transform.position, cameraDesiredPosition);
         }
     }
@@ -131,6 +138,7 @@ public class CameraForLabirint : MonoBehaviour
         cameraObj.transform.position = savedPos;
     }
 
-    private Vector3 cameraDesiredPosition = Vector3.zero;
-    private float cameraSpeed = 4f;
+    private void ShiftToMouse() {
+        cameraDesiredPosition += (cameraComponent.ScreenToViewportPoint(Input.mousePosition) - (Vector3.one * 0.5f)) * shiftMax * 2f;
+    }
 }
