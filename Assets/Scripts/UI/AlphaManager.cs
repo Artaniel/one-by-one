@@ -43,6 +43,7 @@ public class AlphaManager
         this.showTime = showTime;
         this.fadeOutTime = fadeOutTime;
         this.autoHide = autoHide;
+        animationState = new AnimationProgress();
     }
 
     public void Show()

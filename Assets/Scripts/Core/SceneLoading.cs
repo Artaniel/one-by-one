@@ -14,8 +14,11 @@ public class SceneLoading : MonoBehaviour
     static private bool ASAP = false;
     [SerializeField] private Image panelImage = null;
     [SerializeField] private Text text = null;
+    [SerializeField] private AlphaManager alphaManager = null;
 
     private static string[] episodes = { "LabirintChapter1", "LabirintChapter2" };
+
+    private const float fadeTime = 0.5f;
 
     private void Awake()
     {
@@ -24,6 +27,8 @@ public class SceneLoading : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             loadingCanvas.enabled = false;
+            alphaManager = new AlphaManager(
+                GetComponent<TransparencySetterUI>(), fadeTime, fadeTime, fadeTime, false);
         }
         else
             Destroy(gameObject);
@@ -67,36 +72,39 @@ public class SceneLoading : MonoBehaviour
     IEnumerator SceneTransition()
     {
         instance.loadingCanvas.enabled = true;
+
+        alphaManager.HideImmediate();
+        alphaManager.Show();
+        const float minWaitTime = 1.5f;
+
+        float fadePhase;
+        float startTime = Time.time;
+        while (Time.time <= startTime + fadeTime)
+        {
+            fadePhase = (Time.time - startTime) / fadeTime;
+            alphaManager.Update(Time.deltaTime);
+            yield return null;
+        }
+
         AsyncOperation asyncOperation;
         if (readFromString)
             asyncOperation = SceneManager.LoadSceneAsync(nextSceneName);
         else
             asyncOperation = SceneManager.LoadSceneAsync(nextSceneBuildIndex);
-        asyncOperation.allowSceneActivation = false;
 
-        const float minWaitTime = 1.5f;
-        const float fadeTime = 0.5f;
-        float fadePhase;
-        float startTime = Time.time;
-        while (Time.time <= startTime + fadeTime) {
-            fadePhase = (Time.time - startTime) / fadeTime;
-            text.color = new Color(text.color.r, text.color.g, text.color.b, fadePhase);
-            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, fadePhase);
-            yield return null;
-        }
+        asyncOperation.allowSceneActivation = false;
+        yield return asyncOperation.isDone;
+        asyncOperation.allowSceneActivation = true;
 
         if (!ASAP)
-            yield return new WaitForSeconds(minWaitTime - 2*fadeTime);
-        yield return asyncOperation.isDone;
-        
-        asyncOperation.allowSceneActivation = true;
+            yield return new WaitForSeconds(minWaitTime);
+        alphaManager.Hide();
 
         startTime = Time.time;
         while (Time.time <= startTime + fadeTime)
         {
             fadePhase = (Time.time - startTime) / fadeTime;
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 1 - fadePhase);
-            panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 1 - fadePhase);
+            alphaManager.Update(Time.deltaTime);
             yield return null;
         }
 
