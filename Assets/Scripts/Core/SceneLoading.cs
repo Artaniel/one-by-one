@@ -76,12 +76,10 @@ public class SceneLoading : MonoBehaviour
         alphaManager.HideImmediate();
         alphaManager.Show();
         const float minWaitTime = 1.5f;
-
-        float fadePhase;
+        
         float startTime = Time.time;
         while (Time.time <= startTime + fadeTime)
         {
-            fadePhase = (Time.time - startTime) / fadeTime;
             alphaManager.Update(Time.deltaTime);
             yield return null;
         }
@@ -91,19 +89,17 @@ public class SceneLoading : MonoBehaviour
             asyncOperation = SceneManager.LoadSceneAsync(nextSceneName);
         else
             asyncOperation = SceneManager.LoadSceneAsync(nextSceneBuildIndex);
-
-        asyncOperation.allowSceneActivation = false;
+        
         yield return asyncOperation.isDone;
         asyncOperation.allowSceneActivation = true;
 
         if (!ASAP)
             yield return new WaitForSeconds(minWaitTime);
-        alphaManager.Hide();
 
+        alphaManager.Hide();
         startTime = Time.time;
         while (Time.time <= startTime + fadeTime)
         {
-            fadePhase = (Time.time - startTime) / fadeTime;
             alphaManager.Update(Time.deltaTime);
             yield return null;
         }
