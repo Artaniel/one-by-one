@@ -25,6 +25,7 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
 
     private void OnEnable()
     {
+        shouldDissolve = false;
         if (stopCollider) coll.enabled = true;
         dissolveParam = 0;
         

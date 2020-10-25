@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.LWRP;
 using UnityEngine.SceneManagement;
 
 public class MirrorBossEncounter : BossEncounter
@@ -46,6 +47,8 @@ public class MirrorBossEncounter : BossEncounter
     public GameObject outrageBullet = null;
     [HideInInspector] public List<MonsterLife> spawnedMonsters = new List<MonsterLife>();
     [HideInInspector] public string difficulty = "";
+    public Transform bossPositionInMirror = null;
+    public int outrageProjectileCount = 16;
 
     private class SpawnBossAttack : BossAttack
     {
@@ -131,9 +134,9 @@ public class MirrorBossEncounter : BossEncounter
                 else
                 {
                     //AdjustBulletSpeed();
-                    bossInstance.transform.position = 
-                        Vector3.Lerp(endPosition, startPosition, 
-                            attackTimeLeft / (attackLength - initialWait - startingMagnetTime - timeToBulletMagnet));
+                    //bossInstance.transform.position = 
+                    //    Vector3.Lerp(endPosition, startPosition, 
+                    //        attackTimeLeft / (attackLength - initialWait - startingMagnetTime - timeToBulletMagnet));
                 }
             }
             wait -= Time.deltaTime;
@@ -211,6 +214,7 @@ public class MirrorBossEncounter : BossEncounter
             bullets.Add(bulletLife);
         }
 
+        // Почему-то эта функция влияет на магнетизм пуль, так что я её оставил. *чешет репу*
         private void ChooseEndMovePosition()
         {
             // TODO: Сделать хитрее, чтобы не брались дистанции дальше X метров и ближе Y метров
@@ -582,6 +586,11 @@ public class MirrorBossEncounter : BossEncounter
         }
     }
 
+    private void DamageBoss()
+    {
+        bossHP.Damage(gameObject, bossHP.maxHP / 25, true);
+    }
+
     public class MirrorSpawnEnemy : BossAttack
     {
         public MirrorSpawnEnemy(BossEncounter bossData, float attackLength, GameObject enemyToSpawn, bool allowInterruption = true, bool ended = false) 
@@ -592,12 +601,17 @@ public class MirrorBossEncounter : BossEncounter
             this.enemyToSpawn = enemyToSpawn;
         }
 
+
         protected override void AttackStart()
         {
             base.AttackStart();
             int zoneIndex = Random.Range(0, spawnZones.Length);
             Vector2 randomPosition = spawnZones[zoneIndex].RandomZonePosition();
             var monster = Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
+            var monsterLife = monster.GetComponent<MonsterLife>();
+            monsterLife.OnThisDead.AddListener(BD.DamageBoss);
+            monsterLife.maxHP = monsterLife.maxHP / 2;
+            monsterLife.HP = monsterLife.maxHP;
             monster.GetComponent<AIAgent>().proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
             var monsterAttack = monster.GetComponent<Attack>();
             if (monsterAttack) monsterAttack.ForceAttack();
@@ -638,6 +652,8 @@ public class MirrorBossEncounter : BossEncounter
         {
             foreach (var monster in BD.spawnedMonsters)
             {
+                if (!monster) continue;
+                monster.OnThisDead.RemoveListener(BD.DamageBoss);
                 monster.Damage(null, 99999, true);
             }
         }
@@ -694,11 +710,15 @@ public class MirrorBossEncounter : BossEncounter
         public override void StartPhase()
         {
             base.StartPhase();
+            BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(0.1f);
             Labirint.instance.GetComponent<CurrentEnemySelector>().enableScanning = true;
             Labirint.GetCurrentRoom().GetComponentInChildren<ContiniousOutlineAppear>().Activate();
             if (BD.bossInstance) // in debug mode there is no boss
             {
-                BD.bossInstance.gameObject.SetActive(false);
+                BD.bossInstance.transform.position = BD.bossPositionInMirror.transform.position;
+                BD.bossInstance.tag = "Untagged";
+                BD.bossInstance.GetComponent<MoveForward>().agroBlockTime = 15;
+                BD.bossInstance.GetComponent<MoveForward>().AgroBlock();
             }
         }
 
@@ -758,6 +778,7 @@ public class MirrorBossEncounter : BossEncounter
             }
             newBullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+            newBullet.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
 
             var newBullet2 = PoolManager.GetPool(projectile, BD.bossInstance.position, 
                 Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f))));
@@ -767,6 +788,7 @@ public class MirrorBossEncounter : BossEncounter
             }
             newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
             newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+            newBullet2.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
 
             if (BD.difficulty == "2")
             {
@@ -778,6 +800,16 @@ public class MirrorBossEncounter : BossEncounter
                 }
                 newBullet3.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
                 newBullet3.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+                newBullet3.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
+            }
+
+            float angleOffset = Random.Range(0, 90f);
+            for (int i = 0; i < BD.outrageProjectileCount; i++)
+            {
+                var bullet = PoolManager.GetPool(projectile, BD.bossInstance.position, Quaternion.Euler(0, 0, angleOffset + ((360f * i) / BD.outrageProjectileCount)));
+                bullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+                bullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
+                bullet.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
             }
 
             timeToNextShot = Random.Range(timeToShot.x, timeToShot.y);
@@ -817,7 +849,9 @@ public class MirrorBossEncounter : BossEncounter
         public override void StartPhase()
         {
             base.StartPhase();
-            BD.bossInstance.gameObject.SetActive(true);
+            BD.bossInstance.tag = "Enemy";
+            BD.bossInstance.transform.position = BD.bossSpawnPosition.position;
+            BD.bossInstance.GetComponent<MoveForward>().Activate();
             BD.bossHP = BD.bossInstance.GetComponent<MonsterLife>();
             BD.bossInstance.GetComponent<MonsterLife>().SetMinHpPercentage(0);
             BD.bossInstance.GetComponent<Face>().target = BD.mirrorCracks;
@@ -886,7 +920,7 @@ public class MirrorBossEncounter : BossEncounter
 
     public IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();
         SceneLoading.CompleteEpisode(0);

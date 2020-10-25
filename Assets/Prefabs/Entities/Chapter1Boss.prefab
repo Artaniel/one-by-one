@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 4401457915136595648}
   - component: {fileID: 6167669800907288298}
   - component: {fileID: 4232517526933764508}
+  - component: {fileID: 7790855979664459423}
   m_Layer: 0
   m_Name: Chapter1Boss
   m_TagString: Enemy
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58da13fd64b65214a8e7bc4585fa2df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 12
+  maxHP: 70
   HP: 1
   absorbPrefab: {fileID: 4237170780078402785, guid: b005df549a8eb9443b1d4f8eb257e157,
     type: 3}
@@ -410,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851423767a200cf4eaf5bea045e99598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
+  maxSpeed: 1
   maxRotation: 200
   velocityFallBackPower: 3
   knockBackStability: 99999
@@ -542,6 +543,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7790855979664459423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165841188981252901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f9dfe6546f7b249883eeefc0415823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
+  target: {fileID: 0}
+  proximityCheckOption: 
+  proximityCheckDistance: 19
+  invertProximityCheck: 0
+  timeToLoseAggro: -1
+  moveInviteRadius: 2
+  maxInviteLevel: 1
+  timeBeforeGroupeAggroOff: 3
+  agroBlockTime: 2
+  timeToMaxSpeedAmp: 0
+  timeToMaxSpeed: 0.33
+  speedMult: 1
 --- !u!1 &4282319209198151426
 GameObject:
   m_ObjectHideFlags: 0
