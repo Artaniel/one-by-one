@@ -79,10 +79,10 @@ public class MirrorBossEncounter : BossEncounter
     [System.Serializable]
     private class ExplosionAttack : BossAttack
     {
-        public ExplosionAttack(BossEncounter bossData, float attackLength, int projectilesCount, float waitBefore = 0, bool returnBack = true, bool allowInterruption = true, bool ended = false) 
+        public ExplosionAttack(BossEncounter bossData, float attackLength, int projectilesCount, float waitBefore = 0, bool returnBack = true, bool allowInterruption = true, bool ended = false)
             : base(bossData, attackLength, allowInterruption, ended)
         {
-            this.projectilesCount = projectilesCount; 
+            this.projectilesCount = projectilesCount;
             this.BD = bossData as MirrorBossEncounter;
             initialWait = waitBefore;
             wait = waitBefore;
@@ -223,7 +223,8 @@ public class MirrorBossEncounter : BossEncounter
             {
                 endPosition = BD.phase1MovePositions[Random.Range(0, BD.phase1MovePositions.Length)].position;
                 float distance = Vector3.Distance(endPosition, BD.player.position);
-                if (distance >= 5 && distance <= 17) {
+                if (distance >= 5 && distance <= 17)
+                {
                     break;
                 }
                 Debug.Log("Reconsidering");
@@ -246,7 +247,7 @@ public class MirrorBossEncounter : BossEncounter
         private List<EnemyBulletLife> bullets = new List<EnemyBulletLife>();
         private Vector3 startPosition;
         private Vector3 endPosition;
-        
+
         private float bulletMagnetTL = 0f;
         private float timeToBulletMagnet = 0.2f;
         private float startingMagnetTime = 0.15f;
@@ -265,7 +266,7 @@ public class MirrorBossEncounter : BossEncounter
 
     protected class MultibombAttack : BossAttack
     {
-        public MultibombAttack(BossEncounter bossData, float attackLength, float additionalSpeed = 0, bool allowInterruption = true, bool ended = false) 
+        public MultibombAttack(BossEncounter bossData, float attackLength, float additionalSpeed = 0, bool allowInterruption = true, bool ended = false)
             : base(bossData, attackLength, allowInterruption, ended)
         {
             BD = bossData as MirrorBossEncounter;
@@ -373,7 +374,7 @@ public class MirrorBossEncounter : BossEncounter
         // So the starting D should be the right-most point of the arena
         // D lessens every frame so all projectiles move to the center of the room
 
-        public EllipseToCenterChaos(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) : 
+        public EllipseToCenterChaos(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) :
             base(bossData, attackLength, allowInterruption, ended)
         {
             BD = bossData as MirrorBossEncounter;
@@ -482,7 +483,7 @@ public class MirrorBossEncounter : BossEncounter
         {
             R = R + Random.Range(rRange.x, rRange.y);
             var yPos = Mathf.Sqrt(9 * ((R * R) - (xPos * xPos)) / 4);
-            Transform newBullet = PoolManager.GetPool(ellipseProjectilePrefab, 
+            Transform newBullet = PoolManager.GetPool(ellipseProjectilePrefab,
                 roomCenter + new Vector3(leftSemisphere ? yPos : -yPos, topSemisphere ? xPos : -xPos, 0), Quaternion.identity).transform;
             return new EllipseBulletData(newBullet, R, xPos, leftSemisphere, topSemisphere, Random.Range(0, 2) == 1 ? true : false);
         }
@@ -517,7 +518,7 @@ public class MirrorBossEncounter : BossEncounter
 
     private class MirrorScreenEffect : BossAttack
     {
-        public MirrorScreenEffect(BossEncounter bossData, float attackLength, float targetAlpha, bool allowInterruption = true, bool ended = false) 
+        public MirrorScreenEffect(BossEncounter bossData, float attackLength, float targetAlpha, bool allowInterruption = true, bool ended = false)
             : base(bossData, attackLength, allowInterruption, ended)
         {
             MirrorBossEncounter BD = bossData as MirrorBossEncounter;
@@ -593,7 +594,7 @@ public class MirrorBossEncounter : BossEncounter
 
     public class MirrorSpawnEnemy : BossAttack
     {
-        public MirrorSpawnEnemy(BossEncounter bossData, float attackLength, GameObject enemyToSpawn, bool allowInterruption = true, bool ended = false) 
+        public MirrorSpawnEnemy(BossEncounter bossData, float attackLength, GameObject enemyToSpawn, bool allowInterruption = true, bool ended = false)
             : base(bossData, attackLength, allowInterruption, ended)
         {
             BD = bossData as MirrorBossEncounter;
@@ -633,7 +634,7 @@ public class MirrorBossEncounter : BossEncounter
 
     public class BreakMirror : BossAttack
     {
-        public BreakMirror(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) : 
+        public BreakMirror(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false) :
             base(bossData, attackLength, allowInterruption, ended)
         {
             BD = bossData as MirrorBossEncounter;
@@ -748,7 +749,7 @@ public class MirrorBossEncounter : BossEncounter
             moveTo = movePosition.RandomZonePosition();
             moveFrom = BD.bossInstance.position;
             float distanceToMove = Vector3.Distance(moveFrom, moveTo);
-            moveTime = Mathf.Lerp(minMoveTime, maxPossibleMoveTime, 
+            moveTime = Mathf.Lerp(minMoveTime, maxPossibleMoveTime,
                 (Mathf.Clamp(distanceToMove, minnDTimeFactor, maxDTimeFactor) - minnDTimeFactor) / (maxDTimeFactor - minnDTimeFactor));
             moveTimeLeft = moveTime;
             attackTimeLeft += moveTime;
@@ -780,7 +781,7 @@ public class MirrorBossEncounter : BossEncounter
             newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
             newBullet.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
 
-            var newBullet2 = PoolManager.GetPool(projectile, BD.bossInstance.position, 
+            var newBullet2 = PoolManager.GetPool(projectile, BD.bossInstance.position,
                 Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f))));
             if (newBullet2.TryGetComponent(out Chapter1BossInfusedBullet infusedBullet2))
             {
@@ -875,6 +876,8 @@ public class MirrorBossEncounter : BossEncounter
         {
             base.DebugStartPhase();
             AudioManager.PlayMusic(BD.GetComponent<AudioSource>(), 33f);
+            BD.bossInstance.gameObject.SetActive(true);
+            BD.bossInstance.position = BD.bossSpawnPosition.position;
         }
 
         MirrorBossEncounter BD;
@@ -896,7 +899,7 @@ public class MirrorBossEncounter : BossEncounter
 
         //Camera.main.GetComponent<CameraFocusOn>().FocusOn(player.position, 3f, 2f);
     }
-    
+
     protected override void Update()
     {
         if (encounterOver)

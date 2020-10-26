@@ -8,10 +8,18 @@ public class Chapter1BossMonsterLife : MonsterLife
 
     protected override bool SpecialConditions(GameObject source)
     {
-        var mirrorComp = source.GetComponent<Chapter1BossInfusedBullet>();
-        if (!hitNonMirror && !mirrorComp) source.GetComponent<BulletLife>().piercing = true;
+        if (source)
+        {
+            var mirrorComp = source.GetComponent<Chapter1BossInfusedBullet>();
 
-        return hitNonMirror || mirrorComp;
+            if (!hitNonMirror && !mirrorComp) source.GetComponent<BulletLife>().piercing = true;
+
+            return hitNonMirror || mirrorComp;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     protected override void PreDestroyEffect()
