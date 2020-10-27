@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActivateExplosionSound : MonoBehaviour
 {  
-    void Start()
+    void OnEnable()
     {
         var audio = GetComponent<AudioSource>();
         AudioManager.Play("Explosion", audio);

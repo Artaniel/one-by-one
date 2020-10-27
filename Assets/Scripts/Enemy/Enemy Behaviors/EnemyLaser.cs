@@ -11,7 +11,7 @@ public class EnemyLaser : MonoBehaviour
     private Vector3 laserStartPos;
     private Vector3 laserEndPos;
 
-    [SerializeField] private GameObject laserEndPrefab;
+    [SerializeField] private GameObject laserEndPrefab = null;
     private GameObject laserEndInstance = null;
 
     private void Awake()

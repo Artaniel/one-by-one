@@ -6,6 +6,7 @@ public abstract class PickupableItem : MonoBehaviour
 {
     public float destanceToPickup = 1f;
     public float inactiveTime = 0.5f;
+    public AudioClip pickupSound = null;
     private bool active = false;
 
     protected virtual void Update()
@@ -21,7 +22,13 @@ public abstract class PickupableItem : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (active && collision.CompareTag("Player"))
-           PickUp(collision);
+           _PickUp(collision);
+    }
+
+    private void _PickUp(Collider2D player)
+    {
+        if (pickupSound) AudioManager.Play(pickupSound);
+        PickUp(player);
     }
 
     protected abstract void PickUp(Collider2D player);

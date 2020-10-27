@@ -12,8 +12,6 @@ public class SceneLoading : MonoBehaviour
     static private string nextSceneName = "";
     static private bool readFromString = true;
     static private bool ASAP = false;
-    [SerializeField] private Image panelImage = null;
-    [SerializeField] private Text text = null;
     [SerializeField] private AlphaManager alphaManager = null;
 
     private static string[] episodes = { "LabirintChapter1", "LabirintChapter2" };

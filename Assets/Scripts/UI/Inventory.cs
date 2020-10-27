@@ -166,7 +166,7 @@ public class Inventory : MonoBehaviour
         {
             // этот массив ищет совпадение между нажимаемой кнопкой и скилами на панели
             var equippedWeapon = skills.EquippedWeapons.FindAll(skill => skill.logic == currentSkill);
-            if (equippedWeapon.Count != 0) skills.ReloadWeaponIfNeeded(); // Не позволим менять разряженное оружие
+            if (equippedWeapon.Count != 0) skills.ReloadWeaponIfNeeded(playSound: false); // Не позволим менять разряженное оружие
             if (equippedWeapon.Count != 0 && equippedWeapon[0].reloadTimeLeft == 0)
             {
                 List<SkillManager.EquippedWeapon> tmpList = new List<SkillManager.EquippedWeapon>();

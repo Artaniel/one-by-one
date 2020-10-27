@@ -8,13 +8,11 @@ using UnityEditor;
 public class Container : MonoBehaviour
 {
     public int itemListSize = 0;
-    [HideInInspector]
-    public GameObject[] itemList;
-    [HideInInspector]
-    public float[] itemChances;
+    public AudioClip containerOpened = null;
+    [HideInInspector] public GameObject[] itemList;
+    [HideInInspector] public float[] itemChances;
     private GameObject itemToDrop = null;
-    [HideInInspector]
-    public RoomBlueprint blueprint;
+    [HideInInspector] public RoomBlueprint blueprint;
     private SkillManager playerSkillManager;
 
     protected virtual void Start()
@@ -104,6 +102,7 @@ public class Container : MonoBehaviour
 
     public void Open()
     {
+        if (containerOpened) AudioManager.Play(containerOpened);
         GetItem();
         if (itemToDrop != null)
             Instantiate(itemToDrop, transform.position, transform.rotation);

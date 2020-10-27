@@ -18,6 +18,9 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField, Tooltip("Skill database-like prefab")]
     private GameObject prefabSkillLoader = null;
+
+    public AudioClip reloadSound = null;
+    public AudioClip switchSound = null;
     /// <summary>
     /// Get all skills in-game from database object
     /// </summary>
@@ -381,7 +384,7 @@ public class SkillManager : MonoBehaviour
         {
             if (Input.GetKeyDown(keys[i]) && activeSkills.Count >= i && activeSkills[i].cooldown <= 0f)
             {
-                activeSkills[i].skill.ActivateSkill();
+                activeSkills[i].skill._ActivateSkill();
                 activeSkills[i].activeTimeLeft = activeSkills[i].skill.activeDuration;
                 activeSkills[i].cooldown = activeSkills[i].skill.cooldownDuration;
             }
@@ -429,6 +432,8 @@ public class SkillManager : MonoBehaviour
     {
         if ((Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight)) && equippedWeapons.Count != 0)
         {
+            if (switchSound) AudioManager.Play(switchSound);
+
             var newWeaponIndex = 0;
             if (Input.GetKeyDown(rotateWeaponLeft))
                 newWeaponIndex = (equippedWeapon.weaponIndex + equippedWeapons.Count - 1) % equippedWeapons.Count;
@@ -436,7 +441,7 @@ public class SkillManager : MonoBehaviour
                 newWeaponIndex = (equippedWeapon.weaponIndex + 1) % equippedWeapons.Count;
             if (equippedWeapon.ammoLeft < equippedWeapon.logic.ammoMagazine)
             {
-                ReloadWeaponIfNeeded();
+                ReloadWeaponIfNeeded(playSound: false);
             }
             equippedWeapon = equippedWeapons[newWeaponIndex];
             characterMovement.UpdateWeaponType(equippedWeapon.logic.weaponType);
@@ -484,10 +489,11 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public void ReloadWeaponIfNeeded()
+    public void ReloadWeaponIfNeeded(bool playSound = true)
     {
         if (equippedWeapon.reloadTimeLeft == 0 && equippedWeapon.ammoLeft < equippedWeapon.logic.ammoMagazine)
         {
+            if (playSound && reloadSound) AudioManager.Play(reloadSound);
             equippedWeapon.reloadTimeLeft = equippedWeapon.logic.reloadTime *
                 Mathf.Lerp(1, 0.4f, (float)equippedWeapon.ammoLeft / equippedWeapon.logic.ammoMagazine); // more bullets = faster reload
         }

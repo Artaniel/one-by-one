@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DetonateOnDeath : MonoBehaviour
 {
-    [SerializeField] private float blastRadius = 1f;
+    [SerializeField] private float playerBlastRadius = 3f;
+    [SerializeField] private float bugBlastRadius = 4.5f;
     [SerializeField] private float detonateDelay = 0.5f;
     [SerializeField] private GameObject detonationVFX = null;
     [SerializeField] private float detonateDamageDuration = 0.25f;
@@ -26,12 +27,13 @@ public class DetonateOnDeath : MonoBehaviour
 
     private void Blast()
     {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, blastRadius, Vector3.forward, 0f);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, bugBlastRadius, Vector3.forward, 0f);
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.transform.tag == "Player")
             {
-                hit.transform.GetComponent<CharacterLife>().Damage(1);
+                if (Vector3.Distance(transform.position, hit.transform.position) <= playerBlastRadius)
+                    hit.transform.GetComponent<CharacterLife>().Damage(1);
             }
             else
             {

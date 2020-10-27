@@ -5,7 +5,7 @@ using UnityEngine;
 public class RotatingLaserTurret : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed = 90f; //degree in sec
-    [SerializeField] private EnemyLaser[] lasers;
+    [SerializeField] private EnemyLaser[] lasers = null;
 
     private void Awake()
     {

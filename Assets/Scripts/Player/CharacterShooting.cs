@@ -81,13 +81,13 @@ public class CharacterShooting : MonoBehaviour
             
             if (currentWeapon.ammoLeft == 0)
             {
-                skillManager.ReloadWeaponIfNeeded();
+                skillManager.ReloadWeaponIfNeeded(playSound: true);
                 timeBetweenAttacks = 1f; // WARNING: MAGIC CONSTANT TO PREVENT PLAYER FROM FIRING WHEN HE STARTED RELOADING
             }
         }
         if (Input.GetKeyDown(reloadButton))
         {
-            skillManager.ReloadWeaponIfNeeded();
+            skillManager.ReloadWeaponIfNeeded(playSound: true);
         }
         if (!shotFrame)
         {
