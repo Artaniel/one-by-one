@@ -89,7 +89,7 @@ public class CurrentEnemySelector : MonoBehaviour
 
     protected virtual bool ProximitySuccess(GameObject enemy)
     {
-        if (!enemy || !enemy.activeSelf) return false;
+        if (!enemy || !enemy.activeSelf || !enemy.CompareTag("Enemy")) return false;
         if (currentCamera == null)
         {
             currentCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
