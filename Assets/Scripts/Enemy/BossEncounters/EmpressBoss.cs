@@ -311,8 +311,11 @@ public class EmpressBoss : BossEncounter
 
     protected override void EncounterSuccess()
     {
+        var bugSpawner = transform.parent.GetComponentInChildren<BusyBugSpawner>();
+        bugSpawner.spawnEverySeconds /= 30;
+        bugSpawner.speedRange *= 3f;
         RelodScene.OnSceneChange?.Invoke();
-        SceneLoading.CompleteEpisode(1); 
+        SceneLoading.CompleteEpisode(1);
     }
 
     private AudioSource audioSource;
