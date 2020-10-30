@@ -16,14 +16,15 @@ MonoBehaviour:
   pickupSprite: {fileID: 21300000, guid: c34c9ce0dbfe50c4d806b89b9c7d302c, type: 3}
   miniIcon: {fileID: 21300000, guid: 6441e3e9c4ad6384d94eadf3be88be82, type: 3}
   price: 0
-  attackSound: []
+  attackSound: {fileID: 8300000, guid: db31e4a236ea1a444a781cab464edf82, type: 3}
+  reloadSound: {fileID: 0}
   reloadTime: 15
   timeBetweenAttacks: 1.25
   ammoMagazine: 5
   weaponType: 0
   bulletPrefab: {fileID: 6191924688321695861, guid: ee50d9a2dc4a6074fac8d27b86a21ee4,
     type: 3}
-  bulletDamage: 4
+  bulletDamage: 3.65
   knockPower: 600
   bulletSpeed: 18
   timeToBulletDestruction: 1.2
@@ -31,5 +32,6 @@ MonoBehaviour:
   rndShootingAngleAmplifier: 0.15
   rndShootingAngleRelease: 0.5
   additionalVisualPower: 0
+  delayBeforeAttack: 0
   bulletModifiers:
   - {fileID: 11400000, guid: 243e32586a7515644895b7e94ab19526, type: 2}

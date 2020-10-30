@@ -923,6 +923,7 @@ public class MirrorBossEncounter : BossEncounter
 
     public IEnumerator EndGame()
     {
+        GetComponent<ShakeCameraExternal>().ShakeCamera(2.75f, 2.15f);
         yield return new WaitForSeconds(3f);
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();

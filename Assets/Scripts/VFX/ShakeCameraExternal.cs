@@ -19,5 +19,10 @@ public class ShakeCameraExternal : MonoBehaviour
         cameraShaker.ShakeCamera(intensity, shakeLength);
     }
 
+    public void ShakeCamera(float intensity, float shakeLength)
+    {
+        cameraShaker.ShakeCamera(intensity, shakeLength);
+    }
+
     private CameraShaker cameraShaker = null;
 }

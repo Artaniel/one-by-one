@@ -94,7 +94,7 @@ public class AudioManager : MonoBehaviour
         int expectedMusicIndex = 0; // index for array musicList, 0 is for no music
         String sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName == "MainMenu") { expectedMusicIndex = 2; } //logic for music selection 
+        if (sceneName == "MainMenu" || sceneName == "Credits04") { expectedMusicIndex = 2; } //logic for music selection 
         else if (sceneName.Contains("BossOne") || sceneName.Contains("Hub")) { expectedMusicIndex = 0; }
         else if (sceneName.Contains("Tutorial")) { expectedMusicIndex = 1; }
         else if (sceneName.Contains("Chapter2")) { expectedMusicIndex = 4; }
@@ -156,6 +156,12 @@ public class AudioManager : MonoBehaviour
 
         audioSourceSFX.clip = clip;
         Play(clip.name, audioSourceSFX);
+    }
+
+    public static void Play(AudioClip clip, AudioSource source)
+    {
+        source.clip = clip;
+        Play(clip.name, source);
     }
 
     public static void PauseSource(string name, AudioSource source)

@@ -27,6 +27,8 @@ public class MonsterLife : MonoBehaviour
 
     [SerializeField] private float timeKillToDestroyGObject = 0.15f;
 
+    [SerializeField] private AudioClip hitSound = null;
+
     protected virtual bool Vulnerable()
     {
         return isBoy();
@@ -38,6 +40,7 @@ public class MonsterLife : MonoBehaviour
         
         sprites = GetComponentsInChildren<SpriteRenderer>();
         monsterName = GetComponentInChildren<TMPro.TextMeshPro>();
+        audioSource = GetComponent<AudioSource>();
 
         ChooseMyName();
     }
@@ -69,6 +72,12 @@ public class MonsterLife : MonoBehaviour
         return true;
     }
 
+    private void _HitEffect()
+    {
+        if (hitSound) AudioManager.Play(hitSound, audioSource);
+        HitEffect();
+    }
+
     protected virtual void HitEffect() { }
 
     /// <summary>
@@ -94,7 +103,7 @@ public class MonsterLife : MonoBehaviour
                 else UndamagedAnimation();
 
                 if (HP <= 0) DestroyMonster(source, damage);
-                else HitEffect();
+                else _HitEffect();
             }
             else
             {
@@ -263,4 +272,6 @@ public class MonsterLife : MonoBehaviour
 
     public UnityEvent OnThisDead = new UnityEvent();
     private Dictionary<GameObject, float> damageSources = new Dictionary<GameObject, float>();
+
+    private AudioSource audioSource;
 }

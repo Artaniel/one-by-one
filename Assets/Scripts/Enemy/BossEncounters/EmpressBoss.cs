@@ -314,6 +314,20 @@ public class EmpressBoss : BossEncounter
         var bugSpawner = transform.parent.GetComponentInChildren<BusyBugSpawner>();
         bugSpawner.spawnEverySeconds /= 30;
         bugSpawner.speedRange *= 3f;
+        ppBlur.blurSize.value = 0;
+        GetComponent<ShakeCameraExternal>().ShakeCamera(2.75f, 4.5f);
+        var monsters = GetSpawnedMonsters();
+        foreach (var monster in monsters)
+        {
+            monster.GetComponent<MonsterLife>().Damage(null, 999999, true);
+        }
+        StartCoroutine(DelayedLevelLoad());
+    }
+
+    private IEnumerator DelayedLevelLoad()
+    {
+        yield return new WaitForSeconds(4.5f);
+        SceneLoading.NextLevel("Credits04");
         RelodScene.OnSceneChange?.Invoke();
         SceneLoading.CompleteEpisode(1);
     }
