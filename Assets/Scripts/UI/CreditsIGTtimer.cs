@@ -20,7 +20,7 @@ public class CreditsIGTtimer : MonoBehaviour
         float minutes = Mathf.Floor(summ / 60f);
         float seconds = Mathf.Floor(summ - (minutes * 60f));
         float milisecs = Mathf.Floor((summ - (minutes * 60f) - seconds) * 1000f);
-        textMesh.text = minutes.ToString() + ":" ;
+        textMesh.text = minutes.ToString() + ":";
         if (seconds<10) textMesh.text += "0";
         textMesh.text += seconds.ToString() + ".";
         if (milisecs < 100) textMesh.text += "0";
