@@ -326,6 +326,7 @@ public class EmpressBoss : BossEncounter
 
     private IEnumerator DelayedLevelLoad()
     {
+        Metrics.OnWin();
         yield return new WaitForSeconds(4.5f);
         SceneLoading.NextLevel("Credits04");
         RelodScene.OnSceneChange?.Invoke();
