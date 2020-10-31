@@ -109,7 +109,8 @@ public class SceneLoading : MonoBehaviour
     static public void CompleteEpisode(int episodeID)
     {
         HubEpisodeAvailabilityManager.EpisodeComplited(episodeID);
-        NextLevel(episodes[episodeID + 1]);
+        if (episodes.Length >= episodeID + 1)
+            NextLevel(episodes[episodeID + 1]);
         //LoadScene("Hub");
     }
 
