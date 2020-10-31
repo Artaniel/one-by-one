@@ -9,6 +9,7 @@ public class HubEnterLabyrinth : MonoBehaviour
     public string sceneToLoad = "Hub";
     private Scene scene;
     private int sceneToLoadInt;
+    public Transform eatenPosition = null;
 
     void OnTriggerEnter2D(Collider2D coll)
     {
@@ -41,7 +42,15 @@ public class HubEnterLabyrinth : MonoBehaviour
         var player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<CharacterMovement>().speed = 0;
         player.GetComponent<Rigidbody2D>().Sleep();
-        StartCoroutine(EatPlayer(player));
+        var playerLife = player.GetComponent<CharacterLife>();
+        playerLife.HidePlayer();
+        var dummy = Instantiate(
+            playerLife.dummyPlayerPrefab,
+            player.transform.position,
+            Quaternion.identity);
+        player.transform.position = eatenPosition.position;
+        dummy.GetComponent<DummyPlayerController>().SetDestination(eatenPosition.position);
+        StartCoroutine(EatPlayer(dummy));
     }
 
     private IEnumerator EatPlayer(GameObject player)
