@@ -23,7 +23,7 @@ public class PickupableSkill : PickupableItem
     protected override void PickUp(Collider2D player)
     {
         var skillInstance = Instantiate(skill);
-        EventManager.Notify(skill.description, 1);
+        EventManager.Notify(skill.shortDescription, 1);
         player.GetComponent<SkillManager>().AddSkill(skillInstance);
         var canvas = GameObject.FindGameObjectWithTag("Canvas");
         if (canvas)

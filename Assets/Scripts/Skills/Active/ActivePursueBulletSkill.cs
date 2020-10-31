@@ -8,7 +8,6 @@ public class ActivePursueBulletSkill : ActiveSkill
     public PursueBulletMod bulletMod;
     protected ActivePursueBulletSkill()
     {
-        description = "Bang";
         cooldownDuration = 5f;
         activeDuration = 3f;
     }

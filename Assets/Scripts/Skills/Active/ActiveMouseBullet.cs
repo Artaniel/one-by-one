@@ -8,7 +8,6 @@ public class ActiveMouseBullet : ActiveSkill
     public FollowCursorMod bulletMod;
     protected ActiveMouseBullet()
     {
-        description = "Bang";
         cooldownDuration = 5f;
         activeDuration = 3f;
     }

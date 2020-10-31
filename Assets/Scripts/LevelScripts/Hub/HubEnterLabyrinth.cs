@@ -40,7 +40,7 @@ public class HubEnterLabyrinth : MonoBehaviour
     {
         gameObject?.GetComponentInChildren<Animator>().SetBool("Load", true);
         var player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<CharacterMovement>().speed = 0;
+        player.GetComponent<CharacterMovement>().enabled = false;
         player.GetComponent<Rigidbody2D>().Sleep();
         var playerLife = player.GetComponent<CharacterLife>();
         playerLife.HidePlayer();
@@ -49,7 +49,9 @@ public class HubEnterLabyrinth : MonoBehaviour
             player.transform.position,
             Quaternion.identity);
         player.transform.position = eatenPosition.position;
-        dummy.GetComponent<DummyPlayerController>().SetDestination(eatenPosition.position);
+        var dummyController = dummy.GetComponent<DummyPlayerController>();
+        dummyController.SetDestination(eatenPosition.position, timeToDestination: 1.35f);
+        dummy.GetComponentInChildren<Animator>().SetBool("Moves", true);
         StartCoroutine(EatPlayer(dummy));
     }
 

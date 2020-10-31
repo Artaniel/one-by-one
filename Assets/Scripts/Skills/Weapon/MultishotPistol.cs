@@ -9,11 +9,6 @@ public class MultishotPistol : Pistol
     private float arcAngle = 45;
     [SerializeField]
     private int shotNumber = 3;
-    
-    protected MultishotPistol() : base()
-    {
-        description = "Your second gun";
-    }
 
     protected override void CompleteAttack(CharacterShooting attackManager)
     {

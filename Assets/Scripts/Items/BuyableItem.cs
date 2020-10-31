@@ -32,6 +32,6 @@ public class BuyableItem : PickupableItem
 
     private void OnMouseOver()
     {
-        EventManager.Notify(itemAsset.description, 2);
+        EventManager.Notify(itemAsset.shortDescription, 2);
     }
 }

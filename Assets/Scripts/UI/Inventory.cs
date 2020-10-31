@@ -206,7 +206,7 @@ public class Inventory : MonoBehaviour
 
     public void UpdateToolTip(SkillBase skill)
     {
-        tooltipText.text = skill.description;
+        tooltipText.text = skill.GetDescription();
     }
 
     public void RemoveToolTip()

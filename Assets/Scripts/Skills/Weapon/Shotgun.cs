@@ -10,11 +10,6 @@ public class Shotgun : Pistol
     [SerializeField]
     private int shotNumber = 6;
 
-    protected Shotgun() : base()
-    {
-        description = "Blast heads to problems";
-    }
-
     protected override void CompleteAttack(CharacterShooting attackManager)
     {
         for (int i = 0; i < shotNumber; i++)

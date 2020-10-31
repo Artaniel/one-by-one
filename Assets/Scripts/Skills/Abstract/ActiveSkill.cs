@@ -21,4 +21,9 @@ public abstract class ActiveSkill : SkillBase
     public override void UpdateEffect() { }
 
     public virtual void EndOfSkill() { }
+
+    public override string GetDescription() =>
+        $"{fullDescriprion}{(fullDescriprion == "" ? "" : "\n")}" +
+        $"Cooldown: {cooldownDuration}\n" +
+        $"{(activeDuration == 0 ? "" : $"Duration: {activeDuration}\n")}";
 }
