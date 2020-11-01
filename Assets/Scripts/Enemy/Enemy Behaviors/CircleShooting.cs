@@ -38,6 +38,8 @@ public class CircleShooting : MonoBehaviour
         {
             bulletsNumber += 5;
         }
+        audioSource = GetComponent<AudioSource>();
+        hasShotAudio = audioSource.clip != null;
     }
 
     private void Update()
@@ -120,8 +122,8 @@ public class CircleShooting : MonoBehaviour
         var spawnPos = from != null ? from.position : transform.position;
         GameObject bullet = PoolManager.GetPool(bulletPrefab, spawnPos, new Quaternion());
 
-        var audio = GetComponent<AudioSource>();
-        AudioManager.Play("MonsterShot", audio);
+        if (hasShotAudio)
+            AudioManager.Play("MonsterShot", audioSource);
 
         var angle = (Mathf.Atan2(dirrectionToPlayer.y, dirrectionToPlayer.x) * Mathf.Rad2Deg) + rotatingAngle;
         bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -131,4 +133,6 @@ public class CircleShooting : MonoBehaviour
     private float agentSavedMaxRotation = 0;
     private float agentSavedVelocityFallback = 0;
     private float agentSavedKnockBackStability = 0;
+    private bool hasShotAudio;
+    private AudioSource audioSource;
 }

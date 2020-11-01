@@ -173,10 +173,15 @@ public abstract class EnemyBehavior : MonoBehaviour
         }
     }
 
-    public void AgroBlock()
+    public void AgroBlock(float blockTime)
     {
         isActive = false;
-        currentAgroBlockTime = agroBlockTime;
+        currentAgroBlockTime = blockTime;
+    }
+
+    public void AgroBlock()
+    {
+        AgroBlock(agroBlockTime);
     }
 
     protected void RotateInstantlyTowardsTarget()

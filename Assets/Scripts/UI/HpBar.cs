@@ -31,13 +31,17 @@ public abstract class HpBar : MonoBehaviour
     public void HealthBarChange()
     {
         var currentHP = GetCurrentMaxHp();
-        Active();
         hpSlider.value = currentHP.x / currentHP.y;
-        if (hpSlider.value < 0.33)
+
+        if (hpSlider.value > 0)
         {
-            activeHealthBar.color = Color.red;
+            Active();
+            if (hpSlider.value < 0.33)
+            {
+                activeHealthBar.color = Color.red;
+            }
+            currentTimeToOff = timeToOff;
         }
-        currentTimeToOff = timeToOff;
     }
 
     public void Active()
