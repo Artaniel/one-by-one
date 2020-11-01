@@ -1154,7 +1154,8 @@ MonoBehaviour:
   agroBlockTime: 2
   cooldownRange: {x: 0.1, y: 0.1}
   attackSpeedModifier: 1
-  noiseRangeMinMax: {x: 2, y: 10}
+  attackSound: {fileID: 0}
+  noiseRangeMinMax: {x: 3, y: 10}
 --- !u!114 &2935446877296873105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2808,11 +2809,6 @@ PrefabInstance:
       propertyPath: maxRotation
       value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Mesh
@@ -2873,6 +2869,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2483354354873438170, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}

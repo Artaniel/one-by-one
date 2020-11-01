@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class EmpressBoss : BossEncounter
 {
+    [SerializeField] private float delayedStart = 1f;
     [SerializeField] private GameObject[] explosiveBugs = null;
     [SerializeField] private GameObject[] beetles = null;
     [SerializeField] private AudioClip windSFX = null;
@@ -246,13 +247,14 @@ public class EmpressBoss : BossEncounter
         hpManager = GetComponent<MonsterLife>();
         SetupDamageableSegments();
 
-        StartCoroutine(StartNextFrame());
         SetupVFX();
+        StartCoroutine(StartNextFrame());
     }
 
     private IEnumerator StartNextFrame()
     {
         yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(delayedStart);
         base.Start();
     }
 

@@ -74,6 +74,11 @@ public class EnemyBulletLife : MonoBehaviour
         PoolManager.ReturnToPool(gameObject, 0.5f);
     }
 
+    public void UpdateLifeLeft(float newTimeLeft)
+    {
+        bulletLifeLeft = newTimeLeft;
+    }
+
     private bool destroyed = false;
     private SpriteRenderer sprite;
     private Color startingColor;
