@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I) || (inventory.activeSelf && Input.GetKeyDown(KeyCode.Escape)))
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab) || (inventory.activeSelf && Input.GetKeyDown(KeyCode.Escape)))
         {
             shooting.enabled = !shooting.enabled;
             inventory.SetActive(!inventory.activeSelf);
