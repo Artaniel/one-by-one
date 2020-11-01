@@ -6,9 +6,9 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
 {
     private bool shouldBeTransparent;
     private SpriteRenderer[] spriteRenderers;
-    private Color startColor = Color.white;
-    private Color destColor;
-    private Color spriteColor;
+    private Color[] startColors;
+    private Color[] destColors;
+    private Color[] spriteColors;
     private float timeToTrans = 0.5f;
     private float timeToTransLeft = 0;
     private float timeToOpaq = 0.25f;
@@ -17,7 +17,12 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
     void Start()
     {        
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-        startColor = spriteRenderers[0].color;
+        startColors = new Color[spriteRenderers.Length];
+        destColors = new Color[spriteRenderers.Length];
+        spriteColors = new Color[spriteRenderers.Length];
+        for (int i = 0; i < spriteRenderers.Length; i++)
+            startColors[i] = spriteRenderers[i].color;
+        
     }
 
     void Update()
@@ -25,14 +30,14 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
         if (shouldBeTransparent && timeToTransLeft > 0)
         {
             timeToTransLeft = Mathf.Clamp01(timeToTransLeft - Time.deltaTime);
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-                spriteRenderer.color = Color.Lerp(destColor, spriteColor, timeToTransLeft / timeToTrans);
+            for (int i = 0; i < spriteRenderers.Length; i++)
+                spriteRenderers[i].color = Color.Lerp(destColors[i], spriteColors[i], timeToTransLeft / timeToTrans);
         }
         else if (!shouldBeTransparent && timeToOpaqLeft > 0)
         {
             timeToOpaqLeft = Mathf.Clamp01(timeToOpaqLeft - Time.deltaTime);
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-                spriteRenderer.color = Color.Lerp(startColor, spriteColor, timeToOpaqLeft / timeToOpaq);
+            for (int i = 0; i < spriteRenderers.Length; i++)
+                spriteRenderers[i].color = Color.Lerp(startColors[i], spriteColors[i], timeToOpaqLeft / timeToOpaq);
         } 
     }
 
@@ -40,17 +45,16 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
     {
         if (coll.CompareTag("Player"))
         {
-
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            for (int i = 0; i < spriteRenderers.Length; i++)
             {
-                if (spriteRenderer.color.a == 1)
+                if (spriteRenderers[i].color.a == 1)
                 {
-                    startColor = spriteRenderer.color;
-                    destColor = new Color(startColor.r, startColor.g, startColor.b, 0.5f);
+                    startColors[i] = spriteRenderers[i].color;
+                    destColors[i] = new Color(startColors[i].r, startColors[i].g, startColors[i].b, 0.5f);
                 }
                 shouldBeTransparent = true;
                 timeToTransLeft = timeToTrans;
-                spriteColor = spriteRenderer.color;
+                spriteColors[i] = spriteRenderers[i].color;
             }
         }
     }
@@ -61,8 +65,8 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
         {
             shouldBeTransparent = false;
             timeToOpaqLeft = timeToOpaq;
-            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-                spriteColor = spriteRenderer.color;
+            for (int i = 0; i < spriteRenderers.Length; i++)
+                spriteColors[i] = spriteRenderers[i].color;
         }
     }
 }
