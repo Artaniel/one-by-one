@@ -877,8 +877,11 @@ public class MirrorBossEncounter : BossEncounter
             foreach (var bullet in ellipseBullets)
             {
                 bullet.Orbit(Time.deltaTime);
+                if (phaseTimer < 1)
+                {
+                    bullet.MoveToCenter(roomCenter, 8.75f * Time.deltaTime);
+                }
                 bullet.UpdatePosition(roomCenter);
-                //bullet.MoveToCenter(roomCenter, 8.75f * Time.deltaTime);
             }
         }
 
@@ -932,7 +935,7 @@ public class MirrorBossEncounter : BossEncounter
         private GameObject ellipseProjectilePrefab;
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(0, 8);
-        private float ellipseStartR = 12;
+        private float ellipseStartR = 21;
         MirrorBossEncounter BD;
         private List<EllipseBulletData> ellipseBullets = new List<EllipseBulletData>();
     }
