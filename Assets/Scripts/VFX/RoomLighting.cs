@@ -143,10 +143,10 @@ public class RoomLighting : MonoBehaviour
     // В данном случае освещение работает на костыле. Берется default light как минимум света
     // Когда будет готов плавный переход персонажа, выпилить к чертям
     // В светлых комнатах максимум достигается быстро
-    public void LabirintRoomEnterBright() 
+    public void LabirintRoomEnterBright()
     {
         enabled = true;
-        maxvalue = maxvalue == 0 ? 1 : maxvalue;
+        maxvalue = 1;
         TotalValue = 1;
 
         RecalculateLight();
