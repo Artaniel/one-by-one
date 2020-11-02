@@ -102,8 +102,8 @@ public class MonsterLife : MonoBehaviour
                 if (wasHp != HP) hpChangedEvent?.Invoke();
                 else UndamagedAnimation();
 
+                _HitEffect();
                 if (HP <= 0) DestroyMonster(source, damage);
-                else _HitEffect();
             }
             else
             {
@@ -239,7 +239,14 @@ public class MonsterLife : MonoBehaviour
         if (monsterManager != null)
             monsterManager.Death(gameObject);
         GetComponent<AIAgent>().enabled = false;
+        var behavs = GetComponentsInChildren<EnemyBehavior>();
+        foreach (var behav in behavs)
+        {
+            behav.AgroBlock(999f);
+        }
         GetComponentInChildren<Collider2D>().enabled = false;
+        hitPlayerOnContact = false;
+
         // Trigger an event for those who listen to it (if any)
         OnEnemyDead?.Invoke();
         EventManager.OnMonsterDead?.Invoke(transform.position);
@@ -254,8 +261,15 @@ public class MonsterLife : MonoBehaviour
     private IEnumerator DestoryGameObject()
     {
         if (invulnurabilityShield) invulnurabilityShield.transform.SetParent(null);
-        yield return new WaitForSeconds(timeKillToDestroyGObject);
         Destroy(gameObject, 10f);
+
+        yield return new WaitForSeconds(timeKillToDestroyGObject);
+        var renderers = GetComponentsInChildren<Renderer>();
+        foreach (var rend in renderers)
+        {
+            rend.enabled = false;
+        }
+        yield return new WaitForSeconds(0.5f - timeKillToDestroyGObject);
         gameObject.SetActive(false);
     }
 

@@ -7,7 +7,6 @@ public class GhostMode : ActiveSkill
 {
     protected GhostMode()
     {
-        description = "Does nothing";
         cooldownDuration = 5f;
         activeDuration = 3f;
     }

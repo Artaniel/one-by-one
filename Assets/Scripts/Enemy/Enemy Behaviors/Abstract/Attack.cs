@@ -5,6 +5,7 @@ public abstract class Attack : EnemyBehavior
     [SerializeField, Header("Attack Block")]
     protected Vector2 cooldownRange = new Vector2(1f, 1f);
     [HideInInspector] public float attackSpeedModifier = 1f;
+    [SerializeField] protected AudioClip attackSound = null;
 
     protected override void Awake()
     {

@@ -34,12 +34,12 @@ public class Room : MonoBehaviour
     {
         if (possibleContainerPosition == null) possibleContainerPosition = transform; // if forgot to set, center of room
         DoorsInit();
+        labirint = Labirint.instance;
+        externalMRMods = labirint.commonMRMods;
     }
 
     private void Start()
     {
-        labirint = Labirint.instance;
-        externalMRMods = labirint.commonMRMods;
         FillOOB();
     }
 

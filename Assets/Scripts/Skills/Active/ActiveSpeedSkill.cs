@@ -10,7 +10,6 @@ public class ActiveSpeedSkill : ActiveSkill
 
     protected ActiveSpeedSkill()
     {
-        description = "Yoo could ";
         cooldownDuration = 5f;
         activeDuration = 3f;
     }

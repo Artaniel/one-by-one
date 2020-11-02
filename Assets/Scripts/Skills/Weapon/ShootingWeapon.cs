@@ -21,6 +21,11 @@ public class ShootingWeapon : WeaponSkill
     public static UnityEvent shootingEvents;
     public BulletModifier[] bulletModifiers;
 
+    public override string GetDescription() =>
+        $"{fullDescriprion}{(fullDescriprion == "" ? "" : "\n")}" +
+        $"Damage: {bulletDamage * 10}\n" +
+        $"Ammo: {ammoMagazine}";
+
     public override void InitializeSkill()
     {
         Player = GameObject.FindGameObjectWithTag("Player");

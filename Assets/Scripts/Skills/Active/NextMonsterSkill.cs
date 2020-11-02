@@ -10,7 +10,6 @@ public class NextMonsterSkill : ActiveSkill
 
     protected NextMonsterSkill()
     {
-        description = "Yoo could show a enemy";
         cooldownDuration = 7f;
         activeDuration = 3f;
     }

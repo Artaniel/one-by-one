@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PassiveItemPresenter : MonoBehaviour
+public class PassiveItemPresenter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     public Image itemImage = null;
@@ -16,5 +16,15 @@ public class PassiveItemPresenter : MonoBehaviour
         img.color = Color.white;
         currentSkill = item;
         this.inventory = inventory;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (currentSkill && inventory) inventory.UpdateToolTip(currentSkill);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (inventory) inventory.RemoveToolTip();
     }
 }

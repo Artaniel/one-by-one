@@ -44,10 +44,8 @@ public class CharacterShooting : MonoBehaviour
     {
         if (Pause.Paused)
         {
-            Cursor.visible = true;
             return;
         }
-        Cursor.visible = false;
 
         shotFrame = false;
         

@@ -10,6 +10,7 @@ public class MonsterHealthBar : HpBar
         base.Start();
         monsterLife = GetComponentInParent<MonsterLife>();
         monsterLife.hpChangedEvent.AddListener(HealthBarChange);
+        monsterLife.OnThisDead.AddListener(Deactive);
     }
 
     protected override Vector2 GetCurrentMaxHp()

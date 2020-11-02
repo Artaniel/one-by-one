@@ -15,6 +15,7 @@ public class TimedShootWithOffset : TimedAttack
     {
         base.Awake();
         shiftScript = gameObject.GetComponent<ShiftAfterShoot>();
+        audioSource = GetComponent<AudioSource>();
     }
     
     protected virtual GameObject ShootBullet(Vector2 direction, GameObject bulletToSpawn, float angleOffset)
@@ -26,8 +27,8 @@ public class TimedShootWithOffset : TimedAttack
           
         bullet.GetComponent<EnemyBulletLife>().BulletSpeed *= attackSpeedModifier;
 
-        var audio = GetComponent<AudioSource>();
-        AudioManager.Play("MonsterShot", audio);
+        audioSource.clip = attackSound;
+        AudioManager.Play("MonsterShot", audioSource);
 
         if (!rotationBased)
         {
@@ -66,4 +67,5 @@ public class TimedShootWithOffset : TimedAttack
     private GameObject attackAnimation;
 
     protected ShiftAfterShoot shiftScript;
+    protected AudioSource audioSource;
 }

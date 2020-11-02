@@ -68,7 +68,8 @@ public class MosquitoMove : MoveForward
             if (inbounds == false) continue;
 
             var vectorToNewPosition = (target.transform.position + nextMovePosition) - transform.position;
-            var canDrawDirectLine = !(Physics2D.CircleCast(transform.position, monsterSize, vectorToNewPosition,
+            var canDrawDirectLine = !(Physics2D.CircleCast(transform.position + (vectorToNewPosition.normalized * monsterSize), 
+                monsterSize, vectorToNewPosition,
                 vectorToNewPosition.magnitude, LayerMask.GetMask("Solid")));
 
             if (canDrawDirectLine)
