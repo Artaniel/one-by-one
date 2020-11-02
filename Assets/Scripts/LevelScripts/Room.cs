@@ -481,6 +481,23 @@ public class Room : MonoBehaviour
         return result;
     }
 
+    public bool PositionIsStronglyInbounds(Vector3 position)
+    {
+        bool result = true;
+        if (OOBmap != null && wallsTilemap != null)
+        {
+            Vector3Int positionOnTilemap = wallsTilemap.WorldToCell(position);
+            if (positionOnTilemap.x < leftBorder || positionOnTilemap.x > rightBorder ||
+                positionOnTilemap.y > topBorder || positionOnTilemap.y < botBorder)
+            {
+                result = false;
+            }
+            else if (OOBmap[positionOnTilemap.x - leftBorder, positionOnTilemap.y - botBorder] != 2)
+                result = false;
+        }
+        return result;
+    }
+
     public Vector3 GetNearInboundsPosition(Vector3 currentPosition) { // осторожно хардкод. Нервным не смотреть
         Vector3 result = currentPosition;
         float shiftAmp = 1;
@@ -490,7 +507,7 @@ public class Room : MonoBehaviour
             shiftAmp = i;
             foreach (Vector3 shift in possibleShifts)
             {
-                if (PositionIsInbounds(currentPosition + (shift * shiftAmp)))
+                if (PositionIsStronglyInbounds(currentPosition + (shift * shiftAmp)))
                     return currentPosition + (shift * shiftAmp);
             }
         }
