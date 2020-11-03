@@ -332,7 +332,7 @@ public class EmpressBoss : BossEncounter
         yield return new WaitForSeconds(4.5f);
         SceneLoading.NextLevel("Credits04");
         RelodScene.OnSceneChange?.Invoke();
-        SceneLoading.CompleteEpisode(1);
+        //SceneLoading.CompleteEpisode(1);
     }
 
     private AudioSource audioSource;

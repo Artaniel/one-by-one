@@ -5739,7 +5739,6 @@ GameObject:
   - component: {fileID: 8167950208965421225}
   - component: {fileID: 5416406093220538582}
   - component: {fileID: 2108439974110075901}
-  - component: {fileID: 7683140015137843130}
   - component: {fileID: 1221323970}
   - component: {fileID: 1221323967}
   - component: {fileID: 1221323969}
@@ -5998,25 +5997,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7683140015137843130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076504705610384284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e2c80a3feffb44e91e7351c406d94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemListSize: 1
-  containerOpened: {fileID: 0}
-  itemList:
-  - {fileID: 2175323628933259560, guid: 493abb424a5bb794498b5b5211c19ef0, type: 3}
-  itemChances:
-  - 1
-  anyDropChance: 1
 --- !u!82 &1221323970
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6137,6 +6117,7 @@ MonoBehaviour:
   agroBlockTime: 2
   cooldownRange: {x: 999, y: 999}
   attackSpeedModifier: 1
+  attackSound: {fileID: 0}
   castTime: 0
   randomShotAngle: 360
   bullet: {fileID: 6628034844112384116, guid: 6580c84a2a8a0e34caf1ab32ffd26c0e, type: 3}
@@ -6175,7 +6156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startFromPhase: 0
+  difficulty: 
   bossHP: {fileID: 352377146793050087}
+  delayedStart: 1
   explosiveBugs:
   - {fileID: 2368423294823193944, guid: 136674774ace1304a975c00633c6a10e, type: 3}
   - {fileID: 2015161459342672827, guid: 76971400a4962eb48ba8100bac443477, type: 3}

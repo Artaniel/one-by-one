@@ -18,7 +18,6 @@ public class SnailLoaderUI : MonoBehaviour
         speed = GetComponentInParent<CanvasScaler>().referenceResolution.x * 0.01f;
         leftMostPoint = parentRectTransform.rect.xMin;
         rightMostPoint = parentRectTransform.rect.xMax; // why? But it works
-        print($"{leftMostPoint} {rightMostPoint}");
     }
 
     void Update()
