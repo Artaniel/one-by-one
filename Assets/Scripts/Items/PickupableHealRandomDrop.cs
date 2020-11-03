@@ -5,7 +5,7 @@ using System;
 
 public class PickupableHealRandomDrop : PickupableHeal
 {
-   private void Awake()
+    protected void Awake()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
         var hpMan = player.GetComponent<CharacterLife>();

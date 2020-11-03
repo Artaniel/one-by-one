@@ -1457,7 +1457,7 @@ GameObject:
   - component: {fileID: 5778603932262175575}
   m_Layer: 10
   m_Name: Abyss
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1822,7 +1822,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -2060,7 +2060,7 @@ Transform:
   - {fileID: 9118931714099156371}
   - {fileID: 1438214041234033744}
   - {fileID: 7929744454583396246}
-  - {fileID: 2225174737250750084}
+  - {fileID: 9127768712220630506}
   - {fileID: 7808357930833228945}
   - {fileID: 3857449992149103350}
   - {fileID: 2895945627220174964}
@@ -8535,7 +8535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93c2cc0996762b142afa5df6670825d0, type: 3}
---- !u!4 &2225174737250750084 stripped
+--- !u!4 &9127768712220630506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6939257482792719055, guid: 93c2cc0996762b142afa5df6670825d0,
     type: 3}
@@ -9058,6 +9058,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4176909997632256177, guid: 87f95afd9188b0c4c983b3322fab672b,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8632409631601431284, guid: 87f95afd9188b0c4c983b3322fab672b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -9067,11 +9072,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4176909997632256177, guid: 87f95afd9188b0c4c983b3322fab672b,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87f95afd9188b0c4c983b3322fab672b, type: 3}
