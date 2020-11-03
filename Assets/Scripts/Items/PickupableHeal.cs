@@ -5,10 +5,15 @@ using UnityEngine;
 public class PickupableHeal : PickupableItem
 {
     public int healAmount = 1;
+    protected CharacterLife characterLife;
 
     protected override void PickUp(Collider2D player)
     {
-        player.GetComponent<CharacterLife>().Heal(healAmount);
-        Destroy(gameObject);
+        if (!characterLife) characterLife = player.GetComponent<CharacterLife>();
+        if (characterLife.GetHp() < characterLife.GetMaxHp())
+        {
+            characterLife.Heal(healAmount);
+            Destroy(gameObject);
+        }
     }
 }

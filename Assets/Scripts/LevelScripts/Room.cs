@@ -217,7 +217,9 @@ public class Room : MonoBehaviour
                 result[Direction.Side.LEFT] = left + 1.5f; //mb need to replace with something tile size related later
                 result[Direction.Side.RIGHT] = right + 0.5f;
                 result[Direction.Side.UP] = up + 0.5f;
-                result[Direction.Side.DOWN] = down + 1.5f;                
+                result[Direction.Side.DOWN] = down + 1.5f;
+
+                break; // ignore stuff like abyss
             }
         }
         return result;
@@ -272,7 +274,10 @@ public class Room : MonoBehaviour
             foreach (Tilemap tilemap in tilemaps)
             {
                 if (tilemap.tag == "Environment")
+                {
                     wallsTilemap = tilemap;
+                    break; // ignore stuff like abyss
+                }
             }
         }
     }

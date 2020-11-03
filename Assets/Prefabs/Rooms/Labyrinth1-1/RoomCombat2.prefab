@@ -242,7 +242,7 @@ Tilemap:
   - first: {x: 11, y: -7, z: 0}
     second:
       m_TileIndex: 0
-      m_TileSpriteIndex: 6
+      m_TileSpriteIndex: 10
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -431,7 +431,7 @@ Tilemap:
   - first: {x: 9, y: -6, z: 0}
     second:
       m_TileIndex: 0
-      m_TileSpriteIndex: 10
+      m_TileSpriteIndex: 6
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -1337,7 +1337,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 594cbf7e6492ba241ac42b8d7ae70fd9, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 0f4fbd02be60f814cabefea51fc3afb2, type: 3}
+    m_Data: {fileID: 21300000, guid: edd162e8cee5b4046a1ec6370604e964, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 146329bc4c273184fb9229203aa81f28, type: 3}
   - m_RefCount: 1
@@ -1345,7 +1345,7 @@ Tilemap:
   - m_RefCount: 39
     m_Data: {fileID: 21300000, guid: eb1480ef71b6d1848a7a57a5b159d941, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: edd162e8cee5b4046a1ec6370604e964, type: 3}
+    m_Data: {fileID: 21300000, guid: 0f4fbd02be60f814cabefea51fc3afb2, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 729b2b84ecc73d542a32ed3b09a2e903, type: 3}
   - m_RefCount: 12
@@ -1457,7 +1457,7 @@ GameObject:
   - component: {fileID: 5778603932262175575}
   m_Layer: 10
   m_Name: Abyss
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1822,7 +1822,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -8428,6 +8428,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8684695298518276297, guid: 096dc37248b2fd14b8aae73a6d86b4de,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3944338594487448204, guid: 096dc37248b2fd14b8aae73a6d86b4de,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -8437,11 +8442,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8684695298518276297, guid: 096dc37248b2fd14b8aae73a6d86b4de,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 096dc37248b2fd14b8aae73a6d86b4de, type: 3}
@@ -8698,6 +8698,11 @@ PrefabInstance:
       propertyPath: cooldownRange.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2130658317742317273, guid: 637df09753e7a6f498d7dd73c5d9a79a,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6028834608783914140, guid: 637df09753e7a6f498d7dd73c5d9a79a,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -8707,11 +8712,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2130658317742317273, guid: 637df09753e7a6f498d7dd73c5d9a79a,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 637df09753e7a6f498d7dd73c5d9a79a, type: 3}
