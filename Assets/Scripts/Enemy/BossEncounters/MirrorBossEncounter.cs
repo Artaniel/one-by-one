@@ -512,7 +512,7 @@ public class MirrorBossEncounter : BossEncounter
         private GameObject ellipseInstance;
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(-0.5f, 4);
-        private float ellipseStartR = 24;
+        private float ellipseStartR = 25;
         private Dictionary<Transform, float> bulletEllipseParameters = new Dictionary<Transform, float>();
         private Dictionary<Transform, bool> bulletEllipseSemisphere = new Dictionary<Transform, bool>();
         private List<EllipseBulletData> ellipseBullets = new List<EllipseBulletData>();
