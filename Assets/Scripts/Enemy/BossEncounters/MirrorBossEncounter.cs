@@ -46,7 +46,7 @@ public class MirrorBossEncounter : BossEncounter
     public Color mirrorColor = Color.white;
     public GameObject outrageBullet = null;
     [HideInInspector] public List<MonsterLife> spawnedMonsters = new List<MonsterLife>();
-    [HideInInspector] public string difficulty = "";
+    
     public Transform bossPositionInMirror = null;
     public int outrageProjectileCount = 16;
 
@@ -443,6 +443,7 @@ public class MirrorBossEncounter : BossEncounter
         protected override void AttackStart()
         {
             base.AttackStart();
+            if (BD.difficulty == "2") ellipseStartR -= 1;
             BulletEllipse();
             Camera.main.GetComponent<CameraFocusOn>().FocusOn(roomCenter, attackLength, 4f);
             //if (BD.difficulty == "2") ellipseToCenterSpeed = 8.75f;
@@ -596,35 +597,39 @@ public class MirrorBossEncounter : BossEncounter
 
     public class MirrorSpawnEnemy : BossAttack
     {
-        public MirrorSpawnEnemy(BossEncounter bossData, float attackLength, GameObject enemyToSpawn, bool allowInterruption = true, bool ended = false)
+        public MirrorSpawnEnemy(BossEncounter bossData, float attackLength, GameObject enemyToSpawn, bool onlyHardmode = false, bool allowInterruption = true, bool ended = false)
             : base(bossData, attackLength, allowInterruption, ended)
         {
             BD = bossData as MirrorBossEncounter;
             spawnZones = BD.spawnZones;
             this.enemyToSpawn = enemyToSpawn;
+            this.onlyHardmode = onlyHardmode;
         }
 
 
         protected override void AttackStart()
         {
             base.AttackStart();
-            int zoneIndex = Random.Range(0, spawnZones.Length);
-            Vector2 randomPosition = spawnZones[zoneIndex].RandomZonePosition();
-            var monster = Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
-            var monsterLife = monster.GetComponent<MonsterLife>();
-            monsterLife.OnThisDead.AddListener(BD.DamageBoss);
-            monsterLife.maxHP = monsterLife.maxHP / 2;
-            monsterLife.HP = monsterLife.maxHP;
-            monster.GetComponent<AIAgent>().proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
-            var monsterAttack = monster.GetComponent<Attack>();
-            if (monsterAttack) monsterAttack.ForceAttack();
-            monster.GetComponent<MonsterDrop>().anyDropChance = 0;
-            BD.spawnedMonsters.Add(monster.GetComponent<MonsterLife>());
-            foreach (var obj in monster.GetComponentsInChildren<SpriteRenderer>())
+            if (!onlyHardmode || (onlyHardmode && BD.difficulty == "2"))
             {
-                if (obj.gameObject.name.StartsWith("Eye"))
+                int zoneIndex = Random.Range(0, spawnZones.Length);
+                Vector2 randomPosition = spawnZones[zoneIndex].RandomZonePosition();
+                var monster = Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
+                var monsterLife = monster.GetComponent<MonsterLife>();
+                monsterLife.OnThisDead.AddListener(BD.DamageBoss);
+                monsterLife.maxHP = monsterLife.maxHP / 2;
+                monsterLife.HP = monsterLife.maxHP;
+                monster.GetComponent<AIAgent>().proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
+                var monsterAttack = monster.GetComponent<Attack>();
+                if (monsterAttack) monsterAttack.ForceAttack();
+                monster.GetComponent<MonsterDrop>().anyDropChance = 0;
+                BD.spawnedMonsters.Add(monster.GetComponent<MonsterLife>());
+                foreach (var obj in monster.GetComponentsInChildren<SpriteRenderer>())
                 {
-                    obj.color = BD.mirrorColor;
+                    if (obj.gameObject.name.StartsWith("Eye"))
+                    {
+                        obj.color = BD.mirrorColor;
+                    }
                 }
             }
         }
@@ -632,6 +637,7 @@ public class MirrorBossEncounter : BossEncounter
         GameObject enemyToSpawn = null;
         MirrorBossEncounter BD = null;
         ZoneScript[] spawnZones;
+        bool onlyHardmode;
     }
 
     public class BreakMirror : BossAttack
@@ -679,21 +685,21 @@ public class MirrorBossEncounter : BossEncounter
                 new MirrorSpawnEnemy(bossData, 1, BD.shootingMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 1, BD.teleportMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 1, BD.zombiePrefab),
-                new MirrorSpawnEnemy(bossData, 1, BD.ghostPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.ghostPrefab, onlyHardmode: true),
                 new MirrorSpawnEnemy(bossData, 1, BD.tankPrefab),
                 new MirrorSpawnEnemy(bossData, 1, BD.chaosMonsterPrefab), // 7
                 new MirrorSpawnEnemy(bossData, 1, BD.ghostPrefab),
                 new MirrorSpawnEnemy(bossData, 1, BD.teleportMonsterPrefab),
-                new MirrorSpawnEnemy(bossData, 1, BD.tankPrefab),
+                new MirrorSpawnEnemy(bossData, 1, BD.tankPrefab, onlyHardmode: true),
                 new MirrorSpawnEnemy(bossData, 1, BD.zombiePrefab),
                 new MirrorSpawnEnemy(bossData, 0.5f, BD.shootingMonsterPrefab),
-                new MirrorSpawnEnemy(bossData, 0.5f, BD.chaosMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.5f, BD.chaosMonsterPrefab, onlyHardmode: true),
                 new MirrorSpawnEnemy(bossData, 0.5f, BD.shootingMonsterPrefab),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),
-                new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
+                new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab, onlyHardmode: true),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.tankPrefab),
                 new MirrorSpawnEnemy(bossData, 0.1f, BD.shootingMonsterPrefab),
-                new MirrorSpawnEnemy(bossData, 0.55f, BD.tankPrefab),  // perfect
+                new MirrorSpawnEnemy(bossData, 0.55f, BD.tankPrefab, onlyHardmode: true),  // perfect
                 new MirrorScreenEffect(bossData, 0.85f, 1),
                 new BreakMirror(bossData, 0.2f),
                 new MirrorScreenEffect(bossData, 0.2f, 0),
@@ -943,8 +949,6 @@ public class MirrorBossEncounter : BossEncounter
     protected override void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        difficulty = PlayerPrefs.GetString("Gamemode");
-        Debug.Log("Difficulty: " + difficulty);
 
         bossPhases = new List<BossPhase>()
         {

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class BossEncounter : MonoBehaviour
 {
     public int startFromPhase = 0;
+    [HideInInspector] public string difficulty = "";
 
     [System.Serializable]
     public class BossAttack
@@ -198,6 +199,9 @@ public abstract class BossEncounter : MonoBehaviour
             currentPhase = bossPhases[phaseID];
             currentPhase.DebugStartPhase();
         }
+
+        difficulty = PlayerPrefs.GetString("Gamemode");
+        Debug.Log("Difficulty: " + difficulty);
     }
 
     protected virtual void StartEncounter()
