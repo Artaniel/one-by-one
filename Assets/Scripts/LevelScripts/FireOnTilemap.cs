@@ -126,7 +126,10 @@ public class FireOnTilemap : MonoBehaviour
     }
 
     private void LitTree(GameObject tree) { // сюда надо поместить поведение для подожженных деревьев
-        tree.GetComponent<BurningTree>().Burn();
+        if (tree) // because that one exception from testing 05.11.2020
+        {
+            tree.GetComponent<BurningTree>().Burn();
+        }
     }
 
     static public void EndFire(GameObject fireObject) {
