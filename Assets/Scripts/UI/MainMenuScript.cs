@@ -198,13 +198,15 @@ public class MainMenuScript : MonoBehaviour
 
     private void LoadTutorialOrLabirint(string labirintName)
     {
-        if (PlayerPrefs.GetInt("FinishedTutorialOnce", -1) != -1 || true) // ВРЕМЕННОЕ РЕШЕНИЕ, СКИП ТУТОРИАЛА
+        if (PlayerPrefs.GetInt("FinishedTutorialOnce", -1) != -1 
+            //|| true // ВРЕМЕННОЕ РЕШЕНИЕ, СКИП ТУТОРИАЛА
+            )
         {
             SceneLoading.LoadScene(labirintName);
         }
         else
         {
-            SceneLoading.LoadScene("TutorialTesting");
+            SceneLoading.LoadScene("TutorialV3");
         }
     }
 
