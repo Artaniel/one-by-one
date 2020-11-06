@@ -921,7 +921,7 @@ public class MirrorBossEncounter : BossEncounter
             {
                 var bulletData = SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR, ellipseStartR, true, i % 2 == 1);
                 var bulletLife = bulletData.transform.GetComponent<EnemyBulletLife>();
-                bulletLife.ignoreCollisionTime = 1f;
+                bulletLife.ignoreCollisionTime = 2f;
                 bulletLife.BulletSpeed = 0;
                 bulletLife.UpdateLifeLeft(500);
                 ellipseBullets.Add(bulletData);
@@ -930,7 +930,7 @@ public class MirrorBossEncounter : BossEncounter
             {
                 var bulletData = SpawnBulletOnEllipseEdge(i / iCount * ellipseStartR, ellipseStartR, false, i % 2 == 1);
                 var bulletLife = bulletData.transform.GetComponent<EnemyBulletLife>();
-                bulletLife.ignoreCollisionTime = 1f;
+                bulletLife.ignoreCollisionTime = 2f;
                 bulletLife.BulletSpeed = 0;
                 bulletLife.UpdateLifeLeft(500);
                 ellipseBullets.Add(bulletData);
