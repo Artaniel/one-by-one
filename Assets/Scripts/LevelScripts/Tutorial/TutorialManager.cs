@@ -141,9 +141,6 @@ public class TutorialManager : MonoBehaviour
         {
             animation.Play("Open");
         }
-    }
-
-    public void ExitTrigger() {
-
+        PlayerPrefs.SetInt("FinishedTutorialOnce", 1);
     }
 }
