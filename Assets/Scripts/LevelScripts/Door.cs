@@ -88,7 +88,8 @@ public class Door : MonoBehaviour
         }
     }
 
-    public void Unlock(bool forceAnimation = false) {
+    public void Unlock(bool forceAnimation = false)
+    {
         unlockOnTimer = false;
         doorLight = GetComponentInChildren<Light2D>();
         if (doorLight) doorLightColor = doorLight.color;
@@ -96,17 +97,18 @@ public class Door : MonoBehaviour
         if (locked && isSpawned)
         {
             locked = false;
-            if (forceAnimation || !Labirint.instance || !Labirint.instance.blueprints[room.roomID].visited)
-            {
-                foreach (var animation in GetComponentsInChildren<Animation>())
+            if (room)
+                if (forceAnimation || !Labirint.instance || !Labirint.instance.blueprints[room.roomID].visited)
                 {
-                    animation.Play();
+                    foreach (var animation in GetComponentsInChildren<Animation>())
+                    {
+                        animation.Play();
+                    }
+                    foreach (var animation in GetComponentsInChildren<Animator>())
+                    {
+                        animation.Play("Open");
+                    }
                 }
-                foreach (var animation in GetComponentsInChildren<Animator>())
-                {
-                    animation.Play("Open");
-                }
-            }
         }
     }
 
@@ -205,33 +207,35 @@ public class Door : MonoBehaviour
     }
 
 
-    private void ArrowCheck() {
-        if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked && timer <= 0)
-        {
-            bool arrowNeeded = false;
-            Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
-            float shiftFromCenter = 5f;
-            if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1)
+    private void ArrowCheck()
+    {
+        if (room)
+            if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked && timer <= 0)
             {
-                arrowNeeded = true;
-            }
+                bool arrowNeeded = false;
+                Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
+                float shiftFromCenter = 5f;
+                if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1)
+                {
+                    arrowNeeded = true;
+                }
 
-            if (arrowSprite.activeSelf != arrowNeeded)
-                arrowSprite.SetActive(arrowNeeded);
-            if (arrowNeeded)
-            {
-                arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
-                arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
-                if (connectedDoor)
-                { // exception for exit to another scene
-                    if (Labirint.instance.blueprints[connectedDoor.room.roomID].visited)
-                    {
-                        arrowSprite.GetComponentInChildren<SpriteRenderer>().sprite = visitedSprite;
+                if (arrowSprite.activeSelf != arrowNeeded)
+                    arrowSprite.SetActive(arrowNeeded);
+                if (arrowNeeded)
+                {
+                    arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
+                    arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
+                    if (connectedDoor)
+                    { // exception for exit to another scene
+                        if (Labirint.instance.blueprints[connectedDoor.room.roomID].visited)
+                        {
+                            arrowSprite.GetComponentInChildren<SpriteRenderer>().sprite = visitedSprite;
+                        }
                     }
                 }
             }
-        }
-        else if (arrowSprite && arrowSprite.activeSelf) arrowSprite.SetActive(false);
+            else if (arrowSprite && arrowSprite.activeSelf) arrowSprite.SetActive(false);
     }
 
     private void AdjustLightOnVisit()
