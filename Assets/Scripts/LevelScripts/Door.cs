@@ -213,18 +213,16 @@ public class Door : MonoBehaviour
             if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked && timer <= 0)
             {
                 bool arrowNeeded = false;
-                Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
+                Vector3 visualPosition = doorVisual.position;
                 float shiftFromCenter = 5f;
-                if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1)
-                {
-                    arrowNeeded = true;
-                }
+                if ((visualPosition - player.transform.position).magnitude > shiftFromCenter * 1.25f)                
+                    arrowNeeded = true;                
 
                 if (arrowSprite.activeSelf != arrowNeeded)
                     arrowSprite.SetActive(arrowNeeded);
                 if (arrowNeeded)
                 {
-                    arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, transform.position - player.transform.position);
+                    arrowSprite.transform.rotation = Quaternion.LookRotation(Vector3.back, visualPosition - player.transform.position);
                     arrowSprite.transform.position = player.transform.position + arrowSprite.transform.up * shiftFromCenter;
                     if (connectedDoor)
                     { // exception for exit to another scene
