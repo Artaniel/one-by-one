@@ -49,7 +49,7 @@ public class Room : MonoBehaviour
         {
             if (door.sceneName == "") {
                 if (door.direction == Direction.Side.UNSET && door.directionAutoset())
-                     Debug.LogError("Door direction was not set");
+                     Debug.Log("Door direction was not set");
                 else doorsSided[door.direction] = door;
                 if (door.room == null) door.room = this;
             }
