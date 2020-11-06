@@ -108,6 +108,7 @@ public class MonsterLife : MonoBehaviour
             else
             {
                 BulletAbsorb();
+                OnThisAbsorb?.Invoke();
             }
             return true;
         }
@@ -285,6 +286,8 @@ public class MonsterLife : MonoBehaviour
     private CharacterLife playerLife; // optimisation for collision stay
 
     public UnityEvent OnThisDead = new UnityEvent();
+    public UnityEvent OnThisAbsorb = new UnityEvent();
+
     private Dictionary<GameObject, float> damageSources = new Dictionary<GameObject, float>();
 
     private AudioSource audioSource;
