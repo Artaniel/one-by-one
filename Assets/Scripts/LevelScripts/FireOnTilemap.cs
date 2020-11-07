@@ -126,9 +126,9 @@ public class FireOnTilemap : MonoBehaviour
     }
 
     private void LitTree(GameObject tree) { // сюда надо поместить поведение для подожженных деревьев
-        if (tree) // because that one exception from testing 05.11.2020
+        if (tree.TryGetComponent(out BurningTree burningTreeComponent)) // because that one exception from testing 05.11.2020 (Fake trees bug)
         {
-            tree.GetComponent<BurningTree>().Burn();
+            burningTreeComponent.Burn();
         }
     }
 

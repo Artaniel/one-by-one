@@ -32,6 +32,7 @@ public class ExplosionForce : MonoBehaviour {
 		yield return new WaitForFixedUpdate();
 
         Vector3 explosionPosition = (transform.position + position) / 2;
+        explosionPosition.z = 0;
 		foreach(Rigidbody2D coll in rigidbodies)
         {
             float newForce = force * Random.Range(0.5f + additionalPower, 1.5f + additionalPower);
@@ -49,7 +50,10 @@ public class ExplosionForce : MonoBehaviour {
     /// <param name="upliftModifier">factor of additional upward force</param>
     private void AddExplosionForce(Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, float upliftModifier = 0)
 	{
-		var dir = (body.transform.position - explosionPosition);	
+        var bodyPositionNoZ = body.transform.position;
+        bodyPositionNoZ.z = 0;
+
+        var dir = (bodyPositionNoZ - explosionPosition);	
 		float wearoff = 1 - (dir.magnitude / explosionRadius);
         Vector3 baseForce = dir.normalized * explosionForce * wearoff;
         baseForce.z = 0;
