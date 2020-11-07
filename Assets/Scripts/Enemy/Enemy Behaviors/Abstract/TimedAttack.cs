@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class TimedAttack : Attack
 {
-    [SerializeField]
-    protected float castTime = 0.5f;
+    public float castTime = 0.5f;
 
     protected override void DoAttack()
     {

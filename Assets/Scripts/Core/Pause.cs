@@ -12,6 +12,7 @@ public class Pause : MonoBehaviour
 
     [SerializeField] GameObject pauseCanvas = null;
     [SerializeField] private PostProcessVolume postProcess;
+    [SerializeField] private GameObject settings = null;
 
     private void Awake()
     {
@@ -89,6 +90,11 @@ public class Pause : MonoBehaviour
     public void ExitSave()
     {
         Application.Quit();
+    }
+
+    public void OpenSettings()
+    {
+        settings.SetActive(true);
     }
 
     private static Transform myTransform;

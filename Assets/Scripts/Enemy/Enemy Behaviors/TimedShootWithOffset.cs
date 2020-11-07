@@ -61,11 +61,12 @@ public class TimedShootWithOffset : TimedAttack
         float randomAngle = Random.Range(-randomShotAngle, randomShotAngle);
         ShootBullet(playerPos, bullet, randomAngle);
 
-        if (shiftScript != null) shiftScript.DoShift();
+        if (shouldShift && shiftScript != null) shiftScript.DoShift();
     }
 
     private GameObject attackAnimation;
 
     protected ShiftAfterShoot shiftScript;
+    [HideInInspector] public bool shouldShift = true;
     protected AudioSource audioSource;
 }

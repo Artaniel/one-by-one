@@ -7149,7 +7149,7 @@ Tilemap:
   - first: {x: 11, y: 7, z: 0}
     second:
       m_TileIndex: 20
-      m_TileSpriteIndex: 5
+      m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 9
       m_ObjectToInstantiate: {fileID: 0}
@@ -7210,8 +7210,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 6e3c8c0118c456c49851da79ab3988b8, type: 3}
   - m_RefCount: 9
     m_Data: {fileID: 21300000, guid: 7eb4ddc258c839647b6308cdd3220150, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 4319ccaf8bffe4648b73d40b17db51d8, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 14
     m_Data: {fileID: 21300000, guid: 47078e2b99c2e5741bf2af567398b4d7, type: 3}
   - m_RefCount: 8
@@ -7232,8 +7232,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 2eb3be9fd3cd37d40b14c63ec37c4067, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 4319ccaf8bffe4648b73d40b17db51d8, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 65480715722149e4ca922098e0110c07, type: 3}
   - m_RefCount: 7
@@ -8132,7 +8132,7 @@ MonoBehaviour:
   monsterList: []
   room: {fileID: 0}
   monsterRoomModifiers:
-  - {fileID: 11400000, guid: 83103cbe9c9a8174c80a077086e0b531, type: 2}
+  - {fileID: 11400000, guid: b185a5ade98bcb14fb8e5dffe35b51a7, type: 2}
   AllowEarlySpawns: 1
 --- !u!1 &8378044802760754896
 GameObject:
@@ -8248,6 +8248,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7638055375875858863, guid: 5171636a1156fe946a515f51213cb5df,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7638055375875858857, guid: 5171636a1156fe946a515f51213cb5df,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -8267,11 +8272,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7638055375875858863, guid: 5171636a1156fe946a515f51213cb5df,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5171636a1156fe946a515f51213cb5df, type: 3}

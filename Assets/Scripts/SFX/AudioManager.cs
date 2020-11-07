@@ -131,7 +131,7 @@ public class AudioManager : MonoBehaviour
             Clips.Add(name, Time.time);
             clipSavedVolume.Add(name, volume);
         }
-        return volume * userPrefSound;
+        return volume * userPrefSound * 1.32f;
     }
 
     public static void Play(string name, AudioSource source)
@@ -223,6 +223,12 @@ public class AudioManager : MonoBehaviour
         if (audioSourceMusic)
         {
             musicPaused = false;
+            float getMusicVolume = PlayerPrefs.GetFloat("MusicVolume");
+            if (getMusicVolume != savedPauseVolume)
+            {
+                savedPauseVolume = getMusicVolume;
+                userPrefMusic = getMusicVolume;
+            }
             audioSourceMusic.volume = savedPauseVolume;
             if (!audioSourceMusic.isPlaying)
             {

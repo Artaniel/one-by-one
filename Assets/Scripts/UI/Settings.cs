@@ -46,7 +46,7 @@ public class Settings : MonoBehaviour
     }
 
     public void ReturnToMenu() {
-        titleScreen.SetActive(true);
+        if (titleScreen) titleScreen.SetActive(true);
         settingsScreen.SetActive(false);
     }
 }

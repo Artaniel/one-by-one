@@ -14,7 +14,9 @@ public class LaserSight : PassiveSkill
 
     public override void UpdateEffect()
     {
-        if (!Pause.Paused && !CharacterLife.isDeath && !characterShooting.IsSwitching() && characterShooting.currentWeapon.logic.weaponType != WeaponSkill.WeaponType.Melee)
+        if (!Pause.Paused && !CharacterLife.isDeath 
+            && !characterShooting.IsSwitching() && characterShooting.currentWeapon != null 
+            && characterShooting.currentWeapon.logic.weaponType != WeaponSkill.WeaponType.Melee)
         {
             var weaponTip = player.GetComponent<CharacterShooting>().weaponTip;
             Vector3 gunPoint = weaponTip.position;

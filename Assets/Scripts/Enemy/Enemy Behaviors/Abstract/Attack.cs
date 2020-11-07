@@ -33,6 +33,11 @@ public abstract class Attack : EnemyBehavior
         DoAttack();
     }
 
+    public void SetCooldownRange(Vector2 newCooldownRange)
+    {
+        cooldownRange = newCooldownRange;
+    }
+
     protected abstract void DoAttack();
 
     protected float cooldownLeft;
