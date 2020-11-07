@@ -19,6 +19,7 @@ public class CharacterShooting : MonoBehaviour
     {
         currentWeapon = weapon;
         timeBetweenAttacks = instant ? 0 : Mathf.Max(0.7f, weapon.logic.timeBetweenAttacks);
+        weaponSwitchTime = timeBetweenAttacks;
         weaponTipDynamic.ChoosePosition(weapon.logic.weaponType);
     }
 
@@ -48,7 +49,8 @@ public class CharacterShooting : MonoBehaviour
         }
 
         shotFrame = false;
-        
+
+        weaponSwitchTime = Mathf.Clamp(weaponSwitchTime - Time.deltaTime, 0, 100);
         if (timeBetweenAttacks > 0)
         {
             timeBetweenAttacks -= Time.deltaTime;
@@ -104,6 +106,16 @@ public class CharacterShooting : MonoBehaviour
     {
         attackSpeedMult += addToAttackSpeedValue;
     }
+
+    public bool IsSwitching()
+    {
+        return weaponSwitchTime > 0;
+    }
+
+    public bool CanShoot()
+    {
+        return currentWeapon != null && currentWeapon.ammoLeft > 0 && (timeBetweenAttacks <= 0 || currentWeapon.reloadTimeLeft <= 0);
+    }
     
     public static Transform GetCursor() => gameCursor.transform;
 
@@ -124,4 +136,6 @@ public class CharacterShooting : MonoBehaviour
     private static GameObject gameCursor;
 
     private Animator playerAnim;
+
+    private float weaponSwitchTime = 0;
 }

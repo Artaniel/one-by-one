@@ -22,6 +22,8 @@ public class EmpressBoss : BossEncounter
     private Material wornOutMaterial = null;
     private Material wingWornOutMaterial = null;
 
+    [HideInInspector] public Transform player;
+
     public class EmpressFight : BossPhase
     {
         public EmpressFight(EmpressBoss bossData) : base(bossData)
@@ -144,6 +146,7 @@ public class EmpressBoss : BossEncounter
             cameraShaker = bossData.GetComponent<ShakeCameraExternal>();
             beetles = bossData.beetles;
             BD = bossData;
+            player = BD.player;
         }
 
         protected override void AttackStart()
@@ -171,12 +174,33 @@ public class EmpressBoss : BossEncounter
             for (int i = 0; i < beetlesToSummonNow; i++)
             {
                 int beetleID = Random.Range(0, beetles.Length);
-                Vector3 spawnPos = baseBossData.transform.position + new Vector3(Random.Range(-15, 15), Random.Range(-15, 15));
+                Vector3 spawnPos = GetSpawnPosition();
                 var bug = PoolManager.GetPool(beetles[beetleID], spawnPos, Quaternion.identity);
                 var bugAIAgent = bug.GetComponent<AIAgent>();
                 bugAIAgent.proximityCheckOption = new List<AIAgent.ProximityCheckOption>() { AIAgent.ProximityCheckOption.Always };
                 BD.AddMonster(bugAIAgent);
             }
+        }
+
+        private Vector3 GetSpawnPosition()
+        {
+            bool successFlag = false;
+            float exitCounter = 0;
+            Vector3 positionCandidate = Vector3.zero;
+
+            while (!successFlag)
+            {
+                exitCounter++;
+                positionCandidate = baseBossData.transform.position + new Vector3(Random.Range(-15, 15), Random.Range(-15, 15));
+                float distanceToPlayer = Vector3.Distance(positionCandidate, player.position);
+                successFlag = distanceToPlayer > 8 && distanceToPlayer < 17;
+                if (exitCounter == 75)
+                {
+                    Debug.LogError("SpawnPosition error encountered " + exitCounter + " times");
+                    break;
+                }
+            }
+            return positionCandidate;
         }
 
         ShakeCameraExternal cameraShaker;
@@ -185,6 +209,7 @@ public class EmpressBoss : BossEncounter
         bool beetlesSummoned = true;
         GameObject[] beetles;
         EmpressBoss BD;
+        Transform player;
     }
 
     public class WingsAttack : BossAttack
@@ -241,11 +266,14 @@ public class EmpressBoss : BossEncounter
 
     protected override void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
+
         bossPhases = new List<BossPhase>() { new EmpressFight(this) };
         ppBlur = GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Blur>();
         hpManager = GetComponent<MonsterLife>();
         SetupDamageableSegments();
+        
 
         SetupVFX();
         StartCoroutine(StartNextFrame());
@@ -314,8 +342,8 @@ public class EmpressBoss : BossEncounter
     protected override void EncounterSuccess()
     {
         var bugSpawner = transform.parent.GetComponentInChildren<BusyBugSpawner>();
-        bugSpawner.spawnEverySeconds /= 30;
-        bugSpawner.speedRange *= 3f;
+        bugSpawner.spawnEverySeconds /= 25;
+        bugSpawner.speedRange *= 2.75f;
         ppBlur.blurSize.value = 0;
         GetComponent<ShakeCameraExternal>().ShakeCamera(2.75f, 4.5f);
         var monsters = GetSpawnedMonsters();

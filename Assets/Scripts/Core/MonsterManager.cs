@@ -23,6 +23,8 @@ public class MonsterManager : MonoBehaviour
     protected bool AllowEarlySpawns = true;
     protected int spawnIndex = 0;
     private int killCount = 0;
+    private Transform player;
+    private const float acceptedSpawnDistance = 5f;
 
     private void Awake()
     {
@@ -61,6 +63,7 @@ public class MonsterManager : MonoBehaviour
             }
         }
         killCount = 0;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private Vector2 RandomBorderSpawnPos()
@@ -91,16 +94,37 @@ public class MonsterManager : MonoBehaviour
         return spawnPosition;
     }
 
-    protected void SetMonsterPosition(GameObject enemy)
+    private Vector2 GetZoneOrBorderPosition()
     {
         if (spawnZones.Count != 0)
         {
-            enemy.transform.position = spawnZones[Random.Range(0, spawnZones.Count)].RandomZonePosition();
+            return spawnZones[Random.Range(0, spawnZones.Count)].RandomZonePosition();
         }
         else
         {
-            enemy.transform.position = RandomBorderSpawnPos();
+            return RandomBorderSpawnPos();
         }
+    }
+
+    protected void SetMonsterPosition(GameObject enemy)
+    {
+        bool successFlag = false;
+        float exitCounter = 0;
+
+        Vector3 positionCandidate = Vector3.zero;
+        
+        while (!successFlag)
+        {
+            exitCounter++;
+            positionCandidate = GetZoneOrBorderPosition();
+            successFlag = Vector3.Distance(positionCandidate, player.position) > acceptedSpawnDistance;
+            if (exitCounter == 75)
+            {
+                Debug.LogError("SpawnPosition error encountered " + exitCounter + " times");
+                break;
+            }
+        }
+        enemy.transform.position = positionCandidate; 
     }
     
     private void SpawnMonsters(int waveNum)

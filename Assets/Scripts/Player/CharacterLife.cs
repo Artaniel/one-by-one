@@ -98,6 +98,8 @@ public class CharacterLife : MonoBehaviour
         GetComponent<Rigidbody2D>().drag = 10;
         GetComponent<Rigidbody2D>().mass = 100;
 
+        GetComponentInChildren<SpriteRenderer>().sortingOrder = 0;
+
         //var CameraFollow = Camera.main.GetComponent<CameraFollowScript>();
         //if (!CameraFollow) Camera.main.gameObject.AddComponent<CameraFollowScript>();
     }
