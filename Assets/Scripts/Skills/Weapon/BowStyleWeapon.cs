@@ -42,7 +42,8 @@ public class BowStyleWeapon : ShootingWeapon
             }
             else
             {
-                StopCharging();
+                attackManager.currentWeapon.reloadTimeLeft += Time.deltaTime;
+                chargingTime += Time.deltaTime;
             }
         }
     }
