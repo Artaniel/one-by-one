@@ -8,9 +8,9 @@ public class MosquitoMove : MoveForward
     public float randomPointDistance = 4f;
     public float pauseAndShootTime = 1f;
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
         RecalculatePoint();
         attacks = GetComponents<Attack>();
 

@@ -198,7 +198,7 @@ public class MainMenuScript : MonoBehaviour
 
     private void LoadTutorialOrLabirint(string labirintName)
     {
-        if (PlayerPrefs.GetInt("FinishedTutorialOnce", -1) != -1 
+        if (PlayerPrefs.GetInt("FinishedTutorial3Once", -1) != -1 
             //|| true // ВРЕМЕННОЕ РЕШЕНИЕ, СКИП ТУТОРИАЛА
             )
         {

@@ -366,7 +366,7 @@ public class EmpressBoss : BossEncounter
     {
         Metrics.OnWin();
         yield return new WaitForSeconds(4.5f);
-        SceneLoading.NextLevel("Credits04");
+        SceneLoading.NextLevel("FinalCredits");
         RelodScene.OnSceneChange?.Invoke();
         //SceneLoading.CompleteEpisode(1);
     }

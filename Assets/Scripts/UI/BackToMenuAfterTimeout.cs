@@ -21,11 +21,11 @@ public class BackToMenuAfterTimeout : MonoBehaviour
         TimeLeft -= Time.deltaTime;
         if (TimeLeft < 0)
         {
-            SceneLoading.LoadScene("MainMenu");
+            SceneLoading.LoadScene("Credits04");
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneLoading.LoadScene("MainMenu");
+            SceneLoading.LoadScene("Credits04");
         }
     }
 }

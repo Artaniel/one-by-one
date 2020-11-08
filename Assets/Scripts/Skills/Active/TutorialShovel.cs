@@ -8,7 +8,7 @@ public class TutorialShovel : ActiveSkill
 {
     public override void ActivateSkill()
     {
-        PlayerPrefs.SetInt("FinishedTutorialOnce", 1);
+        PlayerPrefs.SetInt("FinishedTutorial3Once", 1);
         SceneLoading.LoadScene("LabirintChapter1");
     }
 }

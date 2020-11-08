@@ -141,6 +141,6 @@ public class TutorialManager : MonoBehaviour
         {
             animation.Play("Open");
         }
-        PlayerPrefs.SetInt("FinishedTutorialOnce", 1);
+        PlayerPrefs.SetInt("FinishedTutorial3Once", 1);
     }
 }

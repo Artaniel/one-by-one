@@ -131,7 +131,7 @@ public class AudioManager : MonoBehaviour
             Clips.Add(name, Time.time);
             clipSavedVolume.Add(name, volume);
         }
-        return volume * userPrefSound * 1.32f;
+        return volume * userPrefSound * 1.3f;
     }
 
     public static void Play(string name, AudioSource source)

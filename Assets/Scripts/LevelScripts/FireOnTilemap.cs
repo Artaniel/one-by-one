@@ -206,7 +206,7 @@ public class FireOnTilemap : MonoBehaviour
 
     private void SpreadCheck() {
         float currentSpreadProbability = spreadProbability;
-        if (cleanedRoom) currentSpreadProbability /= 10f;
+        if (cleanedRoom) currentSpreadProbability = 0f;
         if (dryRoom) currentSpreadProbability *= 2f;
         if (activeFires.Count > 0)
             if (Random.Range(0f, 1f) <= currentSpreadProbability) {
