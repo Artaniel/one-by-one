@@ -364,10 +364,14 @@ public class EmpressBoss : BossEncounter
 
     private IEnumerator DelayedLevelLoad()
     {
-        Metrics.OnWin();
         yield return new WaitForSeconds(4.5f);
+        PlayerPrefs.SetInt("GameCompleted04", 4);
+        if (difficulty == "2") PlayerPrefs.SetInt("HardmodeCompleted04", 4);
+        Metrics.OnWin();
+        if (CharacterLife.isDeath) yield return null;
         SceneLoading.NextLevel("FinalCredits");
         RelodScene.OnSceneChange?.Invoke();
+        PlayerPrefs.SetInt("CurrentScene", -1); // сделать по-нормальному!!!
         //SceneLoading.CompleteEpisode(1);
     }
 

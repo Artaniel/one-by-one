@@ -164,6 +164,22 @@ public class AudioManager : MonoBehaviour
         Play(clip.name, source);
     }
 
+    public static void PlaySource(string name, AudioSource source)
+    {
+        float volume = 0;
+#if UNITY_WEBGL
+        source.spatialBlend = 0;
+        volume = GetVolume(name, source.volume / 3);
+#else
+        volume = GetVolume(name, source.volume);
+#endif
+        if (CharacterLife.isDeath == true)
+        {
+            volume /= 2;
+        }
+        source.Play();
+    }
+
     public static void PauseSource(string name, AudioSource source)
     {
         if (source != null)

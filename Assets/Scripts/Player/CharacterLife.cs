@@ -39,7 +39,6 @@ public class CharacterLife : MonoBehaviour
         if (damageSounds.Length != 0)
         {
             var clip = damageSounds[Random.Range(0, damageSounds.Length)];
-            print(clip.name);
             AudioManager.Play(clip);
         }
         

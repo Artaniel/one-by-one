@@ -440,7 +440,7 @@ public class MirrorBossEncounter : BossEncounter
         protected override void AttackStart()
         {
             base.AttackStart();
-            if (BD.difficulty == "2") ellipseStartR -= 1;
+            if (BD.difficulty == "2") ellipseStartR -= 1.35f;
             BulletEllipse();
             Camera.main.GetComponent<CameraFocusOn>().FocusOn(roomCenter, attackLength, 4f);
             //if (BD.difficulty == "2") ellipseToCenterSpeed = 8.75f;
@@ -510,7 +510,7 @@ public class MirrorBossEncounter : BossEncounter
         private GameObject ellipseInstance;
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(-0.5f, 4);
-        private float ellipseStartR = 25;
+        private float ellipseStartR = 25.5f;
         private Dictionary<Transform, float> bulletEllipseParameters = new Dictionary<Transform, float>();
         private Dictionary<Transform, bool> bulletEllipseSemisphere = new Dictionary<Transform, bool>();
         private List<EllipseBulletData> ellipseBullets = new List<EllipseBulletData>();
@@ -765,7 +765,7 @@ public class MirrorBossEncounter : BossEncounter
             if (!BD.bossInstance) return;
             base.AttackUpdate();
             if (moveTimeLeft >= 0) Move();
-            else if (timeToNextShot <= 0) Attack();
+            if (timeToNextShot <= 0) Attack();
             else timeToNextShot -= Time.deltaTime;
         }
 
@@ -871,6 +871,14 @@ public class MirrorBossEncounter : BossEncounter
                     obj.color = BD.mirrorColor;
                 }
             }
+
+            if (BD.difficulty == "2")
+            {
+                ellipseToCenterTime = 1.8f;
+                rRange.y += 6;
+                BD.bossHP.HP += BD.bossHP.maxHP / 2;
+            }
+            else ellipseToCenterTime = 1f;
             BulletEllipse();
         }
 
@@ -880,7 +888,7 @@ public class MirrorBossEncounter : BossEncounter
             foreach (var bullet in ellipseBullets)
             {
                 bullet.Orbit(Time.deltaTime);
-                if (phaseTimer < 1)
+                if (phaseTimer < ellipseToCenterTime)
                 {
                     bullet.MoveToCenter(roomCenter, 8.75f * Time.deltaTime);
                 }
@@ -939,6 +947,7 @@ public class MirrorBossEncounter : BossEncounter
         private Vector2 ellipse = new Vector2(9, 4);
         private Vector2 rRange = new Vector2(0, 8);
         private float ellipseStartR = 21;
+        private float ellipseToCenterTime;
         MirrorBossEncounter BD;
         private List<EllipseBulletData> ellipseBullets = new List<EllipseBulletData>();
     }

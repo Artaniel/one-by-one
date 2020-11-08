@@ -67,7 +67,7 @@ public class MainMenuScript : MonoBehaviour
             var btn = titleScreenContainer.GetButtonContinue();
             var btnImage = btn.GetComponent<Image>();
             btnImage.color = new Color(0.37f, 0.37f, 0.37f); // gray
-            btn.GetComponent<Button>().enabled = false;
+            btn.GetComponent<Button>().interactable = false;
         }
     }
 
@@ -92,6 +92,7 @@ public class MainMenuScript : MonoBehaviour
     // old and simple
     public void NewGame()
     {
+        LabirintBuilder.ResetSeed();
         HubEpisodeAvailabilityManager.ClearComplitedEpisodesList();
         switch (stageDifficulty)
         {

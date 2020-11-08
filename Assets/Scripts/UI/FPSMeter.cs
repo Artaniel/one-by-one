@@ -9,10 +9,12 @@ public class FPSMeter : MonoBehaviour
     private float fpsSum = 0;
     private uint calculations = 0;
     private float fpsTimer;
+    private string seed = "";
     
     void Start()
     {
-        text = GetComponent<Text>();    
+        text = GetComponent<Text>();
+        seed = " " + PlayerPrefs.GetString("seed", "");
     }
 
     void Update()
@@ -26,6 +28,7 @@ public class FPSMeter : MonoBehaviour
             fpsSum += currentFPS;
             text.text = $"FPS: {(currentFPS).ToString("0.00")}. Average: { (fpsSum / calculations).ToString("0.00") }";
             if (cheating) text.text += "  <b>CHEATING</b>!";
+            text.text += seed;
         }
     }
 

@@ -5,10 +5,13 @@ using UnityEngine;
 public class HubEpisodeAvailabilityManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] entrances = null; // id in this array same as called from bosses win scripts
+    [SerializeField] private GameObject barrierToItems = null;
+    [SerializeField] private GameObject barrierToPortals = null;
 
     private void Awake()
     {
         SetupEntersAvailability();
+        HubZoneAvailability();
     }
 
     private void SetupEntersAvailability() {
@@ -20,6 +23,18 @@ public class HubEpisodeAvailabilityManager : MonoBehaviour
                     TurnOffEpisodeEntrance(entrances[int.Parse(idString)]);
             else
                 TurnOffEpisodeEntrance(entrances[int.Parse(complitedEpisodes)]);
+        }
+    }
+
+    private void HubZoneAvailability()
+    {
+        if (PlayerPrefs.GetInt("GameCompleted04", -1) == 4)
+        {
+            barrierToPortals.SetActive(false);
+        }
+        if (PlayerPrefs.GetInt("HardmodeCompleted04", -1) == 4)
+        {
+            barrierToItems.SetActive(false);
         }
     }
 

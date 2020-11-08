@@ -41,6 +41,7 @@ public class HubEnterLabyrinth : MonoBehaviour
         gameObject?.GetComponentInChildren<Animator>().SetBool("Load", true);
         var player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<CharacterMovement>().enabled = false;
+        AudioManager.PauseSource("Walk", player.GetComponent<AudioSource>());
         player.GetComponent<Rigidbody2D>().Sleep();
         var playerLife = player.GetComponent<CharacterLife>();
         playerLife.HidePlayer();

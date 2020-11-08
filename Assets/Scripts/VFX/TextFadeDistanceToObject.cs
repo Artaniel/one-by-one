@@ -11,6 +11,10 @@ public class TextFadeDistanceToObject : MonoBehaviour
     private void Start()
     {
         text = GetComponentInChildren<TextMeshPro>();
+        if (!gameObjectToCheckDistance)
+        {
+            gameObjectToCheckDistance = GameObject.FindGameObjectWithTag("Player").transform;
+        }
     }
     
     void Update()

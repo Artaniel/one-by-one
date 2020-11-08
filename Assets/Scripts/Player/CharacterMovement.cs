@@ -90,7 +90,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            if (AudioManager.isPlaying("Walk", audio) == false)
+            if (anim.GetBool("Moves") == false)
             {
                 AudioManager.Play("Walk", audio);
             }

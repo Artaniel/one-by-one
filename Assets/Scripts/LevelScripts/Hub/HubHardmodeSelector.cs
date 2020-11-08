@@ -14,6 +14,7 @@ public class HubHardmodeSelector : MonoBehaviour
     public GameObject canvasHardmodeSelector;
     public TMPro.TextMeshPro hubHardmodeText;
     public TMPro.TextMeshProUGUI canvasHardmodeText;
+    public GameObject noPortalSkip;
 
     private const string hardmodeText = "Hardmode: ON";
     private const string nonHardmodeText = "Hardmode: OFF";
@@ -68,6 +69,10 @@ public class HubHardmodeSelector : MonoBehaviour
         hardmodeVisualContainer.SetActive(true);
         hubHardmodeText.text = hardmodeText;
         canvasHardmodeText.text = hardmodeText;
+        if (noPortalSkip)
+        {
+            noPortalSkip.SetActive(true);
+        }
     }
 
     private void SetNonHardmodeVisual()
