@@ -183,6 +183,12 @@ public abstract class BossEncounter : MonoBehaviour
         public BossPhase(BossEncounter bossData) => this.bossData = bossData;
     }
 
+    protected virtual void Awake()
+    {
+        difficulty = PlayerPrefs.GetString("Gamemode");
+        Debug.Log("Difficulty: " + difficulty);
+    }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -199,9 +205,6 @@ public abstract class BossEncounter : MonoBehaviour
             currentPhase = bossPhases[phaseID];
             currentPhase.DebugStartPhase();
         }
-
-        difficulty = PlayerPrefs.GetString("Gamemode");
-        Debug.Log("Difficulty: " + difficulty);
     }
 
     protected virtual void StartEncounter()

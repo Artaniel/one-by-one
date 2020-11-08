@@ -41,7 +41,12 @@ public class Labirint : MonoBehaviour
 
         Room.OnAnyRoomEnter = new UnityEngine.Events.UnityEvent();
         Room.OnAnyRoomLeave = new UnityEngine.Events.UnityEvent();
+        
+        MonsterLife.ClearUsedNames();
+    }
 
+    private void Start()
+    {
         LabirintBuilder builder = GetComponent<LabirintBuilder>();
         if (builder == null)
         {
@@ -54,7 +59,7 @@ public class Labirint : MonoBehaviour
         {
             builder.BuildLabirint(this);
         }
-        MonsterLife.ClearUsedNames();
+
         StartingRoomSpawn();
     }
 
@@ -245,6 +250,7 @@ public class Labirint : MonoBehaviour
     void ContainerCheck() {
         if (blueprints[currentRoomID].contanerPrefab != null && !blueprints[currentRoomID].containerWasOpened &&
             !blueprints[currentRoomID].instance.GetComponent<Room>().containerAlreadySpawned) {
+            Debug.Log("Container check failed");
             GameObject container = Instantiate(blueprints[currentRoomID].contanerPrefab, 
                 blueprints[currentRoomID].instance.GetComponent<Room>().possibleContainerPosition.position, Quaternion.identity);
             container.transform.parent = blueprints[currentRoomID].instance.transform;
@@ -346,7 +352,8 @@ public class Labirint : MonoBehaviour
                             blueprints[blueprints[growZoneRoomsIDs[0]].rooms[side]].instance.transform.position = blueprints[growZoneRoomsIDs[0]].instance.transform.position + offset; // set position for new room
                             growZoneRoomsIDs.Add(blueprints[growZoneRoomsIDs[0]].rooms[side]);
                             activeRooms.Add(blueprints[growZoneRoomsIDs[0]].rooms[side]); // leave active to prevent errors on tilemap calculations for neighbor rooms
-                            if (blueprints[growZoneRoomsIDs[0]].contanerPrefab != null) {
+                            if (blueprints[growZoneRoomsIDs[0]].contanerPrefab != null
+                                && !blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().containerAlreadySpawned) {
                                 GameObject container = Instantiate(blueprints[growZoneRoomsIDs[0]].contanerPrefab,
                                     blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().possibleContainerPosition.position, Quaternion.identity);
                                 container.transform.parent = blueprints[growZoneRoomsIDs[0]].instance.transform;

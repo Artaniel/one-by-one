@@ -51,13 +51,13 @@ public class EmpressBoss : BossEncounter
         {
             BD = bossData;
             missileShoot = BD.GetComponent<PointMissileShoot>();
+            shotsNeeded = BD.difficulty == "2" ? 18 : 13;
         }
 
         protected override void AttackStart()
         {
             base.AttackStart();
             shotsFired = 0;
-            Debug.Log("Swarm attack: " + attackLength);
         }
 
         protected override void AttackUpdate()
@@ -85,7 +85,7 @@ public class EmpressBoss : BossEncounter
         }
 
         int shotsFired;
-        int shotsNeeded = 16;
+        int shotsNeeded;
         EmpressBoss BD;
         PointMissileShoot missileShoot;
     }
@@ -147,6 +147,9 @@ public class EmpressBoss : BossEncounter
             beetles = bossData.beetles;
             BD = bossData;
             player = BD.player;
+
+            beetlesToSummon = BD.difficulty == "2" ? 4 : 3;
+            beetleSpawnLimit = BD.difficulty == "2" ? 8 : 6;
         }
 
         protected override void AttackStart()
@@ -204,8 +207,8 @@ public class EmpressBoss : BossEncounter
         }
 
         ShakeCameraExternal cameraShaker;
-        int beetlesToSummon = 3;
-        int beetleSpawnLimit = 6;
+        int beetlesToSummon;
+        int beetleSpawnLimit;
         bool beetlesSummoned = true;
         GameObject[] beetles;
         EmpressBoss BD;
@@ -219,6 +222,8 @@ public class EmpressBoss : BossEncounter
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
             boss = bossData.transform;
             BD = bossData;
+            pushPower = BD.difficulty == "2" ? 21 : 18;
+            monsterPushModifier = BD.difficulty == "2" ? 0.75f : 1.1f;
         }
 
         protected override void AttackStart()
@@ -243,11 +248,11 @@ public class EmpressBoss : BossEncounter
         private void WingsPush()
         {
             timer = 1.25f;
-            player.velocity = (player.transform.position - boss.position).normalized * 20f;
+            player.velocity = (player.transform.position - boss.position).normalized * pushPower;
             var monsters = BD.GetSpawnedMonsters();
             foreach (var monster in monsters)
             {
-                monster.KnockBack((monster.transform.position - boss.position).normalized * 20f);
+                monster.KnockBack((monster.transform.position - boss.position).normalized * pushPower * monsterPushModifier);
             }
             Vector3 bulletDir;
             foreach (var bullet in BulletLife.bullets)
@@ -258,6 +263,8 @@ public class EmpressBoss : BossEncounter
             }
         }
 
+        private float monsterPushModifier;
+        private float pushPower;
         private float timer = 1.25f;
         Rigidbody2D player;
         Transform boss;
@@ -268,6 +275,7 @@ public class EmpressBoss : BossEncounter
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
+        //AudioManager.PlayMusic(AudioManager.audioSourceMusic, musicStartFrom);
 
         bossPhases = new List<BossPhase>() { new EmpressFight(this) };
         ppBlur = GetComponentInChildren<PostProcessVolume>().profile.GetSetting<Blur>();

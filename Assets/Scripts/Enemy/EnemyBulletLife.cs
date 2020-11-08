@@ -20,6 +20,7 @@ public class EnemyBulletLife : MonoBehaviour
         lightFlicker = GetComponent<LightFlicker>();
         startingColor = sprite.color;
         hasExplosion = explosion;
+        startingBulletSpeed = BulletSpeed;
     }
 
     protected virtual void OnEnable()
@@ -27,6 +28,7 @@ public class EnemyBulletLife : MonoBehaviour
         destroyed = false;
         sprite.color = startingColor;
         bulletLifeLeft = BulletLifeLength;
+        BulletSpeed = startingBulletSpeed;
     }
 
     protected virtual void Update()
@@ -87,4 +89,5 @@ public class EnemyBulletLife : MonoBehaviour
     private LightFlicker lightFlicker;
     
     private bool hasExplosion = false;
+    private float startingBulletSpeed;
 }

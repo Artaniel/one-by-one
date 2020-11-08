@@ -54,7 +54,8 @@ public class DetonateOnDeath : MonoBehaviour
             detonateOnTimer = true;
             detonateTimer = detonateDamageDuration;
             timer = detonateDelay;
-            detonationVFXInstance = PoolManager.GetPool(detonationVFX, transform);
+            detonationVFXInstance = PoolManager.GetPool(detonationVFX, transform.position, Quaternion.identity);
+            detonationVFXInstance.transform.SetParent(Labirint.currentRoom.transform);
             GetComponentInChildren<Animator>().Play("Detonate");
         }
     }

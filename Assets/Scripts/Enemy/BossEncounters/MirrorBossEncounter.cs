@@ -145,7 +145,6 @@ public class MirrorBossEncounter : BossEncounter
         private void MagnetAvoidBTPToBoss()
         {
             magnetTime = startingMagnetTime;
-            print("Magnetting back");
             foreach (var bullet in bullets)
             {
                 bullet.BulletSpeed *= -1;
@@ -154,7 +153,6 @@ public class MirrorBossEncounter : BossEncounter
 
         private void SplitBullets()
         {
-            print("Splitting bullets");
             var newBullets = new List<GameObject>();
             foreach (var bullet in bullets)
             {
@@ -227,7 +225,6 @@ public class MirrorBossEncounter : BossEncounter
                 {
                     break;
                 }
-                Debug.Log("Reconsidering");
                 counter++;
             }
         }

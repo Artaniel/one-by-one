@@ -18,7 +18,7 @@ public class HubHardmodeSelector : MonoBehaviour
     private const string hardmodeText = "Hardmode: ON";
     private const string nonHardmodeText = "Hardmode: OFF";
 
-    void Start()
+    private void Start()
     {
         CheckHardmodeStatus();
     }
@@ -45,9 +45,9 @@ public class HubHardmodeSelector : MonoBehaviour
 
     public void UpdateHardmodeStatus()
     {
-        if (difficulty == HARDMODE) PlayerPrefs.SetString("Gamemode", NORMALMODE);
-        else if (difficulty == NORMALMODE) PlayerPrefs.SetString("Gamemode", HARDMODE);
-        else throw new System.Exception("Unexpected difficulty/gamemod value");
+        if (difficulty.Equals(HARDMODE)) PlayerPrefs.SetString("Gamemode", NORMALMODE);
+        else if (difficulty.Equals(NORMALMODE)) PlayerPrefs.SetString("Gamemode", HARDMODE);
+        else throw new System.Exception($"Unexpected difficulty/gamemod value: \"{difficulty}\"");
 
         CheckHardmodeStatus();
     }

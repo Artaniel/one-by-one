@@ -27,8 +27,11 @@ public class TimedShootWithOffset : TimedAttack
           
         bullet.GetComponent<EnemyBulletLife>().BulletSpeed *= attackSpeedModifier;
 
-        audioSource.clip = attackSound;
-        AudioManager.Play("MonsterShot", audioSource);
+        if (attackSound)
+        {
+            audioSource.clip = attackSound;
+            AudioManager.Play("MonsterShot", audioSource);
+        }
 
         if (!rotationBased)
         {
