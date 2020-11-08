@@ -10,11 +10,7 @@ public class InstantFireOnEnter : MonoBehaviour
     void Start()
     {
         currentRoom = GetComponentInParent<Room>();
-    }
-
-    void Update()
-    {
-        currentRoom.OnThisEnter.AddListener(Ignite);    
+        currentRoom.OnThisEnter.AddListener(Ignite);
     }
 
     void Ignite()

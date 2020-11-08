@@ -12,6 +12,7 @@ public class CharacterLife : MonoBehaviour
     [SerializeField] private GameObject hitEffect = null;
     public GameObject dummyPlayerPrefab = null;
     new private AudioSource audio;
+    [SerializeField] private AudioClip[] damageSounds;
 
     [HideInInspector]public bool dashActiveSkill;
     [HideInInspector] public UnityEvent hpChangedEvent = new UnityEvent();
@@ -34,6 +35,14 @@ public class CharacterLife : MonoBehaviour
         PlayerHitVFX();
         hpChangedEvent.Invoke();
         playerHitEvent.Invoke();
+
+        if (damageSounds.Length != 0)
+        {
+            var clip = damageSounds[Random.Range(0, damageSounds.Length)];
+            print(clip.name);
+            AudioManager.Play(clip);
+        }
+        
 
         if (hp <= 0)
         {

@@ -42,7 +42,7 @@ public class Settings : MonoBehaviour
 
     public void MusicChange() { // same for music
         PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
-        AudioManager.SetVolumeMusic(AudioManager.userPrefMusic * musicSlider.value);
+        AudioManager.SetVolumeMusic(musicSlider.value);
     }
 
     public void ReturnToMenu() {
