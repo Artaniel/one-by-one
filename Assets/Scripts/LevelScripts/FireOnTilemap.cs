@@ -34,6 +34,14 @@ public class FireOnTilemap : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         characterLife = player.GetComponent<CharacterLife>();
         currentEnemySelector = Labirint.instance.GetComponent<CurrentEnemySelector>();
+
+        if (PlayerPrefs.GetString("Difficulty") == "2")
+        {
+            spreadProbability *= 1.25f;
+            spreadCheckPeriod *= 1.25f;
+            extinguishProbability *= 0.85f;
+        } 
+
         Init();
         room.OnThisLeave.AddListener(StopAllFires);
     }

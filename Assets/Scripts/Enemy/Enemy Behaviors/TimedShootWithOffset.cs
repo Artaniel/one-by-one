@@ -25,7 +25,7 @@ public class TimedShootWithOffset : TimedAttack
           transform.position, 
           rotationBased ? Quaternion.Euler(0, 0, transform.eulerAngles.z + 90 + angleOffset) : new Quaternion());
           
-        bullet.GetComponent<EnemyBulletLife>().BulletSpeed *= attackSpeedModifier;
+        //bullet.GetComponent<EnemyBulletLife>().BulletSpeed *= attackSpeedModifier;
 
         if (attackSound)
         {

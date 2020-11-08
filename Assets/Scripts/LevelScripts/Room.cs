@@ -60,12 +60,16 @@ public class Room : MonoBehaviour
         wayInDoor.connectedDoor.room.LeaveRoom();
         CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType == RoomType.arena && !labirint.blueprints[roomID].visited);
 
+        LightsOn();
+
+        Labirint.instance.OnRoomChanged(roomID);
+
         var player = GameObject.FindGameObjectWithTag("Player");
         var playerLife = player.GetComponent<CharacterLife>();
         playerLife.HidePlayer();
         var dummy = Instantiate(
-            playerLife.dummyPlayerPrefab, 
-            wayInDoor.transform.position + (4 * Direction.SideToVector3(wayInDoor.direction)), 
+            playerLife.dummyPlayerPrefab,
+            wayInDoor.transform.position + (4 * Direction.SideToVector3(wayInDoor.direction)),
             Quaternion.identity);
         dummy.GetComponent<DummyPlayerController>().SetDestination(wayInDoor.transform.position);
 
@@ -73,9 +77,6 @@ public class Room : MonoBehaviour
         playerMove.enabled = false;
         player.transform.position = wayInDoor.transform.position;
 
-        LightsOn();
-
-        Labirint.instance.OnRoomChanged(roomID);
         StartCoroutine(DelayedEnterRoom(player, dummy, wayInDoor.transform.position));
     }
 
