@@ -18,8 +18,6 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
     private void Awake()
     {
         dissolveMaterial = GetComponent<SpriteRenderer>().material;
-        room = GetComponentInParent<Room>();
-        if (!room) room = Labirint.currentRoom;
         coll = GetComponent<Collider2D>();
     }
 
@@ -28,7 +26,9 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
         shouldDissolve = false;
         if (stopCollider) coll.enabled = true;
         dissolveParam = 0;
-        
+
+        room = GetComponentInParent<Room>(); // Cause room changes on each spawn from PoolManager
+        if (!room) room = Labirint.currentRoom;
         if (room.cleared)
             StartDissolve();
         else 

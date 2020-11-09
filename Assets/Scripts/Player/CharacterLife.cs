@@ -64,6 +64,13 @@ public class CharacterLife : MonoBehaviour
                 GetComponentInChildren<SpriteRenderer>().color = Color.white;
             }
         }
+
+        if (isDeath)
+        {
+            GameObject pressFGUI = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1).gameObject;
+            if (!pressFGUI.activeSelf)
+                pressFGUI.SetActive(true);
+        }
     }
 
     private void LogicDeathBlock()

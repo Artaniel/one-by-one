@@ -162,7 +162,10 @@ public class FireOnTilemap : MonoBehaviour
     }
 
     private void BurnOutTree(GameObject tree) { // сюда логику выгорания деревьев
-        tree.GetComponent<BurningTree>().FinishBurning();
+        if (tree.TryGetComponent(out BurningTree burningTreeComponent)) // because that one exception from testing 05.11.2020 (Fake trees bug)
+        {
+            tree.GetComponent<BurningTree>().FinishBurning();
+        }
     }
 
     private void Update()

@@ -37,7 +37,7 @@ public class CameraForLabirint : MonoBehaviour
         if (followCamera && !CharacterLife.isDeath)
         {
             CameraFollowUpdate();
-            if (Input.GetKey(KeyCode.LeftControl)) {
+            if (Input.GetKey(KeyCode.LeftShift)) {
                 ShiftToMouse();
             }
             MoveCamToDestination(cameraObj.transform.position, cameraDesiredPosition);

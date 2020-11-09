@@ -9,10 +9,10 @@ public class Door : MonoBehaviour
 {
     [HideInInspector] public Room room;
     public Door connectedDoor;
-    public bool locked = false; 
+    public bool locked = true; 
     private GameObject player;
 
-    public bool unlockOnTimer = true;
+    public bool unlockOnTimer = false;
     public bool dontUnlockAuto = false;
     private float timer = 0.5f;
     

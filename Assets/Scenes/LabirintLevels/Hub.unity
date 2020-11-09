@@ -283,7 +283,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.74, y: 2.71}
+  m_Size: {x: 1.98, y: 2.71}
   m_EdgeRadius: 0
 --- !u!1 &189166035
 GameObject:
@@ -1205,15 +1205,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4194236523386335293, guid: 6269f040c638a864e94169dd44ff0d5c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3446811804537992733, guid: 6269f040c638a864e94169dd44ff0d5c,
         type: 3}
       propertyPath: m_Intensity
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194236523386335293, guid: 6269f040c638a864e94169dd44ff0d5c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1687432345, guid: 6269f040c638a864e94169dd44ff0d5c, type: 3}
@@ -1455,14 +1455,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 132b6329ad9e5044ca5397274707d247,
         type: 2}
-    - target: {fileID: 578118701, guid: 0b38f5738ea76fc47bbc9479eb38ab82, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5245645637381626347, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
         type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 578118701, guid: 0b38f5738ea76fc47bbc9479eb38ab82, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b38f5738ea76fc47bbc9479eb38ab82, type: 3}
@@ -1780,6 +1780,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomHub-v2
       objectReference: {fileID: 0}
+    - target: {fileID: 300324843905598047, guid: bfd008b8e05c7104f9939fcc7268fe0d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 774265636321449687, guid: bfd008b8e05c7104f9939fcc7268fe0d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1856,11 +1861,6 @@ PrefabInstance:
       propertyPath: noPortalSkip
       value: 
       objectReference: {fileID: 1363287266}
-    - target: {fileID: 300324843905598047, guid: bfd008b8e05c7104f9939fcc7268fe0d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1792857077, guid: bfd008b8e05c7104f9939fcc7268fe0d, type: 3}
       propertyPath: m_textInfo.characterCount
       value: 0
@@ -55227,6 +55227,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 300324843905598046, guid: bfd008b8e05c7104f9939fcc7268fe0d, type: 3}
     - {fileID: 1794049177137881467, guid: bfd008b8e05c7104f9939fcc7268fe0d, type: 3}
+    - {fileID: 7276809201026380515, guid: bfd008b8e05c7104f9939fcc7268fe0d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bfd008b8e05c7104f9939fcc7268fe0d, type: 3}
 --- !u!4 &1233960141 stripped
 Transform:
@@ -56452,7 +56453,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4067669, y: 2.110752}
+  m_Size: {x: 1.08, y: 1.6}
   m_EdgeRadius: 0
 --- !u!212 &1719173395
 SpriteRenderer:
@@ -60607,6 +60608,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8121964626251394160, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.0999756
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121964626251394160, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.6000061
+      objectReference: {fileID: 0}
     - target: {fileID: 2892025730854006915, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
         type: 3}
       propertyPath: m_IsActive
@@ -60756,16 +60767,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_padding
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8121964626251394160, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 3.0999756
-      objectReference: {fileID: 0}
-    - target: {fileID: 8121964626251394160, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.6000061
       objectReference: {fileID: 0}
     - target: {fileID: 2058141010142313658, guid: 1f2dbaa7a366d38488b6607fb29ce7ce,
         type: 3}

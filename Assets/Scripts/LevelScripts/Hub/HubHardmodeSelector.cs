@@ -80,5 +80,9 @@ public class HubHardmodeSelector : MonoBehaviour
         hardmodeVisualContainer.SetActive(false);
         hubHardmodeText.text = nonHardmodeText;
         canvasHardmodeText.text = nonHardmodeText;
+        if (PlayerPrefs.GetInt("GameCompleted04", -1) == 4)
+        {
+            noPortalSkip.SetActive(false);
+        }
     }
 }

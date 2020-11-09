@@ -313,7 +313,7 @@ public class Labirint : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift)) // shift+R => reboot
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftControl)) // ctrl+R => reboot
             SceneLoading.LoadScene(SceneManager.GetActiveScene().name, true);
 
         if (CharacterLife.isDeath && Input.GetKeyDown(KeyCode.R)) // death && R => reboot

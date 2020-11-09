@@ -102,6 +102,7 @@ public class RelodScene : MonoBehaviour
 
     public void PressR()
     {
+        print("kek");
         Canvas.transform.GetChild(1).gameObject.SetActive(true);
     }
 }

@@ -187,15 +187,6 @@ public class MonsterManager : MonoBehaviour
         if (Pause.Paused) return;
         if (spawnAvailable)
             EnemySpawnUpdate();
-        if (room.roomID == Labirint.instance.currentRoomID)// only for current room
-        {
-            if (CharacterLife.isDeath)
-            {
-                GameObject pressFGUI = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1).gameObject;
-                if (!pressFGUI.activeSelf)
-                    pressFGUI.SetActive(true);
-            }
-        }
     }
 
     public void KillThemAll()

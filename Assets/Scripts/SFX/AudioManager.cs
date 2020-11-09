@@ -94,8 +94,8 @@ public class AudioManager : MonoBehaviour
         int expectedMusicIndex = 0; // index for array musicList, 0 is for no music
         String sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName == "MainMenu" || sceneName == "Credits04") { expectedMusicIndex = 2; } //logic for music selection 
-        else if (sceneName.Contains("BossOne") || sceneName.Contains("Hub")) { expectedMusicIndex = 0; }
+        if (sceneName == "MainMenu" || sceneName == "Credits04" || sceneName.Contains("Hub") || sceneName.Contains("FinalCredits")) { expectedMusicIndex = 2; } //logic for music selection 
+        else if (sceneName.Contains("BossOne")) { expectedMusicIndex = 0; }
         else if (sceneName.Contains("Tutorial")) { expectedMusicIndex = 1; }
         else if (sceneName.Contains("Chapter2")) { expectedMusicIndex = 4; }
         else if (sceneName.Contains("Boss2")) { expectedMusicIndex = 5; }
@@ -204,6 +204,8 @@ public class AudioManager : MonoBehaviour
     public static void SetVolumeMusic(float value)
     {
         userPrefMusic = value;
+        PauseMusic();
+        ResumeMusic();
     }
 
     public static void PlayMusic(AudioSource sorce, float time = 0)// for externall audio sorce with music volume, like on boss
