@@ -13,6 +13,7 @@ public class SceneLoading : MonoBehaviour
     static private bool readFromString = true;
     static private bool ASAP = false;
     [SerializeField] private AlphaManager alphaManager = null;
+    static private bool sceneIsLoaded = false;
 
     private static string[] episodes = { "LabirintChapter1", "LabirintChapter2" };
 
@@ -27,9 +28,15 @@ public class SceneLoading : MonoBehaviour
             loadingCanvas.enabled = false;
             alphaManager = new AlphaManager(
                 GetComponent<TransparencySetterUI>(), fadeTime, fadeTime, fadeTime, false);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
             Destroy(gameObject);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        sceneIsLoaded = true;
     }
 
     static public void LoadScene(int sceneBuildIndex)
@@ -82,13 +89,16 @@ public class SceneLoading : MonoBehaviour
             yield return null;
         }
 
+        sceneIsLoaded = false;
         AsyncOperation asyncOperation;
         if (readFromString)
             asyncOperation = SceneManager.LoadSceneAsync(nextSceneName);
         else
-            asyncOperation = SceneManager.LoadSceneAsync(nextSceneBuildIndex);
-        
+            asyncOperation = SceneManager.LoadSceneAsync(nextSceneBuildIndex);        
+
         yield return asyncOperation.isDone;
+        Debug.Log(sceneIsLoaded);
+        yield return sceneIsLoaded;
         asyncOperation.allowSceneActivation = true;
 
         if (!ASAP)
@@ -104,6 +114,7 @@ public class SceneLoading : MonoBehaviour
 
         instance.loadingCanvas.enabled = false;
         ASAP = false; //clear varible for next use
+        sceneIsLoaded = false;
     }
 
     static public void CompleteEpisode(int episodeID)
