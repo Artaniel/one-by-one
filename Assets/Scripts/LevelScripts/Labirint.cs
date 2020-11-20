@@ -32,6 +32,7 @@ public class Labirint : MonoBehaviour
     [SerializeField] public string welcomeText = "";
     [HideInInspector] static public Room currentRoom;
     [HideInInspector] public bool OneRoomMode = false;
+    public AudioClip music = null;
 
     private void Awake()
     {
@@ -352,16 +353,18 @@ public class Labirint : MonoBehaviour
                             blueprints[blueprints[growZoneRoomsIDs[0]].rooms[side]].instance.transform.position = blueprints[growZoneRoomsIDs[0]].instance.transform.position + offset; // set position for new room
                             growZoneRoomsIDs.Add(blueprints[growZoneRoomsIDs[0]].rooms[side]);
                             activeRooms.Add(blueprints[growZoneRoomsIDs[0]].rooms[side]); // leave active to prevent errors on tilemap calculations for neighbor rooms
-                            if (blueprints[growZoneRoomsIDs[0]].contanerPrefab != null
-                                && !blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().containerAlreadySpawned) {
-                                GameObject container = Instantiate(blueprints[growZoneRoomsIDs[0]].contanerPrefab,
-                                    blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().possibleContainerPosition.position, Quaternion.identity);
-                                container.transform.parent = blueprints[growZoneRoomsIDs[0]].instance.transform;
-                                container.GetComponent<Container>().blueprint = blueprints[growZoneRoomsIDs[0]];
-                                blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().containerAlreadySpawned = true;
-                            }
                         }
                 }
+                if (blueprints[growZoneRoomsIDs[0]].contanerPrefab != null
+                    && !blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().containerAlreadySpawned)
+                {
+                    GameObject container = Instantiate(blueprints[growZoneRoomsIDs[0]].contanerPrefab,
+                        blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().possibleContainerPosition.position, Quaternion.identity);
+                    container.transform.parent = blueprints[growZoneRoomsIDs[0]].instance.transform;
+                    container.GetComponent<Container>().blueprint = blueprints[growZoneRoomsIDs[0]];
+                    blueprints[growZoneRoomsIDs[0]].instance.GetComponent<Room>().containerAlreadySpawned = true;
+                }
+
                 growZoneRoomsIDs.Remove(growZoneRoomsIDs[0]);
             }
         }

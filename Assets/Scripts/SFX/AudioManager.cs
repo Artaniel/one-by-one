@@ -89,26 +89,31 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    void MusicCheck() 
-    { // checking if music is correct and changing it if needed        
-        int expectedMusicIndex = 0; // index for array musicList, 0 is for no music
+    void MusicCheck()
+    { // checking if music is correct and changing it if needed    
+        int expectedMusicIndex = -1;
         String sceneName = SceneManager.GetActiveScene().name;
-
-        if (sceneName == "MainMenu" || sceneName == "Credits04" || sceneName.Contains("Hub") || sceneName.Contains("FinalCredits")) { expectedMusicIndex = 2; } //logic for music selection 
-        else if (sceneName.Contains("BossOne")) { expectedMusicIndex = 0; }
-        else if (sceneName.Contains("Tutorial")) { expectedMusicIndex = 1; }
-        else if (sceneName.Contains("Chapter2")) { expectedMusicIndex = 4; }
-        else if (sceneName.Contains("Boss2")) { expectedMusicIndex = 5; }
-        else { expectedMusicIndex = 3; }
-
+        AudioClip musicClip = null;
+        if (Labirint.instance)
+            musicClip = Labirint.instance.music;
+        if (!musicClip)
+        { // index for array musicList, 0 is for no music
+            if (sceneName == "MainMenu" || sceneName == "Credits04" || sceneName.Contains("Hub") || sceneName.Contains("FinalCredits")) { expectedMusicIndex = 2; } //logic for music selection 
+            else if (sceneName.Contains("BossOne")) { expectedMusicIndex = 0; }
+            else if (sceneName.Contains("Tutorial")) { expectedMusicIndex = 1; }
+            else if (sceneName.Contains("Chapter2")) { expectedMusicIndex = 4; }
+            else if (sceneName.Contains("Boss2")) { expectedMusicIndex = 5; }
+            else { expectedMusicIndex = 3; }
+            musicClip = musicList[expectedMusicIndex];
+        }
         audioSourceMusic = transform.GetChild(0).GetComponent<AudioSource>();
 
         if (expectedMusicIndex == 0){
             audioSourceMusic.Stop();
-        } else if (!audioSourceMusic.isPlaying || audioSourceMusic.clip.name != musicList[expectedMusicIndex].name)
+        } else if (!audioSourceMusic.isPlaying || audioSourceMusic.clip.name != musicClip.name)
         {
             audioSourceMusic.Stop();
-            audioSourceMusic.clip = musicList[expectedMusicIndex];
+            audioSourceMusic.clip = musicClip;
             PlayMusic(audioSourceMusic);
         } else if (restartMusicOnLoad)
         {
