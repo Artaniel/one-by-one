@@ -32,6 +32,7 @@ public class Labirint : MonoBehaviour
     [SerializeField] public string welcomeText = "";
     [HideInInspector] static public Room currentRoom;
     [HideInInspector] public bool OneRoomMode = false;
+    public AudioClip music = null;
 
     private void Awake()
     {
