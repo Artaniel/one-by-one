@@ -54,9 +54,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRoomID: 0
+  addDistanceToNewDoor: 0
   difficultySetting: 1
   commonMRMods: []
   welcomeText: 
+  OneRoomMode: 0
 --- !u!114 &3387014766477757504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +74,7 @@ MonoBehaviour:
   pauseCanvas: {fileID: 2892025730329295081, guid: 87515145ea6b5574a8e3cdef0f3c2431,
     type: 3}
   postProcess: {fileID: 0}
+  settings: {fileID: 0}
 --- !u!114 &3387014766477757519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa01e1e56c4548840a0525d15b73667d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shiftMax: 20
 --- !u!114 &7263133522426991205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableScanning: 1
-  enemyHintPrefab: {fileID: 8618153030362273542, guid: 9db925a3ffa4a24448cc700313f0b621,
+  enemyHintPrefab: {fileID: 8618153030362273542, guid: 6156335cb3d5e1b468f3f50acf9a2a22,
     type: 3}
 --- !u!114 &1687432345
 MonoBehaviour:
