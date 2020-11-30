@@ -293,6 +293,7 @@ public class BulletLife : MonoBehaviour
     public virtual void DestroyBullet()
     {
         if (destroyed) return;
+        body.velocity = Vector2.zero;
         destroyed = true;
         ActivateDestroyMods();
         coll2D.enabled = false;

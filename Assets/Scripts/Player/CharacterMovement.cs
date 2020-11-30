@@ -99,5 +99,10 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    private void DummyMovement()
+    {
+
+    }
+
     private WeaponSkill.WeaponType weaponType = WeaponSkill.WeaponType.Empty;
 }
