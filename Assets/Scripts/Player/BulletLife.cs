@@ -29,6 +29,7 @@ public class BulletLife : MonoBehaviour
 
     protected virtual void Awake()
     {
+        body = GetComponent<Rigidbody2D>();
         bulletLight = GetComponentInChildren<Light2D>();
         coll2D = GetComponent<Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
@@ -91,7 +92,8 @@ public class BulletLife : MonoBehaviour
     protected virtual void Move()
     {
         ActivateMoveModsBefore();
-        transform.Translate(Vector2.right * speed * Time.fixedDeltaTime);
+        body.velocity = transform.right * speed;
+        //transform.Translate(Vector2.right * speed * Time.fixedDeltaTime);
         ActivateMoveModsAfter();
     }
 
@@ -354,4 +356,6 @@ public class BulletLife : MonoBehaviour
 
     [System.NonSerialized]
     public Vector3 startSize = Vector3.one;
+
+    private Rigidbody2D body;
 }

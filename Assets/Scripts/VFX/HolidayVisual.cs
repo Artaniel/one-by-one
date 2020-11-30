@@ -8,16 +8,15 @@ public class HolidayVisual : MonoBehaviour
     [SerializeField] Vector2 dayMonthTo = Vector2.one;
 
     [Header("Choose anything you want")]
-    [SerializeField] Sprite sprite;
-    [SerializeField] RuntimeAnimatorController animator;
-    [SerializeField] GameObject holidayObject;
+    [SerializeField] Sprite sprite = null;
+    [SerializeField] RuntimeAnimatorController animator = null;
+    [SerializeField] GameObject holidayObject = null;
 
     void Start()
     {
         var timeNow = System.DateTime.Now;
 
-        if (timeNow.Month >= dayMonthFrom.y && timeNow.Month <= dayMonthTo.y &&
-            timeNow.Day >= dayMonthFrom.x && timeNow.Day <= dayMonthTo.x)
+        if (DateCheck())
         {
             if (sprite)
             {
@@ -32,5 +31,18 @@ public class HolidayVisual : MonoBehaviour
                 Instantiate(holidayObject, transform);
             }
         }
+    }
+
+    private bool DateCheck()
+    {
+        var timeNow = System.DateTime.Now;
+        var from = new System.DateTime(timeNow.Year, (int)dayMonthFrom.y, (int)dayMonthFrom.x, 0, 0, 0);
+        var to = new System.DateTime(timeNow.Year, (int)dayMonthTo.y, (int)dayMonthTo.x, 0, 0, 0);
+        if (dayMonthFrom.y > dayMonthTo.y)
+        {
+            to.AddYears(1);
+        }
+
+        return timeNow > from && timeNow < to;
     }
 }
