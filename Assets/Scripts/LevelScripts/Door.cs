@@ -14,7 +14,7 @@ public class Door : MonoBehaviour
 
     public bool unlockOnTimer = false;
     public bool dontUnlockAuto = false;
-    private float timer = 0.5f;
+    private float timer = timerMax;
     
     [SerializeField] public Direction.Side direction = Direction.Side.UNSET;
     public string sceneName=""; // name of scene to change on enter this door
@@ -246,5 +246,5 @@ public class Door : MonoBehaviour
 
     private Light2D doorLight;
     private Color doorLightColor;
-    private float timerMax = 0.5f;
+    private const float timerMax = 1f;
 }
