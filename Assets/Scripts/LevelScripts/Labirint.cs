@@ -300,15 +300,6 @@ public class Labirint : MonoBehaviour
         float resultMagnitude = result.magnitude;
         result = result.normalized * (resultMagnitude + addDistanceToNewDoor);
 
-        //if (distanceDoorToBorderOld + distanceDoorToBorderNew > addDistanceToNewDoor)
-        //{
-        //    result = Direction.SideToVector3(side) * (distanceDoorToBorderOld + distanceDoorToBorderNew);
-        //}
-        //else {
-        //    result = Direction.SideToVector3(side) * distanceToNewDoor;
-        //    print($"2 {result} {result.magnitude}");
-        //}
-
         return result;
     }
 

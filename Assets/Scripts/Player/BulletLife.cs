@@ -93,7 +93,6 @@ public class BulletLife : MonoBehaviour
     {
         ActivateMoveModsBefore();
         body.velocity = transform.right * speed;
-        //transform.Translate(Vector2.right * speed * Time.fixedDeltaTime);
         ActivateMoveModsAfter();
     }
 
@@ -101,8 +100,7 @@ public class BulletLife : MonoBehaviour
     {
         ActivateHitEnemyMods(coll);
 
-        // Damage
-        var monsterComp = coll.gameObject.GetComponentInParent<MonsterLife>();
+        MonsterLife monsterComp = coll.GetComponentInParent<MonsterLife>();
         if (monsterComp)
         {
             DamageMonster(monsterComp);
@@ -125,9 +123,7 @@ public class BulletLife : MonoBehaviour
         }
         if (initiator == null && damaged) // if the cause of "damage" is not a mod
         {
-            // KnockBack
-            var enemy = monster.GetComponent<AIAgent>();
-            if (enemy != null)
+            if (monster.TryGetComponent(out AIAgent enemy))
             {
                 KnockBack(enemy);
             }
@@ -140,8 +136,6 @@ public class BulletLife : MonoBehaviour
         direction = direction.normalized * knockThrust * Time.fixedDeltaTime;
         enemy.KnockBack(direction);
     }
-
-    // Bullet mods
 
     // Instantiates bullet mod and adds to mod list
     public BulletModifier AddMod(BulletModifier mod)
@@ -167,7 +161,8 @@ public class BulletLife : MonoBehaviour
         }
     }
 
-    private List<BulletModifier> SortedMods() {
+    private List<BulletModifier> SortedMods()
+    {
         if (listNotSorted)
         {
             bulletMods.Sort((x, y) => x.priority.CompareTo(y.priority));
@@ -176,54 +171,25 @@ public class BulletLife : MonoBehaviour
         return bulletMods;
     }
 
-    private void ActivateHitEnemyMods(Collider2D coll)
-    {
-        foreach (var mod in SortedMods()) mod.HitEnemyModifier(this, coll);
+    private void ActivateHitEnemyMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnemyModifier(this, coll));
+
+    private void ActivateHitEnvironmentMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnvironmentModifier(this, coll));
+
+    private void ActivateDamageEnemyMods(MonsterLife enemy, BulletModifier initiator = null) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
+
+    private void ActivateSpawnMods() => SortedMods().ForEach(x => x.SpawnModifier(this));
+
+    private void ActivateDestroyMods() => SortedMods().ForEach(x => x.DestroyModifier(this));
+
+    private void ActivateKillMods(MonsterLife enemy) => SortedMods().ForEach(x => x.KillModifier(this, enemy));
+
+    private void MoveIfTiming(BulletModifier mod, BulletModifier.MoveTiming timing) {
+        if (mod.moveTiming == timing) mod.MoveModifier(this);
     }
 
-    private void ActivateHitEnvironmentMods(Collider2D coll)
-    {
-        foreach (var mod in SortedMods()) mod.HitEnvironmentModifier(this, coll);
-    }
+    private void ActivateMoveModsBefore() => SortedMods().ForEach(x => MoveIfTiming(x, BulletModifier.MoveTiming.Preparation));
 
-    private void ActivateDamageEnemyMods(MonsterLife enemy, BulletModifier initiator = null)
-    {
-        foreach (var mod in SortedMods())
-        {
-            if (mod != initiator) mod.DamageEnemyModifier(this, enemy);
-        }
-    }
-
-    private void ActivateSpawnMods()
-    {
-        foreach (var mod in SortedMods()) mod.SpawnModifier(this);
-    }
-
-    private void ActivateDestroyMods()
-    {
-        foreach (var mod in SortedMods()) mod.DestroyModifier(this);
-    }
-
-    private void ActivateKillMods(MonsterLife enemy)
-    {
-        foreach (var mod in SortedMods()) mod.KillModifier(this, enemy);
-    }
-
-    private void ActivateMoveModsBefore()
-    {
-        foreach (var mod in SortedMods())
-        {
-            if (mod.moveTiming == BulletModifier.MoveTiming.Preparation) mod.MoveModifier(this);
-        }
-    }
-
-    private void ActivateMoveModsAfter()
-    {
-        foreach (var mod in SortedMods())
-        {
-            if (mod.moveTiming == BulletModifier.MoveTiming.Final) mod.MoveModifier(this);
-        }
-    }
+    private void ActivateMoveModsAfter() => SortedMods().ForEach(x => MoveIfTiming(x, BulletModifier.MoveTiming.Final));
 
     private void ApplyModsVFX()
     {
@@ -240,23 +206,7 @@ public class BulletLife : MonoBehaviour
     {
         ActivateHitEnvironmentMods(coll);
 
-        if (coll.gameObject.GetComponent<Box>())
-        {
-            coll.gameObject.GetComponent<Box>().OnBullenHit();
-        }
-
-        if (coll.gameObject.GetComponent<MirrorWall>() != null)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right,
-                float.PositiveInfinity, LayerMask.GetMask("Default"));
-            if (hit)
-            {
-                Vector2 reflectDir = Vector2.Reflect(transform.right, hit.normal);
-                float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0, 0, rot);
-            }
-        }
-        else if (!phasing)
+        if (!phasing)
         {
             DestroyBullet();
         }
@@ -325,9 +275,9 @@ public class BulletLife : MonoBehaviour
         sprite.color = newColor;
         var emitterMain = particlesEmitter.main;
         Color newEmitterColor = color + (emitterMain.startColor.color * 0.34f);
-        emitterMain.startColor = newColor;
+        emitterMain.startColor = newEmitterColor;
         Color lightColor = color + (bulletLight.color * 0.34f);
-        bulletLight.color = newColor;
+        bulletLight.color = lightColor;
     }
 
     public void AddToDamageMultiplier(float addValue)

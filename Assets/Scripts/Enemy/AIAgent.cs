@@ -78,17 +78,13 @@ public class AIAgent : MonoBehaviour
         {
             movement += i.Move();
         }
-
-        //Vector2 displacement = (moveSpeedMult * Time.deltaTime) * movement;
         Vector2 displacement = moveSpeedMult * movement;
         steering = new EnemySteering();
 
         Vector2 velocityFallBack =
             externalVelocity * (velocityFallBackPower * Time.deltaTime);
-
         externalVelocity -= velocityFallBack;
-
-        //rigidbody.velocity = (externalVelocity + displacement) * 50 * Time.fixedDeltaTime;
+        
         rigidbody.velocity = (externalVelocity + displacement);
 
         if (needsOOBCheck) OOBCheck();
@@ -104,12 +100,6 @@ public class AIAgent : MonoBehaviour
     public void KnockBack(Vector2 knockVector)
     {
         externalVelocity += knockVector / knockBackStability;
-    }
-
-    public void StopMovement(float time)
-    {
-        allowMovement = false;
-        StartCoroutine(EnableMovement(time));
     }
 
     // TODO: Заменить на Event + Listener?
@@ -128,16 +118,9 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    private IEnumerator EnableMovement(float wait)
-    {
-        yield return new WaitForSeconds(wait);
-        allowMovement = true;
-    }
-
     public void PauseKnockback()
     {
         var rigidbody = GetComponent<Rigidbody2D>();
-        savedVelocity = rigidbody.velocity;
         rigidbody.isKinematic = true;
         rigidbody.Sleep();
     }
@@ -148,7 +131,6 @@ public class AIAgent : MonoBehaviour
         var rigidbody = GetComponent<Rigidbody2D>();
         rigidbody.WakeUp();
         rigidbody.isKinematic = false;
-        externalVelocity = savedVelocity;
     }
 
     private void OOBCheck() {
@@ -156,11 +138,8 @@ public class AIAgent : MonoBehaviour
         {
             if (!Labirint.currentRoom.PositionIsInbounds(transform.position))
             {
-                if (!(GetComponent<BorderLoopMovement>() || GetComponent<GhostPhase>())) // Harpy Queen & Ghost can go OOB
-                {
-                    transform.position = Labirint.currentRoom.GetNearInboundsPosition(transform.position);
-                    Debug.Log($"{gameObject.name} is OOB in room {Labirint.GetCurrentRoom().name}");
-                }
+                transform.position = Labirint.currentRoom.GetNearInboundsPosition(transform.position);
+                Debug.Log($"{gameObject.name} is OOB in room {Labirint.GetCurrentRoom().name}");
             }
         }
     }

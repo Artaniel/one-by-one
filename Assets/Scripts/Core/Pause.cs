@@ -43,6 +43,7 @@ public class Pause : MonoBehaviour
 
     public static void SetPause(bool shouldPause, bool openMenu = true)
     {
+        Time.timeScale = shouldPause ? 0 : 1;
         Paused = shouldPause;
         Cursor.visible = shouldPause;
         CharacterShooting.GetCursor().gameObject.SetActive(!shouldPause);
@@ -73,7 +74,7 @@ public class Pause : MonoBehaviour
         }
         if (Paused)
         {
-            postProcess.weight = Mathf.Clamp(postProcess.weight + Time.deltaTime, 0, 1);
+            postProcess.weight = Mathf.Clamp(postProcess.weight + Time.unscaledDeltaTime, 0, 1);
         }
         else
         {
