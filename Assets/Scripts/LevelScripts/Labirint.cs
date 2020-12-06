@@ -29,7 +29,7 @@ public class Labirint : MonoBehaviour
     private Vector3 respawnPoint;
     public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
-    [SerializeField] public string welcomeText = "";
+    [SerializeField] public LocationName locationName = null;
     [HideInInspector] static public Room currentRoom;
     [HideInInspector] public bool OneRoomMode = false;
     public AudioClip music = null;
@@ -62,6 +62,11 @@ public class Labirint : MonoBehaviour
         }
 
         StartingRoomSpawn();
+        if (locationName)
+        {
+            locationName = Instantiate(locationName);
+            EventManager.Notify($"{locationName.GetRandomName()}", 1);
+        }
     }
 
 //    private void InitBlueprints()
@@ -319,7 +324,6 @@ public class Labirint : MonoBehaviour
         if (savedSceneNumber != currentSceneNumber)
         {
             PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
-            EventManager.Notify($"{welcomeText} Game saved!", 1);
         }
     }
 

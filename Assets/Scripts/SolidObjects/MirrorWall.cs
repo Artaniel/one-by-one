@@ -8,14 +8,13 @@ public class MirrorWall : MonoBehaviour
         {
             print("bullet trigger");
             Transform bulletTransform = coll.transform;
-            RaycastHit2D hit = Physics2D.Raycast(bulletTransform.position, bulletTransform.right,
-                float.PositiveInfinity, LayerMask.GetMask("Default"));
-            if (hit)
-            {
-                Vector2 reflectDir = Vector2.Reflect(bulletTransform.right, hit.normal);
-                float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
-                bulletTransform.eulerAngles = new Vector3(0, 0, rot);
-            }
+
+            Vector2 closestPoint = coll.ClosestPoint(bulletLife.transform.position);
+            var normal = (bulletLife.transform.position - new Vector3(closestPoint.x, closestPoint.y)).normalized;
+
+            Vector2 reflectDir = Vector2.Reflect(bulletLife.transform.right, normal);
+            float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
+            bulletLife.transform.eulerAngles = new Vector3(0, 0, rot);
         }
     }
 }

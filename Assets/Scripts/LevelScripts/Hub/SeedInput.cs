@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class SeedInput : MonoBehaviour
 {
+    public TMPro.TextMeshPro outerSeededText;
     public string sceneToLoad = "LabirintChapter1";
     public GameObject panel;
     public InputField seedInput;
 
     private void Awake()
     {
-        string s = PlayerPrefs.GetString("seed");
-        if (s != "") seedInput.text = s;
+        UpdateSeedText();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,19 +34,40 @@ public class SeedInput : MonoBehaviour
         }
         else
             LabirintBuilder.ResetSeed();
-        panel.SetActive(false);
-        Pause.SetPause(false, false);
-        UnityEngine.Cursor.visible = false;
+        UpdateSeedText();
+        CloseMenu();
     }
 
     public void CancelButton() {
-        panel.SetActive(false);
-        Pause.SetPause(false, false);
-        UnityEngine.Cursor.visible = false;
+        seedInput.text = "";
+        CloseMenu();
     }
 
     public void ResetSeed() {
         seedInput.text = "";
         LabirintBuilder.ResetSeed();
+        UpdateSeedText();
+        CloseMenu();
+    }
+
+    private void CloseMenu()
+    {
+        panel.SetActive(false);
+        Pause.SetPause(false, false);
+        UnityEngine.Cursor.visible = false;
+    }
+
+    private void UpdateSeedText()
+    {
+        string s = PlayerPrefs.GetString("seed");
+        if (s != "")
+        {
+            seedInput.text = s;
+            outerSeededText.text = $"Seed: {s}";
+        }
+        else
+        {
+            outerSeededText.text = "Random";
+        }
     }
 }

@@ -48,7 +48,7 @@ public class BulletLife : MonoBehaviour
     {
         destroyed = false;
         copiedBullet = false;
-        TTDLeft = timeToDestruction;
+        SetTimeLeft(timeToDestruction);
         coll2D.enabled = true;
         transform.localScale = startSize;
         BeginEmitter();
@@ -216,12 +216,8 @@ public class BulletLife : MonoBehaviour
     {
         var bullet = PoolManager.GetPool(gameObject, transform.position, transform.rotation);
         var bulletComp = bullet.GetComponent<BulletLife>();
-        bulletComp.startColor = startColor;
-        bulletComp.SetTimeLeft(timeToDestruction);
         bulletComp.speed = speed;
         bulletComp.damage = damage;
-        bulletComp.copiedBullet = true;
-        bulletComp.startSize = startSize;
         
         bulletComp.bulletMods = new List<BulletModifier>();
         foreach (var mod in bulletMods)
@@ -230,6 +226,7 @@ public class BulletLife : MonoBehaviour
         }
 
         bulletComp.InitializeBullet();
+        bulletComp.copiedBullet = true;
 
         return bullet;
     }
