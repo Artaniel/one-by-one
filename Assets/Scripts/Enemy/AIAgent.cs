@@ -58,6 +58,8 @@ public class AIAgent : MonoBehaviour
             i.CalledUpdate();
         }
 
+        if (rigidbody.bodyType == RigidbodyType2D.Static) return;
+
         foreach (var i in rotateBehaviors)
         {
             rotation += i.GetRotation();
