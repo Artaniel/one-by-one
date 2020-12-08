@@ -19,6 +19,7 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
     {
         dissolveMaterial = GetComponent<SpriteRenderer>().material;
         coll = GetComponent<Collider2D>();
+        room = GetComponentInParent<Room>(); // For pre-spawned 
     }
 
     private void OnEnable()
@@ -26,9 +27,8 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
         shouldDissolve = false;
         if (stopCollider) coll.enabled = true;
         dissolveParam = 0;
-
-        room = GetComponentInParent<Room>(); // Cause room changes on each spawn from PoolManager
-        if (!room) room = Labirint.currentRoom;
+        
+        if (!room) room = Labirint.currentRoom; // Cause room changes on each spawn from PoolManager
         if (room.cleared)
             StartDissolve();
         else 
@@ -47,6 +47,7 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
     private void StartDissolve()
     {
         room.OnThisClear.RemoveListener(StartDissolve);
+        room = null;
         shouldDissolve = true;
         if (stopCollider) coll.enabled = false;
         PoolManager.ReturnToPool(gameObject, timeToDestroy);
