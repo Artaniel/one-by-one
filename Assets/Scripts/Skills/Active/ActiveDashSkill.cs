@@ -24,7 +24,7 @@ public class ActiveDashSkill : ActiveSkill
 
     public override void ActivateSkill()
     {
-        characterMove.allowDirectionSwitch = true;
+        characterMove.allowDirectionSwitch = false;
         characterLife.dashActiveSkill = noTakeDamage;
         characterMove.direction = characterMove.transform.up*speedDash;
         if (!dashEffect)
@@ -44,7 +44,7 @@ public class ActiveDashSkill : ActiveSkill
         trail.Clear();
         trail.emitting = false;
         dashEffect.Stop();
-        characterMove.allowDirectionSwitch = false;
+        characterMove.allowDirectionSwitch = true;
         characterLife.dashActiveSkill = false;
     }
 }

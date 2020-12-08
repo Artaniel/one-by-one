@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] public float speed;
-    [HideInInspector]public bool allowDirectionSwitch;
+    [HideInInspector]public bool allowDirectionSwitch = true;
     [HideInInspector]public Vector2 direction;
     
     private Animator anim;
@@ -21,9 +22,15 @@ public class CharacterMovement : MonoBehaviour
 
     [HideInInspector] public bool shouldDoOOBCheck = true;
 
+    private float gravityX;
+    private float gravityY;
+
+    private float inputAcceleration = 7f;
+    private float inputDeceleration = 9f;
+
     private void Awake()
     {
-        allowDirectionSwitch = false;
+        allowDirectionSwitch = true;
         audio = GetComponent<AudioSource>();       
         var anims = GetComponentsInChildren<Animator>();
         anim = anims[0];
@@ -31,7 +38,12 @@ public class CharacterMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         skillManager = GetComponent<SkillManager>();
         characterLife = GetComponent<CharacterLife>();
+
+        inputActions = new PlayerControls();
     }
+
+    private void OnEnable() => inputActions.Enable();
+    private void OnDisable() => inputActions.Disable();
 
     private void FixedUpdate()
     {
@@ -52,7 +64,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void NormalMovementUpdate()
     {
-        if (!allowDirectionSwitch) direction = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")), 1f);
+        Vector2 axis = inputActions.gameplay.move.ReadValue<Vector2>();
+        ApplyGravity(ref axis);
+        if (allowDirectionSwitch) direction = Vector2.ClampMagnitude(new Vector2(axis.x, axis.y), 1f);
         if (rigidbody.velocity.magnitude > speed * Mathf.Max(0, speedMultiplier))
             rigidbody.AddForce(direction * speed * Mathf.Max(0, speedMultiplier) * 10f); // множитель подобран на глаз, возможно надо покалибровать вместе с трением
         else
@@ -142,6 +156,27 @@ public class CharacterMovement : MonoBehaviour
         characterLife.RevealPlayer();
     }
 
+    private void ApplyGravity(ref Vector2 moveVector)
+    {
+        if (moveVector.x == 0)
+        {
+            gravityX = Mathf.MoveTowards(gravityX, 0f, Time.deltaTime * inputDeceleration);
+        }
+        else
+            gravityX = Mathf.MoveTowards(gravityX, moveVector.x, Time.deltaTime * inputAcceleration);
+
+        if (moveVector.y == 0)
+            gravityY = Mathf.MoveTowards(gravityY, 0f, Time.deltaTime * inputDeceleration);
+        else
+            gravityY = Mathf.MoveTowards(gravityY, moveVector.y, Time.deltaTime * inputAcceleration);
+
+        gravityX = Mathf.Clamp(gravityX, -1, 1);
+        gravityY = Mathf.Clamp(gravityY, -1, 1);
+        moveVector.x = gravityX;
+        moveVector.y = gravityY;
+    }
+
     private WeaponSkill.WeaponType weaponType = WeaponSkill.WeaponType.Empty;
     private CharacterLife characterLife;
+    private PlayerControls inputActions;
 }

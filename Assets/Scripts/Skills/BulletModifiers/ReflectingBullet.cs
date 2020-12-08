@@ -15,13 +15,13 @@ public class ReflectingBullet : BulletModifier
     {
         base.HitEnvironmentModifier(bullet, coll);
 
-        Vector3 bulletPos = bullet.transform.position - bullet.transform.right;
+        Vector3 bulletPos = bullet.transform.position - bullet.transform.right * 0.1f;
         bulletPos.z = 0;
         Vector2 closestPoint = coll.ClosestPoint(bulletPos);
         var normal = (new Vector3(closestPoint.x, closestPoint.y) - bulletPos).normalized;
 
         Vector2 reflectDir = Vector2.Reflect(bullet.transform.right, normal);
         float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
-        bullet.transform.eulerAngles = new Vector3(0, 0, rot);
+        bullet.GetComponent<Rigidbody2D>().rotation = rot;
     }
 }
