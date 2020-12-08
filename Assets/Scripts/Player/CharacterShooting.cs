@@ -61,6 +61,7 @@ public class CharacterShooting : MonoBehaviour
         {
             lastMousePosition = Input.mousePosition;
             controllerControl = false;
+            gameCursor.SetActive(true);
         }
     }
 
