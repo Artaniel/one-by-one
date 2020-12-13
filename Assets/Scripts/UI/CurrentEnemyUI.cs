@@ -20,6 +20,7 @@ public class CurrentEnemyUI : MonoBehaviour
         EnemyName = canvasEnemyName.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         EnemyName.GetComponent<Canvas>().sortingLayerName = "OnEffect";
         enemyNameUICenter = canvasEnemyName.transform.GetChild(0).GetChild(1).GetComponent<RectTransform>();
+        sizeY = enemyNameUICenter.sizeDelta.y;
     }
 
     private void Update()
@@ -35,7 +36,7 @@ public class CurrentEnemyUI : MonoBehaviour
             EnemyName.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, (timeSinceLastNewName - 0.5f) * 2));
             EnemyName.text = newCurrentEnemy;
         }
-        enemyNameUICenter.sizeDelta = new Vector2(Mathf.Lerp(oldUIwidth, newUIwidth, timeSinceLastNewName), 90);
+        enemyNameUICenter.sizeDelta = new Vector2(Mathf.Lerp(oldUIwidth, newUIwidth, timeSinceLastNewName), sizeY);
     }
 
     public static void SetCurrentEnemy(GameObject enemy)
@@ -48,7 +49,7 @@ public class CurrentEnemyUI : MonoBehaviour
     {
         timeSinceLastNewName = 0;
         oldUIwidth = enemyNameUICenter.sizeDelta.x;
-        newUIwidth = Mathf.LerpUnclamped(20, 80, (enemyName.Length / 7f));
+        newUIwidth = Mathf.LerpUnclamped(40, 120, (enemyName.Length / 7f));
 
         oldCurrentEnemy = newCurrentEnemy;
         newCurrentEnemy = enemyName;
@@ -67,4 +68,5 @@ public class CurrentEnemyUI : MonoBehaviour
     private static RectTransform enemyNameUICenter = null;
     public static TMPro.TextMeshProUGUI EnemyName;
     private static GameObject canvasEnemyName;
+    private float sizeY;
 }

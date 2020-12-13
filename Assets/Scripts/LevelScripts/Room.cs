@@ -67,7 +67,7 @@ public class Room : MonoBehaviour
         var player = GameObject.FindGameObjectWithTag("Player");
         var playerMove = player.GetComponent<CharacterMovement>();
         float delay = 0.5f;
-        playerMove.DummyMovement(wayInDoor.transform.position + Direction.SideToVector3(wayInDoor.direction), hidePlayer: true, timeToDestination: delay);
+        playerMove.DummyMovement(wayInDoor.transform.position, hidePlayer: true, timeToDestination: delay);
 
         StartCoroutine(DelayedEnterRoom(delay));
     }
