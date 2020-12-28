@@ -12,7 +12,7 @@ public class SeedInput : MonoBehaviour
 
     private void Awake()
     {
-        string s = PlayerPrefs.GetString("seed");
+        string s = SaveLoading.seed;
         if (s != "") seedInput.text = s;
     }
 

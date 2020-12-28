@@ -35,7 +35,7 @@ public class FireOnTilemap : MonoBehaviour
         characterLife = player.GetComponent<CharacterLife>();
         currentEnemySelector = Labirint.instance.GetComponent<CurrentEnemySelector>();
 
-        if (PlayerPrefs.GetString("Difficulty") == "2")
+        if (SaveLoading.difficulty == 2)
         {
             spreadProbability *= 1.25f;
             spreadCheckPeriod *= 1.25f;

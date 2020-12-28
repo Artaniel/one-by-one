@@ -14,7 +14,7 @@ public class SkillManager : MonoBehaviour
     private bool forceSkillRewrite = false;
 
     #region Skill Register & Load
-    private Dictionary<string, SkillBase> registeredSkills = new Dictionary<string, SkillBase>();
+    public Dictionary<string, SkillBase> registeredSkills = new Dictionary<string, SkillBase>();
 
     [SerializeField, Tooltip("Skill database-like prefab")]
     private GameObject prefabSkillLoader = null;
@@ -75,12 +75,8 @@ public class SkillManager : MonoBehaviour
         return registeredSkills[name];
     }
 
-    private string fileName = "progress.bin";
-
-    private void SaveSkills()
+    public void SaveSkills()
     {
-        BinaryFormatter binaryformatter = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + fileName);
         SkillsRecord skillsSavedInfo;
         if (equippedWeapon != null) {
             skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, equippedWeapon.weaponIndex);
@@ -88,10 +84,7 @@ public class SkillManager : MonoBehaviour
         else {
             skillsSavedInfo = new SkillsRecord(skills, activeSkills, equippedWeapons, 0);
         }
-        //foreach (var skill in skillsSavedInfo.nonEquiptedWeapons)
-        binaryformatter.Serialize(file, skillsSavedInfo);
-
-        file.Close();
+        SaveLoading.SaveSkills(skillsSavedInfo);
     }
 
     /// <summary>
@@ -99,31 +92,16 @@ public class SkillManager : MonoBehaviour
     /// </summary>
     private void LoadSkills()
     {
-        if (!forceSkillRewrite && File.Exists(Application.persistentDataPath + fileName))
+        if (!forceSkillRewrite)
         {
-            BinaryFormatter binaryformatter = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + fileName, FileMode.Open);
-            var skillsSavedInfo = (SkillsRecord)binaryformatter.Deserialize(file);
-            file.Close();
-
+            SkillsRecord record = SaveLoading.LoadSkillsSafe();
             skills = new List<SkillBase>();
-            LoadActiveSkills(skillsSavedInfo);
-            LoadWeaponSkills(skillsSavedInfo);
-            LoadPassiveSkills(skillsSavedInfo);
+            LoadActiveSkills(record);
+            LoadWeaponSkills(record);
+            LoadPassiveSkills(record);
         }
-        else
-        {
+        else {
             SaveSkills();
-            if (!File.Exists(Application.persistentDataPath + fileName))
-            {
-                Debug.LogError("Critical error: save file was not created");
-            }
-            else
-            {
-                // Warning: Possible infinite loop here!!!
-                forceSkillRewrite = false;
-                LoadSkills();
-            }
         }
     }
 
@@ -555,9 +533,9 @@ public class SkillManager : MonoBehaviour
 
     public List<SkillBase> skills = new List<SkillBase>();
 
-    private List<EquippedActiveSkill> activeSkills = new List<EquippedActiveSkill>();
+    public List<EquippedActiveSkill> activeSkills = new List<EquippedActiveSkill>();
 
-    private List<EquippedWeapon> equippedWeapons = new List<EquippedWeapon>();
+    public List<EquippedWeapon> equippedWeapons = new List<EquippedWeapon>();
     private KeyCode rotateWeaponLeft = KeyCode.Q;
     private KeyCode rotateWeaponRight = KeyCode.E;
     private CharacterShooting attackManager;

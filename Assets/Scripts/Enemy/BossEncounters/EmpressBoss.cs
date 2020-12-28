@@ -365,13 +365,14 @@ public class EmpressBoss : BossEncounter
     private IEnumerator DelayedLevelLoad()
     {
         yield return new WaitForSeconds(4.5f);
-        PlayerPrefs.SetInt("GameCompleted04", 4);
-        if (difficulty == "2") PlayerPrefs.SetInt("HardmodeCompleted04", 4);
+        SaveLoading.SaveAchievement(SaveLoading.achevNames.gameCompleted04, 4);
+        if (difficulty == "2") 
+            SaveLoading.SaveAchievement(SaveLoading.achevNames.hardmodeCompleted04, 4);
         Metrics.OnWin();
         if (CharacterLife.isDeath) yield return null;
         SceneLoading.NextLevel("FinalCredits");
         RelodScene.OnSceneChange?.Invoke();
-        PlayerPrefs.SetInt("CurrentScene", -1); // сделать по-нормальному!!!
+        SaveLoading.SaveCurrentScene("Hub");
         //SceneLoading.CompleteEpisode(1);
     }
 

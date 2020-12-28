@@ -106,14 +106,14 @@ public class ScoreboardsManagerUI : MonoBehaviour
             RetrieveScoreboards();
         else if (managerName == "Scoreboard_Scoreboards" || managerName == "Scoreboard_Error")
         {
-            PlayerPrefs.SetInt("CurrentScene", 0);
+            SaveLoading.SaveCurrentScene("Hub");
             SceneLoading.LoadScene(nextScene);
         }
     }
 
     private void CreateNextSceneName()
     {
-        if (PlayerPrefs.GetString("Gamemode") == "2")
+        if (SaveLoading.difficulty == 2)
         {
             nextScene = "HardFinalCredits";
         }

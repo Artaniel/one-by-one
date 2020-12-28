@@ -262,7 +262,7 @@ public class LabirintBuilder : MonoBehaviour
     }
 
     private void SeedCheck() {
-        seed = PlayerPrefs.GetString("seed");
+        seed = SaveLoading.seed;
         if (seed != "")
         {
             Random.InitState(seed.GetHashCode() + SceneManager.GetActiveScene().name.GetHashCode());
@@ -274,13 +274,11 @@ public class LabirintBuilder : MonoBehaviour
 
     static public void SetupSeed(string seedInput) {
         seed = seedInput;
-        PlayerPrefs.SetString("seed", seed);
-        PlayerPrefs.Save();
+        SaveLoading.SaveSeed(seed);
     }
 
     static public void ResetSeed() {
         seed = "";
-        PlayerPrefs.SetString("seed", seed);
-        PlayerPrefs.Save();
+        SaveLoading.SaveSeed("");
     }
 }
