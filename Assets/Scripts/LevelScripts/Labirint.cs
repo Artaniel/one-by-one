@@ -146,7 +146,7 @@ public class Labirint : MonoBehaviour
             if (!activeRooms.Contains(roomID))
             {
                 ActivateRoom(roomID);
-                Room currentRoom = blueprints[currentRoomID].instance.GetComponent<Room>();
+                Room currentIterationRoom = blueprints[currentRoomID].instance.GetComponent<Room>();
                 Room newRoom = blueprints[roomID].instance.GetComponent<Room>();
                 Door oldDoor = null;
                 Door newDoor = null;
@@ -155,7 +155,7 @@ public class Labirint : MonoBehaviour
                 {
                     if (blueprints[currentRoomID].rooms.ContainsKey(side) && blueprints[currentRoomID].rooms[side] == roomID)
                     {
-                        oldDoor = currentRoom.doorsSided[side];
+                        oldDoor = currentIterationRoom.doorsSided[side];
                         newDoor = newRoom.doorsSided[Direction.InvertSide(side)];
                         oldDoor.SpawnDoor();
                         newDoor.SpawnDoor();
@@ -165,7 +165,7 @@ public class Labirint : MonoBehaviour
                 }
                 ConnectDoors(oldDoor, newDoor);
                 offset = oldDoor.transform.localPosition + offset - newDoor.transform.localPosition; // between rooms
-                newRoom.transform.position = currentRoom.transform.position + offset;
+                newRoom.transform.position = currentIterationRoom.transform.position + offset;
 
                 if (blueprints[roomID].instance.GetComponent<ArenaEnemySpawner>() != null && roomID != currentRoomID) {
                     //if room with arena, but we are not in it yet

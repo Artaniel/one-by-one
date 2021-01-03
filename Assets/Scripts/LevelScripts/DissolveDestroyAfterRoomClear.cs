@@ -14,6 +14,7 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
     private Room room;
     private Collider2D coll;
     private bool shouldDissolve = false;
+    private bool appliedListener = false;
 
     private void Awake()
     {
@@ -27,12 +28,16 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
         shouldDissolve = false;
         if (stopCollider) coll.enabled = true;
         dissolveParam = 0;
-        
+        dissolveMaterial.SetFloat("_Dissolve", dissolveParam);
+
         if (!room) room = Labirint.currentRoom; // Cause room changes on each spawn from PoolManager
         if (room.cleared)
             StartDissolve();
-        else 
+        else  if (!appliedListener)
+        {
+            appliedListener = true;
             room.OnThisClear.AddListener(StartDissolve);
+        }
     }
 
     private void Update()
@@ -46,7 +51,9 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
 
     private void StartDissolve()
     {
+        print(room.roomID + " " + Labirint.currentRoom.roomID);
         room.OnThisClear.RemoveListener(StartDissolve);
+        appliedListener = false;
         room = null;
         shouldDissolve = true;
         if (stopCollider) coll.enabled = false;

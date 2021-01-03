@@ -92,7 +92,7 @@ public class MainMenuScript : MonoBehaviour
     public void NewGame()
     {
         LabirintBuilder.ResetSeed();
-        SaveLoading.ResetNotPermanentSaveData();
+        SaveLoading.ResetNonPermanentSaveData();
         switch (stageDifficulty)
         {
             case Difficulty.Easy:
@@ -150,7 +150,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ResetProgress()
     {
-        SaveLoading.ResetNotPermanentSaveData();
+        SaveLoading.ResetNonPermanentSaveData();
     }
 
     public void Exit()
@@ -198,7 +198,7 @@ public class MainMenuScript : MonoBehaviour
 
     private void LoadTutorialOrLabirint(string labirintName)
     {
-        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.finishedTutorial3Once)
+        if (SaveLoading.CheckAchievement(SaveLoading.AchievName.FinishedTutorial3Once)
             //|| true // ВРЕМЕННОЕ РЕШЕНИЕ, СКИП ТУТОРИАЛА
             )
         {
