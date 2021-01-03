@@ -23,7 +23,7 @@ public class SkillsUI : MonoBehaviour
 
     [SerializeField]
     private GameObject skillContainerUI = null;
-    public static int skillCount = 5;
+    public static int skillCount = 3;
     private Image[] skillImage = new Image[skillCount];
     private Material[] skillCooldownEffectCells = new Material[skillCount];
 

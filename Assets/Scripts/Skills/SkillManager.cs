@@ -308,7 +308,7 @@ public class SkillManager : MonoBehaviour
             {
                 if (s is ActiveSkill)
                 {
-                    if (activeSkills.Count >= 5)
+                    if (activeSkills.Count >= maxEquippedActiveCount)
                     {
                         inventoryActiveSkills.Add(s as ActiveSkill);
                     }
@@ -319,7 +319,7 @@ public class SkillManager : MonoBehaviour
                 }
                 else if (s is WeaponSkill)
                 {
-                    if (equippedWeapons.Count >= 3)
+                    if (equippedWeapons.Count >= maxEquippedWeaponCount)
                     {
                         inventoryWeaponSkills.Add(s as WeaponSkill);
                     }
@@ -333,16 +333,9 @@ public class SkillManager : MonoBehaviour
     }
 
     private List<KeyCode> keys = new List<KeyCode>() {
-        KeyCode.Alpha1,
-        KeyCode.Alpha2,
-        KeyCode.Alpha3,
-        KeyCode.Alpha4,
-        KeyCode.Alpha5,
-        KeyCode.Alpha6,
-        KeyCode.Alpha7,
-        KeyCode.Alpha8,
-        KeyCode.Alpha9,
-        KeyCode.Alpha0
+        KeyCode.Q,
+        KeyCode.E,
+        KeyCode.F
     };
 
     private void Update()
@@ -528,7 +521,7 @@ public class SkillManager : MonoBehaviour
     }
     #endregion
 
-    public int maxEquippedActiveCount = 5;
+    public int maxEquippedActiveCount = 3;
     public int maxEquippedWeaponCount = 3;
 
     public List<SkillBase> skills = new List<SkillBase>();
