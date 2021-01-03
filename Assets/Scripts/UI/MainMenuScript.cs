@@ -61,9 +61,8 @@ public class MainMenuScript : MonoBehaviour
     void GrayLoadNotPlayedYet()
     {
         // TODO ВРЕМЕННЫЙ ФИКС
-        if (!PlayerPrefs.HasKey("CurrentScene") || PlayerPrefs.GetInt("CurrentScene") == -1 || PlayerPrefs.GetInt("CurrentScene") == 0)
+        if (SaveLoading.currentScene == "Hub")
         {
-            PlayerPrefs.SetInt("CurrentScene", -1);
             var btn = titleScreenContainer.GetButtonContinue();
             var btnImage = btn.GetComponent<Image>();
             btnImage.color = new Color(0.37f, 0.37f, 0.37f); // gray
@@ -93,7 +92,7 @@ public class MainMenuScript : MonoBehaviour
     public void NewGame()
     {
         LabirintBuilder.ResetSeed();
-        HubEpisodeAvailabilityManager.ClearComplitedEpisodesList();
+        SaveLoading.ResetNotPermanentSaveData();
         switch (stageDifficulty)
         {
             case Difficulty.Easy:
@@ -127,7 +126,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ClickButtonLoadGame()
     {
-        SceneLoading.LoadScene(PlayerPrefs.GetInt("CurrentScene"));
+        SceneLoading.LoadScene(SaveLoading.currentScene);
         Metrics.OnContinueGame();
     }
 
@@ -151,7 +150,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ResetProgress()
     {
-        PlayerPrefs.SetInt("CurrentScene", -1);
+        SaveLoading.ResetNotPermanentSaveData();
     }
 
     public void Exit()
@@ -199,7 +198,7 @@ public class MainMenuScript : MonoBehaviour
 
     private void LoadTutorialOrLabirint(string labirintName)
     {
-        if (PlayerPrefs.GetInt("FinishedTutorial3Once", -1) != -1 
+        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.finishedTutorial3Once)
             //|| true // ВРЕМЕННОЕ РЕШЕНИЕ, СКИП ТУТОРИАЛА
             )
         {

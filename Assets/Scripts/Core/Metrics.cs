@@ -10,7 +10,7 @@ public class Metrics : MonoBehaviour
     [SerializeField]
     private static MetricsRecords metrics = null;
 
-   public static MetricsRecords MetricsContainer
+    public static MetricsRecords MetricsContainer
     {
         get => metrics;
         private set => metrics = value;

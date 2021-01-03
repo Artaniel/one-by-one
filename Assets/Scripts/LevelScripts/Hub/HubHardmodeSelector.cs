@@ -46,8 +46,8 @@ public class HubHardmodeSelector : MonoBehaviour
 
     public void UpdateHardmodeStatus()
     {
-        if (difficulty.Equals(HARDMODE)) PlayerPrefs.SetString("Gamemode", NORMALMODE);
-        else if (difficulty.Equals(NORMALMODE)) PlayerPrefs.SetString("Gamemode", HARDMODE);
+        if (difficulty.Equals(HARDMODE)) SaveLoading.SaveDiffilucty(int.Parse(NORMALMODE));
+        else if (difficulty.Equals(NORMALMODE)) SaveLoading.SaveDiffilucty(int.Parse(HARDMODE));
         else throw new System.Exception($"Unexpected difficulty/gamemod value: \"{difficulty}\"");
 
         CheckHardmodeStatus();
@@ -55,7 +55,8 @@ public class HubHardmodeSelector : MonoBehaviour
 
     private void CheckHardmodeStatus()
     {
-        difficulty = PlayerPrefs.GetString("Gamemode");
+        difficulty = SaveLoading.difficulty.ToString();
+        Debug.Log(difficulty);
         if (difficulty == HARDMODE)
             SetHardmodeVisual();
         else if (difficulty == NORMALMODE)
@@ -80,7 +81,7 @@ public class HubHardmodeSelector : MonoBehaviour
         hardmodeVisualContainer.SetActive(false);
         hubHardmodeText.text = nonHardmodeText;
         canvasHardmodeText.text = nonHardmodeText;
-        if (PlayerPrefs.GetInt("GameCompleted04", -1) == 4)
+        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.gameCompleted04))
         {
             noPortalSkip.SetActive(false);
         }
