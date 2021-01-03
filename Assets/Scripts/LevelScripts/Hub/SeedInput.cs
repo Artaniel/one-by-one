@@ -59,7 +59,7 @@ public class SeedInput : MonoBehaviour
 
     private void UpdateSeedText()
     {
-        string s = PlayerPrefs.GetString("seed");
+        string s = SaveLoading.seed;
         if (s != "")
         {
             seedInput.text = s;

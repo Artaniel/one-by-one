@@ -15,24 +15,17 @@ public class HubEpisodeAvailabilityManager : MonoBehaviour
     }
 
     private void SetupEntersAvailability() {
-        string complitedEpisodes = PlayerPrefs.GetString("finishedEpisodes");
-        if (complitedEpisodes != "")
-        {
-            if (complitedEpisodes.Contains(","))
-                foreach (string idString in complitedEpisodes.Split(','))
-                    TurnOffEpisodeEntrance(entrances[int.Parse(idString)]);
-            else
-                TurnOffEpisodeEntrance(entrances[int.Parse(complitedEpisodes)]);
-        }
+        foreach (int id in SaveLoading.finishedEpisodes)
+            TurnOffEpisodeEntrance(entrances[id]);
     }
 
     private void HubZoneAvailability()
     {
-        if (PlayerPrefs.GetInt("GameCompleted04", -1) == 4)
+        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.gameCompleted04))
         {
             barrierToPortals.SetActive(false);
         }
-        if (PlayerPrefs.GetInt("HardmodeCompleted04", -1) == 4)
+        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.hardmodeCompleted04))
         {
             barrierToItems.SetActive(false);
         }
@@ -45,15 +38,6 @@ public class HubEpisodeAvailabilityManager : MonoBehaviour
     }
 
     public static void EpisodeComplited(int id) { // expected to be called from episode boss win script        
-        string s = PlayerPrefs.GetString("finishedEpisodes");
-        if (s != "") s += ",";
-        s += id.ToString();
-        PlayerPrefs.SetString("finishedEpisodes", s);
-        PlayerPrefs.Save();
-    }
-
-    public static void ClearComplitedEpisodesList() {
-        PlayerPrefs.SetString("finishedEpisodes", "");
-        PlayerPrefs.Save();
+        SaveLoading.AddFinisfedEpisode(id);
     }
 }

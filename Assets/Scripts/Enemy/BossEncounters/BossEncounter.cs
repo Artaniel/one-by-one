@@ -185,7 +185,7 @@ public abstract class BossEncounter : MonoBehaviour
 
     protected virtual void Awake()
     {
-        difficulty = PlayerPrefs.GetString("Gamemode");
+        difficulty = SaveLoading.difficulty.ToString();
         Debug.Log("Difficulty: " + difficulty);
     }
 

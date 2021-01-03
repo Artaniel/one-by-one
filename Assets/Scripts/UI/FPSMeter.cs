@@ -14,7 +14,7 @@ public class FPSMeter : MonoBehaviour
     void Start()
     {
         text = GetComponent<Text>();
-        seed = " " + PlayerPrefs.GetString("seed", "");
+        seed = " " + SaveLoading.seed;
     }
 
     void Update()

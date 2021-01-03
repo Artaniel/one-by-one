@@ -34,7 +34,7 @@ public class CircleShooting : MonoBehaviour
         agentSavedMaxRotation = agent.maxRotation;
         agentSavedVelocityFallback = agent.velocityFallBackPower;
         agentSavedKnockBackStability = agent.knockBackStability;
-        if (PlayerPrefs.GetString("Gamemod") == "2")
+        if (SaveLoading.difficulty == 2)
         {
             bulletsNumber += 5;
         }

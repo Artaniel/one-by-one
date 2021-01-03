@@ -25,8 +25,9 @@ public class RelodScene : MonoBehaviour
     public static UnityEvent OnSceneChange = new UnityEvent();
 
     protected virtual void Awake()
-    {
-        PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
+    {        
+        SaveLoading.currentScene = SceneManager.GetActiveScene().name;
+        SaveLoading.SaveAll();
         CharacterLife.isDeath = false;
         Canvas = GameObject.FindGameObjectWithTag("Canvas");
         var arena = GetComponent<ArenaEnemySpawner>();

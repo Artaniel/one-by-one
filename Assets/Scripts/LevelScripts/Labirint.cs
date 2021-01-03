@@ -68,19 +68,7 @@ public class Labirint : MonoBehaviour
             EventManager.Notify($"{locationName.GetRandomName()}", 1);
         }
     }
-
-//    private void InitBlueprints()
-//    {
-//        int arraySize = RoomPrefabs.Length;
-//        blueprints = new RoomBlueprint[arraySize];
-//        for (int i = 0; i < arraySize; i++)
-//        {
-//            blueprints[i] = new RoomBlueprint();
-//            blueprints[i].prefab = RoomPrefabs[i];
-//        }        
-//        HardcodeLabirintConstruction();
-//    }
-
+    
     public void InitBlueprintsFromBuilder() {
         for (int i = 0; i < blueprints.Length; i++)
         {
@@ -271,7 +259,7 @@ public class Labirint : MonoBehaviour
 
     private void DifficultyLoad()
     {
-        difficultySetting = PlayerPrefs.GetString("Gamemode");
+        difficultySetting = SaveLoading.difficulty.ToString();
         if (difficultySetting == "1")
         {
             //Debug.Log("Normal mode loaded");
@@ -319,11 +307,10 @@ public class Labirint : MonoBehaviour
 
     private void SaveLevelProgressIfNeeded()
     {
-        int savedSceneNumber = PlayerPrefs.GetInt("CurrentScene");
-        int currentSceneNumber = SceneManager.GetActiveScene().buildIndex;
-        if (savedSceneNumber != currentSceneNumber)
-        {
-            PlayerPrefs.SetInt("CurrentScene", SceneManager.GetActiveScene().buildIndex);
+        string currentSceneNumber = SceneManager.GetActiveScene().name;
+        if (SaveLoading.currentScene != currentSceneNumber)
+        {            
+            SaveLoading.SaveCurrentScene(SceneManager.GetActiveScene().name);
         }
     }
 
