@@ -71,10 +71,10 @@ Shader "Sprites/Additive"
 			{
 				fixed4 color = tex2D (_MainTex, uv);
 
-#if ETC1_EXTERNAL_ALPHA
-				// get the color from an external texture (usecase: Alpha support for ETC1 on android)
-				color.a = tex2D (_AlphaTex, uv).r;
-#endif //ETC1_EXTERNAL_ALPHA
+//#if ETC1_EXTERNAL_ALPHA
+//				// get the color from an external texture (usecase: Alpha support for ETC1 on android)
+//				color.a = tex2D (_AlphaTex, uv).r;
+//#endif //ETC1_EXTERNAL_ALPHA
 
 				return color;
 			}
@@ -82,8 +82,13 @@ Shader "Sprites/Additive"
 			fixed4 frag(v2f IN) : SV_Target
 			{
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
-
+                
 				c.rgb = c.rgb + _Color.rgb;
+                float lenRGB = c.rgb.x + c.rgb.y + c.rgb.z;
+                if (lenRGB > 3) {
+                    c.rgb *= 3 / lenRGB;
+                }
+                
 				c.rgb *= c.a;
 
 				return c;

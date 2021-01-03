@@ -24,6 +24,7 @@ public class CharacterLife : MonoBehaviour
         isDeath = false;
         hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
         hpChangedEvent.AddListener(UpdateHPUI);
+        UpdateHPUI();
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
     }
 
@@ -161,7 +162,7 @@ public class CharacterLife : MonoBehaviour
             hp += healAmmount;
             if (hp > maxHp) hp = maxHp;
             hpChangedEvent.Invoke();
-            hpUI.UpdateHP(hp);
+            hpUI.UpdateHP(hp, maxHp);
         }
     }
 
@@ -192,7 +193,7 @@ public class CharacterLife : MonoBehaviour
         GetComponentInChildren<SpriteRenderer>().color = Color.red;
     }
 
-    private void UpdateHPUI() => hpUI.UpdateHP(hp);
+    private void UpdateHPUI() => hpUI.UpdateHP(hp, maxHp);
 
     public void PlayerHitVFX()
     {
@@ -238,7 +239,7 @@ public class CharacterLife : MonoBehaviour
     private float HPDropChanceAmplifier = 1f;
 
     private int hp = 3;
-    private int maxHp=3;
+    private int maxHp = 3;
     private float invulTime = 0.8f;
     private float invulTimeLeft = 0;
 
