@@ -14,6 +14,11 @@ public class PP_Animated : MonoBehaviour
         explosionPPV = GetComponent<PostProcessVolume>();
     }
 
+    private void OnEnable()
+    {
+        timer = 0;
+    }
+
     private void Update()
     {
         timer += Time.deltaTime;

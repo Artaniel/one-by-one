@@ -338,6 +338,13 @@ public class SkillManager : MonoBehaviour
         KeyCode.F
     };
 
+    private List<KeyCode> weaponKeys = new List<KeyCode>
+    {
+        KeyCode.Alpha1,
+        KeyCode.Alpha2,
+        KeyCode.Alpha3
+    };
+
     private void Update()
     {
         HandleSkillActivation();
@@ -401,24 +408,29 @@ public class SkillManager : MonoBehaviour
 
     private void HandleWeaponSwitch()
     {
-        if ((Input.GetKeyDown(rotateWeaponLeft) || Input.GetKeyDown(rotateWeaponRight)) && equippedWeapons.Count != 0)
+        int weaponSwitchTo = -1;
+        for (int i = 0; i < weaponKeys.Count; i++)
+        {
+            if (Input.GetKeyDown(weaponKeys[i])) weaponSwitchTo = i;
+        }
+
+        if (equippedWeapons.Count <= weaponSwitchTo) return;
+
+        if (weaponSwitchTo != -1 && weaponSwitchTo != equippedWeapon.weaponIndex && equippedWeapons.Count != 0)
         {
             if (switchSound) AudioManager.Play(switchSound);
-
-            var newWeaponIndex = 0;
-            if (Input.GetKeyDown(rotateWeaponLeft))
-                newWeaponIndex = (equippedWeapon.weaponIndex + equippedWeapons.Count - 1) % equippedWeapons.Count;
-            else if (Input.GetKeyDown(rotateWeaponRight))
-                newWeaponIndex = (equippedWeapon.weaponIndex + 1) % equippedWeapons.Count;
+            
             if (equippedWeapon.ammoLeft < equippedWeapon.logic.ammoMagazine)
             {
                 ReloadWeaponIfNeeded(playSound: false);
             }
-            equippedWeapon = equippedWeapons[newWeaponIndex];
+
+            equippedWeapon = equippedWeapons[weaponSwitchTo];
             characterMovement.UpdateWeaponType(equippedWeapon.logic.weaponType);
             foreach (var weapon in equippedWeapons)
                 attackManager.LoadNewWeapon(equippedWeapon);
             ApplyWeaponSprites();
+            
         }
     }
 
@@ -433,8 +445,12 @@ public class SkillManager : MonoBehaviour
             {
                 weapon.reloadTimeLeft = Mathf.Max(0, weapon.reloadTimeLeft - Time.deltaTime);
                 weapon.ammoLeft = Mathf.Max(weapon.ammoLeft, (int)Mathf.Floor(Mathf.Lerp(weapon.logic.ammoMagazine, 0, (weapon.reloadTimeLeft - 0.01f) / weapon.logic.reloadTime)));
+                weaponCooldownsProportion[j] = weapon.reloadTimeLeft / weapon.logic.reloadTime;
             }
-            weaponCooldownsProportion[j] = weapon.reloadTimeLeft / weapon.logic.reloadTime;
+            else
+            {
+                weaponCooldownsProportion[j] =  1 - (float)weapon.ammoLeft / weapon.logic.ammoMagazine;
+            }
 
             weapon.logic.UpdateEffect();
             j++;
