@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System;
 
 [System.Serializable]
 public class SaveRecord {
@@ -213,23 +214,20 @@ public class SaveLoading : MonoBehaviour
     {
         achievеments = new Dictionary<AchievName, int>();
         foreach (var achev in achevRecord.achivements) {
-            achievеments.Add(StringToAchivName(achev.Key), achev.Value);
+            try
+            {
+                achievеments.Add(StringToAchivName(achev.Key), achev.Value);
+            }
+            catch (Exception)
+            {
+                Debug.LogWarning($"Error on parsing achievment {StringToAchivName(achev.Key)}");
+            }
+            
         }
     }
 
     static private AchievName StringToAchivName(string s) {
-        switch (s)
-        {
-            case "gameCompleted04":
-                return AchievName.GameCompleted04;                
-            case "hardmodeCompleted04":
-                return AchievName.HardmodeCompleted04;
-            case "finishedTutorial3Once":
-                return AchievName.FinishedTutorial3Once;
-            default:
-                Debug.Log("error on achivement name deserelize");
-                return AchievName.GameCompleted04; // невозможно вернуть нулл, надо заткнуть хоть чем то. В теории мы не должны тут оказаться.
-        }
+        return (AchievName)Enum.Parse(typeof(AchievName), s);
     }
 
     static private void CreateNewSave()

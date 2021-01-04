@@ -48,8 +48,8 @@ public class SkillsUI : MonoBehaviour
         for (int i = 0; i < skillCount; i++)
         {
             var skillCell = skillContainerUI.transform.GetChild(i);
-            skillImage[i] = skillCell.transform.GetChild(1).GetComponent<Image>();
-            var backgroundReload = skillCell.GetChild(0).GetComponent<Image>();
+            skillImage[i] = skillCell.transform.GetChild(2).GetComponent<Image>();
+            var backgroundReload = skillCell.GetChild(1).GetComponent<Image>();
             var backgroundReloadmaterial = new Material(backgroundReload.material);
             backgroundReload.material = backgroundReloadmaterial;
             skillCooldownEffectCells[i] = backgroundReload.material;

@@ -56,7 +56,6 @@ public class HubHardmodeSelector : MonoBehaviour
     private void CheckHardmodeStatus()
     {
         difficulty = SaveLoading.difficulty.ToString();
-        Debug.Log(difficulty);
         if (difficulty == HARDMODE)
             SetHardmodeVisual();
         else if (difficulty == NORMALMODE)
