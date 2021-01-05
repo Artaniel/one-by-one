@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class CharacterShooting : MonoBehaviour
 {
@@ -34,11 +36,33 @@ public class CharacterShooting : MonoBehaviour
         gameCursor = Instantiate(mouseCursorObj);
         skillManager = GetComponent<SkillManager>();
         weaponTipDynamic = weaponTip.GetComponent<WeaponTipDynamic>();
+
+        inputActions = new PlayerControls();
+        inputActions.gameplay.fire1.performed += ctx => firing = true;
+        inputActions.gameplay.fire1.canceled += ctx => firing = false;
     }
+
+    private void OnEnable() => inputActions.Enable();
+    private void OnDisable() => inputActions.Disable();
 
     private void FixedUpdate()
     {
-        RotateCharacterTowardsCursor();
+        Vector3 gamepadRotateValue = inputActions.gameplay.look.ReadValue<Vector2>();
+        if (gamepadRotateValue.magnitude > 0)
+        {
+            controllerControl = true;
+            RotateCharacterByStick(gamepadRotateValue);
+        }
+        else if (!controllerControl)
+        {
+            RotateCharacterTowardsCursor();
+        }
+        else if (Vector2.Distance(lastMousePosition, Input.mousePosition) > 1)
+        {
+            lastMousePosition = Input.mousePosition;
+            controllerControl = false;
+            gameCursor.SetActive(true);
+        }
     }
 
     private void Update()
@@ -56,7 +80,7 @@ public class CharacterShooting : MonoBehaviour
             timeBetweenAttacks -= Time.deltaTime;
         }
         else if (currentWeapon == null || currentWeapon.logic == null) return;
-        else if (Input.GetButton("Fire1"))
+        else if (firing)
         {
             Vector3 mousePos = Input.mousePosition;
             var ammoNeeded = currentWeapon.logic.AmmoConsumption();
@@ -75,17 +99,17 @@ public class CharacterShooting : MonoBehaviour
                     gunfireAnimator.LightenUp(0.07f, maxPower: shootingWeapon.GunfirePower());
                     playerAnim.SetBool("Attacks", true);
                 }
-                
+
                 shotFrame = true;
             }
-            
+
             if (currentWeapon.ammoLeft == 0)
             {
                 skillManager.ReloadWeaponIfNeeded(playSound: true);
                 timeBetweenAttacks = 1f; // WARNING: MAGIC CONSTANT TO PREVENT PLAYER FROM FIRING WHEN HE STARTED RELOADING
             }
         }
-        if (Input.GetKeyDown(reloadButton))
+        if (inputActions.gameplay.reload.phase == InputActionPhase.Started)
         {
             skillManager.ReloadWeaponIfNeeded(playSound: true);
         }
@@ -102,20 +126,24 @@ public class CharacterShooting : MonoBehaviour
         rigidbody.MoveRotation(Quaternion.Euler(0f, 0f, angle-90f));
     }
 
-    public void AddToAttackSpeed(float addToAttackSpeedValue)
+    private const float __ignoreInputThreshold = 0.005f;
+    private void RotateCharacterByStick(Vector3 value)
     {
-        attackSpeedMult += addToAttackSpeedValue;
+        gameCursor.SetActive(false);
+        if (value.magnitude > __ignoreInputThreshold)
+        {
+            float angle = Mathf.Atan2(value.y, value.x) * Mathf.Rad2Deg;
+            rigidbody.MoveRotation(Quaternion.Euler(0f, 0f, angle - 90f));
+        } 
     }
 
-    public bool IsSwitching()
-    {
-        return weaponSwitchTime > 0;
-    }
+    public void AddToAttackSpeed(float addToAttackSpeedValue) => attackSpeedMult += addToAttackSpeedValue;
 
-    public bool CanShoot()
-    {
-        return currentWeapon != null && currentWeapon.ammoLeft > 0 && (timeBetweenAttacks <= 0 || currentWeapon.reloadTimeLeft <= 0);
-    }
+    public bool IsSwitching() => weaponSwitchTime > 0;
+
+    public bool CanShoot() => 
+        currentWeapon != null && currentWeapon.ammoLeft > 0 && (timeBetweenAttacks <= 0 || currentWeapon.reloadTimeLeft <= 0);
+    
     
     public static Transform GetCursor() => gameCursor.transform;
 
@@ -138,4 +166,9 @@ public class CharacterShooting : MonoBehaviour
     private Animator playerAnim;
 
     private float weaponSwitchTime = 0;
+
+    private PlayerControls inputActions;
+    private bool firing;
+    private bool controllerControl = true;
+    private Vector2 lastMousePosition;
 }

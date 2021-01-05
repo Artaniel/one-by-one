@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4476362180137201774}
   - component: {fileID: -8174594616563875394}
   - component: {fileID: 5635875330277816069}
+  - component: {fileID: 3221592946288026563}
   m_Layer: 0
   m_Name: DropTestItemHp
   m_TagString: Untagged
@@ -128,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.91463417, y: 1.2195122}
+  m_Size: {x: 1.04, y: 1.13}
   m_EdgeRadius: 0
 --- !u!114 &-8174594616563875394
 MonoBehaviour:
@@ -144,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destanceToPickup: 1
   inactiveTime: 0.5
+  pickupSound: {fileID: 0}
   healAmount: 1
 --- !u!114 &5635875330277816069
 MonoBehaviour:
@@ -184,3 +186,20 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &3221592946288026563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175323628933259560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7400fc3e7fa0b4eb744dc6c845e1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayMonthFrom: {x: 19, y: 11}
+  dayMonthTo: {x: 19, y: 11}
+  sprite: {fileID: -4209923293417727018, guid: 3b3487582344dff4989d151e5d185b18, type: 3}
+  animator: {fileID: 9100000, guid: d09fd5877d9597c449ba12b1f326d730, type: 2}
+  holidayObject: {fileID: 0}

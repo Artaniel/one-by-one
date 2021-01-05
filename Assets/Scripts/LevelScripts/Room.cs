@@ -65,33 +65,18 @@ public class Room : MonoBehaviour
         Labirint.instance.OnRoomChanged(roomID);
 
         var player = GameObject.FindGameObjectWithTag("Player");
-        var playerLife = player.GetComponent<CharacterLife>();
-        playerLife.HidePlayer();
-        var dummy = Instantiate(
-            playerLife.dummyPlayerPrefab,
-            wayInDoor.transform.position + (4 * Direction.SideToVector3(wayInDoor.direction)),
-            Quaternion.identity);
-        dummy.GetComponent<DummyPlayerController>().SetDestination(wayInDoor.transform.position);
-
         var playerMove = player.GetComponent<CharacterMovement>();
-        playerMove.enabled = false;
-        player.transform.position = wayInDoor.transform.position;
+        float delay = 0.5f;
+        playerMove.DummyMovement(wayInDoor.transform.position + Direction.SideToVector3(wayInDoor.direction), hidePlayer: true, timeToDestination: delay);
 
-        StartCoroutine(DelayedEnterRoom(player, dummy, wayInDoor.transform.position));
+        StartCoroutine(DelayedEnterRoom(delay));
     }
 
-    private IEnumerator DelayedEnterRoom(GameObject player, GameObject dummy, Vector3 position)
+    private IEnumerator DelayedEnterRoom(float delay)
     {
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.5f);
         
         ArenaInitCheck();
-        
-        Destroy(dummy);
-        player.transform.position = position;
-        player.GetComponent<CharacterLife>().RevealPlayer();
-
-        var playerMove = player.GetComponent<CharacterMovement>();
-        playerMove.enabled = true;
 
         OnAnyRoomEnter.Invoke();
         OnThisEnter.Invoke();

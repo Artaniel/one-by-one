@@ -118,8 +118,11 @@ public class MonsterLife : MonoBehaviour
     protected virtual void PreDestroyEffect()
     {
         usedNames.Remove(monsterName.text);
-        var enemyExplosion = PoolManager.GetPool(enemyExplosionPrefab, transform.position, Quaternion.identity);
-        PoolManager.ReturnToPool(enemyExplosion, 3);
+        if (enemyExplosionPrefab)
+        {
+            var enemyExplosion = PoolManager.GetPool(enemyExplosionPrefab, transform.position, Quaternion.identity);
+            PoolManager.ReturnToPool(enemyExplosion, 3);
+        }
     }
 
     public void FadeIn(float _fadeInTime)

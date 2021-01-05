@@ -942,6 +942,7 @@ MonoBehaviour:
   agroBlockTime: 2
   cooldownRange: {x: 3.5, y: 5.5}
   attackSpeedModifier: 1
+  attackSound: {fileID: 0}
   boostedSpeed: 2.75
   boostTime: 1.5
 --- !u!114 &8610014839078552524
@@ -1254,7 +1255,7 @@ Transform:
   m_GameObject: {fileID: 8623323805399725727}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.059150696, y: 0.5639906, z: 0}
-  m_LocalScale: {x: 0.05927, y: 0.05927, z: 0.05927}
+  m_LocalScale: {x: 0.06136223, y: 0.06136223, z: 0.06136223}
   m_Children: []
   m_Father: {fileID: 3671672368932566198}
   m_RootOrder: 4
@@ -1796,47 +1797,6 @@ PrefabInstance:
       propertyPath: timeToLoseAggro
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a76e5898a1a8abb43bad640dd4a2b16f, type: 3}
-    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a76e5898a1a8abb43bad640dd4a2b16f, type: 3}
-    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: maxHP
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 7686187740946266990, guid: 69c8f3cd47e0b7f4fbc728c42af5922d,
-        type: 3}
-    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.1309524
-      objectReference: {fileID: 0}
-    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.7285714
-      objectReference: {fileID: 0}
     - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Mesh
@@ -1862,6 +1822,52 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: maxHP
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a76e5898a1a8abb43bad640dd4a2b16f, type: 3}
+    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a76e5898a1a8abb43bad640dd4a2b16f, type: 3}
+    - target: {fileID: 8367402201934331121, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7686187740946266990, guid: 69c8f3cd47e0b7f4fbc728c42af5922d,
+        type: 3}
+    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.1309524
+      objectReference: {fileID: 0}
+    - target: {fileID: 6462026421937733049, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.7285714
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a7faa3b06351ce64ab50504a765f003c, type: 2}
     - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Sprite
@@ -1878,11 +1884,6 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 0.725
       objectReference: {fileID: 0}
-    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: a7faa3b06351ce64ab50504a765f003c, type: 2}
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -1906,7 +1907,7 @@ PrefabInstance:
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.75
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
@@ -1941,7 +1942,7 @@ PrefabInstance:
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.75
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 4023892104855816099, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}

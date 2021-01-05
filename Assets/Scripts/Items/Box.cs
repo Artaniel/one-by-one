@@ -5,7 +5,15 @@ using UnityEditor;
 
 public class Box : Container
 {
-    public void OnBullenHit() {
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.TryGetComponent(out BulletLife bulletLife))
+        {
+            OnBulletHit();
+        }
+    }
+ 
+    public void OnBulletHit() {
         //SFX/VFX? 
         Open();
         Destroy(gameObject);

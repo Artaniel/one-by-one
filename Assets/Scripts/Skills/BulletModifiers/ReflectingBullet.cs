@@ -14,12 +14,14 @@ public class ReflectingBullet : BulletModifier
     public override void HitEnvironmentModifier(BulletLife bullet, Collider2D coll)
     {
         base.HitEnvironmentModifier(bullet, coll);
-        RaycastHit2D hit = Physics2D.Raycast(bullet.transform.position, bullet.transform.right, 5);
-        if (hit)
-        {
-            Vector2 reflectDir = Vector2.Reflect(bullet.transform.right, hit.normal);
-            float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
-            bullet.transform.eulerAngles = new Vector3(0, 0, rot);
-        }
+
+        Vector3 bulletPos = bullet.transform.position - bullet.transform.right * 0.1f;
+        bulletPos.z = 0;
+        Vector2 closestPoint = coll.ClosestPoint(bulletPos);
+        var normal = (new Vector3(closestPoint.x, closestPoint.y) - bulletPos).normalized;
+
+        Vector2 reflectDir = Vector2.Reflect(bullet.transform.right, normal);
+        float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
+        bullet.GetComponent<Rigidbody2D>().rotation = rot;
     }
 }

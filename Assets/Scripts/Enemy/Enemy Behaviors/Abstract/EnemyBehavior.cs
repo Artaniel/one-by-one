@@ -28,7 +28,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     protected virtual void Awake()
     {
         agent = gameObject.GetComponent<AIAgent>();
-        target = GameObject.FindGameObjectWithTag("Player");
+        if (!target) target = GameObject.FindGameObjectWithTag("Player");
     }
 
     protected virtual void Start()

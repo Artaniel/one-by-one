@@ -15,6 +15,7 @@ public class EnemyBulletLife : MonoBehaviour
 
     private void Awake()
     {
+        body = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         dynamicLight = GetComponent<DynamicLightInOut>();
         lightFlicker = GetComponent<LightFlicker>();
@@ -46,7 +47,7 @@ public class EnemyBulletLife : MonoBehaviour
 
     protected virtual void Move()
     {
-        transform.Translate(Vector2.right * BulletSpeed * Time.deltaTime, Space.Self);
+        body.velocity = transform.right * BulletSpeed;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D coll)
@@ -90,4 +91,5 @@ public class EnemyBulletLife : MonoBehaviour
     
     private bool hasExplosion = false;
     private float startingBulletSpeed;
+    private Rigidbody2D body;
 }
