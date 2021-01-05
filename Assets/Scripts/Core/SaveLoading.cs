@@ -29,8 +29,8 @@ public class SaveLoading : MonoBehaviour
     static public string seed = "";
     static public List<int> finishedEpisodes = new List<int>();
 
-    public enum achevNames { gameCompleted04, hardmodeCompleted04, finishedTutorial3Once };
-    static public Dictionary<achevNames, int> achievеments;
+    public enum AchievName { GameCompleted04, HardmodeCompleted04, FinishedTutorial3Once };
+    static public Dictionary<AchievName, int> achievеments;
 
     private void Awake()
     {
@@ -168,7 +168,7 @@ public class SaveLoading : MonoBehaviour
             PermanentSaveRecord recordPermanent = new PermanentSaveRecord();
             recordPermanent.achivements = new Dictionary<string, int>();
             recordPermanent.formatedDictionary = new Dictionary<string, string>();
-            achievеments = new Dictionary<achevNames, int>();
+            achievеments = new Dictionary<AchievName, int>();
         }
     }
 
@@ -211,24 +211,24 @@ public class SaveLoading : MonoBehaviour
 
     static private void ParcePermanent(PermanentSaveRecord achevRecord)
     {
-        achievеments = new Dictionary<achevNames, int>();
+        achievеments = new Dictionary<AchievName, int>();
         foreach (var achev in achevRecord.achivements) {
             achievеments.Add(StringToAchivName(achev.Key), achev.Value);
         }
     }
 
-    static private achevNames StringToAchivName(string s) {
+    static private AchievName StringToAchivName(string s) {
         switch (s)
         {
             case "gameCompleted04":
-                return achevNames.gameCompleted04;                
+                return AchievName.GameCompleted04;                
             case "hardmodeCompleted04":
-                return achevNames.hardmodeCompleted04;
+                return AchievName.HardmodeCompleted04;
             case "finishedTutorial3Once":
-                return achevNames.finishedTutorial3Once;
+                return AchievName.FinishedTutorial3Once;
             default:
                 Debug.Log("error on achivement name deserelize");
-                return achevNames.gameCompleted04; // невозможно вернуть нулл, надо заткнуть хоть чем то. В теории мы не должны тут оказаться.
+                return AchievName.GameCompleted04; // невозможно вернуть нулл, надо заткнуть хоть чем то. В теории мы не должны тут оказаться.
         }
     }
 
@@ -243,10 +243,9 @@ public class SaveLoading : MonoBehaviour
         GameObject.FindWithTag("Player").GetComponent<SkillManager>()?.SaveSkills(); // It will trigger SaveAll inside after creating skill record
     }
 
-    static public void ResetNotPermanentSaveData()
+    static public void ResetNonPermanentSaveData()
     {
         currentScene = "Hub";
-        //finishedEpisodes = new List<int>();
         SaveProgress();
     }
 
@@ -268,7 +267,7 @@ public class SaveLoading : MonoBehaviour
         SaveProgress();
     }
 
-    static public void SaveAchievement(achevNames name, int value)
+    static public void SaveAchievement(AchievName name, int value)
     {
         if (!achievеments.ContainsKey(name))
             achievеments.Add(name, value);
@@ -277,7 +276,7 @@ public class SaveLoading : MonoBehaviour
         SavePermanent();
     }
 
-    static public bool CheckAchievement(achevNames name) {
+    static public bool CheckAchievement(AchievName name) {
         if (achievеments == null)
             Load();
         if (achievеments.ContainsKey(name))
@@ -286,7 +285,7 @@ public class SaveLoading : MonoBehaviour
             return false;
     }
 
-    static public void AddFinisfedEpisode(int episodeID)
+    static public void AddFinishedEpisode(int episodeID)
     {
         finishedEpisodes.Add(episodeID);
         SaveProgress();

@@ -81,7 +81,7 @@ public class HubHardmodeSelector : MonoBehaviour
         hardmodeVisualContainer.SetActive(false);
         hubHardmodeText.text = nonHardmodeText;
         canvasHardmodeText.text = nonHardmodeText;
-        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.gameCompleted04))
+        if (SaveLoading.CheckAchievement(SaveLoading.AchievName.GameCompleted04))
         {
             noPortalSkip.SetActive(false);
         }

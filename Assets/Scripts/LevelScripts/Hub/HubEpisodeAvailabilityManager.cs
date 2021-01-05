@@ -21,11 +21,11 @@ public class HubEpisodeAvailabilityManager : MonoBehaviour
 
     private void HubZoneAvailability()
     {
-        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.gameCompleted04))
+        if (SaveLoading.CheckAchievement(SaveLoading.AchievName.GameCompleted04))
         {
             barrierToPortals.SetActive(false);
         }
-        if (SaveLoading.CheckAchievement(SaveLoading.achevNames.hardmodeCompleted04))
+        if (SaveLoading.CheckAchievement(SaveLoading.AchievName.HardmodeCompleted04))
         {
             barrierToItems.SetActive(false);
         }
@@ -38,6 +38,6 @@ public class HubEpisodeAvailabilityManager : MonoBehaviour
     }
 
     public static void EpisodeComplited(int id) { // expected to be called from episode boss win script        
-        SaveLoading.AddFinisfedEpisode(id);
+        SaveLoading.AddFinishedEpisode(id);
     }
 }

@@ -365,9 +365,9 @@ public class EmpressBoss : BossEncounter
     private IEnumerator DelayedLevelLoad()
     {
         yield return new WaitForSeconds(4.5f);
-        SaveLoading.SaveAchievement(SaveLoading.achevNames.gameCompleted04, 4);
+        SaveLoading.SaveAchievement(SaveLoading.AchievName.GameCompleted04, 4);
         if (difficulty == "2") 
-            SaveLoading.SaveAchievement(SaveLoading.achevNames.hardmodeCompleted04, 4);
+            SaveLoading.SaveAchievement(SaveLoading.AchievName.HardmodeCompleted04, 4);
         Metrics.OnWin();
         if (CharacterLife.isDeath) yield return null;
         SceneLoading.NextLevel("FinalCredits");

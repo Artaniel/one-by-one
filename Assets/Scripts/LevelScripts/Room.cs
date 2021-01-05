@@ -30,6 +30,8 @@ public class Room : MonoBehaviour
     public UnityEvent OnThisLeave = new UnityEvent();
     public UnityEvent OnThisClear = new UnityEvent();
 
+    public static bool inTransition = false;
+
     private void Awake()
     {
         if (possibleContainerPosition == null) possibleContainerPosition = transform; // if forgot to set, center of room
@@ -57,29 +59,36 @@ public class Room : MonoBehaviour
     }
 
     public void MoveToRoom(Door wayInDoor) {
+        inTransition = true;
         wayInDoor.connectedDoor.room.LeaveRoom();
         CameraForLabirint.instance.ChangeRoom(wayInDoor.room.gameObject, roomType == RoomType.arena && !labirint.blueprints[roomID].visited);
 
         LightsOn();
-
-        Labirint.instance.OnRoomChanged(roomID);
-
+        
         var player = GameObject.FindGameObjectWithTag("Player");
         var playerMove = player.GetComponent<CharacterMovement>();
         float delay = 0.5f;
-        playerMove.DummyMovement(wayInDoor.transform.position + Direction.SideToVector3(wayInDoor.direction), hidePlayer: true, timeToDestination: delay);
+        playerMove.DummyMovement(wayInDoor.transform.position, hidePlayer: true, timeToDestination: delay);
 
         StartCoroutine(DelayedEnterRoom(delay));
     }
 
+    private IEnumerator MoveToRoomNextFrame()
+    {
+        yield return new WaitForEndOfFrame();
+    }
+
     private IEnumerator DelayedEnterRoom(float delay)
     {
+        yield return new WaitForEndOfFrame();
+        Labirint.instance.OnRoomChanged(roomID);
         yield return new WaitForSeconds(0.5f);
         
         ArenaInitCheck();
 
         OnAnyRoomEnter.Invoke();
         OnThisEnter.Invoke();
+        inTransition = false;
     }
 
     public void ArenaInitCheck()

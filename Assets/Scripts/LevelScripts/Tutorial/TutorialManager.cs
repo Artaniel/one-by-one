@@ -141,6 +141,6 @@ public class TutorialManager : MonoBehaviour
         {
             animation.Play("Open");
         }
-        SaveLoading.SaveAchievement(SaveLoading.achevNames.finishedTutorial3Once, 1);
+        SaveLoading.SaveAchievement(SaveLoading.AchievName.FinishedTutorial3Once, 1);
     }
 }

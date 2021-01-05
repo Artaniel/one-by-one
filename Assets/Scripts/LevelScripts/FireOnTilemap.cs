@@ -250,8 +250,9 @@ public class FireOnTilemap : MonoBehaviour
 
     private void PlayerDamageCheck() {
         Vector3Int testedPosition = room.wallsTilemap.WorldToCell(player.transform.position) - arrayToTilemap;
-        if (testedPosition.x < fireMap.GetLength(0) && testedPosition.y < fireMap.GetLength(1) && // firstly check 
-            fireMap[testedPosition.x, testedPosition.y] == 4)  // if on tile with fire
+        //print(testedPosition);
+        //print(fireMap == null);
+        if (!Room.inTransition && fireMap[testedPosition.x, testedPosition.y] == 4)  // if on tile with fire
             characterLife.Damage(1);
                 
     }
