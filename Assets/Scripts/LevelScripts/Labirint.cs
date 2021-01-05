@@ -29,7 +29,7 @@ public class Labirint : MonoBehaviour
     private Vector3 respawnPoint;
     public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
-    [SerializeField] public string welcomeText = "";
+    [SerializeField] public LocationName locationName = null;
     [HideInInspector] static public Room currentRoom;
     [HideInInspector] public bool OneRoomMode = false;
     public AudioClip music = null;
@@ -62,6 +62,11 @@ public class Labirint : MonoBehaviour
         }
 
         StartingRoomSpawn();
+        if (locationName)
+        {
+            locationName = Instantiate(locationName);
+            EventManager.Notify($"{locationName.GetRandomName()}", 1);
+        }
     }
     
     public void InitBlueprintsFromBuilder() {
@@ -141,7 +146,7 @@ public class Labirint : MonoBehaviour
             if (!activeRooms.Contains(roomID))
             {
                 ActivateRoom(roomID);
-                Room currentRoom = blueprints[currentRoomID].instance.GetComponent<Room>();
+                Room currentIterationRoom = blueprints[currentRoomID].instance.GetComponent<Room>();
                 Room newRoom = blueprints[roomID].instance.GetComponent<Room>();
                 Door oldDoor = null;
                 Door newDoor = null;
@@ -150,7 +155,7 @@ public class Labirint : MonoBehaviour
                 {
                     if (blueprints[currentRoomID].rooms.ContainsKey(side) && blueprints[currentRoomID].rooms[side] == roomID)
                     {
-                        oldDoor = currentRoom.doorsSided[side];
+                        oldDoor = currentIterationRoom.doorsSided[side];
                         newDoor = newRoom.doorsSided[Direction.InvertSide(side)];
                         oldDoor.SpawnDoor();
                         newDoor.SpawnDoor();
@@ -160,7 +165,7 @@ public class Labirint : MonoBehaviour
                 }
                 ConnectDoors(oldDoor, newDoor);
                 offset = oldDoor.transform.localPosition + offset - newDoor.transform.localPosition; // between rooms
-                newRoom.transform.position = currentRoom.transform.position + offset;
+                newRoom.transform.position = currentIterationRoom.transform.position + offset;
 
                 if (blueprints[roomID].instance.GetComponent<ArenaEnemySpawner>() != null && roomID != currentRoomID) {
                     //if room with arena, but we are not in it yet
@@ -288,15 +293,6 @@ public class Labirint : MonoBehaviour
         float resultMagnitude = result.magnitude;
         result = result.normalized * (resultMagnitude + addDistanceToNewDoor);
 
-        //if (distanceDoorToBorderOld + distanceDoorToBorderNew > addDistanceToNewDoor)
-        //{
-        //    result = Direction.SideToVector3(side) * (distanceDoorToBorderOld + distanceDoorToBorderNew);
-        //}
-        //else {
-        //    result = Direction.SideToVector3(side) * distanceToNewDoor;
-        //    print($"2 {result} {result.magnitude}");
-        //}
-
         return result;
     }
 
@@ -315,7 +311,6 @@ public class Labirint : MonoBehaviour
         if (SaveLoading.currentScene != currentSceneNumber)
         {            
             SaveLoading.SaveCurrentScene(SceneManager.GetActiveScene().name);
-            EventManager.Notify($"{welcomeText} Game saved!", 1);
         }
     }
 
