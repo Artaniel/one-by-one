@@ -276,7 +276,6 @@ public class LabirintBuilder : MonoBehaviour
             }
     }
 
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) // Alt+M => DrawMap
