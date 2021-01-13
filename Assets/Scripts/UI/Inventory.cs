@@ -13,9 +13,12 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform draggingParent = null;
     [SerializeField] public GameObject cellPrefab = null;
     [SerializeField] private TMPro.TextMeshProUGUI tooltipText = null;
-    public Sprite ActiveFrame = null;
-    public Sprite BaseFrame = null;
-    public Sprite EmptyFrame = null;
+    public Sprite weaponActiveFrame = null;
+    public Sprite weaponBaseFrame = null;
+    public Sprite weaponEmptyFrame = null;
+    public Sprite activeActiveFrame = null;
+    public Sprite activeBaseFrame = null;
+    public Sprite activeEmptyFrame = null;
 
     public void Start()
     {
@@ -26,7 +29,7 @@ public class Inventory : MonoBehaviour
         nonEquippedActiveSkills = new List<SkillBase>();
         equippedActiveSkills = new List<SkillBase>();
         passiveSkills = new List<SkillBase>();
-        MakeContainer(activeItemsContainer);
+        //MakeContainer(activeItemsContainer);
         MakeContainer(weaponItemsContainer);
         AddActiveSkills();
         AddWeaponSkills();
@@ -98,7 +101,7 @@ public class Inventory : MonoBehaviour
                 for (int j = 0; j < cell.childCount; j++)
                     cell.GetChild(0).GetComponent<Image>().sprite = cellPrefab.GetComponent<Image>().sprite;
             }
-            MakeFrame(cell.gameObject, EmptyFrame);
+            MakeFrame(cell.gameObject, weaponEmptyFrame);
         }
     }
 
@@ -111,8 +114,8 @@ public class Inventory : MonoBehaviour
             // Очень интересное условие. Сравнивается с префабом, лул, что?
             if (k < items.Count && empCell.GetChild(0).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
             {
-                if (isActive) MakeFrame(empCell.gameObject, ActiveFrame);
-                else MakeFrame(empCell.gameObject, BaseFrame);
+                if (isActive) MakeFrame(empCell.gameObject, weaponActiveFrame);
+                else MakeFrame(empCell.gameObject, weaponBaseFrame);
                 var skillImage = empCell.GetChild(0).GetComponent<InventoryItemPresenter>();
                 skillImage.Init(draggingParent);
                 skillImage.Render(items[k], this);
@@ -125,9 +128,14 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < container.childCount; i++)
         {
-            var empCell = container.GetChild(i);
-            MakeFrame(empCell.gameObject, EmptyFrame);
-            var inst = Instantiate(cellPrefab, empCell);
+            Transform row = container.GetChild(i);
+            int rowCellsCount = row.childCount;
+            for (int j = 0; j < rowCellsCount; j++)
+            {
+                var empCell = row.GetChild(j);
+                MakeFrame(empCell.gameObject, weaponEmptyFrame);
+                Instantiate(cellPrefab, empCell);
+            }
         }
     }
 
@@ -151,7 +159,7 @@ public class Inventory : MonoBehaviour
                 skills.ActiveSkills.RemoveAll(skill => skill.skill == currentSkill);
                 var nonActiveList = skills.InventoryActiveSkills;
                 nonActiveList.Add(currentSkill as ActiveSkill);
-                MakeFrame(cell.parent.gameObject, BaseFrame);
+                MakeFrame(cell.parent.gameObject, weaponBaseFrame);
                 skills.RefreshUI();
             }
             else if (equippedActiveSkill.Count == 0 && skills.ActiveSkills.Count < skills.maxEquippedActiveCount)
@@ -159,7 +167,7 @@ public class Inventory : MonoBehaviour
                 skills.EquipActiveSkill(currentSkill as ActiveSkill);
                 var nonActiveList = skills.InventoryActiveSkills;
                 nonActiveList.Remove(currentSkill as ActiveSkill);
-                MakeFrame(cell.parent.gameObject, ActiveFrame);
+                MakeFrame(cell.parent.gameObject, weaponActiveFrame);
             }
         }
         else if (currentSkill is WeaponSkill)
@@ -177,14 +185,14 @@ public class Inventory : MonoBehaviour
                 else skills.RefreshUI();
                 var nonActiveList = skills.InventoryWeaponSkill;
                 nonActiveList.Add(currentSkill as WeaponSkill);
-                MakeFrame(cell.parent.gameObject, BaseFrame);
+                MakeFrame(cell.parent.gameObject, weaponBaseFrame);
             }
             else if (equippedWeapon.Count == 0 && skills.EquippedWeapons.Count < skills.maxEquippedWeaponCount)
             {
                 skills.EquipWeapon(currentSkill as WeaponSkill);
                 var nonActiveList = skills.InventoryWeaponSkill;
                 nonActiveList.Remove(currentSkill as WeaponSkill);
-                MakeFrame(cell.parent.gameObject, ActiveFrame);
+                MakeFrame(cell.parent.gameObject, weaponActiveFrame);
             }
         }
         skills.RefreshUI();

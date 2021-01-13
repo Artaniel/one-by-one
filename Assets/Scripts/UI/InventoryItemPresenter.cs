@@ -40,7 +40,7 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
             onDrag = true;
             var cellFrameImage = transform.parent.GetComponent<Image>();
             originalFrame = cellFrameImage.sprite;
-            cellFrameImage.sprite = inventory.EmptyFrame;
+            cellFrameImage.sprite = inventory.weaponEmptyFrame;
             transform.SetParent(draggingParent);
         }
     }
