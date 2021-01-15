@@ -145,8 +145,7 @@ public class AIAgent : MonoBehaviour
             }
         }
     }
-
-    Vector3 savedVelocity = new Vector3();
+    
     private Align[] rotateBehaviors;
     private MoveBehaviour[] moveBehaviours;
     private EnemyBehavior[] behaviours;

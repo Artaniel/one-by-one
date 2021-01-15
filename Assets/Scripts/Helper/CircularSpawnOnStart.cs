@@ -11,7 +11,7 @@ public class CircularSpawnOnStart : MonoBehaviour
 
     public Vector3 direction = Vector2.up;
 
-    void Start()
+    void OnEnable()
     {
         for (int i = 0; i < count; i ++)
         {

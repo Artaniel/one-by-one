@@ -545,8 +545,6 @@ public class SkillManager : MonoBehaviour
     public List<EquippedActiveSkill> activeSkills = new List<EquippedActiveSkill>();
 
     public List<EquippedWeapon> equippedWeapons = new List<EquippedWeapon>();
-    private KeyCode rotateWeaponLeft = KeyCode.Q;
-    private KeyCode rotateWeaponRight = KeyCode.E;
     private CharacterShooting attackManager;
     private SkillsUI skillsUI;
     private CharacterMovement characterMovement;

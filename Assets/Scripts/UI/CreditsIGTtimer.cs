@@ -5,7 +5,7 @@ using TMPro;
 
 public class CreditsIGTtimer : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textMesh;
+    [SerializeField] private TextMeshProUGUI textMesh = null;
 
     private void Awake()
     {

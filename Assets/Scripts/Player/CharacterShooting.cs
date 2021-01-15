@@ -155,8 +155,7 @@ public class CharacterShooting : MonoBehaviour
     private float attackSpeedMult = 1f;
 
     private GunfireAnimator gunfireAnimator;
-
-    private KeyCode reloadButton = KeyCode.R;
+    
     private SkillManager skillManager;
 
     private WeaponTipDynamic weaponTipDynamic;

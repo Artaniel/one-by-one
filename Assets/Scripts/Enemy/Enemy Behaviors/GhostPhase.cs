@@ -15,12 +15,13 @@ public class GhostPhase : Attack
         BoxCollider = GetComponentInChildren<BoxCollider2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         standardSpeed = agent.moveSpeedMult;
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected override void DoAttack()
     {
-        var audio = GetComponent<AudioSource>();
-        AudioManager.Play("Ghost", audio);
+        audioSource.clip = attackSound;
+        AudioManager.Play("GhostPhase", audioSource);
 
         BoxCollider.isTrigger = PacifistInBoost;
         agent.moveSpeedMult *= GhostBoostSpeed;
@@ -49,4 +50,5 @@ public class GhostPhase : Attack
     private BoxCollider2D BoxCollider;
     private SpriteRenderer sprite;
     private float standardSpeed;
+    private AudioSource audioSource;
 }

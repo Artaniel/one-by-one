@@ -12,7 +12,7 @@ public class CharacterLife : MonoBehaviour
     [SerializeField] private GameObject hitEffect = null;
     public GameObject dummyPlayerPrefab = null;
     new private AudioSource audio;
-    [SerializeField] private AudioClip[] damageSounds;
+    [SerializeField] private AudioClip[] damageSounds = null;
 
     [HideInInspector]public bool dashActiveSkill;
     [HideInInspector] public UnityEvent hpChangedEvent = new UnityEvent();
