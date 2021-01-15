@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomClosed
       objectReference: {fileID: 0}
+    - target: {fileID: 8460215062543394922, guid: 7fa12b37d839ade48a6c8f4dcb45f8ac,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8460215062543394920, guid: 7fa12b37d839ade48a6c8f4dcb45f8ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -196,6 +201,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[1].Array.size
       value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4251794201206103643, guid: 7fa12b37d839ade48a6c8f4dcb45f8ac,
+        type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4251794201206103643, guid: 7fa12b37d839ade48a6c8f4dcb45f8ac,
         type: 3}
@@ -853,12 +863,12 @@ PrefabInstance:
     - target: {fileID: 4305704709854959873, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.67
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4305704709854959873, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.52
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4305704709854959873, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
         type: 3}
@@ -907,6 +917,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7523444530638043168, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
         type: 3}
+      propertyPath: skills.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7523444530638043168, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
+        type: 3}
       propertyPath: forceSkillRewrite
       value: 1
       objectReference: {fileID: 0}
@@ -915,6 +930,18 @@ PrefabInstance:
       propertyPath: skills.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 3b5c488b5c8e6c640aa89a413d0ff4bf,
+        type: 2}
+    - target: {fileID: 7523444530638043168, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
+        type: 3}
+      propertyPath: skills.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a11697afe35234d4e92a182ec239c6dc,
+        type: 2}
+    - target: {fileID: 7523444530638043168, guid: 0b38f5738ea76fc47bbc9479eb38ab82,
+        type: 3}
+      propertyPath: skills.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b8c22706080465044b4188601627663b,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b38f5738ea76fc47bbc9479eb38ab82, type: 3}
@@ -995,6 +1022,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GhostMonster Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5058627307541784233, guid: 93c2cc0996762b142afa5df6670825d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6939257482792719055, guid: 93c2cc0996762b142afa5df6670825d0,
         type: 3}
@@ -1095,6 +1127,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699113751461819533, guid: 93c2cc0996762b142afa5df6670825d0,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699113751461819533, guid: 93c2cc0996762b142afa5df6670825d0,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93c2cc0996762b142afa5df6670825d0, type: 3}
@@ -5406,7 +5448,7 @@ PrefabInstance:
     - target: {fileID: 1687432345, guid: 6269f040c638a864e94169dd44ff0d5c, type: 3}
       propertyPath: combatRoomPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 1862670800002842281, guid: 531277b802fe9d049a098b7935dc2211,
+      objectReference: {fileID: 7201675352182846696, guid: b349c4998421c0b41a4c0ea0a281c77c,
         type: 3}
     - target: {fileID: 1687432345, guid: 6269f040c638a864e94169dd44ff0d5c, type: 3}
       propertyPath: combatRoomPrefabs.Array.data[2]
@@ -5609,6 +5651,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Text
       objectReference: {fileID: 0}
+    - target: {fileID: 6449398061573970087, guid: ca7cdd6fbad392141b526585d7c94460,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6449398061573970093, guid: ca7cdd6fbad392141b526585d7c94460,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5767,12 +5814,12 @@ PrefabInstance:
     - target: {fileID: 6449398060389703039, guid: ca7cdd6fbad392141b526585d7c94460,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6449398061050123736, guid: ca7cdd6fbad392141b526585d7c94460,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca7cdd6fbad392141b526585d7c94460, type: 3}

@@ -6,19 +6,35 @@ public class PlaySoundOnAwake : MonoBehaviour
 {
     [SerializeField]
     private bool shouldPlaySound = true;
+
+    [SerializeField]
+    private AudioClip audioClip = null;
     
     [Header("Non-default name?")]
-    [Tooltip("Can be left blank if there is no need in specific name")]
+    [Tooltip("Can be left blank if there is no need in specific name. Only works with audiosource")]
     [SerializeField]
     private string clipName = "";
+    
+    private AudioSource source;
+
+    void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     void OnEnable()
     {
         if (shouldPlaySound)
         {
-            var source = GetComponent<AudioSource>();
-            var name = clipName == "" ? source.clip.name : clipName;
-            AudioManager.Play(name, source);
+            if (audioClip)
+            {
+                AudioManager.Play(audioClip);
+            }
+            else
+            {
+                var name = clipName == "" ? source.clip.name : clipName;
+                AudioManager.Play(name, source);
+            }
         }    
     }
 }

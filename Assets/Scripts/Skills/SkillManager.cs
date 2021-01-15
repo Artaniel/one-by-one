@@ -480,7 +480,7 @@ public class SkillManager : MonoBehaviour
     {
         if (equippedWeapon.reloadTimeLeft == 0 && equippedWeapon.ammoLeft < equippedWeapon.logic.ammoMagazine)
         {
-            if (playSound && reloadSound) AudioManager.Play(reloadSound);
+            if (playSound && equippedWeapon.logic.reloadSound) AudioManager.Play(equippedWeapon.logic.reloadSound);
             equippedWeapon.reloadTimeLeft = equippedWeapon.logic.reloadTime *
                 Mathf.Lerp(1, 0.4f, (float)equippedWeapon.ammoLeft / equippedWeapon.logic.ammoMagazine); // more bullets = faster reload
         }

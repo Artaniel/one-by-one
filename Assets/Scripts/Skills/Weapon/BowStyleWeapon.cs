@@ -65,6 +65,7 @@ public class BowStyleWeapon : ShootingWeapon
         chargingTime = 0;
 
         characterMovement.AddToSpeedMultiplier(-0.5f);
+        AudioManager.Play(attackSound);
     }
 
     protected virtual void FinishAttack()
