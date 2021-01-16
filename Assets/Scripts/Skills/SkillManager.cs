@@ -21,6 +21,9 @@ public class SkillManager : MonoBehaviour
 
     public AudioClip reloadSound = null;
     public AudioClip switchSound = null;
+
+    private float timeRechargeSpeed = 0.01f;
+    private float hitRechargeSpeed = 0.15f;
     /// <summary>
     /// Get all skills in-game from database object
     /// </summary>
@@ -286,6 +289,8 @@ public class SkillManager : MonoBehaviour
             attackManager.LoadNewWeapon(equippedWeapon, instant: true);
             characterMovement.UpdateWeaponType(equippedWeapon.logic.weaponType);
         }
+
+        MonsterLife.monsterDamaged.AddListener(ChargeSkillsFromDamage);
     }
 
     private void InitializeSkills()
@@ -376,7 +381,7 @@ public class SkillManager : MonoBehaviour
         bool[] isActiveSkill = new bool[SkillsUI.skillCount];
         for (int i = 0; i < activeSkills.Count; i++)
         {
-            activeSkills[i].cooldown = Mathf.Max(0, activeSkills[i].cooldown - Time.deltaTime);
+            activeSkills[i].cooldown = Mathf.Max(0, activeSkills[i].cooldown - (Time.deltaTime * timeRechargeSpeed));
 
             if (activeSkills[i].activeTimeLeft > 0)
             {
@@ -534,6 +539,14 @@ public class SkillManager : MonoBehaviour
             }
         }
         skillsUI.SetSkillSprites(skillIcons);
+    }
+
+    public void ChargeSkillsFromDamage(float damage, GameObject _)
+    {
+        foreach (var skill in activeSkills)
+        {
+            skill.cooldown = Mathf.Max(0, skill.cooldown - (damage * hitRechargeSpeed));
+        }
     }
     #endregion
 

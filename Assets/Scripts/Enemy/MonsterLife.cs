@@ -22,6 +22,7 @@ public class MonsterLife : MonoBehaviour
     // Apply listeners on start!!
     public static UnityEvent OnEnemyDead = new UnityEvent();
     public UnityEvent hpChangedEvent = new UnityEvent();
+    public static MonsterDamagedEvent monsterDamaged = new MonsterDamagedEvent();
 
     [HideInInspector] public MonsterManager monsterManager = null;
 
@@ -33,6 +34,8 @@ public class MonsterLife : MonoBehaviour
     {
         return isBoy();
     }
+
+    public class MonsterDamagedEvent : UnityEvent<float, GameObject> { }
 
     private void Awake()
     {
@@ -99,7 +102,11 @@ public class MonsterLife : MonoBehaviour
             {
                 var wasHp = HP;
                 HP = Mathf.Max(minHpValue, HP - damage);
-                if (wasHp != HP) hpChangedEvent?.Invoke();
+                if (wasHp != HP)
+                {
+                    hpChangedEvent?.Invoke();
+                    monsterDamaged.Invoke(wasHp - HP, gameObject);
+                }
                 else UndamagedAnimation();
 
                 _HitEffect();

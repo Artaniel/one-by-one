@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 9
-  dashActiveSkill: 0
+  allowDirectionSwitch: 1
   direction: {x: 0, y: 0}
   shouldDoOOBCheck: 1
 --- !u!58 &4305704709854959872
@@ -644,6 +644,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  maxHp: 4
 --- !u!114 &7523444530638043168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +675,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9c7f83ae5537bbf448f224351df4abf3, type: 2}
   - {fileID: 11400000, guid: f0fe970116203044e875a369e68e8610, type: 2}
   - {fileID: 11400000, guid: 9928273a409763a48b8e67fad61de033, type: 2}
+  activeSkills: []
+  equippedWeapons: []
 --- !u!114 &4882167953868917611
 MonoBehaviour:
   m_ObjectHideFlags: 0

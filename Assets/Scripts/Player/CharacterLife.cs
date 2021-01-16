@@ -18,6 +18,9 @@ public class CharacterLife : MonoBehaviour
     [HideInInspector] public UnityEvent hpChangedEvent = new UnityEvent();
     [HideInInspector] public UnityEvent playerHitEvent = new UnityEvent();
 
+    [SerializeField]
+    private int maxHp = 4;
+
     public void Start()
     {
         dashActiveSkill = false;
@@ -239,7 +242,7 @@ public class CharacterLife : MonoBehaviour
     private float HPDropChanceAmplifier = 1f;
 
     private int hp = 3;
-    private int maxHp = 3;
+    
     private float invulTime = 0.8f;
     private float invulTimeLeft = 0;
 
