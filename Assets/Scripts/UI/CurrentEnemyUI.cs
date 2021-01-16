@@ -19,7 +19,13 @@ public class CurrentEnemyUI : MonoBehaviour
         canvasScript.sortingLayerName = "OnEffect";
         EnemyName = canvasEnemyName.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         EnemyName.GetComponent<Canvas>().sortingLayerName = "OnEffect";
-        enemyNameUICenter = canvasEnemyName.transform.GetChild(0).GetChild(1).GetComponent<RectTransform>();
+        enemyNameUIBackground = canvasEnemyName.transform.GetChild(0).GetComponent<RectTransform>();
+        
+        // background gradient width = (left+right)/3 + middle  (not really half)
+        leftRightHalfWidth =
+            (canvasEnemyName.transform.GetChild(1).GetChild(0).GetComponent<RectTransform>().sizeDelta.x
+            + canvasEnemyName.transform.GetChild(1).GetChild(2).GetComponent<RectTransform>().sizeDelta.x) / 3f;
+        enemyNameUICenter = canvasEnemyName.transform.GetChild(1).GetChild(1).GetComponent<RectTransform>();
         sizeY = enemyNameUICenter.sizeDelta.y;
     }
 
@@ -37,6 +43,7 @@ public class CurrentEnemyUI : MonoBehaviour
             EnemyName.text = newCurrentEnemy;
         }
         enemyNameUICenter.sizeDelta = new Vector2(Mathf.Lerp(oldUIwidth, newUIwidth, timeSinceLastNewName), sizeY);
+        enemyNameUIBackground.sizeDelta = new Vector2(enemyNameUICenter.sizeDelta.x + leftRightHalfWidth, enemyNameUICenter.sizeDelta.y);
     }
 
     public static void SetCurrentEnemy(GameObject enemy)
@@ -64,8 +71,11 @@ public class CurrentEnemyUI : MonoBehaviour
     private static string oldCurrentEnemy;
     private static string newCurrentEnemy;
 
-    private GameObject gameController;
     private static RectTransform enemyNameUICenter = null;
+    private static RectTransform enemyNameUIBackground = null;
+    // background gradient width = (left+right)/2 + middle
+    private float leftRightHalfWidth;
+
     public static TMPro.TextMeshProUGUI EnemyName;
     private static GameObject canvasEnemyName;
     private float sizeY;

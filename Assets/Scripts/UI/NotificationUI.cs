@@ -8,10 +8,16 @@ public class NotificationUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI notificationText = null;
     [SerializeField] private RectTransform notificationUICenter = null;
+    [SerializeField] private RectTransform notificationUILeft = null;
+    [SerializeField] private RectTransform notificationUIRight = null;
+    [SerializeField] private RectTransform notificationUIBackground = null;
     [SerializeField] private float transitionTime = 0.35f;
     [SerializeField] private float fadeInTime = 0.1f;
     [SerializeField] private float fadeOutTime = 0.1f;
     [SerializeField] private float showTime = 2f;
+
+    // background gradient width = (left+right)/2 + middle
+    private float leftRightHalfWidth;
 
     public void HideImmediate()
     {
@@ -61,6 +67,7 @@ public class NotificationUI : MonoBehaviour
         AnimationState.Reset();
         transparencyManager = GetComponent<TransparencySetterUI>();
         transparencyManager.AlphaValue = 0f;
+        leftRightHalfWidth = (notificationUILeft.sizeDelta.x + notificationUIRight.sizeDelta.x) / 1.85f; // bruh
     }
 
     private void OnNotify(string text, int urgency)
@@ -91,6 +98,8 @@ public class NotificationUI : MonoBehaviour
             var newW = Mathf.Lerp(AnimationState.OldSize.x, AnimationState.NewSize.x, progress);
             var newH = Mathf.Lerp(AnimationState.OldSize.y, AnimationState.NewSize.y, progress);
             notificationUICenter.sizeDelta = new Vector2(newW, newH);
+            var newBGW = newW + leftRightHalfWidth;
+            notificationUIBackground.sizeDelta = new Vector2(newBGW, newH);
             
             if (progress >= 1)
             {
