@@ -44,6 +44,8 @@ public class Labirint : MonoBehaviour
         Room.OnAnyRoomLeave = new UnityEngine.Events.UnityEvent();
         
         MonsterLife.ClearUsedNames();
+        Debug.Log($"Lab. - {SceneManager.GetActiveScene().name}");
+        Debug.Log($"Diff. - {SaveLoading.difficulty}. Seed - {SaveLoading.seed}");
     }
 
     private void Start()

@@ -51,7 +51,6 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
 
     private void StartDissolve()
     {
-        print(room.roomID + " " + Labirint.currentRoom.roomID);
         room.OnThisClear.RemoveListener(StartDissolve);
         appliedListener = false;
         room = null;

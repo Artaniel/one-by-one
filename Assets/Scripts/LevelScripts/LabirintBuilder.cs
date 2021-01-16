@@ -287,10 +287,7 @@ public class LabirintBuilder : MonoBehaviour
         if (seed != "")
         {
             Random.InitState(seed.GetHashCode() + SceneManager.GetActiveScene().name.GetHashCode());
-            Debug.Log("seed = "+seed);
         }
-        else
-            Debug.Log("no seed");
     }
 
     static public void SetupSeed(string seedInput) {

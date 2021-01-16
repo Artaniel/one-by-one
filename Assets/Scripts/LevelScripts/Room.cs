@@ -70,6 +70,7 @@ public class Room : MonoBehaviour
         float delay = 0.5f;
         playerMove.DummyMovement(wayInDoor.transform.position, hidePlayer: true, timeToDestination: delay);
 
+        Debug.Log($"Entering \"{wayInDoor.room.name}\"");
         StartCoroutine(DelayedEnterRoom(delay));
     }
 

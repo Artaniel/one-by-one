@@ -106,7 +106,7 @@ public class Metrics : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Empty metrics file exception");
+                    Debug.Log("Empty metrics. Force rewrite.");
                     metrics = new MetricsRecords();
                     file.Close();
                     SaveMetrics(metrics);
