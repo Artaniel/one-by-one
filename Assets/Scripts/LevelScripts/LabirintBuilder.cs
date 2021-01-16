@@ -282,11 +282,19 @@ public class LabirintBuilder : MonoBehaviour
             DrawMap();
     }
 
-    private void SeedCheck() {
+    private void SeedCheck()
+    {
         seed = SaveLoading.seed;
         if (seed != "")
         {
             Random.InitState(seed.GetHashCode() + SceneManager.GetActiveScene().name.GetHashCode());
+            Debug.Log("seed = " + seed);
+        }
+        else
+        {
+            seed = Random.Range(0, int.MaxValue).ToString();
+            Random.InitState(seed.GetHashCode() + SceneManager.GetActiveScene().name.GetHashCode());
+            Debug.Log("temp seed = " + seed);
         }
     }
 
