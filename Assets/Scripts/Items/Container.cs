@@ -105,7 +105,10 @@ public class Container : MonoBehaviour
         if (containerOpened) AudioManager.Play(containerOpened);
         GetItem();
         if (itemToDrop != null)
-            Instantiate(itemToDrop, transform.position, transform.rotation);
+        {
+            var item = Instantiate(itemToDrop, transform.position, transform.rotation);
+            item.transform.SetParent(Labirint.currentRoom.transform);
+        }
         else
         {
             //Debug.Log("Error on container open. Empty drop list");

@@ -23,6 +23,7 @@ public class CharacterLife : MonoBehaviour
 
     public void Start()
     {
+        hp = maxHp;
         dashActiveSkill = false;
         isDeath = false;
         hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
@@ -241,7 +242,7 @@ public class CharacterLife : MonoBehaviour
 
     private float HPDropChanceAmplifier = 1f;
 
-    private int hp = 3;
+    private int hp;
     
     private float invulTime = 0.8f;
     private float invulTimeLeft = 0;
