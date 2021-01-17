@@ -29,7 +29,7 @@ public class HubHardmodeSelector : MonoBehaviour
         if (coll.CompareTag("Player"))
         {
             canvasHardmodeSelector.SetActive(true);
-            Cursor.visible = true;
+            MouseCursor.state = MouseCursor.CursorState.HardwareRendered;
             CharacterShooting.GetCursor().gameObject.SetActive(false);
         }
     }
@@ -39,7 +39,7 @@ public class HubHardmodeSelector : MonoBehaviour
         if (coll.CompareTag("Player"))
         {
             canvasHardmodeSelector.SetActive(false);
-            Cursor.visible = false;
+            MouseCursor.state = MouseCursor.CursorState.SoftwareRendered;
             CharacterShooting.GetCursor().gameObject.SetActive(true);
         }
     }

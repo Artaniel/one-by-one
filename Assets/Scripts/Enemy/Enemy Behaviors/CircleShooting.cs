@@ -42,6 +42,7 @@ public class CircleShooting : MonoBehaviour
         }
         audioSource = GetComponent<AudioSource>();
         hasShotAudio = audioSource.clip != null;
+        monsterLife = GetComponent<MonsterLife>();
     }
 
     private void Update()

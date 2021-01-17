@@ -24,7 +24,7 @@ public class InventoryManager : MonoBehaviour
         {
             shooting.enabled = !shooting.enabled;
             inventory.SetActive(!inventory.activeSelf);
-            Cursor.visible = !Cursor.visible;
+            MouseCursor.state = inventory.activeSelf ? MouseCursor.CursorState.HardwareRendered : MouseCursor.CursorState.SoftwareRendered;
             opened = !opened;
         }
     }

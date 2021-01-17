@@ -32,8 +32,9 @@ public class CharacterShooting : MonoBehaviour
         mainCamera = Camera.main;
         cameraShaker = mainCamera.GetComponent<CameraShaker>();
         gunfireAnimator = GetComponentInChildren<GunfireAnimator>();
-        Cursor.visible = false;
+        
         gameCursor = Instantiate(mouseCursorObj);
+        MouseCursor.state = MouseCursor.CursorState.SoftwareRendered;
         skillManager = GetComponent<SkillManager>();
         weaponTipDynamic = weaponTip.GetComponent<WeaponTipDynamic>();
 
@@ -61,7 +62,7 @@ public class CharacterShooting : MonoBehaviour
         {
             lastMousePosition = Input.mousePosition;
             controllerControl = false;
-            gameCursor.SetActive(true);
+            MouseCursor.state = MouseCursor.CursorState.SoftwareRendered;
         }
     }
 
@@ -129,7 +130,7 @@ public class CharacterShooting : MonoBehaviour
     private const float __ignoreInputThreshold = 0.005f;
     private void RotateCharacterByStick(Vector3 value)
     {
-        gameCursor.SetActive(false);
+        MouseCursor.state = MouseCursor.CursorState.Hidden;
         if (value.magnitude > __ignoreInputThreshold)
         {
             float angle = Mathf.Atan2(value.y, value.x) * Mathf.Rad2Deg;

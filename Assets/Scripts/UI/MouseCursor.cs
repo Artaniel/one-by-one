@@ -11,6 +11,10 @@ public class MouseCursor : MonoBehaviour
     [SerializeField]
     private bool worldCoordinates = true;
 
+    // Software cursor used in-game. Hardware used in UI navigation
+    public enum CursorState { SoftwareRendered, HardwareRendered, Hidden };
+    public static CursorState state = CursorState.HardwareRendered;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +26,17 @@ public class MouseCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Pause.Paused)
+        if (state != CursorState.SoftwareRendered)
         {
             transform.position = new Vector3(-1337, -1337);
+            if (state == CursorState.HardwareRendered)
+            {
+                Cursor.visible = true;
+            }
         }
-        else
+        else if (state == CursorState.SoftwareRendered)
         {
+            Cursor.visible = false;
             var mousePos = Input.mousePosition;
             if (worldCoordinates)
             {

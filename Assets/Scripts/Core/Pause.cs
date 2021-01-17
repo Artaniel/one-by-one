@@ -27,12 +27,6 @@ public class Pause : MonoBehaviour
         }
     }
 
-    private void OnApplicationFocus()
-    {
-        Cursor.visible = Paused;
-        CharacterShooting.GetCursor().gameObject.SetActive(!Paused);
-    }
-
     public static void ChangeMenuVisibility()
     {
         for (int i = 0; i < myTransform.childCount; i++)
@@ -45,7 +39,8 @@ public class Pause : MonoBehaviour
     {
         Time.timeScale = shouldPause ? 0 : 1;
         Paused = shouldPause;
-        Cursor.visible = shouldPause;
+        MouseCursor.state = shouldPause ? MouseCursor.CursorState.HardwareRendered : MouseCursor.CursorState.SoftwareRendered;
+
         CharacterShooting.GetCursor().gameObject.SetActive(!shouldPause);
 
         if (openMenu) ChangeMenuVisibility();

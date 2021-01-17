@@ -352,6 +352,7 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
+        if (CharacterLife.isDeath) return;
         HandleSkillActivation();
         ActiveSkillUpdate();
         HandleWeaponSwitch();
