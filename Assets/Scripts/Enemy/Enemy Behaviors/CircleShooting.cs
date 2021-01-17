@@ -25,6 +25,8 @@ public class CircleShooting : MonoBehaviour
     private GameObject player;
     private AIAgent agent;
 
+    private MonsterLife monsterLife;
+
     private void Awake()
     {
         player = GameObject.FindWithTag("Player");
@@ -44,7 +46,7 @@ public class CircleShooting : MonoBehaviour
 
     private void Update()
     {
-        if (!Pause.Paused)
+        if (!Pause.Paused && monsterLife.HP > 0)
             if (status == Status.shoot)
             {
                 timer -= Time.deltaTime;
