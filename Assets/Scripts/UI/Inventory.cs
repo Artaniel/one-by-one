@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour
         nonEquippedActiveSkills = new List<SkillBase>();
         equippedActiveSkills = new List<SkillBase>();
         passiveSkills = new List<SkillBase>();
-        //MakeContainer(activeItemsContainer);
+        MakeContainer(activeItemsContainer);
         MakeContainer(weaponItemsContainer);
         AddActiveSkills();
         AddWeaponSkills();
@@ -99,7 +99,7 @@ public class Inventory : MonoBehaviour
             if (cell.childCount > 0)
             {
                 for (int j = 0; j < cell.childCount; j++)
-                    cell.GetChild(0).GetComponent<Image>().sprite = cellPrefab.GetComponent<Image>().sprite;
+                    cell.GetChild(2).GetComponent<Image>().sprite = cellPrefab.GetComponent<Image>().sprite;
             }
             MakeFrame(cell.gameObject, weaponEmptyFrame);
         }
@@ -112,11 +112,11 @@ public class Inventory : MonoBehaviour
         {
             var empCell = container.GetChild(i);
             // Очень интересное условие. Сравнивается с префабом, лул, что?
-            if (k < items.Count && empCell.GetChild(0).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
+            if (k < items.Count)// && empCell.GetChild(2).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
             {
                 if (isActive) MakeFrame(empCell.gameObject, weaponActiveFrame);
                 else MakeFrame(empCell.gameObject, weaponBaseFrame);
-                var skillImage = empCell.GetChild(0).GetComponent<InventoryItemPresenter>();
+                var skillImage = empCell.GetChild(2).GetComponent<InventoryItemPresenter>();
                 skillImage.Init(draggingParent);
                 skillImage.Render(items[k], this);
                 k++;
@@ -128,14 +128,9 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < container.childCount; i++)
         {
-            Transform row = container.GetChild(i);
-            int rowCellsCount = row.childCount;
-            for (int j = 0; j < rowCellsCount; j++)
-            {
-                var empCell = row.GetChild(j);
-                MakeFrame(empCell.gameObject, weaponEmptyFrame);
-                Instantiate(cellPrefab, empCell);
-            }
+            var empCell = container.GetChild(i);
+            MakeFrame(empCell.gameObject, weaponEmptyFrame);
+            Instantiate(cellPrefab, empCell);
         }
     }
 
@@ -200,7 +195,7 @@ public class Inventory : MonoBehaviour
 
     public static void MakeFrame(GameObject cell, Sprite frame)
     {
-        cell.GetComponent<Image>().sprite = frame;
+        cell.transform.GetChild(1).GetComponent<Image>().sprite = frame;
     }
 
     #region Tooltip

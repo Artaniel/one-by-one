@@ -25,6 +25,7 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        print("meow");
         if (currentSkill && inventory) inventory.UpdateToolTip(currentSkill);
     }
 
@@ -76,7 +77,7 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
             else
             {
                 var tmpFrame = destinationCell.GetComponent<Image>().sprite;
-                Transform destinationSkillImage = destinationCell.GetChild(0);
+                Transform destinationSkillImage = destinationCell.GetChild(2);
                 destinationSkillImage.SetParent(originalParent);
                 destinationSkillImage.transform.localPosition = new Vector2(0, 0);
                 destinationSkillImage.GetComponent<InventoryItemPresenter>().SetOriginalParent(originalParent);
@@ -92,9 +93,9 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void Render(SkillBase item, Inventory inventory)
     {
+        itemImage.enabled = true;
         if (item.miniIcon) itemImage.sprite = item.miniIcon;
         else itemImage.sprite = item.pickupSprite;
-        Image img = GetComponent<Image>();
         currentSkill = item;
         this.inventory = inventory;
     }
