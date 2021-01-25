@@ -21,6 +21,7 @@ public class BulletLife : MonoBehaviour
     public bool selfInit = false;
 
     public static List<GameObject> bullets = new List<GameObject>();
+    protected float ignoreTime = 0.5f;
 
     static BulletLife()
     {
@@ -75,7 +76,7 @@ public class BulletLife : MonoBehaviour
     [System.NonSerialized]
     public float knockTime = 0.5f;
 
-    void OnTriggerEnter2D(Collider2D coll)
+    protected virtual void OnTriggerEnter2D(Collider2D coll)
     {
         if (destroyed) return;
 
@@ -112,11 +113,11 @@ public class BulletLife : MonoBehaviour
         if (!piercing) DestroyBullet();
     }
 
-    public void DamageMonster(MonsterLife monster, float damageMultiplier = 1, BulletModifier initiator = null)
+    public virtual void DamageMonster(MonsterLife monster, float damageMultiplier = 1, BulletModifier initiator = null)
     {
         ActivateDamageEnemyMods(monster);
 
-        bool damaged = monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: 0.5f);
+        bool damaged = monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: ignoreTime);
         if (monster.HP <= 0)
         {
             ActivateKillMods(monster);
@@ -171,32 +172,32 @@ public class BulletLife : MonoBehaviour
         return bulletMods;
     }
 
-    private void ActivateHitEnemyMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnemyModifier(this, coll));
+    protected void ActivateHitEnemyMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnemyModifier(this, coll));
 
-    private void ActivateHitEnvironmentMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnvironmentModifier(this, coll));
+    protected void ActivateHitEnvironmentMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnvironmentModifier(this, coll));
 
-    private void ActivateDamageEnemyMods(MonsterLife enemy, BulletModifier initiator = null) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
+    protected void ActivateDamageEnemyMods(MonsterLife enemy, BulletModifier initiator = null) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
 
-    private void ActivateSpawnMods() => SortedMods().ForEach(x => x.SpawnModifier(this));
+    protected void ActivateSpawnMods() => SortedMods().ForEach(x => x.SpawnModifier(this));
 
-    private void ActivateDestroyMods() => SortedMods().ForEach(x => x.DestroyModifier(this));
+    protected void ActivateDestroyMods() => SortedMods().ForEach(x => x.DestroyModifier(this));
 
-    private void ActivateKillMods(MonsterLife enemy) => SortedMods().ForEach(x => x.KillModifier(this, enemy));
+    protected void ActivateKillMods(MonsterLife enemy) => SortedMods().ForEach(x => x.KillModifier(this, enemy));
 
-    private void MoveIfTiming(BulletModifier mod, BulletModifier.MoveTiming timing) {
+    protected void MoveIfTiming(BulletModifier mod, BulletModifier.MoveTiming timing) {
         if (mod.moveTiming == timing) mod.MoveModifier(this);
     }
 
-    private void ActivateMoveModsBefore() => SortedMods().ForEach(x => MoveIfTiming(x, BulletModifier.MoveTiming.Preparation));
+    protected void ActivateMoveModsBefore() => SortedMods().ForEach(x => MoveIfTiming(x, BulletModifier.MoveTiming.Preparation));
 
-    private void ActivateMoveModsAfter() => SortedMods().ForEach(x => MoveIfTiming(x, BulletModifier.MoveTiming.Final));
+    protected void ActivateMoveModsAfter() => SortedMods().ForEach(x => MoveIfTiming(x, BulletModifier.MoveTiming.Final));
 
-    private void ApplyModsVFX()
+    protected void ApplyModsVFX()
     {
         foreach (var mod in SortedMods()) mod.ApplyVFX(this);      
     }
 
-    private void DeactivateMods()
+    protected void DeactivateMods()
     {
         foreach (var mod in SortedMods()) mod.DeactivateMod(this);
         bulletMods.Clear();
@@ -251,7 +252,7 @@ public class BulletLife : MonoBehaviour
         PoolManager.ReturnToPool(gameObject, 1);
     }
 
-    private void BeginEmitter()
+    protected void BeginEmitter()
     {
         particlesEmitter?.Play(false);
         sprite.color = startColor;
@@ -260,7 +261,7 @@ public class BulletLife : MonoBehaviour
         bulletLight.color = lightStartColor;
     }
 
-    private void StopEmitter()
+    protected void StopEmitter()
     {
         particlesEmitter?.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         sprite.color = new Color(0, 0, 0, 0);
@@ -292,15 +293,15 @@ public class BulletLife : MonoBehaviour
 
     // Non-logic
     [SerializeField]
-    private ParticleSystem particlesEmitter = null;
-    private Light2D bulletLight;
+    protected ParticleSystem particlesEmitter = null;
+    protected Light2D bulletLight;
     public SpriteRenderer sprite = null;
     private Collider2D coll2D = null;
-    private DynamicLightInOut dynamicLightInOut = null;
-    private Color startColor;
-    private Color emitterStartColor;
-    private Color lightStartColor;
-    private bool destroyed = false;
+    protected DynamicLightInOut dynamicLightInOut = null;
+    protected Color startColor;
+    protected Color emitterStartColor;
+    protected Color lightStartColor;
+    protected bool destroyed = false;
 
     [System.NonSerialized]
     public Vector3 startSize = Vector3.one;
