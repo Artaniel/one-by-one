@@ -24,4 +24,5 @@ public abstract class WeaponSkill : SkillBase
 
     public virtual void Attack(CharacterShooting attackManager, Vector3 mousePos) { }
     public virtual int AmmoConsumption() { return 1; }
+    public virtual void EmptyClip() { }
 }
