@@ -28,10 +28,11 @@ public class LaserRayBullet : BulletLife
         }
         else
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(startPoint.position, (cameraMain.ScreenToWorldPoint(Input.mousePosition) - startPoint.position).normalized * 100f);
+            LayerMask mask = LayerMask.GetMask("Solid") + LayerMask.GetMask("Default") + LayerMask.GetMask("Flying");
+            RaycastHit2D[] hits = Physics2D.RaycastAll(startPoint.position, 
+                (cameraMain.ScreenToWorldPoint(Input.mousePosition) - startPoint.position).normalized * 100f, 1000f, mask);
             RaycastHit2D closestHit = hits[0];
             float minDist = Mathf.Infinity;
-
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.collider.CompareTag("Environment") || (!piercing && hit.collider.CompareTag("EnemyCollider")))
