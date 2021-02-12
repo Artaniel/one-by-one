@@ -108,6 +108,7 @@ public class CharacterShooting : MonoBehaviour
             {
                 skillManager.ReloadWeaponIfNeeded(playSound: true);
                 timeBetweenAttacks = 1f; // WARNING: MAGIC CONSTANT TO PREVENT PLAYER FROM FIRING WHEN HE STARTED RELOADING
+                currentWeapon.logic.EmptyClip();
             }
         }
         if (inputActions.gameplay.reload.phase == InputActionPhase.Started)
