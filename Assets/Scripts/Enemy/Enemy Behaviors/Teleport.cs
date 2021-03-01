@@ -11,15 +11,7 @@ public class Teleport : TimedAttack
     protected override void Awake() 
     {
         base.Awake();
-        if(Labirint.instance == null) { 
-            arena = GameObject.FindGameObjectWithTag("GameController")
-            .GetComponent<ArenaEnemySpawner>();
-        }
-        else {
-            arena = Labirint.GetCurrentRoom().GetComponent<ArenaEnemySpawner>();
-        }
         maxspeedSaved = agent.maxSpeed;
-
         notWalkableMask = LayerMask.GetMask("Solid", "Abyss", "Ground");
     }
 
@@ -35,15 +27,10 @@ public class Teleport : TimedAttack
             vect.Normalize();
             vect *= Scatter;
             Vector3 NVector = new Vector3(vect.x, vect.y);
-            bool inbounds = false;
+            bool inbounds;
             if (Labirint.instance && Labirint.currentRoom)
             {
                 inbounds = Labirint.currentRoom.RectIsInbounds(target.transform.position.x + NVector.x, target.transform.position.y + NVector.y, 0, 0);
-            }
-            else if (arena)
-            {
-                inbounds = (arena.RoomBounds.x > Mathf.Abs(target.transform.position.x + NVector.x) &&
-                arena.RoomBounds.y > Mathf.Abs(target.transform.position.y + NVector.y));
             }
             else inbounds = true;
 
@@ -97,7 +84,6 @@ public class Teleport : TimedAttack
 
     private float maxspeedSaved = 0f; //to hold maxSpeed when monster is stopped
     private bool shakeMode = false;
-    private ArenaEnemySpawner arena;
 
     private int notWalkableMask;
 }
