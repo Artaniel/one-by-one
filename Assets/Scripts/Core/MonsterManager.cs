@@ -28,42 +28,44 @@ public class MonsterManager : MonoBehaviour
 
     private void Awake()
     {
-        if (room == null) // to prevent double init
-            Init();
+        Init();
     }
 
     public void Init()
     {
-        roomLighting = GetComponent<RoomLighting>();
-        strayMonsters = new List<GameObject>();
-        if (GetComponent<Room>() != null)
+        if (room == null) // to prevent double init
         {
-            room = GetComponent<Room>();
-            room.monsterManager = this;
-            room.externalMRMods.ForEach(mod => monsterRoomModifiers.Add(mod));
-        }
-        else
-            Debug.LogError("MonsterManager can't find room script");
-
-        foreach (var spawnZone in spawnZones)
-        {
-            spawnZone.UseZone();
-        }
-
-        foreach (GameObject monster in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            if (monster.transform.IsChildOf(transform))
+            roomLighting = GetComponent<RoomLighting>();
+            strayMonsters = new List<GameObject>();
+            if (GetComponent<Room>() != null)
             {
-                strayMonsters.Add(monster);
-                monsterList.Add(monster);
-                monster.SetActive(false);
-                var monsterLife = monster.GetComponent<MonsterLife>();
-                monsterRoomModifiers.ForEach(mod => mod.ApplyModifier(monsterLife));
-                monsterLife.monsterManager = this;
+                room = GetComponent<Room>();
+                room.monsterManager = this;
+                room.externalMRMods.ForEach(mod => monsterRoomModifiers.Add(mod));
             }
+            else
+                Debug.LogError("MonsterManager can't find room script");
+
+            foreach (var spawnZone in spawnZones)
+            {
+                spawnZone.UseZone();
+            }
+
+            foreach (GameObject monster in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                if (monster.transform.IsChildOf(transform))
+                {
+                    strayMonsters.Add(monster);
+                    monsterList.Add(monster);
+                    monster.SetActive(false);
+                    var monsterLife = monster.GetComponent<MonsterLife>();
+                    monsterRoomModifiers.ForEach(mod => mod.ApplyModifier(monsterLife));
+                    monsterLife.monsterManager = this;
+                }
+            }
+            killCount = 0;
+            player = GameObject.FindGameObjectWithTag("Player").transform;
         }
-        killCount = 0;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private Vector2 RandomBorderSpawnPos()
@@ -221,8 +223,7 @@ public class MonsterManager : MonoBehaviour
 
     public void UnfreezeMonsters() {
         spawnAvailable = true;
-        foreach (GameObject monster in strayMonsters) {
+        foreach (GameObject monster in strayMonsters) 
             monster.SetActive(true);
-        }
     }
 }
