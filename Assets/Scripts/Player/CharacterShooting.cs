@@ -92,7 +92,7 @@ public class CharacterShooting : MonoBehaviour
                 timeBetweenAttacks = currentWeapon.logic.timeBetweenAttacks / attackSpeedMult;
                 currentWeapon.reloadTimeLeft = 0;
                 currentWeapon.ammoLeft -= ammoNeeded;
-                currentWeapon.logic.Attack(this, mousePos);
+                currentWeapon.logic.Attack(this, mousePos, currentWeapon);
                 if (currentWeapon.logic is ShootingWeapon)
                 {
                     var shootingWeapon = currentWeapon.logic as ShootingWeapon;
