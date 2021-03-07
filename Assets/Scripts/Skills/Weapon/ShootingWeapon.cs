@@ -117,6 +117,7 @@ public class ShootingWeapon : WeaponSkill
             bulletLife.speed = bulletSpeed;
             bulletLife.timeToDestruction = timeToBulletDestruction;
             bulletLife.TTDLeft = timeToBulletDestruction;
+            bulletLife.sourceGun = sourceGun;
             foreach (var mod in bulletModifiers)
             {
                 bulletLife.AddMod(mod);
