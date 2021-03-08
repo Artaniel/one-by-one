@@ -7,11 +7,17 @@ public class HazardZone : MonoBehaviour
     public bool harmPlayer = true;
     public bool harmEnemies = false;
     public float enemyDamage = 1;
+    public float initialIgnoreTime = 0;
     public float ignoreTime = 0.5f;
+
+    protected virtual void OnEnable()
+    {
+        initialIgnoreStamp = Time.time;
+    }
 
     protected virtual void OnTriggerStay2D(Collider2D coll)
     {
-        if (Time.time - ignoreTimeStamp < ignoreTime)
+        if (Time.time - ignoreTimeStamp < ignoreTime || Time.time - initialIgnoreStamp < initialIgnoreTime)
         {
             return;
         }
@@ -39,4 +45,5 @@ public class HazardZone : MonoBehaviour
     }
 
     protected float ignoreTimeStamp = 0;
+    protected float initialIgnoreStamp = 0;
 }

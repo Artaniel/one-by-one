@@ -9,7 +9,7 @@ public class MonsterHealthBar : HpBar
     {
         base.Start();
         monsterLife = GetComponentInParent<MonsterLife>();
-        monsterLife.hpChangedEvent.AddListener(HealthBarChange);
+        monsterLife.OnThisHit.AddListener(HealthBarChange);
         monsterLife.OnThisDead.AddListener(Deactive);
     }
 

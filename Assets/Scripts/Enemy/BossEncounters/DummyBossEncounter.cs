@@ -14,8 +14,8 @@ public class DummyBossEncounter : BossEncounter
 
     public class ButterflyAttack : BossAttack
     {
-        public ButterflyAttack(BossEncounter bossData, float waitAfterAttack, GameObject butterfly, bool allowInterruption = true, bool ended = false) 
-            : base(bossData, waitAfterAttack, allowInterruption, ended) {
+        public ButterflyAttack(BossEncounter bossData, float attackLength, GameObject butterfly, bool allowInterruption = true, bool ended = false) 
+            : base(bossData, attackLength, allowInterruption, ended) {
             dummyBossData = bossData as DummyBossEncounter;
             butterflyToSpawn = butterfly;
         }

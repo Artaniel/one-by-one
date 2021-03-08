@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class EnemyBulletLife : MonoBehaviour
 {
     public float BulletSpeed = 12f;
+    public Vector2 speedRandomRange = Vector2.zero;
     public float BulletLifeLength = 3f;
     public float ignoreCollisionTime = 0.35f;
     public bool phasing = false;
@@ -29,7 +30,8 @@ public class EnemyBulletLife : MonoBehaviour
         destroyed = false;
         sprite.color = startingColor;
         bulletLifeLeft = BulletLifeLength;
-        BulletSpeed = startingBulletSpeed;
+        BulletSpeed = startingBulletSpeed + Random.Range(speedRandomRange.x, speedRandomRange.y);
+        ignoreCollisionTimeLeft = ignoreCollisionTime;
     }
 
     protected virtual void Update()
@@ -37,7 +39,7 @@ public class EnemyBulletLife : MonoBehaviour
         if (Pause.Paused || destroyed) return;
 
         Move();
-        ignoreCollisionTime -= Time.deltaTime;
+        ignoreCollisionTimeLeft -= Time.deltaTime;
         bulletLifeLeft -= Time.deltaTime;
         if (bulletLifeLeft <= 0)
         {
@@ -52,7 +54,7 @@ public class EnemyBulletLife : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D coll)
     {
-        if (ignoreCollisionTime > 0 || destroyed) return;
+        if (ignoreCollisionTimeLeft > 0 || destroyed) return;
         if (coll.gameObject.tag == "Environment" && !phasing)
         {
             DestroyBullet();
@@ -69,7 +71,7 @@ public class EnemyBulletLife : MonoBehaviour
         destroyed = true;
         sprite.color = Color.clear;
 
-        if (hasExplosion) PoolManager.GetPool(explosion, transform.position, Quaternion.identity);
+        if (hasExplosion) PoolManager.GetPool(explosion, transform.position, transform.rotation);
         
         bulletDestroyed.Invoke();
         dynamicLight?.FadeOut();
@@ -82,7 +84,7 @@ public class EnemyBulletLife : MonoBehaviour
         bulletLifeLeft = newTimeLeft;
     }
 
-    private bool destroyed = false;
+    protected bool destroyed = false;
     private SpriteRenderer sprite;
     private Color startingColor;
     private float bulletLifeLeft;
@@ -92,4 +94,5 @@ public class EnemyBulletLife : MonoBehaviour
     private bool hasExplosion = false;
     private float startingBulletSpeed;
     private Rigidbody2D body;
+    protected float ignoreCollisionTimeLeft;
 }

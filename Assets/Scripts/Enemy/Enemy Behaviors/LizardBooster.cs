@@ -8,11 +8,21 @@ public class LizardBooster : Attack
     [SerializeField]
     private float boostTime = 2.0f;
 
+    [SerializeField]
+    private bool stopOnHit = true;
+
     protected override void Start()
     {
         base.Start();
         baseSpeed = agent.moveSpeedMult;
         boostTimeLeft = 0.0f;
+
+        if (stopOnHit)
+        {
+            var monsterLife = GetComponent<MonsterLife>();
+            monsterLife.OnThisAbsorb.AddListener(StopBoost);
+            monsterLife.OnThisHit.AddListener(StopBoost);
+        }
     }
 
     protected override void DoAttack()
@@ -33,6 +43,12 @@ public class LizardBooster : Attack
         {
             agent.moveSpeedMult = baseSpeed;
         }
+    }
+
+    protected void StopBoost()
+    {
+        Reload();
+        boostTimeLeft = 0;
     }
 
     private float baseSpeed;

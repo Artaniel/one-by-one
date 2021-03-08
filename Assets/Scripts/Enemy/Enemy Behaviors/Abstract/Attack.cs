@@ -10,7 +10,7 @@ public abstract class Attack : EnemyBehavior
     protected override void Awake()
     {
         base.Awake();
-        cooldownLeft = Random.Range(cooldownRange.x, cooldownRange.y);
+        Reload();
     }
 
     public override void CalledUpdate()
@@ -21,7 +21,7 @@ public abstract class Attack : EnemyBehavior
             cooldownLeft = Mathf.Max(cooldownLeft - Time.deltaTime, 0);
             if (cooldownLeft <= 0)
             {
-                cooldownLeft = Random.Range(cooldownRange.x, cooldownRange.y) / attackSpeedModifier;
+                Reload();
                 DoAttack();
             }
         }
@@ -29,8 +29,13 @@ public abstract class Attack : EnemyBehavior
 
     public void ForceAttack()
     {
-        cooldownLeft = Random.Range(cooldownRange.x, cooldownRange.y) / attackSpeedModifier;
+        Reload();
         DoAttack();
+    }
+
+    public void Reload()
+    {
+        cooldownLeft = Random.Range(cooldownRange.x, cooldownRange.y) / attackSpeedModifier;
     }
 
     public void SetCooldownRange(Vector2 newCooldownRange)

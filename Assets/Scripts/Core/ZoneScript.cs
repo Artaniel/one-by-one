@@ -18,12 +18,18 @@ public class ZoneScript : MonoBehaviour
 
     public Vector2 RandomZonePosition()
     {
-        Vector2 vector = new Vector2(Random.Range(-gameObject.transform.localScale.x/4, 
-            gameObject.transform.localScale.x/4) + gameObject.transform.position.x,
-            Random.Range(-gameObject.transform.localScale.y/4, 
-            gameObject.transform.localScale.y/4) + gameObject.transform.position.y);
+        Vector2 vector = new Vector2(Random.Range(-gameObject.transform.localScale.x/2, 
+            gameObject.transform.localScale.x/2) + gameObject.transform.position.x,
+            Random.Range(-gameObject.transform.localScale.y/2, 
+            gameObject.transform.localScale.y/2) + gameObject.transform.position.y);
         //Debug.Log(vector);
         return vector;
+    }
+
+    public Vector3 RandomZonePosition3()
+    {
+        Vector2 randomZonePosition = RandomZonePosition();
+        return new Vector3(randomZonePosition.x, randomZonePosition.y, 0);
     }
 
     public void UseZone()
