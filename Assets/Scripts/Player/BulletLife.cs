@@ -22,6 +22,7 @@ public class BulletLife : MonoBehaviour
 
     public static List<GameObject> bullets = new List<GameObject>();
     protected float ignoreTime = 0.5f;
+    public SkillManager.EquippedWeapon sourceGun = null;
 
     static BulletLife()
     {
@@ -44,9 +45,8 @@ public class BulletLife : MonoBehaviour
     {
         if (selfInit) InitializeBullet();
     }
-
-    public virtual void InitializeBullet()
-    {
+    
+    public virtual void InitializeBullet() {
         destroyed = false;
         copiedBullet = false;
         SetTimeLeft(timeToDestruction);
@@ -56,6 +56,12 @@ public class BulletLife : MonoBehaviour
         ActivateSpawnMods();
         ApplyModsVFX();
         bullets.Add(gameObject);
+    }
+
+    public virtual void InitializeBullet(SkillManager.EquippedWeapon sourceGun)
+    {
+        this.sourceGun = sourceGun;
+        InitializeBullet();
     }
 
     void FixedUpdate()

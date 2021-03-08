@@ -26,12 +26,15 @@ public class BorderLoopMovement : MonoBehaviour
 
     private void Awake()
     {
-        borders = GetComponent<MonsterLife>().monsterManager.room.GetBordersFromTilemap();
-        //добавить эксепшн для арена спавнера без комнат
         timerToStatusChange = moveTime;
         phase += Random.Range(0, 2f);
         if (laser == null) laser = GetComponentInChildren<EnemyLaser>();
         if (laser == null) Debug.Log("HarpyQueen cant find laser");
+    }
+
+    private void Start()
+    {
+        borders = GetComponent<MonsterLife>().monsterManager.room.GetBordersFromTilemap();
     }
 
     private void Update()
