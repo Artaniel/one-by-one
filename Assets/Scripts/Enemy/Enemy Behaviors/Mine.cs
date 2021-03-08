@@ -48,5 +48,4 @@ public class Mine : MonoBehaviour
         }
         Destroy(gameObject);
     }
-
 }
