@@ -21,7 +21,7 @@ public class MonsterLife : MonoBehaviour
 
     // Apply listeners on start!!
     public static UnityEvent OnEnemyDead = new UnityEvent();
-    public UnityEvent hpChangedEvent = new UnityEvent();
+    public UnityEvent OnThisHit = new UnityEvent();
     public static MonsterDamagedEvent monsterDamaged = new MonsterDamagedEvent();
 
     [HideInInspector] public MonsterManager monsterManager = null;
@@ -104,7 +104,7 @@ public class MonsterLife : MonoBehaviour
                 HP = Mathf.Max(minHpValue, HP - damage);
                 if (wasHp != HP)
                 {
-                    hpChangedEvent?.Invoke();
+                    OnThisHit?.Invoke();
                     monsterDamaged.Invoke(wasHp - HP, gameObject);
                 }
                 else UndamagedAnimation();

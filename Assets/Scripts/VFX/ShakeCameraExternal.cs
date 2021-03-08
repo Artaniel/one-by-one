@@ -8,7 +8,7 @@ public class ShakeCameraExternal : MonoBehaviour
     public float intensity = 1f;
     public float shakeLength = 0.5f;
 
-    void Start()
+    void Awake()
     {
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
         if (shakeOnStart) ShakeCamera();

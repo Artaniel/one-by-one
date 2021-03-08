@@ -12,7 +12,7 @@ public class MonsterDrop : Container
         monsterLife = GetComponent<MonsterLife>();
         if (Random.Range(0, 1f) <= anyDropChance)
         {
-            monsterLife.hpChangedEvent.AddListener(DeathCheck);
+            monsterLife.OnThisHit.AddListener(DeathCheck);
             base.Start();
         }
     }

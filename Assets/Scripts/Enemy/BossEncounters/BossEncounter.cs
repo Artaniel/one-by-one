@@ -56,7 +56,7 @@ public abstract class BossEncounter : MonoBehaviour
 
         public virtual void AttackInterrupt()
         {
-            AttackEnd();
+            BaseAttackEnd();
         }
 
         protected float attackTimeLeft = 100f;
@@ -101,6 +101,10 @@ public abstract class BossEncounter : MonoBehaviour
 
         private void StartNextAttack()
         {
+            if (attacks.Count == 0)
+            {
+                Debug.LogError("Attacks not assigned in BossPhase."); return;
+            }
             int nextAttackNumber = -1;
             switch (attackOrder)
             {
@@ -255,7 +259,7 @@ public abstract class BossEncounter : MonoBehaviour
     {
         bossHPSlider = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<BossHealthSlider>();
         bossHPSlider.Show();
-        bossHP.hpChangedEvent.AddListener(UpdateBossHP);
+        bossHP.OnThisHit.AddListener(UpdateBossHP);
     }
 
     protected void UpdateBossHP()
