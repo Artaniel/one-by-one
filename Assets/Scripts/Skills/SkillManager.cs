@@ -251,7 +251,7 @@ public class SkillManager : MonoBehaviour
     public void AddSkill(SkillBase skill)
     {
         skills.Add(skill);
-        skill.InitializeSkill();
+        skill._InitializeSkill();
         if (skill is ActiveSkill)
         {
             if (activeSkills.Count >= maxEquippedActiveCount)
@@ -297,7 +297,7 @@ public class SkillManager : MonoBehaviour
     {
         foreach (var s in skills)
         {
-            s.InitializeSkill();
+            s._InitializeSkill();
         }
         if (!equippedWeapon.logic)
             equippedWeapon = equippedWeapons.Count != 0 ? equippedWeapons[0] : null;
@@ -388,8 +388,9 @@ public class SkillManager : MonoBehaviour
             {
                 activeSkills[i].skill.UpdateEffect();
                 activeSkills[i].activeTimeLeft = Mathf.Max(0, activeSkills[i].activeTimeLeft - Time.deltaTime);
-                if (activeSkills[i].activeTimeLeft <= 0)
+                if (activeSkills[i].activeTimeLeft <= 0 || activeSkills[i].skill.interrupt)
                 {
+                    activeSkills[i].activeTimeLeft = 0;
                     activeSkills[i].skill.EndOfSkill();
                 }
             }
@@ -507,7 +508,7 @@ public class SkillManager : MonoBehaviour
     public void EquipActiveSkill(ActiveSkill skill)
     {
         activeSkills.Add(new EquippedActiveSkill(skill as ActiveSkill));
-        skill.InitializeSkill();
+        skill._InitializeSkill();
     }
 
     #region UI block

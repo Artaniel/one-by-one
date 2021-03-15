@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class PassiveSkill : SkillBase
 {
-    public override void InitializeSkill() { }
+    public override void _InitializeSkill() {
+        InitializeSkill();
+    }
+    public virtual void InitializeSkill() { }
     public override void UpdateEffect() { }
 }

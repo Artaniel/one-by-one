@@ -16,7 +16,7 @@ public class CurrentEnemySelector : MonoBehaviour
 
         currentCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         // Listen "Enemy is dead" events. If someone dies we immediately select a new enemy
-        MonsterLife.OnEnemyDead.AddListener(SelectRandomEnemy);
+        MonsterLife.OnEnemyDead.AddListener(CheckBoyOnDemand);
         difficulty = SaveLoading.difficulty.ToString();
 
         if (enemyHintPrefab && difficulty != "2") enemyHint = Instantiate(enemyHintPrefab).GetComponent<CurrentEnemyHint>();
@@ -83,19 +83,32 @@ public class CurrentEnemySelector : MonoBehaviour
         enemiesOnScreen = new List<GameObject>();
         foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
-            if (ProximitySuccess(enemy) && enemy.GetComponent<MonsterLife>().HP > 0) enemiesOnScreen.Add(enemy);
+            if (ProximitySuccess(enemy)) enemiesOnScreen.Add(enemy);
         }
     }
 
     protected virtual bool ProximitySuccess(GameObject enemy)
     {
-        if (!enemy || !enemy.activeSelf || !enemy.CompareTag("Enemy")) return false;
+        if (!enemy || !enemy.activeSelf || enemy.GetComponent<MonsterLife>().HP <= 0 || !enemy.CompareTag("Enemy")) return false;
         if (currentCamera == null)
         {
             currentCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         }
         var enemyInScreenSpace = currentCamera.WorldToViewportPoint(enemy.transform.position);
         return enemyInScreenSpace.x >= 0 && enemyInScreenSpace.x <= 1 && enemyInScreenSpace.y >= 0 && enemyInScreenSpace.y <= 1;
+    }
+
+    protected void CheckBoyOnDemand()
+    {
+        if (!ProximitySuccess())
+        {
+            SelectRandomEnemy();
+        }
+    }
+
+    protected bool ProximitySuccess()
+    {
+        return ProximitySuccess(currentBoy);
     }
 
     private void NoEnemyFound()

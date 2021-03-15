@@ -69,11 +69,7 @@ public class LaserRayBullet : BulletLife
         }
     }
 
-    public override void InitializeBullet() {
-        destroyed = false;
-        copiedBullet = false;
-        SetTimeLeft(timeToDestruction);
-
+    protected override void CustomInitializeBullet() {
         transform.localScale = startSize;        
         ActivateSpawnMods();        
         bullets.Add(gameObject);

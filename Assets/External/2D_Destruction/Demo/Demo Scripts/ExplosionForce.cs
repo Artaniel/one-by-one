@@ -19,7 +19,7 @@ public class ExplosionForce : MonoBehaviour {
     /// create an explosion force
     /// </summary>
     /// <param name="position">location of the explosion</param>
-	public void DoExplosion(Vector3 position, float additionalPower){
+	public void DoExplosion(Vector3 position, float additionalPower = 0){
         GetComponent<Explodable>().Explode();
         StartCoroutine(WaitAndExplode(position, additionalPower));
 	}
@@ -35,7 +35,7 @@ public class ExplosionForce : MonoBehaviour {
         explosionPosition.z = 0;
 		foreach(Rigidbody2D coll in rigidbodies)
         {
-            float newForce = force * Random.Range(0.5f + additionalPower, 1.5f + additionalPower);
+            float newForce = force * Random.Range(0, 1.5f + additionalPower);
             AddExplosionForce(coll, newForce, explosionPosition, radius, upliftModifer);
 		}
 	}

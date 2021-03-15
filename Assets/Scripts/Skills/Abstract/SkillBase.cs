@@ -19,7 +19,7 @@ public abstract class SkillBase : ScriptableObject
 
     public string SkillName() => $"{GetType()}:{this.name.Substring(0, this.name.IndexOf("(Clone)") == -1 ? this.name.Length : (this.name.IndexOf("(Clone)")))}";
 
-    public abstract void InitializeSkill();
+    public abstract void _InitializeSkill();
 
     public abstract void UpdateEffect();
 }

@@ -17,7 +17,11 @@ public abstract class WeaponSkill : SkillBase
     protected SkillManager.EquippedWeapon sourceGun;
     //public abstract void Shoot(Vector3 mousePos, Vector3 screenPoint);
 
-    public override void InitializeSkill() { }
+    public override void _InitializeSkill()
+    {
+        InitializeSkill();
+    }
+    public virtual void InitializeSkill() { }
 
     public override void UpdateEffect() { }
     public virtual void UpdateEquippedEffect() { }

@@ -81,6 +81,8 @@ public class MonsterLife : MonoBehaviour
         HitEffect();
     }
 
+    public enum DamageType { None, Damaged, Absorb };
+
     protected virtual void HitEffect() { }
 
     /// <summary>
@@ -91,9 +93,9 @@ public class MonsterLife : MonoBehaviour
     /// <param name="ignoreInvulurability">Should ignore invulnerability</param>
     /// <param name="ignoreSourceTime">How long should this source be ignored</param>
     /// <returns>Was object damaged? No means the source is ignored or monster is dead</returns>
-    public bool Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false, float ignoreSourceTime = 0)
+    public DamageType Damage(GameObject source, float damage = 1, bool ignoreInvulurability = false, float ignoreSourceTime = 0)
     {
-        if (HP <= 0) return false; // Already dead
+        if (HP <= 0) return DamageType.None; // Already dead
         if (!source || !damageSources.ContainsKey(source) || Time.time - damageSources[source] > 0)
         {
             if (ignoreSourceTime > 0) damageSources[source] = Time.time + ignoreSourceTime;
@@ -116,10 +118,11 @@ public class MonsterLife : MonoBehaviour
             {
                 BulletAbsorb();
                 OnThisAbsorb?.Invoke();
+                return DamageType.Absorb;
             }
-            return true;
+            return DamageType.Damaged;
         }
-        return false;
+        return DamageType.None;
     }
 
     protected virtual void PreDestroyEffect()
