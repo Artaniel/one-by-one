@@ -212,7 +212,6 @@ public class Labirint : MonoBehaviour
 
     void SpawnRoom(int id)
     {
-        Debug.Log(blueprints[id].prefab);
         blueprints[id].instance = (GameObject)Instantiate(blueprints[id].prefab, Vector3.zero, Quaternion.identity); // zero position to move prefab under player
         blueprints[id].instance.GetComponent<Room>().roomID = id;
         blueprints[id].instance.GetComponent<Room>().DoorsInit();
