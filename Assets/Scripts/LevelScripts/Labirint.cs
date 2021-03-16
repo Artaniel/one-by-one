@@ -66,8 +66,17 @@ public class Labirint : MonoBehaviour
         StartingRoomSpawn();
         if (locationName)
         {
-            locationName = Instantiate(locationName);
-            EventManager.Notify($"{locationName.GetRandomName()}", 1);
+            if (SaveLoading.sceneNameForCurrentLocation == SceneManager.GetActiveScene().name)
+            {
+                EventManager.Notify(SaveLoading.currentLocationName, 1);
+            }
+            else
+            {
+                locationName = Instantiate(locationName);
+                string locationNameString = locationName.GetRandomName();
+                SaveLoading.SaveLocationtName(locationNameString);
+                EventManager.Notify(locationNameString, 1);
+            }
         }
     }
     
@@ -203,6 +212,7 @@ public class Labirint : MonoBehaviour
 
     void SpawnRoom(int id)
     {
+        Debug.Log(blueprints[id].prefab);
         blueprints[id].instance = (GameObject)Instantiate(blueprints[id].prefab, Vector3.zero, Quaternion.identity); // zero position to move prefab under player
         blueprints[id].instance.GetComponent<Room>().roomID = id;
         blueprints[id].instance.GetComponent<Room>().DoorsInit();

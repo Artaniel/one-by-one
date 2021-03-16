@@ -29,6 +29,9 @@ public class SaveLoading : MonoBehaviour
     static public int difficulty = 1; // 1 - default; 2 - hardmode
     static public string seed = "";
     static public List<int> finishedEpisodes = new List<int>();
+    static public string currentLocationName = "";
+    static public string sceneNameForCurrentLocation = "";
+
 
     public enum AchievName { GameCompleted04, HardmodeCompleted04, FinishedTutorial3Once };
     static public Dictionary<AchievName, int> achievеments;
@@ -52,6 +55,8 @@ public class SaveLoading : MonoBehaviour
             record.formatedDictionary.Add("currentScene", currentScene);
             record.formatedDictionary.Add("difficulty", difficulty.ToString());
             record.formatedDictionary.Add("seed", seed);
+            record.formatedDictionary.Add("currentLocationName", currentLocationName);
+            record.formatedDictionary.Add("sceneNameForCurrentLocation", sceneNameForCurrentLocation);
 
             string s = "";
             foreach (int episodeID in finishedEpisodes)
@@ -208,6 +213,15 @@ public class SaveLoading : MonoBehaviour
         else {
             skills = record.skills;
         }
+
+        if (record.formatedDictionary.ContainsKey("currentLocationName"))
+            currentLocationName = record.formatedDictionary["currentLocationName"];
+        else
+            currentLocationName = "";
+        if (record.formatedDictionary.ContainsKey("sceneNameForCurrentLocation"))
+            sceneNameForCurrentLocation = record.formatedDictionary["sceneNameForCurrentLocation"];
+        else
+            sceneNameForCurrentLocation = "";
     }
 
     static private void ParcePermanent(PermanentSaveRecord achevRecord)
@@ -221,8 +235,7 @@ public class SaveLoading : MonoBehaviour
             catch (Exception)
             {
                 Debug.LogWarning($"Error on parsing achievment {StringToAchivName(achev.Key)}");
-            }
-            
+            }            
         }
     }
 
@@ -244,6 +257,8 @@ public class SaveLoading : MonoBehaviour
     static public void ResetNonPermanentSaveData()
     {
         currentScene = "Hub";
+        currentLocationName = "";
+        sceneNameForCurrentLocation = "";
         SaveProgress();
     }
 
@@ -262,6 +277,12 @@ public class SaveLoading : MonoBehaviour
     static public void SaveSeed(string value)
     {
         seed = value;
+        SaveProgress();
+    }
+
+    static public void SaveLocationtName(string value) {
+        currentLocationName = value;
+        sceneNameForCurrentLocation = currentScene;
         SaveProgress();
     }
 
