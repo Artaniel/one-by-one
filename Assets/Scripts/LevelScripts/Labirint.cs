@@ -33,7 +33,6 @@ public class Labirint : MonoBehaviour
     [HideInInspector] static public Room currentRoom;
     [HideInInspector] public bool OneRoomMode = false;
     public AudioClip music = null;
-    public bool saveLocationName = true;
 
     private void Awake()
     {
@@ -67,7 +66,7 @@ public class Labirint : MonoBehaviour
         StartingRoomSpawn();
         if (locationName)
         {
-            if (SaveLoading.sceneNameForCurrentLocation == SceneManager.GetActiveScene().name && saveLocationName)
+            if (SaveLoading.sceneNameForCurrentLocation == SceneManager.GetActiveScene().name)
             {
                 EventManager.Notify(SaveLoading.currentLocationName, 1);
             }

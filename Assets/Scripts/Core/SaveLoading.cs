@@ -32,7 +32,6 @@ public class SaveLoading : MonoBehaviour
     static public string currentLocationName = "";
     static public string sceneNameForCurrentLocation = "";
 
-
     public enum AchievName { GameCompleted04, HardmodeCompleted04, FinishedTutorial3Once };
     static public Dictionary<AchievName, int> achievеments;
 
