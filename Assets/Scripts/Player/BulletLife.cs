@@ -24,6 +24,8 @@ public class BulletLife : MonoBehaviour
     protected float ignoreTime = 0.5f;
     public SkillManager.EquippedWeapon sourceGun = null;
 
+    public bool chained = false;
+
     static BulletLife()
     {
         SceneManager.sceneLoaded += RefreshBulletsList;
@@ -46,22 +48,28 @@ public class BulletLife : MonoBehaviour
         if (selfInit) InitializeBullet();
     }
     
-    public virtual void InitializeBullet() {
+    public void InitializeBullet(bool chained = false) {
+        this.chained = chained;
         destroyed = false;
         copiedBullet = false;
         SetTimeLeft(timeToDestruction);
+        CustomInitializeBullet();
+        ActivateSpawnMods();
+        bullets.Add(gameObject);
+    }
+
+    protected virtual void CustomInitializeBullet()
+    {
         coll2D.enabled = true;
         transform.localScale = startSize;
         BeginEmitter();
-        ActivateSpawnMods();
         ApplyModsVFX();
-        bullets.Add(gameObject);
     }
 
     public virtual void InitializeBullet(SkillManager.EquippedWeapon sourceGun)
     {
         this.sourceGun = sourceGun;
-        InitializeBullet();
+        CustomInitializeBullet();
     }
 
     void FixedUpdate()
@@ -105,8 +113,6 @@ public class BulletLife : MonoBehaviour
 
     protected virtual void EnemyCollider(Collider2D coll)
     {
-        ActivateHitEnemyMods(coll);
-
         MonsterLife monsterComp = coll.GetComponentInParent<MonsterLife>();
         if (monsterComp)
         {
@@ -116,20 +122,28 @@ public class BulletLife : MonoBehaviour
         {
             Debug.LogError("ОШИБКА: УСТАНОВИТЕ МОНСТРУ " + coll.gameObject.name + " КОМПОНЕНТ MonsterLife");
         }
+
+        ActivateHitEnemyMods(coll);
         if (!piercing) DestroyBullet();
+
+        if (coll.TryGetComponent(out IReactsToHit react))
+        {
+            react.React();
+        }
     }
 
-    public virtual void DamageMonster(MonsterLife monster, float damageMultiplier = 1, BulletModifier initiator = null)
+    public virtual void DamageMonster(MonsterLife monster, float damageMultiplier = 1)
     {
         ActivateDamageEnemyMods(monster);
 
-        bool damaged = monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: ignoreTime);
+        MonsterLife.DamageType damaged = monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: ignoreTime, ignoreInvulurability: chained);
         if (monster.HP <= 0)
         {
             ActivateKillMods(monster);
         }
-        if (initiator == null && damaged) // if the cause of "damage" is not a mod
+        if (damaged != MonsterLife.DamageType.None)
         {
+            if (damaged == MonsterLife.DamageType.Damaged && CharacterShooting.allowChainDamage) chained = true;
             if (monster.TryGetComponent(out AIAgent enemy))
             {
                 KnockBack(enemy);
@@ -182,7 +196,7 @@ public class BulletLife : MonoBehaviour
 
     protected void ActivateHitEnvironmentMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnvironmentModifier(this, coll));
 
-    protected void ActivateDamageEnemyMods(MonsterLife enemy, BulletModifier initiator = null) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
+    protected void ActivateDamageEnemyMods(MonsterLife enemy) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
 
     protected void ActivateSpawnMods() => SortedMods().ForEach(x => x.SpawnModifier(this));
 
@@ -217,6 +231,11 @@ public class BulletLife : MonoBehaviour
         {
             DestroyBullet();
         }
+
+        if (coll.TryGetComponent(out IReactsToHit react))
+        {
+            react.React();
+        }
     }
 
     public GameObject BulletFullCopy()
@@ -231,8 +250,12 @@ public class BulletLife : MonoBehaviour
         {
             bulletComp.AddMod(mod);
         }
-
-        bulletComp.InitializeBullet();
+        
+        if (!bulletComp.selfInit)
+        {
+            bulletComp.InitializeBullet(chained: chained);
+        }
+        
         bulletComp.copiedBullet = true;
 
         return bullet;

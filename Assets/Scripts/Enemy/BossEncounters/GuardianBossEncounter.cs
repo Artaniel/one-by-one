@@ -68,6 +68,11 @@ public class GuardianBossEncounter : BossEncounter
             : base(bossData, attackLength, allowInterruption, ended) {
             this.bossData = bossData as GuardianBossEncounter;
             aiAgent = this.bossData.GetComponent<AIAgent>();
+            attackWave = this.bossData.attackWave;
+            attackWave.transform.SetParent(null);
+            particles = attackWave.GetComponentsInChildren<ParticleSystem>();
+            waitBeforeAttack = 0.5f;
+            waitAfterAttack = this.bossData.onyxActive ? 0.5f : 0.75f;
         }
 
         protected override void AttackStart()
@@ -86,13 +91,16 @@ public class GuardianBossEncounter : BossEncounter
         {
             yield return new WaitForSeconds(waitBeforeAttack - 0.1f); // Because otherwise update happens
 
-            bossData.GetComponent<AIAgent>().moveSpeedMult /= 100 * 2f;
-            attackWaveInstance = PoolManager.GetPool(bossData.attackWave, bossData.transform.position, bossData.transform.rotation);
-            attackWaveInstance.transform.position = bossData.transform.position + bossData.transform.up * 2f;
-            attackWaveInstance.transform.Rotate(0, 0, -rotateSpeed * 0.5f * realAttackDuration);
-            attackWaveInstance.SetActive(true);
+            if (ended) yield return null;
 
-            attackWaveInstance.GetComponentInChildren<TrailRenderer>().Clear();
+            bossData.GetComponent<AIAgent>().moveSpeedMult /= 100 * 2f;
+            attackWave.transform.SetPositionAndRotation(bossData.transform.position, bossData.transform.rotation);
+            attackWave.transform.position = bossData.transform.position + bossData.transform.up * 2f;
+            attackWave.transform.Rotate(0, 0, -rotateSpeed * 0.5f * realAttackDuration);
+            attackWave.transform.GetChild(0).gameObject.SetActive(true);
+
+            attackWave.GetComponentInChildren<TrailRenderer>().Clear();
+            ToggleParticles(true);
         }
 
         protected override void AttackUpdate()
@@ -101,31 +109,46 @@ public class GuardianBossEncounter : BossEncounter
 
             if (attackTimeLeft > waitAfterAttack)
             {
-                attackWaveInstance.transform.Rotate(0, 0, rotateSpeed * Time.deltaTime, Space.Self);
+                attackWave.transform.Rotate(0, 0, rotateSpeed * Time.deltaTime, Space.Self);
+            }
+
+            if (attackTimeLeft < waitAfterAttack && particlesOn)
+            {
+                ToggleParticles(false);
             }
         }
 
         protected override void AttackEnd()
         {
             bossData.StopCoroutine(delayedStartCoroutine);
-            if (attackWaveInstance)
-            {
-                PoolManager.ReturnToPool(attackWaveInstance);
-            }
+            
+            attackWave.transform.GetChild(0).gameObject.SetActive(false);
             aiAgent.moveSpeedMult = savedSpeed;
             aiAgent.maxRotation = savedRotation;
         }
 
+        private void ToggleParticles(bool on)
+        {
+            particlesOn = on;
+            foreach (var particle in particles)
+            {
+                if (on) particle.Play();
+                else particle.Stop();
+            }
+        }
+
+        bool particlesOn = false;
         GuardianBossEncounter bossData;
         float rotateSpeed;
         float savedRotation;
         float waitAfterAttack = 0.5f;
         float waitBeforeAttack = 0.5f;
         float realAttackDuration;
-        GameObject attackWaveInstance;
+        GameObject attackWave;
         AIAgent aiAgent;
         Coroutine delayedStartCoroutine;
         private float savedSpeed;
+        ParticleSystem[] particles;
     }
 
     public class ThrowAttack : BossAttack
@@ -262,7 +285,7 @@ public class GuardianBossEncounter : BossEncounter
 
         private float animationTime = 1f;
         private float savedSpeed;
-        private Vector3 lowestScale = new Vector3(0.05f, 0.05f, 0.05f);
+        private Vector3 lowestScale = new Vector3(0.00f, 0.00f, 0.00f);
         private Vector3 mouthOffset;
         private AIAgent aiAgent;
         private Vector3 moveFrom;
@@ -405,6 +428,16 @@ public class GuardianBossEncounter : BossEncounter
     {
         bossHP.Damage(null, 999999, ignoreInvulurability: true);
         base.EncounterSuccess();
+        StartCoroutine(EndGame());
+    }
+
+    public IEnumerator EndGame()
+    {
+        GetComponent<ShakeCameraExternal>().ShakeCamera(2.75f, 2.15f);
+        yield return new WaitForSeconds(3f);
+        Metrics.OnWin();
+        RelodScene.OnSceneChange?.Invoke();
+        SceneLoading.CompleteEpisode(0);
     }
 
     private float emeraldActiveTimestamp = 0;

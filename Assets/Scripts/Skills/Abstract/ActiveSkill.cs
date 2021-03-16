@@ -7,11 +7,19 @@ public abstract class ActiveSkill : SkillBase
     public float activeDuration = 3f;
     public float cooldownDuration = 5f;
     public AudioClip skillSound = null;
+    public bool interrupt { get; private set; } = false;
 
-    public override void InitializeSkill() { }
-
-    public virtual void _ActivateSkill()
+    public override void _InitializeSkill()
     {
+        interrupt = false;
+        InitializeSkill();
+    } 
+
+    public virtual void InitializeSkill() { }
+
+    public void _ActivateSkill()
+    {
+        interrupt = false;
         if (skillSound) AudioManager.Play(skillSound);
         ActivateSkill();
     }
@@ -21,6 +29,8 @@ public abstract class ActiveSkill : SkillBase
     public override void UpdateEffect() { }
 
     public virtual void EndOfSkill() { }
+
+    public void InterruptSkill() => interrupt = true;
 
     public override string GetDescription() =>
         $"{fullDescriprion}{(fullDescriprion == "" ? "" : "\n")}" +
