@@ -22,7 +22,7 @@ public class LaserRayBullet : BulletLife
     }
 
     private void UpdateRay() {
-        if (CharacterLife.isDeath)
+        if (CharacterLife.isDeath || Pause.Paused)
         {
             DestroyBullet();
         }
