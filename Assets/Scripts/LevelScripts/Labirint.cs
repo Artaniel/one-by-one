@@ -74,7 +74,7 @@ public class Labirint : MonoBehaviour
             {
                 locationName = Instantiate(locationName);
                 string locationNameString = locationName.GetRandomName();
-                SaveLoading.SaveLocationtName(locationNameString);
+                SaveLoading.SaveLocationName(locationNameString);
                 EventManager.Notify(locationNameString, 1);
             }
         }

@@ -279,7 +279,7 @@ public class SaveLoading : MonoBehaviour
         SaveProgress();
     }
 
-    static public void SaveLocationtName(string value) {
+    static public void SaveLocationName(string value) {
         currentLocationName = value;
         sceneNameForCurrentLocation = currentScene;
         SaveProgress();
