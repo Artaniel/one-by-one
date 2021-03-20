@@ -22,7 +22,7 @@ public class CameraShaker : MonoBehaviour
         // I don't understand why but it works, wow :)
         transform.localEulerAngles = Vector3.zero;
         shakeTimeLeft -= Time.deltaTime;
-        if (shakeTimeLeft <= 0)
+        if (shakeTimeLeft <= 0 || Pause.Paused)
         {
             shakeAccumulator = 0;
         }
