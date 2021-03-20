@@ -287,6 +287,8 @@ public class SaveLoading : MonoBehaviour
 
     static public void SaveAchievement(AchievName name, int value)
     {
+        if (achievеments == null) 
+            Load(); // exception for run from tutorial scene
         if (!achievеments.ContainsKey(name))
             achievеments.Add(name, value);
         else
