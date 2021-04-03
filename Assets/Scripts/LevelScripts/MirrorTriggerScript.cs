@@ -11,7 +11,7 @@ public abstract class MirrorTriggerScript : MonoBehaviour
 
     protected virtual void DeactivateMirrorEffect() { }
 
-    protected virtual void OnTriggerEnter2D(Collider2D coll)
+    protected virtual void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.tag == "Player")
         {
@@ -19,7 +19,7 @@ public abstract class MirrorTriggerScript : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerExit2D(Collider2D coll)
+    protected virtual void OnTriggerExit2D(UnityEngine.Collider2D coll)
     {
         if (coll.tag == "Player")
         {

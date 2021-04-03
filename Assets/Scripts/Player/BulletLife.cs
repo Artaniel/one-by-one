@@ -26,6 +26,8 @@ public class BulletLife : MonoBehaviour
 
     public bool chained = false;
 
+    public GameObject afterEffect;
+
     static BulletLife()
     {
         SceneManager.sceneLoaded += RefreshBulletsList;
@@ -35,7 +37,7 @@ public class BulletLife : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         bulletLight = GetComponentInChildren<Light2D>();
-        coll2D = GetComponent<Collider2D>();
+        coll2D = GetComponent<UnityEngine.Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
         startColor = sprite.color;
         emitterStartColor = particlesEmitter.main.startColor.color;
@@ -90,7 +92,7 @@ public class BulletLife : MonoBehaviour
     [System.NonSerialized]
     public float knockTime = 0.5f;
 
-    protected virtual void OnTriggerEnter2D(Collider2D coll)
+    protected virtual void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (destroyed) return;
 
@@ -111,7 +113,7 @@ public class BulletLife : MonoBehaviour
         ActivateMoveModsAfter();
     }
 
-    protected virtual void EnemyCollider(Collider2D coll)
+    protected virtual void EnemyCollider(UnityEngine.Collider2D coll)
     {
         MonsterLife monsterComp = coll.GetComponentInParent<MonsterLife>();
         if (monsterComp)
@@ -192,9 +194,9 @@ public class BulletLife : MonoBehaviour
         return bulletMods;
     }
 
-    protected void ActivateHitEnemyMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnemyModifier(this, coll));
+    protected void ActivateHitEnemyMods(UnityEngine.Collider2D coll) => SortedMods().ForEach(x => x.HitEnemyModifier(this, coll));
 
-    protected void ActivateHitEnvironmentMods(Collider2D coll) => SortedMods().ForEach(x => x.HitEnvironmentModifier(this, coll));
+    protected void ActivateHitEnvironmentMods(UnityEngine.Collider2D coll) => SortedMods().ForEach(x => x.HitEnvironmentModifier(this, coll));
 
     protected void ActivateDamageEnemyMods(MonsterLife enemy) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
 
@@ -223,7 +225,7 @@ public class BulletLife : MonoBehaviour
         bulletMods.Clear();
     }
 
-    protected virtual void EnvironmentCollider(Collider2D coll)
+    protected virtual void EnvironmentCollider(UnityEngine.Collider2D coll)
     {
         ActivateHitEnvironmentMods(coll);
 
@@ -278,6 +280,8 @@ public class BulletLife : MonoBehaviour
         StopEmitter();
         DeactivateMods();
         bullets.Remove(gameObject);
+        if (afterEffect)
+            PoolManager.GetPool(afterEffect, transform.position, transform.rotation);
         PoolManager.ReturnToPool(gameObject, 1);
     }
 
@@ -325,7 +329,7 @@ public class BulletLife : MonoBehaviour
     protected ParticleSystem particlesEmitter = null;
     protected Light2D bulletLight;
     public SpriteRenderer sprite = null;
-    private Collider2D coll2D = null;
+    private UnityEngine.Collider2D coll2D = null;
     protected DynamicLightInOut dynamicLightInOut = null;
     protected Color startColor;
     protected Color emitterStartColor;

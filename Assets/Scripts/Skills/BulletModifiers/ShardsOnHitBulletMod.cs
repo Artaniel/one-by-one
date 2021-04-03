@@ -12,19 +12,19 @@ public class ShardsOnHitBulletMod : BulletModifier
 
     private bool copiedOnce = false;
 
-    public override void HitEnvironmentModifier(BulletLife bullet, Collider2D coll)
+    public override void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         base.HitEnvironmentModifier(bullet, coll);
         CreateShards(bullet, coll);
     }
 
-    public override void HitEnemyModifier(BulletLife bullet, Collider2D coll)
+    public override void HitEnemyModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         base.HitEnemyModifier(bullet, coll);
         CreateShards(bullet, coll);
     }
 
-    private void CreateShards(BulletLife bullet, Collider2D coll)
+    private void CreateShards(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         if (!bullet.copiedBullet && !copiedOnce)
         {

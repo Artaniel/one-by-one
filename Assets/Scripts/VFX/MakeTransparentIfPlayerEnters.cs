@@ -41,7 +41,7 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
         } 
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
+    void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.CompareTag("Player"))
         {
@@ -59,7 +59,7 @@ public class MakeTransparentIfPlayerEnters : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D coll)
+    void OnTriggerExit2D(UnityEngine.Collider2D coll)
     {
         if (coll.CompareTag("Player"))
         {

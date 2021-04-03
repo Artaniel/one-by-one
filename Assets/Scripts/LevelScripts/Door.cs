@@ -72,7 +72,7 @@ public class Door : MonoBehaviour
         AdjustLightOnVisit();
     }
 
-    private void OnTriggerStay2D(Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
+    private void OnTriggerStay2D(UnityEngine.Collider2D collision) // "Stay" needed to make door work if player was on trigger in moment of unlock
     {
         if (isSpawned && !locked && collision.gameObject == player) {
             locked = true;

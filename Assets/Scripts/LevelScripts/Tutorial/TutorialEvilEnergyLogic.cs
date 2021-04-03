@@ -88,7 +88,7 @@ public class TutorialEvilEnergyLogic : MonoBehaviour
         transform.Translate(Vector3.Normalize(thisPos - monsterPos) * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.CompareTag("Enemy"))
         {

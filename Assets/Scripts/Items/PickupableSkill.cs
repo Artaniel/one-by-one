@@ -20,7 +20,7 @@ public class PickupableSkill : PickupableItem
         }
     }
 
-    protected override void PickUp(Collider2D player)
+    protected override void PickUp(UnityEngine.Collider2D player)
     {
         var skillInstance = Instantiate(skill);
         EventManager.Notify(skill.shortDescription, 1);

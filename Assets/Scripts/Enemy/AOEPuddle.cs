@@ -31,7 +31,7 @@ public class AOEPuddle : MonoBehaviour
 
     protected virtual void RemoveEffect(GameObject objectExited) { }
 
-    protected virtual void OnTriggerEnter2D(Collider2D coll)
+    protected virtual void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (enteredList.Contains(coll.gameObject)) return;
 
@@ -39,7 +39,7 @@ public class AOEPuddle : MonoBehaviour
         ApplyEffect(coll.gameObject);
     }
 
-    protected virtual void OnTriggerExit2D(Collider2D coll)
+    protected virtual void OnTriggerExit2D(UnityEngine.Collider2D coll)
     {
         if (!enteredList.Contains(coll.gameObject)) return;
 

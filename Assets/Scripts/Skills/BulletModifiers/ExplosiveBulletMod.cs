@@ -12,13 +12,13 @@ public class ExplosiveBulletMod : BulletModifier
     [SerializeField]
     protected GameObject explosiveVfxPrefab;
 
-    public override void HitEnemyModifier(BulletLife bullet, Collider2D coll)
+    public override void HitEnemyModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         base.HitEnemyModifier(bullet, coll);
         ModEffect(bullet);
     }
 
-    public override void HitEnvironmentModifier(BulletLife bullet, Collider2D coll)
+    public override void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         base.HitEnvironmentModifier(bullet, coll);
         ModEffect(bullet);
@@ -26,21 +26,21 @@ public class ExplosiveBulletMod : BulletModifier
 
     protected void ModEffect(BulletLife bullet)
     {
-        Collider2D[] monsters = FindMonsters(bullet);
+        UnityEngine.Collider2D[] monsters = FindMonsters(bullet);
 
         ExplosiveWave(monsters, bullet);
     }
 
-    protected Collider2D[] FindMonsters(BulletLife bullet)
+    protected UnityEngine.Collider2D[] FindMonsters(BulletLife bullet)
     {
-        Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(bullet.transform.position, explosionRadius);
+        UnityEngine.Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(bullet.transform.position, explosionRadius);
         var enemys = (from t in collider2Ds
                       where t.transform.tag == "EnemyCollider"
                       select t).ToArray();
         return enemys;
     }
 
-    protected virtual void ExplosiveWave(Collider2D[] enemys, BulletLife bullet)
+    protected virtual void ExplosiveWave(UnityEngine.Collider2D[] enemys, BulletLife bullet)
     {
         var vfxPref = PoolManager.GetPool(explosiveVfxPrefab, bullet.transform.position, bullet.transform.rotation);
         foreach (var i in enemys)

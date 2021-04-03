@@ -258,7 +258,7 @@ public class MonsterLife : MonoBehaviour
         {
             behav.AgroBlock(999f);
         }
-        GetComponentInChildren<Collider2D>().enabled = false;
+        GetComponentInChildren<UnityEngine.Collider2D>().enabled = false;
         hitPlayerOnContact = false;
 
         // Trigger an event for those who listen to it (if any)

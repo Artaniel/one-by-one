@@ -12,7 +12,7 @@ public class ReflectBullets : MonoBehaviour
         aiAgent = GetComponentInParent<AIAgent>();
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         var bulletLife = coll.gameObject.GetComponent<BulletLife>();
         if (bulletLife)

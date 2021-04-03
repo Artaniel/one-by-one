@@ -30,7 +30,7 @@ public class NailBulletMod : BulletModifier
         base.ModifierUpdate(bullet);
     }
 
-    public override void HitEnvironmentModifier(BulletLife bullet, Collider2D coll)
+    public override void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         bullet.speed = 0f;
         bullet.TTDLeft = bullet.timeToDestruction - timeToFall;

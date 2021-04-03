@@ -12,14 +12,14 @@ public class DissolveDestroyAfterRoomClear : MonoBehaviour
 
     private Material dissolveMaterial;
     private Room room;
-    private Collider2D coll;
+    private UnityEngine.Collider2D coll;
     private bool shouldDissolve = false;
     private bool appliedListener = false;
 
     private void Awake()
     {
         dissolveMaterial = GetComponent<SpriteRenderer>().material;
-        coll = GetComponent<Collider2D>();
+        coll = GetComponent<UnityEngine.Collider2D>();
         room = GetComponentInParent<Room>(); // For pre-spawned 
     }
 

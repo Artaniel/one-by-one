@@ -42,6 +42,7 @@ public class Pause : MonoBehaviour
         MouseCursor.state = shouldPause ? MouseCursor.CursorState.HardwareRendered : MouseCursor.CursorState.SoftwareRendered;
 
         CharacterShooting.GetCursor().gameObject.SetActive(!shouldPause);
+        Cursor.visible = shouldPause;
 
         if (openMenu) ChangeMenuVisibility();
         if (shouldPause)

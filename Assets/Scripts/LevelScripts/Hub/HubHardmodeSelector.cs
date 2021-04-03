@@ -24,7 +24,7 @@ public class HubHardmodeSelector : MonoBehaviour
         CheckHardmodeStatus();
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.CompareTag("Player"))
         {
@@ -34,7 +34,7 @@ public class HubHardmodeSelector : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D coll)
+    private void OnTriggerExit2D(UnityEngine.Collider2D coll)
     {
         if (coll.CompareTag("Player"))
         {

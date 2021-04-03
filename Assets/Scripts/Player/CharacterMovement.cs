@@ -84,7 +84,7 @@ public class CharacterMovement : MonoBehaviour
         {
             shouldDoOOBCheck = true;
             dummySpeed = 0;
-            GetComponent<Collider2D>().enabled = true;
+            GetComponent<UnityEngine.Collider2D>().enabled = true;
         }
     }
 
@@ -139,7 +139,7 @@ public class CharacterMovement : MonoBehaviour
     public void DummyMovement(Vector3 dummyDestination, float timeToDestination = 0.5f, bool hidePlayer = false)
     {
         this.dummyDestination = dummyDestination;
-        GetComponent<Collider2D>().enabled = false;
+        GetComponent<UnityEngine.Collider2D>().enabled = false;
         dummySpeed = (dummyDestination - transform.position).magnitude / timeToDestination;
         shouldDoOOBCheck = false;
         if (hidePlayer)

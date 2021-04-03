@@ -52,7 +52,7 @@ public class EnemyBulletLife : MonoBehaviour
         body.velocity = transform.right * BulletSpeed;
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D coll)
+    protected virtual void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (ignoreCollisionTimeLeft > 0 || destroyed) return;
         if (coll.gameObject.tag == "Environment" && !phasing)

@@ -16,7 +16,7 @@ public class BuyableItem : PickupableItem
         gameObject.tag = "BuyableItem";
     }
 
-    protected override void PickUp(Collider2D player)
+    protected override void PickUp(UnityEngine.Collider2D player)
     {
         if (MoneyManager.MoneyAmount < itemAsset.price) 
             EventManager.Notify("You don't have enough money", 1);

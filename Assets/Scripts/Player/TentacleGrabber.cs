@@ -16,7 +16,7 @@ public class TentacleGrabber : MonoBehaviour
         InitializeGrabber();
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (!occupied && coll.CompareTag("EnemyCollider"))
         {

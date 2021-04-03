@@ -8,7 +8,7 @@ public class Chapter1MirrorBulletInfuser : MonoBehaviour
     public bool infuseEnemyBullets = false;
     public Color enemyBulletColor = Color.magenta;
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.gameObject.GetComponent<BulletLife>() != null)
         {

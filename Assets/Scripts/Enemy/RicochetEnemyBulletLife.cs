@@ -13,7 +13,7 @@ public class RicochetEnemyBulletLife : EnemyBulletLife
         base.Update();
     }
 
-    protected override void OnTriggerEnter2D(Collider2D coll)
+    protected override void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (ignoreCollisionTimeLeft > 0 || destroyed) return;
 

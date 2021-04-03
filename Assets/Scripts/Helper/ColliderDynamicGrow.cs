@@ -15,7 +15,7 @@ public class ColliderDynamicGrow : MonoBehaviour
 
     void Awake()
     {
-        coll = GetComponent<Collider2D>();
+        coll = GetComponent<UnityEngine.Collider2D>();
         if (coll is BoxCollider2D)
         {
             colliderType = ColliderType.Box;
@@ -76,7 +76,7 @@ public class ColliderDynamicGrow : MonoBehaviour
         coll.radius = Mathf.Lerp(min.x, max.x, timer / maxTime);
     }
 
-    private Collider2D coll;
+    private UnityEngine.Collider2D coll;
     private BoxCollider2D boxColl;
     private CircleCollider2D circleColl;
     private float timer = 0;

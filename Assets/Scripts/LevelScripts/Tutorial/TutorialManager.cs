@@ -8,13 +8,13 @@ public class TutorialManager : MonoBehaviour
 
     public static TutorialManager instance;
     public GameObject door0To1;
-    public Collider2D door0To1Blocker;
+    public UnityEngine.Collider2D door0To1Blocker;
     public GameObject door1To2;
-    public Collider2D door1To2Blocker;
+    public UnityEngine.Collider2D door1To2Blocker;
     public GameObject door2To3;
-    public Collider2D door2To3Blocker;
+    public UnityEngine.Collider2D door2To3Blocker;
     public GameObject door3ToExit;
-    public Collider2D door3ToExitBlocker;
+    public UnityEngine.Collider2D door3ToExitBlocker;
 
     public GameObject mobPrefab;
     public Transform[] spawnPositions;

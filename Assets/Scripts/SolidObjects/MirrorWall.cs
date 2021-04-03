@@ -2,7 +2,7 @@
 
 public class MirrorWall : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.gameObject.TryGetComponent(out BulletLife bulletLife))
         {

@@ -6,6 +6,8 @@ public class GuardianBossEncounter : BossEncounter
 {
     public GameObject attackWave;
     public ZoneScript rockFallZone;
+    public ZoneScript[] rainRockFallZones;
+    public GameObject rockFallPredictor;
     public GameObject rockFalling;
     public GameObject crystalThrowPredictor;
     public GameObject crystalToThrow;
@@ -25,41 +27,135 @@ public class GuardianBossEncounter : BossEncounter
     public GameObject roomCenter;
     public Transform guardianMouth;
 
+    public Animator bodyAnimator;
+    public Animator handAnimator;
+    public Animator headAnimator;
+    public Animator crystalAnimator;
+    public GameObject slamEffect;
+
     [HideInInspector]
     public ShakeCameraExternal cameraShaker;
+    [HideInInspector]
+    public Transform player;
 
     public class Rockfall : BossAttack
     {
+        public struct VolleyRock
+        {
+            public Transform transform;
+            public Vector3 to;
+            public float speed;
+            public Collider2D hazardZone;
+            public SpriteRenderer sprite;
+            public float distance;
+
+            public VolleyRock(Transform rock, Vector3 to, float speed, Collider2D hazardZone, SpriteRenderer sprite)
+            {
+                this.transform = rock;
+                this.to = to;
+                this.speed = speed;
+                this.hazardZone = hazardZone;
+                this.sprite = sprite;
+                distance = Vector3.Distance(rock.position, to);
+            }
+        };
+
         public Rockfall(BossEncounter bossData, float attackLength, bool allowInterruption = true, bool ended = false)
             : base(bossData, attackLength, allowInterruption, ended)
         {
             this.bossData = bossData as GuardianBossEncounter;
             this.bossData.rockFallZone.UseZone();
+            foreach (var zone in this.bossData.rainRockFallZones)
+            {
+                zone.UseZone();
+            }
         }
 
         protected override void AttackStart()
         {
-            RockFall(50);
-            if (bossData.onyxActive) bossData.StartCoroutine(DelayedRockFall());
+            bossData.handAnimator.SetTrigger("Slam");
+            volleyOne.Clear();
+            volleyTwo.Clear();
+
+            bossData.StartCoroutine(DelayedRockFall(0.65f, 50, volleyOne));
+            bossData.StartCoroutine(DelayedSlamEffect(0.5f));
+            if (bossData.onyxActive) bossData.StartCoroutine(DelayedRockFall(1.15f, 40, volleyTwo));
         }
 
-        private void RockFall(int count)
+        private void RockFall(int count, List<VolleyRock> volleyZone)
         {
+            float farthestDist1 = 0, farthestDist2 = 0;
+            ZoneScript farthestZone1 = null, farthestZone2 = null;
+            foreach (var zoneIt in bossData.rainRockFallZones)
+            {
+                float zoneToPlayer = Vector3.Distance(zoneIt.transform.position, bossData.player.position);
+                if (zoneToPlayer > farthestDist1)
+                {
+                    farthestDist2 = farthestDist1;
+                    farthestZone2 = farthestZone1;
+                    farthestDist1 = zoneToPlayer;
+                    farthestZone1 = zoneIt;
+                }
+                else if (zoneToPlayer > farthestDist2)
+                {
+                    farthestDist2 = zoneToPlayer;
+                    farthestZone2 = zoneIt;
+                }
+            }
+            ZoneScript zone = Random.Range(0, 2) == 0 ? farthestZone1 : farthestZone2;
+
             for (int i = 0; i < count; i++)
             {
-                var rock = PoolManager.GetPool(bossData.rockFalling, bossData.rockFallZone.RandomZonePosition3(), Quaternion.identity);
-                PoolManager.ReturnToPool(rock, 1.1f);
+                Vector3 rockFrom = zone.RandomZonePosition3();
+                var rock = PoolManager.GetPool(bossData.rockFalling, rockFrom, Quaternion.identity);
+                Vector3 rockDirection = bossData.rockFallZone.RandomZonePosition3();
+                PoolManager.GetPool(bossData.rockFallPredictor, rockDirection, Quaternion.identity);
+                VolleyRock volleyRock = new VolleyRock(rock.transform, rockDirection, 48f, rock.GetComponent<Collider2D>(), rock.GetComponentInChildren<SpriteRenderer>());
+                volleyRock.hazardZone.enabled = false;
+                volleyRock.sprite.sortingOrder = 10;
+
+                volleyZone.Add(volleyRock);
+                PoolManager.ReturnToPool(rock, 1.6f);
             }
             bossData.cameraShaker.ShakeCamera();
         }
 
-        private IEnumerator DelayedRockFall()
+        // Called in phase update to continue rockfall even if attack ended
+        public void UpdateVolley(List<VolleyRock> volley)
         {
-            yield return new WaitForSeconds(0.5f);
-            RockFall(40);
+            for (int i = 0; i < volley.Count; i++)
+            {
+                var rock = volley[i];
+                if (Vector3.Distance(rock.transform.position, rock.to) > 0.001f)
+                {
+                    rock.transform.position = Vector3.MoveTowards(rock.transform.position, rock.to, rock.speed * Time.deltaTime);
+                    rock.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 10, Vector3.Distance(rock.transform.position, rock.to) / rock.distance);
+                }
+                else
+                {
+                    rock.hazardZone.enabled = true;
+                    rock.sprite.sortingOrder = 0;
+                }
+            }
+        }
+
+        private IEnumerator DelayedRockFall(float delay, int count, List<VolleyRock> volleyZone)
+        {
+            yield return new WaitForSeconds(delay);
+            RockFall(count, volleyZone);
+        }
+
+        private IEnumerator DelayedSlamEffect(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            Vector3 slamOffset = bossData.transform.up * 5f + bossData.transform.right * 3f;
+            var slamEffect = PoolManager.GetPool(bossData.slamEffect, bossData.transform.position + slamOffset, bossData.transform.rotation);
+            PoolManager.ReturnToPool(slamEffect, 0.3f);
         }
 
         GuardianBossEncounter bossData;
+        public List<VolleyRock> volleyOne = new List<VolleyRock>();
+        public List<VolleyRock> volleyTwo = new List<VolleyRock>();
     }
 
     public class FistAttack : BossAttack
@@ -85,6 +181,8 @@ public class GuardianBossEncounter : BossEncounter
             aiAgent.moveSpeedMult *= 2f;
             savedRotation = aiAgent.maxRotation;
             aiAgent.maxRotation = 30f;
+
+            bossData.PlayRunAnimation();
         }
 
         private IEnumerator DelayedStart()
@@ -93,6 +191,7 @@ public class GuardianBossEncounter : BossEncounter
 
             if (ended) yield return null;
 
+            bossData.handAnimator.SetTrigger("Grab");
             bossData.GetComponent<AIAgent>().moveSpeedMult /= 100 * 2f;
             attackWave.transform.SetPositionAndRotation(bossData.transform.position, bossData.transform.rotation);
             attackWave.transform.position = bossData.transform.position + bossData.transform.up * 2f;
@@ -101,6 +200,8 @@ public class GuardianBossEncounter : BossEncounter
 
             attackWave.GetComponentInChildren<TrailRenderer>().Clear();
             ToggleParticles(true);
+
+            bossData.PlayIdleAnimation();
         }
 
         protected override void AttackUpdate()
@@ -121,10 +222,13 @@ public class GuardianBossEncounter : BossEncounter
         protected override void AttackEnd()
         {
             bossData.StopCoroutine(delayedStartCoroutine);
-            
+
+            ToggleParticles(false); // Double check (for force stop)
             attackWave.transform.GetChild(0).gameObject.SetActive(false);
             aiAgent.moveSpeedMult = savedSpeed;
             aiAgent.maxRotation = savedRotation;
+
+            bossData.PlayRunAnimation();
         }
 
         private void ToggleParticles(bool on)
@@ -141,7 +245,7 @@ public class GuardianBossEncounter : BossEncounter
         GuardianBossEncounter bossData;
         float rotateSpeed;
         float savedRotation;
-        float waitAfterAttack = 0.5f;
+        float waitAfterAttack = 0.25f;
         float waitBeforeAttack = 0.5f;
         float realAttackDuration;
         GameObject attackWave;
@@ -169,6 +273,9 @@ public class GuardianBossEncounter : BossEncounter
                 bossData.upgradedRockThrowAttack.ForceAttack();
             else
                 bossData.rockThrowAttack.ForceAttack();
+            bossData.crystalAnimator.SetTrigger("Attack");
+            bossData.handAnimator.SetTrigger("Throw");
+            bossData.PlayIdleAnimation();
         }
 
         protected override void AttackUpdate()
@@ -183,6 +290,7 @@ public class GuardianBossEncounter : BossEncounter
         {
             aiAgent.maxSpeed *= 100;
             aiAgent.maxRotation = savedRotation;
+            bossData.PlayRunAnimation();
         }
 
         float savedRotation;
@@ -200,9 +308,11 @@ public class GuardianBossEncounter : BossEncounter
             phaseType = PhaseType.HpBased;
             attackOrder = AttackOrder.Random;
             this.bossData = bossData as GuardianBossEncounter;
+
+            rockfallAttack = new Rockfall(bossData, 2f);
             attacks = new List<BossAttack>() {
                 new FistAttack(bossData, 1.5f),
-                new Rockfall(bossData, 1.5f),
+                rockfallAttack,
                 new ThrowAttack(bossData, 1f)
             };
             this.hpUntil = hpUntil;
@@ -213,12 +323,20 @@ public class GuardianBossEncounter : BossEncounter
             //AudioManager.PlayMusic(dummyBossData.GetComponent<AudioSource>(), 60);
         }
 
+        protected override void PhaseUpdate()
+        {
+            rockfallAttack.UpdateVolley(rockfallAttack.volleyOne);
+            rockfallAttack.UpdateVolley(rockfallAttack.volleyTwo);
+        }
+
         public override void StartPhase()
         {
             base.StartPhase();
-            bossData.bossHP.SetMinHpPercentage(0);
+            bossData.bossHP.SetMinHpPercentage(hpUntil);
+            bossData.PlayRunAnimation();
         }
 
+        Rockfall rockfallAttack;
         GuardianBossEncounter bossData;
         private float hpUntil;
     }
@@ -267,6 +385,7 @@ public class GuardianBossEncounter : BossEncounter
             aiAgent.moveSpeedMult = 0;
             moveFrom = crystalToMoveTo.transform.position;
             mouthOffset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
+            bossData.PlayIdleAnimation();
         }
 
         protected override void AttackUpdate()
@@ -281,6 +400,7 @@ public class GuardianBossEncounter : BossEncounter
             crystalToMoveTo.transform.SetParent(bossData.transform);
             aiAgent.moveSpeedMult = savedSpeed;
             bossData.GetComponent<Align>().target = GameObject.FindGameObjectWithTag("Player");
+            bossData.PlayRunAnimation();
         }
 
         private float animationTime = 1f;
@@ -316,6 +436,7 @@ public class GuardianBossEncounter : BossEncounter
         {
             base.StartPhase();
             bossData.bossHP.SetMinHpPercentage(hpUntil);
+            bossData.PlayRunAnimation();
         }
 
         protected override void EndPhase()
@@ -372,6 +493,8 @@ public class GuardianBossEncounter : BossEncounter
         cameraShaker = GetComponent<ShakeCameraExternal>();
         encounterStarted = true;
 
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         Attack[] attacks = GetComponents<Attack>();
         rockThrowAttack = attacks[0];
         upgradedRockThrowAttack = attacks[1];
@@ -404,6 +527,18 @@ public class GuardianBossEncounter : BossEncounter
         base.Start();
     }
 
+    private void PlayRunAnimation(bool walking = true)
+    {
+        bodyAnimator.SetBool("Walking", walking);
+        crystalAnimator.SetBool("Walking", walking);
+        headAnimator.SetBool("Walking", walking);
+    }
+
+    private void PlayIdleAnimation()
+    {
+        PlayRunAnimation(false);
+    }
+
     protected override void EncounterUpdate()
     {
         base.EncounterUpdate();
@@ -418,7 +553,7 @@ public class GuardianBossEncounter : BossEncounter
                 for (int i = 0; i < emeraldSpikeContainer.transform.childCount; i++)
                 {
                     var spike = emeraldSpikeContainer.transform.GetChild(i);
-                    spike.Translate(-spike.up * 2 * Time.deltaTime, Space.World);
+                    spike.Translate(spike.up * 2 * Time.deltaTime, Space.World);
                 }
             }
         }

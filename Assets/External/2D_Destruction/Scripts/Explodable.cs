@@ -55,7 +55,7 @@ public class Explodable : MonoBehaviour
         //if fragments exist destroy the original
         if (fragments.Count > 0)
         {
-            GetComponent<Collider2D>().isTrigger = true;
+            GetComponent<UnityEngine.Collider2D>().isTrigger = true;
             GetComponent<SpriteRenderer>().color = Color.clear;
         }
     }

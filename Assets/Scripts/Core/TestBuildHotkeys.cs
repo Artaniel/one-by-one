@@ -36,7 +36,7 @@ public class TestBuildHotkeys : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.G))
         {
-            var coll = GetComponent<Collider2D>();
+            var coll = GetComponent<UnityEngine.Collider2D>();
             coll.enabled = !coll.enabled; // no update/collission check inside, enable does not stop it
         }
         else if (Input.GetKeyDown(KeyCode.Escape))

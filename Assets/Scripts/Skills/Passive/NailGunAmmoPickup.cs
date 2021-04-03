@@ -6,7 +6,7 @@ public class NailGunAmmoPickup : PickupableItem
 {
     public SkillManager.EquippedWeapon nailGun;
 
-    protected override void PickUp(Collider2D player)
+    protected override void PickUp(UnityEngine.Collider2D player)
     {
         if (nailGun != null) {
             if (nailGun.ammoLeft < nailGun.logic.ammoMagazine)

@@ -19,7 +19,7 @@ public class TutorialBullet : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
+    void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (coll.GetComponent<Door>() != null)
         {
@@ -37,7 +37,7 @@ public class TutorialBullet : MonoBehaviour
     public virtual void DestroyBullet()
     {
         this.enabled = false;
-        GetComponent<Collider2D>().enabled = false;
+        GetComponent<UnityEngine.Collider2D>().enabled = false;
         GetComponent<DynamicLightInOut>()?.FadeOut();
         Destroy(gameObject, 1);
     }

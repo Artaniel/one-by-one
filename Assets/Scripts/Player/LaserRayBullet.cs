@@ -87,5 +87,5 @@ public class LaserRayBullet : BulletLife
         lineRenderer.SetPosition(1, startPoint.position);
     }
 
-    protected override void OnTriggerEnter2D(Collider2D coll) { }
+    protected override void OnTriggerEnter2D(UnityEngine.Collider2D coll) { }
 }

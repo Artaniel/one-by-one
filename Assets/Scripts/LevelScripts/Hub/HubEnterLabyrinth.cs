@@ -11,7 +11,7 @@ public class HubEnterLabyrinth : MonoBehaviour
     private int sceneToLoadInt;
     public Transform eatenPosition = null;
 
-    void OnTriggerEnter2D(Collider2D coll)
+    void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (loading || !coll.CompareTag("Player")) return;
 

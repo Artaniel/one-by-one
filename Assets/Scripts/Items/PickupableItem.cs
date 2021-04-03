@@ -19,17 +19,17 @@ public abstract class PickupableItem : MonoBehaviour
         } 
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(UnityEngine.Collider2D collision)
     {
         if (active && collision.CompareTag("Player"))
            _PickUp(collision);
     }
 
-    private void _PickUp(Collider2D player)
+    private void _PickUp(UnityEngine.Collider2D player)
     {
         if (pickupSound) AudioManager.Play(pickupSound);
         PickUp(player);
     }
 
-    protected abstract void PickUp(Collider2D player);
+    protected abstract void PickUp(UnityEngine.Collider2D player);
 }

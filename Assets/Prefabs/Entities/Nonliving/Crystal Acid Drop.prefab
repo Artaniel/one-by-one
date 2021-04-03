@@ -10,12 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8756343788501546900}
   - component: {fileID: 8756343788501546907}
-  - component: {fileID: 8756343788501546906}
-  - component: {fileID: 8756343788501546901}
   - component: {fileID: 8756343788501546902}
-  - component: {fileID: 8756343788501546896}
   - component: {fileID: 8756343788501546903}
   - component: {fileID: 2176813428374687514}
+  - component: {fileID: 1502952234517104414}
   m_Layer: 0
   m_Name: Crystal Acid Drop
   m_TagString: Untagged
@@ -32,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8756343788501546905}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.41, y: 0.064784765, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -54,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c088eb33d4b06ed44ab25bb3aa07ad7c, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: fdb09093052306b48b7aa7a169e71179, type: 3}
-  m_Color: {r: 1, g: 0.21226418, b: 0.9400301, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 591e0a3510c8305448c549b6746c11ca, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,41 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8756343788501546906
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8756343788501546905}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bb1a7e471306aba4e8e318223afca412, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8756343788501546901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8756343788501546905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f62234cb01b93a445837668aba6e9ccb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animators:
-  - {fileID: 9100000, guid: bb1a7e471306aba4e8e318223afca412, type: 2}
-  - {fileID: 9100000, guid: 7a1e6ca62b0b3714db43c0f6b04e8aa4, type: 2}
-  - {fileID: 9100000, guid: bb8ce0915cb98954e83958cfe6470d7b, type: 2}
 --- !u!114 &8756343788501546902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,22 +101,6 @@ MonoBehaviour:
   enemyDamage: 1
   initialIgnoreTime: 0
   ignoreTime: 0.25
---- !u!114 &8756343788501546896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8756343788501546905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a86bff5173fcbee4d824fdf4f69c75bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shouldGrow: 1
-  min: {x: 0.68, y: 0}
-  max: {x: 2.15, y: 1}
-  maxTime: 0.5
 --- !u!58 &8756343788501546903
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -167,9 +114,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.017819047, y: 0}
   serializedVersion: 2
-  m_Radius: 2.15
+  m_Radius: 0.535638
 --- !u!114 &2176813428374687514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,3 +131,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 15
   toPool: 1
+--- !u!114 &1502952234517104414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8756343788501546905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c74740b4cbeba409c4e05e094a13c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 591e0a3510c8305448c549b6746c11ca, type: 3}
+  - {fileID: 21300000, guid: 28c2b163a1dd10f46951e23e439ea0a3, type: 3}
+  - {fileID: 21300000, guid: a42a93842b2613c4fbc8f67e2e2b86e6, type: 3}
+  - {fileID: 21300000, guid: 7d216ef76a3dd7c49adc2c14aaf79b60, type: 3}
+  - {fileID: 21300000, guid: 39d483a319b4b874f9491a2ffb7ab2fe, type: 3}
+  - {fileID: 21300000, guid: 8c53fb8b68712874aae82df0deeda436, type: 3}
+  - {fileID: 21300000, guid: 1d01ba92ba2085846880e7fa5d7c08e5, type: 3}
+  - {fileID: 21300000, guid: 774f9fc1c88303b459ebae8d1cc6cf6b, type: 3}
+  - {fileID: 21300000, guid: c5f1820e6d50d874cbfdd13ea62f5d5f, type: 3}
+  - {fileID: 21300000, guid: b96566ac1b9eb0a4aa1eea573bd87245, type: 3}
+  - {fileID: 21300000, guid: 6d1867c6ac9537b41ab3968e698558b7, type: 3}
+  - {fileID: 21300000, guid: 7af3c627c22fbc3479f6853b921c6b74, type: 3}
+  - {fileID: 21300000, guid: 861d43141694fa643bf29e9a91032cf9, type: 3}
+  - {fileID: 21300000, guid: c4542335078d0484d9fd5d657fdfb5ad, type: 3}
+  - {fileID: 21300000, guid: c8f1b0c3e0b07004587f8075058042b3, type: 3}
+  - {fileID: 21300000, guid: 4dc4744454cf3034e86d92c1bec3ab1c, type: 3}
+  - {fileID: 21300000, guid: 72ad2082b221589468a6d37e60c90039, type: 3}
+  - {fileID: 21300000, guid: 5b138ff089e501546b5000079e40dc09, type: 3}
+  - {fileID: 21300000, guid: 633dc3b678f0b694897c88907ea968d4, type: 3}
+  - {fileID: 21300000, guid: 0eddb5c318a7b554db70321c610e6658, type: 3}
+  - {fileID: 21300000, guid: 859b6e66ab07906429ea6177e6624c7c, type: 3}
+  - {fileID: 21300000, guid: 9b6ce0c0ecdf8f64ab3993c7e707631d, type: 3}
+  - {fileID: 21300000, guid: bb7ba684ff599ac4eb850f7fbb1cd26d, type: 3}
+  - {fileID: 21300000, guid: c011b52b675909a42820d28b2d54cae0, type: 3}
+  - {fileID: 21300000, guid: d9a8651fc889e6143b1859d95b9b07b1, type: 3}

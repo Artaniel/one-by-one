@@ -11,7 +11,7 @@ public class ReflectingBullet : BulletModifier
         bullet.phasing = true;
     }
 
-    public override void HitEnvironmentModifier(BulletLife bullet, Collider2D coll)
+    public override void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
         base.HitEnvironmentModifier(bullet, coll);
 

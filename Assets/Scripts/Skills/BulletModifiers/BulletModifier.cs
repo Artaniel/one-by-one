@@ -28,13 +28,13 @@ public class BulletModifier : ScriptableObject
     public virtual void ModifierUpdate(BulletLife bullet) { }
 
     // Should be called when the bullet hits enemy (damage or not)
-    public virtual void HitEnemyModifier(BulletLife bullet, Collider2D coll) { }
+    public virtual void HitEnemyModifier(BulletLife bullet, UnityEngine.Collider2D coll) { }
 
     // Should be called when the bullet damages enemy
     public virtual void DamageEnemyModifier(BulletLife bullet, MonsterLife enemy) { }
 
     // Should be called when the bullet hits a wall
-    public virtual void HitEnvironmentModifier(BulletLife bullet, Collider2D coll) { }
+    public virtual void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll) { }
 
     // Should be called when the bullet is spawned
     public virtual void SpawnModifier(BulletLife bullet) { }
