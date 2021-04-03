@@ -66,8 +66,17 @@ public class Labirint : MonoBehaviour
         StartingRoomSpawn();
         if (locationName)
         {
-            locationName = Instantiate(locationName);
-            EventManager.Notify($"{locationName.GetRandomName()}", 1);
+            if (SaveLoading.sceneNameForCurrentLocation == SceneManager.GetActiveScene().name)
+            {
+                EventManager.Notify(SaveLoading.currentLocationName, 1);
+            }
+            else
+            {
+                locationName = Instantiate(locationName);
+                string locationNameString = locationName.GetRandomName();
+                SaveLoading.SaveLocationName(locationNameString);
+                EventManager.Notify(locationNameString, 1);
+            }
         }
     }
     

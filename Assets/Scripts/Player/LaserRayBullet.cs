@@ -7,6 +7,7 @@ public class LaserRayBullet : BulletLife
     [HideInInspector] public Transform startPoint;
     private LineRenderer lineRenderer;
     private Camera cameraMain;
+    private Transform playerTransform;
 
     protected override void Awake()
     {
@@ -14,6 +15,7 @@ public class LaserRayBullet : BulletLife
         lineRenderer.positionCount = 2;
         cameraMain = Camera.main;
         ignoreTime = 0.1f;
+        playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
     protected override void Move()
@@ -22,15 +24,20 @@ public class LaserRayBullet : BulletLife
     }
 
     private void UpdateRay() {
-        if (CharacterLife.isDeath)
+        if (CharacterLife.isDeath || Pause.Paused)
         {
             DestroyBullet();
         }
         else
         {
             LayerMask mask = LayerMask.GetMask("Solid") + LayerMask.GetMask("Default") + LayerMask.GetMask("Flying");
-            RaycastHit2D[] hits = Physics2D.RaycastAll(startPoint.position, 
-                (cameraMain.ScreenToWorldPoint(Input.mousePosition) - startPoint.position).normalized * 100f, 1000f, mask);
+            Vector3 mousePosProjected = cameraMain.ScreenToWorldPoint(Input.mousePosition);
+            mousePosProjected -= mousePosProjected.z * Vector3.forward;
+            float startLerpDist = 0.5f;
+            float endLerpDist = 3f;
+            Vector3 direction = Vector3.Lerp(playerTransform.up, (cameraMain.ScreenToWorldPoint(Input.mousePosition) - startPoint.position).normalized,
+                (Vector3.Distance(mousePosProjected, playerTransform.position - playerTransform.position.z * Vector3.forward) - startLerpDist) / endLerpDist);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(startPoint.position, direction * 100f, 1000f, mask);
             RaycastHit2D closestHit = hits[0];
             float minDist = Mathf.Infinity;
             foreach (RaycastHit2D hit in hits)

@@ -37,7 +37,7 @@ public class LabirintBuilder : MonoBehaviour
 
     static public string seed = "";
 
-    public int combatRoomListSize = 10;
+    public int combatRoomListSize = -1;
     [HideInInspector] public GameObject[] combatRoomPrefabs = null;
     [HideInInspector] public float[] combatRoomChances = new float[0];
 
@@ -49,6 +49,8 @@ public class LabirintBuilder : MonoBehaviour
             {
                 map[i, j] = -1;
             }
+        if (combatRoomListSize == -1)
+            SetCombatRoomCountFromArraySize();
     }
 
     public void BuildLabirint(Labirint labirintScript)
@@ -279,8 +281,10 @@ public class LabirintBuilder : MonoBehaviour
             }
             result = prefabList[i - 1];
 
-            if (removeFromList) {
-                while (i < listLimiter) {
+            if (removeFromList)
+            {
+                while (i < listLimiter)
+                {
                     prefabList[i - 1] = prefabList[i];
                     chancesList[i - 1] = chancesList[i];
                     i++;
@@ -375,9 +379,19 @@ public class LabirintBuilder : MonoBehaviour
         SaveLoading.SaveSeed("");
     }
 
+    private void SetCombatRoomCountFromArraySize() {
+        int arraySize = 0;
+        for (int i = 0; i < combatRoomPrefabs.Length; i++)
+            if (combatRoomPrefabs != null)
+                arraySize++;
+        combatRoomListSize = arraySize;
+    }
+
 #if UNITY_EDITOR
     public static void Table(LabirintBuilder builderScript) // for inspector UI
     {
+        if (builderScript.combatRoomListSize == -1)
+            builderScript.SetCombatRoomCountFromArraySize();
         if (builderScript.combatRoomListSize > 100) builderScript.combatRoomListSize = 100; // to prevent huge arrays
         GUILayout.BeginHorizontal(); // table headline
         GUILayout.Label("Prefab", GUILayout.Width(120));
