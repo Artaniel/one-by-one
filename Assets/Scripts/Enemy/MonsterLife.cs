@@ -267,23 +267,25 @@ public class MonsterLife : MonoBehaviour
 
         PreDestroyEffect();
         OnThisDead?.Invoke();
-        var explodable = GetComponentInChildren<ExplosionForce>();
-        if (explodable) explodable.DoExplosion(source ? source.transform.position : transform.position, Mathf.Clamp01(damage / maxHP));
-        StartCoroutine(DestoryGameObject());
+        
+        StartCoroutine(DestoryGameObject(source, damage));
     }
 
-    private IEnumerator DestoryGameObject()
+    private IEnumerator DestoryGameObject(GameObject source, float damage)
     {
         if (invulnurabilityShield) invulnurabilityShield.transform.SetParent(null);
         Destroy(gameObject, 10f);
 
-        yield return new WaitForSeconds(timeKillToDestroyGObject);
+        var explodable = GetComponentInChildren<ExplosionForce>();
+        if (explodable) explodable.DoExplosion(source ? source.transform.position : transform.position, Mathf.Clamp01(damage / maxHP));
+
+        yield return new WaitForSeconds(0.15f);
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var rend in renderers)
         {
             rend.enabled = false;
         }
-        yield return new WaitForSeconds(0.5f - timeKillToDestroyGObject);
+        yield return new WaitForSeconds(timeKillToDestroyGObject - 0.15f);
         gameObject.SetActive(false);
     }
 

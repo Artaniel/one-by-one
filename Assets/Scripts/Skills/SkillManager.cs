@@ -366,7 +366,7 @@ public class SkillManager : MonoBehaviour
     {
         for (int i = 0; i < activeSkills.Count; i++)
         {
-            if (Input.GetKeyDown(keys[i]) && activeSkills.Count >= i && activeSkills[i].cooldown <= 0f)
+            if (Input.GetKeyDown(keys[i]) && activeSkills[i].cooldown <= 0f)
             {
                 activeSkills[i].skill._ActivateSkill();
                 activeSkills[i].activeTimeLeft = activeSkills[i].skill.activeDuration;
@@ -533,7 +533,7 @@ public class SkillManager : MonoBehaviour
     public void ApplySkillSprites()
     {
         var skillIcons = new Sprite[SkillsUI.skillCount];
-        for (int i = 0; i < activeSkills.Count; i++)
+        for (int i = 0; i < activeSkills.Count && i < SkillsUI.skillCount; i++)
         {
             if (activeSkills[i] != null)
             {
@@ -552,8 +552,8 @@ public class SkillManager : MonoBehaviour
     }
     #endregion
 
-    public int maxEquippedActiveCount = 3;
-    public int maxEquippedWeaponCount = 3;
+    public const int maxEquippedActiveCount = 3;
+    public const int maxEquippedWeaponCount = 3;
 
     public List<SkillBase> skills = new List<SkillBase>();
 

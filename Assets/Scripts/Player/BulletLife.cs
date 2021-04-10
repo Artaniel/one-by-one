@@ -33,16 +33,24 @@ public class BulletLife : MonoBehaviour
         SceneManager.sceneLoaded += RefreshBulletsList;
     }
 
+    [SerializeField, HideInInspector] // To store in cloned
+    private bool initializeDefault = false;
+
     protected virtual void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         bulletLight = GetComponentInChildren<Light2D>();
         coll2D = GetComponent<UnityEngine.Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
-        startColor = sprite.color;
-        emitterStartColor = particlesEmitter.main.startColor.color;
-        lightStartColor = bulletLight.color;
-        startSize = transform.localScale;
+
+        if (!initializeDefault)
+        {
+            initializeDefault = true;
+            startColor = sprite.color;
+            emitterStartColor = particlesEmitter.main.startColor.color;
+            lightStartColor = bulletLight.color;
+            startSize = transform.localScale;
+        }
     }
 
     protected void OnEnable()
@@ -222,8 +230,9 @@ public class BulletLife : MonoBehaviour
     protected void DeactivateMods()
     {
         foreach (var mod in SortedMods()) mod.DeactivateMod(this);
-        bulletMods.Clear();
     }
+
+    protected void ClearMods() => bulletMods.Clear();
 
     protected virtual void EnvironmentCollider(UnityEngine.Collider2D coll)
     {
@@ -274,13 +283,14 @@ public class BulletLife : MonoBehaviour
         if (destroyed) return;
         body.velocity = Vector2.zero;
         destroyed = true;
+        DeactivateMods();
         ActivateDestroyMods();
         coll2D.enabled = false;
         dynamicLightInOut?.FadeOut();
         StopEmitter();
-        DeactivateMods();
+        ClearMods();
         bullets.Remove(gameObject);
-        if (afterEffect)
+        if (afterEffect && TTDLeft > 0)
             PoolManager.GetPool(afterEffect, transform.position, transform.rotation);
         PoolManager.ReturnToPool(gameObject, 1);
     }
@@ -331,12 +341,15 @@ public class BulletLife : MonoBehaviour
     public SpriteRenderer sprite = null;
     private UnityEngine.Collider2D coll2D = null;
     protected DynamicLightInOut dynamicLightInOut = null;
+    [SerializeField, HideInInspector]
     protected Color startColor;
+    [SerializeField, HideInInspector]
     protected Color emitterStartColor;
+    [SerializeField, HideInInspector]
     protected Color lightStartColor;
     protected bool destroyed = false;
 
-    [System.NonSerialized]
+    [HideInInspector]
     public Vector3 startSize = Vector3.one;
 
     private Rigidbody2D body;

@@ -25,7 +25,6 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        print("meow");
         if (currentSkill && inventory) inventory.UpdateToolTip(currentSkill);
     }
 
@@ -94,8 +93,17 @@ public class InventoryItemPresenter : MonoBehaviour, IDragHandler, IBeginDragHan
     public void Render(SkillBase item, Inventory inventory)
     {
         itemImage.enabled = true;
-        if (item.miniIcon) itemImage.sprite = item.miniIcon;
-        else itemImage.sprite = item.pickupSprite;
+        if (item is WeaponSkill)
+        {
+            if (item.pickupSprite) itemImage.sprite = item.pickupSprite;
+            else itemImage.sprite = item.miniIcon;
+        }
+        else
+        {
+            if (item.miniIcon) itemImage.sprite = item.miniIcon;
+            else itemImage.sprite = item.pickupSprite;
+        }
+
         currentSkill = item;
         this.inventory = inventory;
     }

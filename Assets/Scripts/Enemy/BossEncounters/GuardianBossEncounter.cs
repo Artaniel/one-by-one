@@ -9,6 +9,8 @@ public class GuardianBossEncounter : BossEncounter
     public ZoneScript[] rainRockFallZones;
     public GameObject rockFallPredictor;
     public GameObject rockFalling;
+    public int rockFallWave1 = 40;
+    public int rockFallWave2 = 30;
     public GameObject crystalThrowPredictor;
     public GameObject crystalToThrow;
     public Attack rockThrowAttack;
@@ -77,9 +79,9 @@ public class GuardianBossEncounter : BossEncounter
             volleyOne.Clear();
             volleyTwo.Clear();
 
-            bossData.StartCoroutine(DelayedRockFall(0.65f, 50, volleyOne));
+            bossData.StartCoroutine(DelayedRockFall(0.65f, bossData.rockFallWave1, volleyOne));
             bossData.StartCoroutine(DelayedSlamEffect(0.5f));
-            if (bossData.onyxActive) bossData.StartCoroutine(DelayedRockFall(1.15f, 40, volleyTwo));
+            if (bossData.onyxActive) bossData.StartCoroutine(DelayedRockFall(1.15f, bossData.rockFallWave2, volleyTwo));
         }
 
         private void RockFall(int count, List<VolleyRock> volleyZone)
@@ -569,7 +571,7 @@ public class GuardianBossEncounter : BossEncounter
     public IEnumerator EndGame()
     {
         GetComponent<ShakeCameraExternal>().ShakeCamera(2.75f, 2.15f);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         Metrics.OnWin();
         RelodScene.OnSceneChange?.Invoke();
         SceneLoading.CompleteEpisode(0);

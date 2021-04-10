@@ -14,8 +14,8 @@ public class PointMissileShoot : TimedShootWithOffset
         var pointMissle = bullet.GetComponent<EnemyPointBullet>();
         var destination = 
             focusOnPlayer ? (Vector2)(target.transform.position) + (Random.insideUnitCircle * circleRadius)
-                          : (Vector2)transform.position + (Vector2)(bullet.transform.right.normalized)
-                                                        * Vector3.Distance(target.transform.position, transform.position) 
+                          : (Vector2)bullet.transform.position + (Vector2)(bullet.transform.right.normalized)
+                                                        * Vector3.Distance(target.transform.position, bullet.transform.position) 
                                                         + (Random.insideUnitCircle * circleRadius);
         pointMissle.SetDestination(destination);
         PoolManager.GetPool(missilePointer, destination, Quaternion.identity);

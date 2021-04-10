@@ -26,7 +26,7 @@ public class CharacterLife : MonoBehaviour
         hp = maxHp;
         dashActiveSkill = false;
         isDeath = false;
-        hpUI = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<PlayerHPIcon>();
+        hpUIs = GameObject.FindGameObjectWithTag("Canvas").GetComponentsInChildren<PlayerHPIcon>();
         hpChangedEvent.AddListener(UpdateHPUI);
         UpdateHPUI();
         cameraShaker = Camera.main.GetComponent<CameraShaker>();
@@ -166,7 +166,6 @@ public class CharacterLife : MonoBehaviour
             hp += healAmmount;
             if (hp > maxHp) hp = maxHp;
             hpChangedEvent.Invoke();
-            hpUI.UpdateHP(hp, maxHp);
         }
     }
 
@@ -197,7 +196,11 @@ public class CharacterLife : MonoBehaviour
         GetComponentInChildren<SpriteRenderer>().color = Color.red;
     }
 
-    private void UpdateHPUI() => hpUI.UpdateHP(hp, maxHp);
+    private void UpdateHPUI()
+    {
+        hpUIs[0].UpdateHP(hp, maxHp);
+        hpUIs[1].UpdateHP(hp, maxHp);
+    }
 
     public void PlayerHitVFX()
     {
@@ -261,7 +264,7 @@ public class CharacterLife : MonoBehaviour
     private Vector3 cameraStartPosition;
     private Vector3 cameraMovePosition;
 
-    private PlayerHPIcon hpUI;
+    private PlayerHPIcon[] hpUIs;
 
     private SpriteRenderer[] sprites;
     private Color[] savedSpriteColors;

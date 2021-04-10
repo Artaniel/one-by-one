@@ -63,8 +63,8 @@ public class Inventory : MonoBehaviour
             equippedActiveSkills.Clear();
         skills.InventoryActiveSkills.ForEach(skill => nonEquippedActiveSkills.Add(skill));
         skills.ActiveSkills.ForEach(skill => equippedActiveSkills.Add(skill.skill));
-        Render(nonEquippedActiveSkills, activeItemsContainer, false);
         Render(equippedActiveSkills, activeItemsContainer, true);
+        Render(nonEquippedActiveSkills, activeItemsContainer, false, iFrom: equippedActiveSkills.Count);
     }
 
     private void AddWeaponSkills()
@@ -76,8 +76,8 @@ public class Inventory : MonoBehaviour
 
         skills.InventoryWeaponSkill.ForEach(skill => nonEquippedWeaponSkills.Add(skill));
         skills.EquippedWeapons.ForEach(weapon => equippedWeaponSkills.Add(weapon.logic));
-        Render(nonEquippedWeaponSkills, weaponItemsContainer, false);
         Render(equippedWeaponSkills, weaponItemsContainer, true);
+        Render(nonEquippedWeaponSkills, weaponItemsContainer, false, iFrom: equippedWeaponSkills.Count);
     }
 
     private void AddPassiveSkills()
@@ -105,13 +105,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void Render(List<SkillBase> items, Transform container, bool isActive)
+    private void Render(List<SkillBase> items, Transform container, bool isActive, int iFrom = 0)
     {
         int k = 0;
-        for(int i = 0; i < container.childCount; i++)
+        for(int i = iFrom; i < container.childCount; i++)
         {
             var empCell = container.GetChild(i);
-            // Очень интересное условие. Сравнивается с префабом, лул, что?
             if (k < items.Count)// && empCell.GetChild(2).GetComponent<Image>().sprite == cellPrefab.GetComponent<Image>().sprite)
             {
                 if (isActive) MakeFrame(empCell.gameObject, weaponActiveFrame);
@@ -157,7 +156,7 @@ public class Inventory : MonoBehaviour
                 MakeFrame(cell.parent.gameObject, weaponBaseFrame);
                 skills.RefreshUI();
             }
-            else if (equippedActiveSkill.Count == 0 && skills.ActiveSkills.Count < skills.maxEquippedActiveCount)
+            else if (equippedActiveSkill.Count == 0 && skills.ActiveSkills.Count < SkillManager.maxEquippedActiveCount)
             {
                 skills.EquipActiveSkill(currentSkill as ActiveSkill);
                 var nonActiveList = skills.InventoryActiveSkills;
@@ -182,7 +181,7 @@ public class Inventory : MonoBehaviour
                 nonActiveList.Add(currentSkill as WeaponSkill);
                 MakeFrame(cell.parent.gameObject, weaponBaseFrame);
             }
-            else if (equippedWeapon.Count == 0 && skills.EquippedWeapons.Count < skills.maxEquippedWeaponCount)
+            else if (equippedWeapon.Count == 0 && skills.EquippedWeapons.Count < SkillManager.maxEquippedWeaponCount)
             {
                 skills.EquipWeapon(currentSkill as WeaponSkill);
                 var nonActiveList = skills.InventoryWeaponSkill;

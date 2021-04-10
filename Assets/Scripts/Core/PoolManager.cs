@@ -30,7 +30,7 @@ public class PoolManager : MonoBehaviour
     public static GameObject GetPool(GameObject prefab, Vector3 pos, Quaternion rot)
     {
         var pools = instance.pools;
-        if (!pools.ContainsKey(prefab.name))
+        if (!pools.ContainsKey(prefab.name.Replace("(Clone)", "")))
         {
             pools[prefab.name] = new LinkedList<PoolObject>();
         }
@@ -60,7 +60,7 @@ public class PoolManager : MonoBehaviour
     public static GameObject GetPool(GameObject prefab, Transform toTransform)
     {
         var pools = instance.pools;
-        if (!pools.ContainsKey(prefab.name))
+        if (!pools.ContainsKey(prefab.name.Replace("(Clone)", "")))
         {
             pools[prefab.name] = new LinkedList<PoolObject>();
         }

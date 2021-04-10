@@ -17,7 +17,7 @@ public class CharacterShooting : MonoBehaviour
 
     [HideInInspector] public UnityEvent firstBulletShot = new UnityEvent();
 
-    public static bool allowChainDamage;
+    public static bool allowChainDamage = true;
 
     public void LoadNewWeapon(SkillManager.EquippedWeapon weapon, bool instant = false)
     {
@@ -44,7 +44,7 @@ public class CharacterShooting : MonoBehaviour
         inputActions.gameplay.fire1.performed += ctx => firing = true;
         inputActions.gameplay.fire1.canceled += ctx => firing = false;
 
-        allowChainDamage = false;
+        allowChainDamage = true;
     }
 
     private void OnEnable() => inputActions.Enable();

@@ -110,6 +110,17 @@ public class SkillsUI : MonoBehaviour
                     weaponImage.sprite = weaponSprites[i];
                 }
             }
+            else
+            {
+                Image weaponImage = weaponCells[i].GetChild(2).GetComponent<Image>();
+                weaponImage.color = Color.clear;
+
+                if (i == currentWeaponIndex && weaponSprites[i] == null)
+                {
+                    weaponImage = weaponMainUI.transform.GetChild(1).GetComponent<Image>();
+                    weaponImage.color = Color.clear;
+                }
+            }
         }
         
     }
