@@ -343,8 +343,8 @@ public class EmpressBoss : BossEncounter
 
     private void UpdateWornOut()
     {
-        wornOutMaterial.SetFloat("_WornOut", bossHP.HP / bossHP.maxHP);
-        wingWornOutMaterial.SetFloat("_WornOut", bossHP.HP / bossHP.maxHP);
+        wornOutMaterial.SetFloat("_WornOut", Mathf.Pow(bossHP.HP / bossHP.maxHP, 1.65f));
+        wingWornOutMaterial.SetFloat("_WornOut", Mathf.Pow(bossHP.HP / bossHP.maxHP, 1.65f));
     }
 
     protected override void EncounterSuccess()
