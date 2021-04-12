@@ -10,6 +10,9 @@ public class ShardsOnHitBulletMod : BulletModifier
     [SerializeField, Header("Leave empty if bullet copied")]
     private GameObject shard;
 
+    [SerializeField]
+    private AudioClip shardsHitClip = null;
+
     private bool copiedOnce = false;
 
     public override void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll)
@@ -54,6 +57,9 @@ public class ShardsOnHitBulletMod : BulletModifier
                 bulletLife.speed *= 1 + Random.Range(-0.25f, 0.25f);
                 bulletLife.TTDLeft += Random.Range(-bulletLife.timeToDestruction * 0.6f, bulletLife.timeToDestruction * 0.2f);
             }
+
+            if (shardsHitClip && bullet.audioSource)
+                AudioManager.Play(shardsHitClip, bullet.audioSource);
         }
     }
 }

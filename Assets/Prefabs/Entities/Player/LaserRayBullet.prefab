@@ -4776,6 +4776,7 @@ GameObject:
   - component: {fileID: 630442163445110848}
   - component: {fileID: 788851632085257763}
   - component: {fileID: 8221361168872462007}
+  - component: {fileID: 4042785965575529299}
   m_Layer: 12
   m_Name: LaserRayBullet
   m_TagString: Untagged
@@ -4821,8 +4822,23 @@ MonoBehaviour:
   phasing: 0
   copiedBullet: 0
   selfInit: 0
+  sourceGun:
+    logic: {fileID: 0}
+    ammoLeft: 0
+    reloadTimeLeft: 0
+    lastTimeEquipped: 0
+    weaponIndex: 0
+    attackSound: {fileID: 0}
+  chained: 0
+  allowChained: 0
+  afterEffect: {fileID: 0}
+  initializeDefault: 0
   particlesEmitter: {fileID: 9086751683071405359}
   sprite: {fileID: 1686200343865946265}
+  startColor: {r: 0, g: 0, b: 0, a: 0}
+  emitterStartColor: {r: 0, g: 0, b: 0, a: 0}
+  lightStartColor: {r: 0, g: 0, b: 0, a: 0}
+  startSize: {x: 1, y: 1, z: 1}
   startPoint: {fileID: 0}
 --- !u!50 &4794280771516729851
 Rigidbody2D:
@@ -4973,7 +4989,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ad201d5ca20eac34eb4e40851a079ee3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4999,13 +5015,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.016483307
-        value: 0.11267662
+        time: 0
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5017,8 +5033,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0.025597095, a: 1}
-      key1: {r: 1, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5026,14 +5042,14 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 4819
       ctime2: 0
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 0
+      atime0: 3277
       atime1: 65535
       atime2: 0
       atime3: 0
@@ -5052,6 +5068,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &4042785965575529299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686200342909960216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eab286712ff8b409aa8c8306390e47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
 --- !u!1 &1686200343865946343
 GameObject:
   m_ObjectHideFlags: 0
@@ -5125,7 +5154,7 @@ SpriteRenderer:
   m_SortingOrder: 5
   m_Sprite: {fileID: -3090865045987261952, guid: d830e87f0d53b044f9ec7b61e566691e,
     type: 3}
-  m_Color: {r: 1, g: 0.45942876, b: 0.13679248, a: 1}
+  m_Color: {r: 0.1372549, g: 0.87164664, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

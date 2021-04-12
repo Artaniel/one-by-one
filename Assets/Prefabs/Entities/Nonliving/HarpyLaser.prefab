@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7090462749051658956}
   - component: {fileID: 7628283604264143270}
-  - component: {fileID: 7582119598641394701}
   - component: {fileID: 3235987171818319274}
   - component: {fileID: 5559260080436514022}
+  - component: {fileID: 7540753411950350214}
   m_Layer: 12
   m_Name: HarpyLaser
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2546214849692682663}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -71,10 +71,10 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: -10, z: 0}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -91,13 +91,67 @@ LineRenderer:
         inWeight: 0.33333334
         outWeight: 0.11048159
       - serializedVersion: 3
-        time: 0.92936504
-        value: 0.9808922
-        inSlope: 0
-        outSlope: 0
+        time: 0.0603838
+        value: 0.9319838
+        inSlope: 0.690447
+        outSlope: 0.690447
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.13754743
+        value: 0.74661076
+        inSlope: 2.8347313
+        outSlope: 2.8347313
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.15545683
+      - serializedVersion: 3
+        time: 0.24970007
+        value: 0.9590865
+        inSlope: -1.2706883
+        outSlope: -1.2706883
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.23010989
+      - serializedVersion: 3
+        time: 0.3702798
+        value: 0.755563
+        inSlope: 4.8795404
+        outSlope: 4.8795404
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.19730227
+      - serializedVersion: 3
+        time: 0.5095883
+        value: 0.9668381
+        inSlope: -0.22731158
+        outSlope: -0.22731158
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6227928
+        value: 0.74786276
+        inSlope: 2.38237
+        outSlope: 2.38237
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.31215626
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -9.494709
+        outSlope: -9.494709
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.13479353
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -139,20 +193,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &7582119598641394701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2546214849692682663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b26aa3b7cfe334b9161e98e925d400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  line: {fileID: 7628283604264143270}
-  laserWight: 2
 --- !u!199 &3235987171818319274
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -352,8 +392,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 12
-      minScalar: 2
+      scalar: 24
+      minScalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2543,7 +2583,7 @@ ParticleSystem:
       m_Bits: 4294967295
     influenceList: []
   ClampVelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -2758,9 +2798,9 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxis: 0
     inWorldSpace: 0
-    multiplyDragByParticleSize: 1
-    multiplyDragByParticleVelocity: 1
-    dampen: 0
+    multiplyDragByParticleSize: 0
+    multiplyDragByParticleVelocity: 0
+    dampen: 0.03
     drag:
       serializedVersion: 2
       minMaxState: 0
@@ -4883,3 +4923,20 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &7540753411950350214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2546214849692682663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484ddcc31a8249d428f8fbd3f5c2ba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  line: {fileID: 0}
+  laserEndPrefab: {fileID: 0}
+  pointsCount: 100
+  widthRange: {x: 0, y: 2}
+  widthPhase: 0.1

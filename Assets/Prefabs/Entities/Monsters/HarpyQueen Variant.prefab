@@ -21,7 +21,7 @@ MonoBehaviour:
   shootTime: 1
   accelTime: 3
   timerToStatusChange: 0
-  laser: {fileID: 7859023844158988499}
+  laser: {fileID: 0}
 --- !u!1 &458725679101480404
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,21 +379,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: needsOOBCheck
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: maxHP
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: hitSound
-      value: 
-      objectReference: {fileID: 8300000, guid: c3eb8d062c58ce04a805d1266393e1ba, type: 3}
     - target: {fileID: 8134463785630515486, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -409,6 +394,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: needsOOBCheck
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8826921468404025023, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_Layer
@@ -419,6 +409,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: maxHP
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c3eb8d062c58ce04a805d1266393e1ba, type: 3}
     - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_Offset.y
@@ -432,7 +432,7 @@ PrefabInstance:
     - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2.1905518
+      value: 2.1875
       objectReference: {fileID: 0}
     - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
@@ -453,6 +453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401268672532305385, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1151797650709385371, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
@@ -659,27 +664,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7628283604264143270, guid: 0b853471c0fab3240affcffc3f770663,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7628283604264143270, guid: 0b853471c0fab3240affcffc3f770663,
-        type: 3}
-      propertyPath: m_Positions.Array.data[1].y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b853471c0fab3240affcffc3f770663, type: 3}
---- !u!114 &7859023844158988499 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7582119598641394701, guid: 0b853471c0fab3240affcffc3f770663,
-    type: 3}
-  m_PrefabInstance: {fileID: 299987549716731102}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b26aa3b7cfe334b9161e98e925d400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

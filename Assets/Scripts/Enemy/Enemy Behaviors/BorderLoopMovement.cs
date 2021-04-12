@@ -28,6 +28,7 @@ public class BorderLoopMovement : MonoBehaviour
     {
         timerToStatusChange = moveTime;
         phase += Random.Range(0, 2f);
+        moveTime += Random.Range(-1.5f, 1.5f);
         if (laser == null) laser = GetComponentInChildren<EnemyLaser>();
         if (laser == null) Debug.Log("HarpyQueen cant find laser");
     }

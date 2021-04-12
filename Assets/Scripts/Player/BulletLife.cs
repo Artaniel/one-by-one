@@ -25,6 +25,7 @@ public class BulletLife : MonoBehaviour
     public SkillManager.EquippedWeapon sourceGun = null;
 
     public bool chained = false;
+    public bool allowChained = true;
 
     public GameObject afterEffect;
 
@@ -42,6 +43,7 @@ public class BulletLife : MonoBehaviour
         bulletLight = GetComponentInChildren<Light2D>();
         coll2D = GetComponent<UnityEngine.Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
+        audioSource = GetComponent<AudioSource>();
 
         if (!initializeDefault)
         {
@@ -153,7 +155,7 @@ public class BulletLife : MonoBehaviour
         }
         if (damaged != MonsterLife.DamageType.None)
         {
-            if (damaged == MonsterLife.DamageType.Damaged && CharacterShooting.allowChainDamage) chained = true;
+            if (damaged == MonsterLife.DamageType.Damaged && CharacterShooting.allowChainDamage && allowChained) chained = true;
             if (monster.TryGetComponent(out AIAgent enemy))
             {
                 KnockBack(enemy);
@@ -351,6 +353,9 @@ public class BulletLife : MonoBehaviour
 
     [HideInInspector]
     public Vector3 startSize = Vector3.one;
+
+    [HideInInspector]
+    public AudioSource audioSource;
 
     private Rigidbody2D body;
 }

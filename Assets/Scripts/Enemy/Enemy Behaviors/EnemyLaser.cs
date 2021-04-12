@@ -6,13 +6,16 @@ public class EnemyLaser : MonoBehaviour
 {
     public LineRenderer line;
     private GameObject player;
-    [SerializeField] private float laserWight = 0.1f;
     
     private Vector3 laserStartPos;
     private Vector3 laserEndPos;
 
     [SerializeField] private GameObject laserEndPrefab = null;
     private GameObject laserEndInstance = null;
+
+    public int pointsCount = 100;
+
+    protected float actualWidth;
 
     private void Awake()
     {
@@ -24,11 +27,8 @@ public class EnemyLaser : MonoBehaviour
 
     public void ShootStart(Vector3 fromPosition, Vector3 toPosition) {
         line.enabled = true;
-        line.positionCount = 2;
-        line.SetPosition(0, fromPosition);
-        line.SetPosition(1, toPosition);
-        line.startWidth = laserWight;
-        line.endWidth = laserWight;
+        line.positionCount = pointsCount;
+        SetPoints(fromPosition, toPosition);
         laserStartPos = fromPosition;
         laserEndPos = toPosition;
 
@@ -39,6 +39,18 @@ public class EnemyLaser : MonoBehaviour
 
         if (laserEndPrefab) {
             laserEndInstance = PoolManager.Instantiate(laserEndPrefab, laserEndPos, Quaternion.identity);
+        }
+    }
+
+    private void SetPoints(Vector3 fromPosition, Vector3 toPosition)
+    {
+        int index = 0;
+        float increase = 1f / pointsCount;
+        for (float i = 0; i < 1.00001 && index < pointsCount; i+=increase)
+        {
+            Vector3 position = Vector3.Lerp(fromPosition, toPosition, i);
+            line.SetPosition(index, position);
+            index++;
         }
     }
 
@@ -67,8 +79,7 @@ public class EnemyLaser : MonoBehaviour
     public void UpdateLaser(Vector3 fromPosition, Vector3 direction) {
         if (line.enabled) {
             laserEndPos = GetLaserHitPoint(fromPosition, direction);
-            line.SetPosition(0, fromPosition);
-            line.SetPosition(1, laserEndPos);
+            SetPoints(fromPosition, laserEndPos);
             if (laserEndPrefab)
                 laserEndInstance.transform.position = laserEndPos;
         }
@@ -88,6 +99,8 @@ public class EnemyLaser : MonoBehaviour
     private void Update()
     {
         if (line.enabled && !Pause.Paused) {
+            CustomUpdate();
+
             if (PlayerInTheRay())
             {
                 player.GetComponent<CharacterLife>().Damage();                
@@ -98,10 +111,12 @@ public class EnemyLaser : MonoBehaviour
     private bool PlayerInTheRay()
     {
         bool result = false;
-        RaycastHit2D[] hitArray = Physics2D.BoxCastAll(laserStartPos, new Vector2(laserWight,laserWight), 0, laserEndPos - laserStartPos, Vector3.Distance(laserEndPos, laserStartPos));
+        RaycastHit2D[] hitArray = Physics2D.BoxCastAll(laserStartPos, new Vector2(actualWidth, actualWidth), 0, laserEndPos - laserStartPos, Vector3.Distance(laserEndPos, laserStartPos));
         foreach (RaycastHit2D hit in hitArray) {
             if (hit.collider.gameObject.tag == "Player") result = true;
         }
         return result; 
     }
+
+    protected virtual void CustomUpdate() { }
 }
