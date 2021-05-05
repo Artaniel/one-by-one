@@ -8,20 +8,15 @@ public class DamageModifier : BulletModifier
     [SerializeField] private float damageMultiplier = 0.1f;
     [SerializeField] private float sizeMultiplier = 1f;
 
-    public override void SpawnModifier(BulletLife bullet)
+    public override void StartModifier(BulletLife bullet)
     {
-        base.SpawnModifier(bullet);
+        base.StartModifier(bullet);
 
         bullet.AddToDamageMultiplier(damageMultiplier);
         
         if (!bullet.copiedBullet)
         {
             bullet.transform.localScale *= sizeMultiplier;
-            var colliders = bullet.GetComponentsInChildren<BoxCollider2D>();
-            foreach (var collider in colliders)
-            {
-                collider.size *= sizeMultiplier;
-            }
         }
     }
 
@@ -33,11 +28,6 @@ public class DamageModifier : BulletModifier
             if (!bullet.copiedBullet)
             {
                 bullet.transform.localScale *= (1 / sizeMultiplier);
-            }
-            var colliders = bullet.GetComponentsInChildren<BoxCollider2D>();
-            foreach (var collider in colliders)
-            {
-                collider.size *= (1 / sizeMultiplier);
             }
         }
     }

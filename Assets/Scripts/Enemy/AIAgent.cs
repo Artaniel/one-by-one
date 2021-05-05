@@ -26,7 +26,7 @@ public class AIAgent : MonoBehaviour
         DirectSight,
         Always,
         GroupAggroable,
-        ShootingAgroble
+        DamageAggroable
     }
 
     private void Awake()
@@ -104,6 +104,10 @@ public class AIAgent : MonoBehaviour
         externalVelocity += knockVector / knockBackStability;
     }
 
+    public void SetDamaged() => damaged = true;
+
+    public bool IsDamaged() => damaged;
+
     // TODO: Заменить на Event + Listener?
     private void ProceedPauseUnpause()
     {
@@ -151,6 +155,7 @@ public class AIAgent : MonoBehaviour
     private EnemyBehavior[] behaviours;
     private bool wasPausedLastFrame = false;
     private bool allowMovement = true;
+    private bool damaged = false;
 
     new private Rigidbody2D rigidbody;
 

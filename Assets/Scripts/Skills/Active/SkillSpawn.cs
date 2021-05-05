@@ -19,7 +19,7 @@ public class SkillSpawn : ActiveSkill
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         if (!allowMultipleInstances && spawnedInstance) PoolManager.ReturnToPool(spawnedInstance);
         spawnedInstance = 
@@ -30,9 +30,9 @@ public class SkillSpawn : ActiveSkill
                 keepParentRotation ? player.rotation : Quaternion.identity);
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
-        base.EndOfSkill();
+        base._EndOfSkill();
         if (destroyOnEndOfSkill) PoolManager.ReturnToPool(spawnedInstance);
     }
 

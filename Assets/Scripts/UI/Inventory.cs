@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour
         if (equippedActiveSkills != null)
             equippedActiveSkills.Clear();
         skills.InventoryActiveSkills.ForEach(skill => nonEquippedActiveSkills.Add(skill));
-        skills.ActiveSkills.ForEach(skill => equippedActiveSkills.Add(skill.skill));
+        skills.ActiveSkills.ForEach(skill => equippedActiveSkills.Add(skill.logic));
         Render(equippedActiveSkills, activeItemsContainer, true);
         Render(nonEquippedActiveSkills, activeItemsContainer, false, iFrom: equippedActiveSkills.Count);
     }
@@ -147,10 +147,10 @@ public class Inventory : MonoBehaviour
         if (currentSkill is ActiveSkill) 
         {
             // этот массив ищет совпадение между нажимаемой кнопкой и скилами на панели
-            var equippedActiveSkill = skills.ActiveSkills.FindAll(skill => skill.skill == currentSkill);
+            var equippedActiveSkill = skills.ActiveSkills.FindAll(skill => skill.logic == currentSkill);
             if (equippedActiveSkill.Count != 0 && equippedActiveSkill[0].cooldown == 0)
             {
-                skills.ActiveSkills.RemoveAll(skill => skill.skill == currentSkill);
+                skills.ActiveSkills.RemoveAll(skill => skill.logic == currentSkill);
                 var nonActiveList = skills.InventoryActiveSkills;
                 nonActiveList.Add(currentSkill as ActiveSkill);
                 MakeFrame(cell.parent.gameObject, weaponBaseFrame);

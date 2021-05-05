@@ -44,6 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredSkillNames:
+  - PlaceholderActiveSkill:[PH]FairyWing
+  - PlaceholderActiveSkill:[PH]Mask
+  - PlaceholderActiveSkill:[PH]Osminika
+  - PlaceholderActiveSkill:[PH]PotionSkill
+  - PlaceholderActiveSkill:[PH]Sapling
+  - PlaceholderActiveSkill:[PH]Swan
   - ActiveDashSkill:ActiveDashSkill
   - ActiveMouseBullet:ActiveMouseBulletDkill
   - ActivePursueBulletSkill:ActivePursueBulletSkill
@@ -52,8 +58,12 @@ MonoBehaviour:
   - SkillSpawn:FriendlyPuddle
   - NextMonsterSkill:NextMonsterSkill
   - VectorAttack:ScratchAttack
+  - GrenadeSkill:StrawberrrrySkill
   - TentacleGrab:TentacleGrabSkill
   - TutorialShovel:TutorialShovelSkill
+  - AttackSpeedPassiveSkill:[PH]BadIceCream
+  - AttackSpeedPassiveSkill:[PH]FrogPassive
+  - AttackSpeedPassiveSkill:[PH]IceCream
   - AddModPassiveSkill:AddRicochetPassive
   - AttackSpeedPassiveSkill:AmethystAttackSpeed
   - ChainDamageActivator:Chain Damage Activator
@@ -70,6 +80,7 @@ MonoBehaviour:
   - SniperScope:SniperScope
   - SpawnOnPlayerHit:SpikeSuit
   - ShootingWeapon:A91AutomaticGun
+  - Pistol:Aimed Rocket Launcher
   - BowStyleWeapon:Bow
   - ShootingWeapon:Crystal Weapon
   - Pistol:Explosive-Pistol
@@ -90,10 +101,17 @@ MonoBehaviour:
   - ShootingWeapon:Shovel Weapon
   - ShootingWeapon:Sniper rifle
   - MultishotPistol:Ten-shots Pistol
+  - Pistol:Test Gun
   - ShootingWeapon:TreeWeapon
   - MultishotPistol:TriplePistol
   - TutorialKeySkill:TutorialKeySkill
   registeredSkills:
+  - {fileID: 11400000, guid: fa9e1d08096a2d744ae42e3a2218db57, type: 2}
+  - {fileID: 11400000, guid: 479b5df0c45dff743a71e28ce1fc2dcb, type: 2}
+  - {fileID: 11400000, guid: 8f70bb85055ae9a4a90d37f95308ed16, type: 2}
+  - {fileID: 11400000, guid: 1c2da976e2c1c294886db6824f86b26d, type: 2}
+  - {fileID: 11400000, guid: 97ed35e60baeced409ba2202508dd79d, type: 2}
+  - {fileID: 11400000, guid: 27ee5ecdbb26abe4c8f67d814e3b03e0, type: 2}
   - {fileID: 11400000, guid: 407eac52ae45e364f9b49e7fa6e05a46, type: 2}
   - {fileID: 11400000, guid: df6ea92976338684e957044a2c786dd2, type: 2}
   - {fileID: 11400000, guid: d37267932cec60543a7dace5e65ef121, type: 2}
@@ -102,8 +120,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dcfbf1a9251783c4baf7a122dfffad8a, type: 2}
   - {fileID: 11400000, guid: f95d70430242fbe43bf897d0b94ec350, type: 2}
   - {fileID: 11400000, guid: d85796913bd0d4340a1a087b14dbd5fa, type: 2}
+  - {fileID: 11400000, guid: 2a696f2a67de95140b0ca4c6edbefc26, type: 2}
   - {fileID: 11400000, guid: 9bdc15ed1a2529a43ad3c494e377f242, type: 2}
   - {fileID: 11400000, guid: 5657fab38b88b744f84561c009b3a45e, type: 2}
+  - {fileID: 11400000, guid: e5b43cb405d21884ba296689efe3d69d, type: 2}
+  - {fileID: 11400000, guid: 8cc3e5f139b9edf4eae3b5381a10c514, type: 2}
+  - {fileID: 11400000, guid: 864b7c097b4886c46ad7ed8e2d457734, type: 2}
   - {fileID: 11400000, guid: 0cf70d5cb7fdd814e9217914b71c8f59, type: 2}
   - {fileID: 11400000, guid: d1014e3dcd0f8c040ab9ef0ff83053be, type: 2}
   - {fileID: 11400000, guid: e987e0e4bb0e8254aaef7792d83451d6, type: 2}
@@ -120,6 +142,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f3ed815bda217248b7fe435d7c0f456, type: 2}
   - {fileID: 11400000, guid: a11697afe35234d4e92a182ec239c6dc, type: 2}
   - {fileID: 11400000, guid: 3b5c488b5c8e6c640aa89a413d0ff4bf, type: 2}
+  - {fileID: 11400000, guid: 508668c39e68034499c87a62b3542d89, type: 2}
   - {fileID: 11400000, guid: 2a42f95aa6cd9ad4fa33ea7e491806a6, type: 2}
   - {fileID: 11400000, guid: 5abb384d63369934793ba2aa10c5c7d2, type: 2}
   - {fileID: 11400000, guid: 58074f79bcf764543837a5888fb06849, type: 2}
@@ -140,6 +163,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 132b6329ad9e5044ca5397274707d247, type: 2}
   - {fileID: 11400000, guid: d03d0133049e6e04e9c205f26013248c, type: 2}
   - {fileID: 11400000, guid: 37c36a0c3e6a6c34bbdbf07c1be2ea0d, type: 2}
+  - {fileID: 11400000, guid: 4654e5d6449c539489fafa90b469de25, type: 2}
   - {fileID: 11400000, guid: 605465533e8124143b7695b5b5621872, type: 2}
   - {fileID: 11400000, guid: 9928273a409763a48b8e67fad61de033, type: 2}
   - {fileID: 11400000, guid: 6c8e10ed941adc74ebb152e83738f0a9, type: 2}

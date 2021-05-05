@@ -5,15 +5,20 @@ using UnityEngine;
 public class GuardianBossEncounter : BossEncounter
 {
     public GameObject attackWave;
+    public AudioClip clawAttackAudio;
+
     public ZoneScript rockFallZone;
     public ZoneScript[] rainRockFallZones;
     public GameObject rockFallPredictor;
     public GameObject rockFalling;
     public int rockFallWave1 = 40;
     public int rockFallWave2 = 30;
+    public AudioClip rockFallFliesAudio;
+
     public GameObject crystalThrowPredictor;
     public GameObject crystalToThrow;
     public Attack rockThrowAttack;
+
     public GameObject lavaCrystal;
     public GameObject lavaTrail;
     public GameObject sapphireCrystal;
@@ -27,13 +32,16 @@ public class GuardianBossEncounter : BossEncounter
     public bool onyxActive = false;
     public Attack upgradedRockThrowAttack;
     public GameObject roomCenter;
+
     public Transform guardianMouth;
+    public AudioClip crystalConsumeAudio;
 
     public Animator bodyAnimator;
     public Animator handAnimator;
     public Animator headAnimator;
     public Animator crystalAnimator;
     public GameObject slamEffect;
+    public AudioClip rockFallSlamAudio;
 
     [HideInInspector]
     public ShakeCameraExternal cameraShaker;
@@ -76,6 +84,7 @@ public class GuardianBossEncounter : BossEncounter
         protected override void AttackStart()
         {
             bossData.handAnimator.SetTrigger("Slam");
+            AudioManager.Play(bossData.rockFallSlamAudio);
             volleyOne.Clear();
             volleyTwo.Clear();
 
@@ -120,6 +129,7 @@ public class GuardianBossEncounter : BossEncounter
                 PoolManager.ReturnToPool(rock, 1.6f);
             }
             bossData.cameraShaker.ShakeCamera();
+            AudioManager.Play(bossData.rockFallFliesAudio);
         }
 
         // Called in phase update to continue rockfall even if attack ended
@@ -204,6 +214,7 @@ public class GuardianBossEncounter : BossEncounter
             ToggleParticles(true);
 
             bossData.PlayIdleAnimation();
+            AudioManager.Play(bossData.clawAttackAudio);
         }
 
         protected override void AttackUpdate()

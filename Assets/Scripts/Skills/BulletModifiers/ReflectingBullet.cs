@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RicochetBulletMod", menuName = "ScriptableObject/BulletModifier/Ricochet", order = 1)]
 public class ReflectingBullet : BulletModifier
 {
-    public override void SpawnModifier(BulletLife bullet)
+    public override void StartModifier(BulletLife bullet)
     {
-        base.SpawnModifier(bullet);
+        base.StartModifier(bullet);
         bullet.phasing = true;
     }
 

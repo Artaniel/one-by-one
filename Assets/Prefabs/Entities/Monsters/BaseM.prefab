@@ -191,7 +191,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   monsterManager: {fileID: 0}
   timeKillToDestroyGObject: 0.5
+  timeKillToHideGObject: 0.15
   hitSound: {fileID: 0}
+  hitSounds: []
+  pauseBetweenConsecutiveSounds: 1
   OnThisDead:
     m_PersistentCalls:
       m_Calls: []
@@ -440,7 +443,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: df353897188e5a2448c9aea73f80adf1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -467,7 +470,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.3095238, y: 1.4285715}
+  m_Size: {x: 1.6875, y: 1.4375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -509,8 +512,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.0714285, y: 2.0730467}
-    newSize: {x: 1.3095238, y: 1.4285715}
+    oldSize: {x: 1.6875, y: 1.4375}
+    newSize: {x: 1.6875, y: 1.4375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

@@ -12,13 +12,13 @@ public class ActiveMouseBullet : ActiveSkill
         activeDuration = 3f;
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         SkillManager.temporaryBulletMods.Add(bulletMod);
         ShootingWeapon.shootingEvents.AddListener(ReturnNormalBullets);
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
         ReturnNormalBullets();
     }

@@ -18,7 +18,7 @@ public class ActiveShockWave : ActiveSkill
         skillManager = player.GetComponent<SkillManager>();
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         if (visualEffectPrefab)
         {

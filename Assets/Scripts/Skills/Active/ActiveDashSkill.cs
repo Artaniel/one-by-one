@@ -22,7 +22,7 @@ public class ActiveDashSkill : ActiveSkill
         characterLife = player.GetComponent<CharacterLife>();
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         characterMove.allowDirectionSwitch = false;
         characterLife.dashActiveSkill = noTakeDamage;
@@ -39,7 +39,7 @@ public class ActiveDashSkill : ActiveSkill
         }
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
         trail.Clear();
         trail.emitting = false;

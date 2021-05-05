@@ -13,17 +13,18 @@ public class SkillManager : MonoBehaviour
     [SerializeField, Header("Important")]
     private bool forceSkillRewrite = false;
 
-    #region Skill Register & Load
-    public Dictionary<string, SkillBase> registeredSkills = new Dictionary<string, SkillBase>();
-
     [SerializeField, Tooltip("Skill database-like prefab")]
     private GameObject prefabSkillLoader = null;
 
     public AudioClip reloadSound = null;
     public AudioClip switchSound = null;
 
-    private float timeRechargeSpeed = 0.01f;
+    public float timeRechargeSpeed = 0.01f;
     private float hitRechargeSpeed = 0.15f;
+
+    #region Skill Register & Load
+    public Dictionary<string, SkillBase> registeredSkills = new Dictionary<string, SkillBase>();
+
     /// <summary>
     /// Get all skills in-game from database object
     /// </summary>
@@ -171,13 +172,13 @@ public class SkillManager : MonoBehaviour
     [Serializable]
     public class EquippedActiveSkill
     {
-        public ActiveSkill skill;
+        public ActiveSkill logic;
         public float cooldown;
         public float activeTimeLeft;
 
         public EquippedActiveSkill(ActiveSkill skill)
         {
-            this.skill = skill;
+            this.logic = skill;
             cooldown = 0;
             activeTimeLeft = 0;
         }
@@ -366,11 +367,12 @@ public class SkillManager : MonoBehaviour
     {
         for (int i = 0; i < activeSkills.Count; i++)
         {
-            if (Input.GetKeyDown(keys[i]) && activeSkills[i].cooldown <= 0f)
+            var skill = activeSkills[i];
+            if (Input.GetKeyDown(keys[i]) && skill.cooldown <= 0f && (skill.activeTimeLeft <= 0 || skill.logic.allowActivationWhileActive))
             {
-                activeSkills[i].skill._ActivateSkill();
-                activeSkills[i].activeTimeLeft = activeSkills[i].skill.activeDuration;
-                activeSkills[i].cooldown = activeSkills[i].skill.cooldownDuration;
+                skill.logic._ActivateSkill();
+                skill.activeTimeLeft = skill.logic.activeDuration;
+                skill.cooldown = skill.logic.cooldownDuration;
             }
         }
     }
@@ -386,15 +388,15 @@ public class SkillManager : MonoBehaviour
 
             if (activeSkills[i].activeTimeLeft > 0)
             {
-                activeSkills[i].skill.UpdateEffect();
+                activeSkills[i].logic.UpdateEffect();
                 activeSkills[i].activeTimeLeft = Mathf.Max(0, activeSkills[i].activeTimeLeft - Time.deltaTime);
-                if (activeSkills[i].activeTimeLeft <= 0 || activeSkills[i].skill.interrupt)
+                if (activeSkills[i].activeTimeLeft <= 0 || activeSkills[i].logic.interrupt)
                 {
                     activeSkills[i].activeTimeLeft = 0;
-                    activeSkills[i].skill.EndOfSkill();
+                    activeSkills[i].logic._EndOfSkill();
                 }
             }
-            skillCooldownsProportion[i] = activeSkills[i].cooldown / activeSkills[i].skill.cooldownDuration;
+            skillCooldownsProportion[i] = activeSkills[i].cooldown / activeSkills[i].logic.cooldownDuration;
 
             isActiveSkill[i] = activeSkills[i].activeTimeLeft > 0;
         }
@@ -537,7 +539,7 @@ public class SkillManager : MonoBehaviour
         {
             if (activeSkills[i] != null)
             {
-                skillIcons[i] = activeSkills[i].skill.pickupSprite;
+                skillIcons[i] = activeSkills[i].logic.pickupSprite;
             }
         }
         skillsUI.SetSkillSprites(skillIcons);

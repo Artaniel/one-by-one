@@ -11,7 +11,7 @@ public class GhostMode : ActiveSkill
         activeDuration = 3f;
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         Debug.Log("Ghost");
     }

@@ -14,7 +14,7 @@ public class NextMonsterSkill : ActiveSkill
         activeDuration = 3f;
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         currentBoy = Labirint.instance.GetComponent<CurrentEnemySelector>().currentBoy;
         if (currentBoy)
@@ -28,7 +28,7 @@ public class NextMonsterSkill : ActiveSkill
         }
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
         Destroy(outlineGameObj); 
     }

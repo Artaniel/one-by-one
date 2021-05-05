@@ -26,11 +26,15 @@ public class MonsterLife : MonoBehaviour
 
     [HideInInspector] public MonsterManager monsterManager = null;
 
-    [SerializeField] private float timeKillToDestroyGObject = 0.15f;
+    [SerializeField] private float timeKillToDestroyGObject = 0.5f;
+    [SerializeField] private float timeKillToHideGObject = 0.15f;
 
     [SerializeField] private AudioClip hitSound = null;
+    [SerializeField] private AudioClip[] hitSounds = null;
+    [SerializeField] private float pauseBetweenConsecutiveSounds = 1f;
+    private float lastHitSoundTime = 0;
 
-    protected virtual bool Vulnerable()
+    protected virtual bool ReceiveFullDamage()
     {
         return isBoy();
     }
@@ -44,6 +48,7 @@ public class MonsterLife : MonoBehaviour
         sprites = GetComponentsInChildren<SpriteRenderer>();
         monsterName = GetComponentInChildren<TMPro.TextMeshPro>();
         audioSource = GetComponent<AudioSource>();
+        aiAgent = GetComponent<AIAgent>();
 
         ChooseMyName();
     }
@@ -70,20 +75,29 @@ public class MonsterLife : MonoBehaviour
         UpdateFadeColor();
     }
 
-    protected virtual bool SpecialConditions(GameObject source)
+    protected virtual bool VulnerableCondition(GameObject source)
     {
         return true;
     }
 
-    private void _HitEffect()
+    private void _FullHitEffect()
     {
-        if (hitSound) AudioManager.Play(hitSound, audioSource);
-        HitEffect();
+        if (hitSound && Time.time - lastHitSoundTime > pauseBetweenConsecutiveSounds)
+        {
+            lastHitSoundTime = Time.time;
+            if (hitSounds.Length > 0)
+            {
+                var sound = hitSounds[Random.Range(0, hitSounds.Length)];
+                AudioManager.Play(sound, audioSource);
+            }
+            AudioManager.Play(hitSound, audioSource);
+        }
+        FullHitEffect();
     }
 
     public enum DamageType { None, Damaged, Absorb };
 
-    protected virtual void HitEffect() { }
+    protected virtual void FullHitEffect() { }
 
     /// <summary>
     /// 
@@ -100,18 +114,29 @@ public class MonsterLife : MonoBehaviour
         {
             if (ignoreSourceTime > 0) damageSources[source] = Time.time + ignoreSourceTime;
 
-            if ((Vulnerable() || ignoreInvulurability) && SpecialConditions(source))
+            if (VulnerableCondition(source))
             {
                 var wasHp = HP;
-                HP = Mathf.Max(minHpValue, HP - damage);
+                if ((ReceiveFullDamage() || ignoreInvulurability))
+                {
+                    HP = Mathf.Max(minHpValue, HP - damage);
+                    _FullHitEffect();
+                }
+                else
+                {
+                    HP = Mathf.Max(minHpValue, HP - (damage / 3f));
+                    BulletAbsorb();
+                }
+                
                 if (wasHp != HP)
                 {
                     OnThisHit?.Invoke();
                     monsterDamaged.Invoke(wasHp - HP, gameObject);
+                    aiAgent.SetDamaged();
+                    HitEffect();
                 }
                 else UndamagedAnimation();
-
-                _HitEffect();
+                
                 if (HP <= 0) DestroyMonster(source, damage);
             }
             else
@@ -248,11 +273,16 @@ public class MonsterLife : MonoBehaviour
         }
     }
 
+    private void HitEffect()
+    {
+        sprites[0].material.SetFloat("_TimeHit", Time.time);
+    }
+
     private void DestroyMonster(GameObject source, float damage)
     {
         if (monsterManager != null)
             monsterManager.Death(gameObject);
-        GetComponent<AIAgent>().enabled = false;
+        aiAgent.enabled = false;
         var behavs = GetComponentsInChildren<EnemyBehavior>();
         foreach (var behav in behavs)
         {
@@ -279,13 +309,13 @@ public class MonsterLife : MonoBehaviour
         var explodable = GetComponentInChildren<ExplosionForce>();
         if (explodable) explodable.DoExplosion(source ? source.transform.position : transform.position, Mathf.Clamp01(damage / maxHP));
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(timeKillToHideGObject);
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var rend in renderers)
         {
             rend.enabled = false;
         }
-        yield return new WaitForSeconds(timeKillToDestroyGObject - 0.15f);
+        yield return new WaitForSeconds(timeKillToDestroyGObject - timeKillToHideGObject);
         gameObject.SetActive(false);
     }
 
@@ -306,4 +336,5 @@ public class MonsterLife : MonoBehaviour
     private Dictionary<GameObject, float> damageSources = new Dictionary<GameObject, float>();
 
     private AudioSource audioSource;
+    private AIAgent aiAgent;
 }

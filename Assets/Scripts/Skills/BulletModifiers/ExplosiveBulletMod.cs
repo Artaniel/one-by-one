@@ -12,16 +12,34 @@ public class ExplosiveBulletMod : BulletModifier
     [SerializeField]
     protected GameObject explosiveVfxPrefab;
 
+    [SerializeField]
+    protected bool explodeOnTimer = false;
+
+    [SerializeField]
+    protected bool explodeOnHit = true;
+
+    [SerializeField]
+    protected float percentageDamage = 1f;
+
+    [SerializeField]
+    protected float addedDamage = 0f;
+
     public override void HitEnemyModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
-        base.HitEnemyModifier(bullet, coll);
-        ModEffect(bullet);
+        if (explodeOnHit)
+            ModEffect(bullet);
     }
 
     public override void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll)
     {
-        base.HitEnvironmentModifier(bullet, coll);
-        ModEffect(bullet);
+        if (explodeOnHit)
+            ModEffect(bullet);
+    }
+
+    public override void DestroyModifier(BulletLife bullet)
+    {
+        if (explodeOnTimer)
+            ModEffect(bullet);
     }
 
     protected void ModEffect(BulletLife bullet)
@@ -49,7 +67,7 @@ public class ExplosiveBulletMod : BulletModifier
             if (monsterLife)
             {
                 var tmp = monsterLife.HP;
-                bullet.DamageMonster(monsterLife, bullet.damage / 2);
+                bullet.DamageMonster(monsterLife, bullet.damage * percentageDamage + addedDamage);
             }
         }
     }

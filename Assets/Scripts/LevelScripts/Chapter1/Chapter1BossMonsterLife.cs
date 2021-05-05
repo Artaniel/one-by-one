@@ -6,7 +6,7 @@ public class Chapter1BossMonsterLife : MonsterLife
 {
     public bool hitNonMirror = true;
 
-    protected override bool SpecialConditions(GameObject source)
+    protected override bool VulnerableCondition(GameObject source)
     {
         if (source)
         {
@@ -30,8 +30,8 @@ public class Chapter1BossMonsterLife : MonsterLife
         lightController.AddToLight(100);
     }
 
-    protected override void HitEffect()
+    protected override void FullHitEffect()
     {
-        base.HitEffect();
+        base.FullHitEffect();
     }
 }

@@ -49,7 +49,7 @@ public class SkillsRecord
         equiptedActiveSkills = new string[equiptedActive.Count];
         for (int i = 0; i < equiptedActive.Count; i++)
         {
-            equiptedActiveSkills[i] = equiptedActive[i].skill.SkillName();
+            equiptedActiveSkills[i] = equiptedActive[i].logic.SkillName();
             for (int l = 0; l < j; l++) {
                 if (nonEquiptedActiveSkills[l] == equiptedActiveSkills[i]) {
                     nonEquiptedActiveSkills[l] = nonEquiptedActiveSkills[j-1];    // remove equipted skill from array for non-equipted

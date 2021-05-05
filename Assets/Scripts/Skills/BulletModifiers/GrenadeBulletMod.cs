@@ -6,11 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GrenadeBulletMod", menuName = "ScriptableObject/BulletModifier/GrenadeBulletMod", order = 1)]
 public class GrenadeBulletMod : ExplosiveBulletMod
 { 
+    [Header("This Mod is OBSOLETE")]
     private float maxSpeed;
 
-    public override void SpawnModifier(BulletLife bullet)
+    public override void StartModifier(BulletLife bullet)
     {
-        base.SpawnModifier(bullet);
+        base.StartModifier(bullet);
         maxSpeed = bullet.speed;
     }
 

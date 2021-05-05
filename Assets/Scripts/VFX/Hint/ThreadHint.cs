@@ -9,6 +9,9 @@ public class ThreadHint : CurrentEnemyHint
     private Transform player;
     private TrailRenderer[] trailRenderers;
 
+    public float rotationSpeedFlying = 1080f;
+    public float rotationSpeedAttached = 120f;
+
     protected override void Start()
     {
         trailRenderers = GetComponentsInChildren<TrailRenderer>();
@@ -45,11 +48,11 @@ public class ThreadHint : CurrentEnemyHint
             transform.position = Vector3.MoveTowards(from, to, speed * Time.deltaTime);
             if (Vector3.Distance(from, to) < 1)
             {
-                transform.Rotate(0, 0, 120f * Time.deltaTime);
+                transform.Rotate(0, 0, rotationSpeedAttached * Time.deltaTime);
             }
             else
             {
-                transform.Rotate(0, 0, 1080f * Time.deltaTime);
+                transform.Rotate(0, 0, rotationSpeedFlying * Time.deltaTime);
             }
         }
     }

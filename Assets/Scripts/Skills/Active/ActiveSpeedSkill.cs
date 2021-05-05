@@ -20,7 +20,7 @@ public class ActiveSpeedSkill : ActiveSkill
         character = player.GetComponent<CharacterMovement>();
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         character.speed *= 1.65f;
         if (!trail)
@@ -33,7 +33,7 @@ public class ActiveSpeedSkill : ActiveSkill
         }
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
         character.speed /= 1.65f;
         trail.emitting = false;

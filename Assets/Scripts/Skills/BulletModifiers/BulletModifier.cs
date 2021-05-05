@@ -37,7 +37,7 @@ public class BulletModifier : ScriptableObject
     public virtual void HitEnvironmentModifier(BulletLife bullet, UnityEngine.Collider2D coll) { }
 
     // Should be called when the bullet is spawned
-    public virtual void SpawnModifier(BulletLife bullet) { }
+    public virtual void StartModifier(BulletLife bullet) { }
 
     // Should be called when the bullet is destroyed
     public virtual void DestroyModifier(BulletLife bullet) { }

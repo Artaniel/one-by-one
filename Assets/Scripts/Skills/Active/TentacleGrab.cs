@@ -14,7 +14,7 @@ public class TentacleGrab : ActiveSkill
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         cursor = CharacterShooting.GetCursor();
 
@@ -60,7 +60,7 @@ public class TentacleGrab : ActiveSkill
         tentacle.transform.GetChild(0).localPosition = new Vector3(scaleX / 2f - 0.5f, 0, 0);
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
         PoolManager.ReturnToPool(tentacle);
     }

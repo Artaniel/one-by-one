@@ -13,9 +13,9 @@ public class SinMovementMod : BulletModifier
     private Vector3 axis;
     private Vector3 pos;
 
-    public override void SpawnModifier(BulletLife bullet)
+    public override void StartModifier(BulletLife bullet)
     {
-        base.SpawnModifier(bullet);
+        base.StartModifier(bullet);
         if (!isCos && !bullet.copiedBullet)
         {
             var newBullet = bullet.BulletFullCopy().GetComponent<BulletLife>();

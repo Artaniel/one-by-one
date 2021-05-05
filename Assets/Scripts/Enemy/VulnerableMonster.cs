@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VulnerableMonster : MonsterLife
 {
-    protected override bool Vulnerable()
+    protected override bool ReceiveFullDamage()
     {
         return true;
     }

@@ -7,13 +7,15 @@ using UnityEngine.SceneManagement;
 public class BulletLife : MonoBehaviour
 {
     // Logic
-    [Header("Default values: overrided by weapons")]
+    [Header("Default values: usually overrided by weapons")]
     public float speed = 8f;
+    public float speedMultiplier = 1f;
     public float timeToDestruction = 1f;
     public float damage = 2f;
     public float TTDLeft = 0.5f;
 
-    public List<BulletModifier> bulletMods = new List<BulletModifier>();
+    public List<BulletModifier> selfBulletMods = new List<BulletModifier>();
+    public List<BulletModifier> bulletMods { get; private set; } = new List<BulletModifier>();
 
     public bool piercing = false;
     public bool phasing = false;
@@ -64,7 +66,13 @@ public class BulletLife : MonoBehaviour
         this.chained = chained;
         destroyed = false;
         copiedBullet = false;
+        speedMultiplier = 1f;
+        damageMultiplier = 1f;
         SetTimeLeft(timeToDestruction);
+        foreach (var mod in selfBulletMods)
+        {
+            AddMod(mod);
+        }
         CustomInitializeBullet();
         ActivateSpawnMods();
         bullets.Add(gameObject);
@@ -119,7 +127,7 @@ public class BulletLife : MonoBehaviour
     protected virtual void Move()
     {
         ActivateMoveModsBefore();
-        body.velocity = transform.right * speed;
+        body.velocity = transform.right * speed * speedMultiplier;
         ActivateMoveModsAfter();
     }
 
@@ -128,7 +136,7 @@ public class BulletLife : MonoBehaviour
         MonsterLife monsterComp = coll.GetComponentInParent<MonsterLife>();
         if (monsterComp)
         {
-            DamageMonster(monsterComp);
+            DamageMonster(monsterComp, damage);
         }
         else
         {
@@ -144,11 +152,12 @@ public class BulletLife : MonoBehaviour
         }
     }
 
-    public virtual void DamageMonster(MonsterLife monster, float damageMultiplier = 1)
+    public virtual void DamageMonster(MonsterLife monster, float damage, float ignoreSource = -1)
     {
+        if (damage <= 0) return;
         ActivateDamageEnemyMods(monster);
 
-        MonsterLife.DamageType damaged = monster.Damage(gameObject, damage * damageMultiplier * this.damageMultiplier, ignoreSourceTime: ignoreTime, ignoreInvulurability: chained);
+        MonsterLife.DamageType damaged = monster.Damage(gameObject, damage * damageMultiplier, ignoreSourceTime: ignoreSource == -1 ? ignoreTime : ignoreSource, ignoreInvulurability: chained);
         if (monster.HP <= 0)
         {
             ActivateKillMods(monster);
@@ -210,7 +219,7 @@ public class BulletLife : MonoBehaviour
 
     protected void ActivateDamageEnemyMods(MonsterLife enemy) => SortedMods().ForEach(x => x.DamageEnemyModifier(this, enemy));
 
-    protected void ActivateSpawnMods() => SortedMods().ForEach(x => x.SpawnModifier(this));
+    protected void ActivateSpawnMods() => SortedMods().ForEach(x => x.StartModifier(this));
 
     protected void ActivateDestroyMods() => SortedMods().ForEach(x => x.DestroyModifier(this));
 

@@ -9,9 +9,9 @@ public class NailBulletMod : BulletModifier
     public float timeToFall = 2f;
     private NailGunAmmoPickup itemScript;
 
-    public override void SpawnModifier(BulletLife bullet)
+    public override void StartModifier(BulletLife bullet)
     {
-        base.SpawnModifier(bullet);
+        base.StartModifier(bullet);
         maxSpeed = bullet.speed;
         itemScript = bullet.GetComponent<NailGunAmmoPickup>();
         itemScript.nailGun = bullet.sourceGun;

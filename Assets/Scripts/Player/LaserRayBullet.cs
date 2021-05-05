@@ -63,7 +63,7 @@ public class LaserRayBullet : BulletLife
                         MonsterLife monsterComp = hit.collider.GetComponentInParent<MonsterLife>();
                         if (monsterComp)
                         {
-                            DamageMonster(monsterComp);
+                            DamageMonster(monsterComp, damage);
                         }
                         else
                         {

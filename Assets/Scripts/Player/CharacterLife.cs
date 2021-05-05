@@ -21,6 +21,13 @@ public class CharacterLife : MonoBehaviour
     [SerializeField]
     private int maxHp = 4;
 
+    public static GameObject player;
+
+    public void Awake()
+    {
+        player = gameObject;
+    }
+
     public void Start()
     {
         hp = maxHp;
@@ -219,8 +226,7 @@ public class CharacterLife : MonoBehaviour
         savedSpriteColors = new Color[sprites.Length];
         for (int i = 0; i < sprites.Length; i++)
         {
-            savedSpriteColors[i] = sprites[i].color;
-            sprites[i].color = Color.clear;
+            sprites[i].enabled = false;
         }
         var lights = GetComponentsInChildren<Light2D>();
         foreach (var light in lights)
@@ -233,7 +239,7 @@ public class CharacterLife : MonoBehaviour
     {
         for (int i = 0; i < sprites.Length; i++)
         {
-            sprites[i].color = savedSpriteColors[i];
+            sprites[i].enabled = true;
         }
 
         var lights = GetComponentsInChildren<Light2D>();

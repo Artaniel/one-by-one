@@ -15,7 +15,7 @@ public class VectorAttack : ActiveSkill
         cursor = CharacterShooting.GetCursor();
     }
 
-    public override void ActivateSkill()
+    protected override void ActivateSkill()
     {
         aimStart = cursor.transform.position;
         aimInstance = PoolManager.GetPool(aimPrefab, cursor.position, Quaternion.identity).GetComponent<LineRenderer>();
@@ -29,9 +29,9 @@ public class VectorAttack : ActiveSkill
         aimInstance.SetPosition(1, secondPointLimited);
     }
 
-    public override void EndOfSkill()
+    protected override void EndOfSkill()
     {
-        base.EndOfSkill();
+        base._EndOfSkill();
         var attack = PoolManager.GetPool(attackPrefab, aimStart, Quaternion.LookRotation(Vector3.forward, cursor.position - aimStart));
         attack.transform.Rotate(0, 0, 90);
          
