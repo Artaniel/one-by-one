@@ -39,6 +39,15 @@ public class MonsterLife : MonoBehaviour
         return isBoy();
     }
 
+    public enum VisualiseHit
+    {
+        SingleSprite,
+        AllChildren,
+        None
+    }
+
+    public VisualiseHit visualiseHit = VisualiseHit.SingleSprite;
+
     public class MonsterDamagedEvent : UnityEvent<float, GameObject> { }
 
     private void Awake()
@@ -275,7 +284,18 @@ public class MonsterLife : MonoBehaviour
 
     private void HitEffect()
     {
-        sprites[0].material.SetFloat("_TimeHit", Time.time);
+        if (visualiseHit == VisualiseHit.SingleSprite)
+        {
+            sprites[0].material.SetFloat("_TimeHit", Time.time);
+        }
+        else if (visualiseHit == VisualiseHit.AllChildren)
+        {
+            foreach (var sprite in sprites)
+            {
+                if (sprite)
+                    sprite.material.SetFloat("_TimeHit", Time.time);
+            }
+        }
     }
 
     private void DestroyMonster(GameObject source, float damage)
@@ -288,7 +308,12 @@ public class MonsterLife : MonoBehaviour
         {
             behav.AgroBlock(999f);
         }
-        GetComponentInChildren<UnityEngine.Collider2D>().enabled = false;
+        var cols = GetComponentsInChildren<Collider2D>();
+        foreach (var coll in cols)
+        {
+            coll.enabled = false;
+        }
+
         hitPlayerOnContact = false;
 
         // Trigger an event for those who listen to it (if any)

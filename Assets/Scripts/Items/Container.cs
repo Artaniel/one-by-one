@@ -124,7 +124,7 @@ public class Container : MonoBehaviour
     public static void Table(Container container) // for inspecrot UI
     {
         GUILayout.BeginHorizontal(); // table headline
-        GUILayout.Label("Prefab", GUILayout.Width(120));
+        GUILayout.Label("Prefab", GUILayout.Width(180));
         GUILayout.Label("Chance", GUILayout.Width(50));
         GUILayout.Label("%", GUILayout.Width(50));
         GUILayout.EndHorizontal();
@@ -153,7 +153,7 @@ public class Container : MonoBehaviour
             GUILayout.BeginHorizontal();
             {
                 GameObject lastItem = container.itemList[i];
-                container.itemList[i] = (GameObject)EditorGUILayout.ObjectField(container.itemList[i], typeof(GameObject), false, GUILayout.Width(120));
+                container.itemList[i] = (GameObject)EditorGUILayout.ObjectField(container.itemList[i], typeof(GameObject), false, GUILayout.Width(180));
                 if (lastItem != container.itemList[i])
                     EditorUtility.SetDirty(container);
 

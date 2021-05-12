@@ -33,10 +33,10 @@ public class ModeSwitcher : Attack
     protected void Switch()
     {
         active = !active;
-        beetleBehaviours.ForEach(x => x.Switch(active));
+        switcheableBehaviours.ForEach(x => x.Switch(active));
     }
 
-    public void AddSwitcheable(ITwoModesSwitch twoModesSwitch) => beetleBehaviours.Add(twoModesSwitch);
+    public void AddSwitcheable(ITwoModesSwitch twoModesSwitch) => switcheableBehaviours.Add(twoModesSwitch);
 
-    private List<ITwoModesSwitch> beetleBehaviours = new List<ITwoModesSwitch>();
+    private List<ITwoModesSwitch> switcheableBehaviours = new List<ITwoModesSwitch>();
 }

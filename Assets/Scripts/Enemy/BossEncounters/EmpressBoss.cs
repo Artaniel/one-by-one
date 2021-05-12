@@ -18,7 +18,6 @@ public class EmpressBoss : BossEncounter
     [SerializeField] private Material wornOutMaterialPrefab = null;
     [SerializeField] private SpriteRenderer leftWing = null;
     [SerializeField] private SpriteRenderer rightWing = null;
-    [SerializeField] private float musicStartFrom = 18f;
     private Material wornOutMaterial = null;
     private Material wingWornOutMaterial = null;
 

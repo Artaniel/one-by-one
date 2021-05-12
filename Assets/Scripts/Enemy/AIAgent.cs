@@ -15,7 +15,7 @@ public class AIAgent : MonoBehaviour
     public bool needsOOBCheck = true;
     protected EnemySteering steering;
 
-    [Header("All Behaviours activation condition")]
+    [Header("Behaviours default activation condition")]
     public List<ProximityCheckOption> proximityCheckOption = new List<ProximityCheckOption> { ProximityCheckOption.OnScreen, ProximityCheckOption.GroupAggroable };
     public float timeToLoseAggro = -1;
 
@@ -26,7 +26,8 @@ public class AIAgent : MonoBehaviour
         DirectSight,
         Always,
         GroupAggroable,
-        DamageAggroable
+        DamageAggroable,
+        External
     }
 
     private void Awake()

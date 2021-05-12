@@ -76,7 +76,7 @@ public abstract class EnemyBehavior : MonoBehaviour
             currentTimeBeforeGroupeAgroOff = timeBeforeGroupeAggroOff;
         }
 
-        if(!isActive && proximityCheckOption.Contains(AIAgent.ProximityCheckOption.DamageAggroable))
+        if(!isActive && proximityCheckOption.Contains(AIAgent.ProximityCheckOption.GroupAggroable))
         {
             ShootingWeapon.shootingEvents.AddListener(Activate);
             if (!isGroupAggroed)
@@ -167,6 +167,8 @@ public abstract class EnemyBehavior : MonoBehaviour
                 return isGroupAggroed;
             case AIAgent.ProximityCheckOption.DamageAggroable:
                 return agent.IsDamaged();
+            case AIAgent.ProximityCheckOption.External:
+                return false;
             default:
                 Debug.LogError("Proximity check undefined condition");
                 return false;

@@ -79,9 +79,7 @@ public class LaserRayBullet : BulletLife
     }
 
     protected override void CustomInitializeBullet() {
-        transform.localScale = startSize;        
-        ActivateSpawnMods();        
-        bullets.Add(gameObject);
+        transform.localScale = startSize; 
     }
 
     public override void DestroyBullet() {
@@ -90,6 +88,7 @@ public class LaserRayBullet : BulletLife
         ActivateDestroyMods();
         dynamicLightInOut?.FadeOut();
         DeactivateMods();
+        ClearMods();
         bullets.Remove(gameObject);
         PoolManager.ReturnToPool(gameObject, 0);
         lineRenderer.SetPosition(0, startPoint.position);

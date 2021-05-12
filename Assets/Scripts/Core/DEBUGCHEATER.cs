@@ -21,13 +21,6 @@ public class DEBUGCHEATER : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            canvas.SetActive(!canvas.activeSelf);
-            CurrentEnemyUI.GetCanvasInstance().SetActive(!CurrentEnemyUI.GetCanvasInstance().activeSelf);
-            CharacterShooting.GetCursor().gameObject.SetActive(!CharacterShooting.GetCursor().gameObject.activeSelf);
-        }
-
         if (cheating)
         {
             if (Input.GetKeyDown(KeyCode.G))

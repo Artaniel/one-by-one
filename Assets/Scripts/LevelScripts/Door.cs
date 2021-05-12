@@ -210,7 +210,7 @@ public class Door : MonoBehaviour
     private void ArrowCheck()
     {
         if (room)
-            if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked && timer <= 0)
+            if (arrowSprite && room.roomID == Labirint.instance.currentRoomID && isSpawned && !locked && timer <= 0 && UIManager.showUI)
             {
                 bool arrowNeeded = false;
                 Vector3 visualPosition = doorVisual.position;

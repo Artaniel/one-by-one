@@ -12,7 +12,9 @@ public class EnemyBulletLife : MonoBehaviour
     public bool phasing = false;
     public GameObject explosion;
 
-    public UnityEvent bulletDestroyed = new UnityEvent();
+    public class BulletDestroyedEvent : UnityEvent<EnemyBulletLife> { }
+
+    public UnityEvent<EnemyBulletLife> bulletDestroyed = new BulletDestroyedEvent();
 
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class EnemyBulletLife : MonoBehaviour
         bulletLifeLeft = BulletLifeLength;
         BulletSpeed = startingBulletSpeed + Random.Range(speedRandomRange.x, speedRandomRange.y);
         ignoreCollisionTimeLeft = ignoreCollisionTime;
+        bulletDestroyed = new BulletDestroyedEvent();
     }
 
     protected virtual void Update()
@@ -55,9 +58,9 @@ public class EnemyBulletLife : MonoBehaviour
     protected virtual void OnTriggerEnter2D(UnityEngine.Collider2D coll)
     {
         if (ignoreCollisionTimeLeft > 0 || destroyed) return;
-        if (coll.gameObject.tag == "Environment" && !phasing)
+        if (coll.gameObject.tag == "Environment")
         {
-            DestroyBullet();
+            EnvironmentHit(coll);
         }
         else if (coll.gameObject.tag == "Player")
         {
@@ -66,17 +69,28 @@ public class EnemyBulletLife : MonoBehaviour
         }
     }
 
-    protected void DestroyBullet()
+    protected virtual void EnvironmentHit(Collider2D coll)
     {
-        destroyed = true;
-        sprite.color = Color.clear;
+        if (!phasing)
+        {
+            DestroyBullet();
+        }
+    }
 
-        if (hasExplosion) PoolManager.GetPool(explosion, transform.position, transform.rotation);
-        
-        bulletDestroyed.Invoke();
-        dynamicLight?.FadeOut();
-        lightFlicker?.Disable();
-        PoolManager.ReturnToPool(gameObject, 0.5f);
+    public virtual void DestroyBullet()
+    {
+        if (!destroyed)
+        {
+            destroyed = true;
+            sprite.color = Color.clear;
+
+            if (hasExplosion) PoolManager.GetPool(explosion, transform.position, transform.rotation);
+
+            bulletDestroyed.Invoke(this);
+            dynamicLight?.FadeOut();
+            lightFlicker?.Disable();
+            PoolManager.ReturnToPool(gameObject, 0.5f);
+        }
     }
 
     public void UpdateLifeLeft(float newTimeLeft)
@@ -87,12 +101,12 @@ public class EnemyBulletLife : MonoBehaviour
     protected bool destroyed = false;
     private SpriteRenderer sprite;
     private Color startingColor;
-    private float bulletLifeLeft;
+    protected float bulletLifeLeft;
     private DynamicLightInOut dynamicLight;
     private LightFlicker lightFlicker;
     
     private bool hasExplosion = false;
     private float startingBulletSpeed;
-    private Rigidbody2D body;
+    protected Rigidbody2D body;
     protected float ignoreCollisionTimeLeft;
 }
