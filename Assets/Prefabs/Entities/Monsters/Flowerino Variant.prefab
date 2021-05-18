@@ -127,16 +127,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: proximityCheckOption.Array.data[0]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: knockBackStability
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 8624421033595261174, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -192,6 +182,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: proximityCheckOption.Array.data[0]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: knockBackStability
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: timeKillToDestroyGObject
@@ -200,23 +205,24 @@ PrefabInstance:
     - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: timeKillToHideGObject
-      value: 1.5
+      value: 1.75
       objectReference: {fileID: 0}
-    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2250770160118259112, guid: 5b380ebfdfee5184586dc0e014bc903d,
         type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2
+      propertyPath: m_SortingOrder
+      value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6ef9b01541406b74482c051cb9965d90, type: 2}
     - target: {fileID: 8985563269723331831, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -247,21 +253,15 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 6ef9b01541406b74482c051cb9965d90, type: 2}
-    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -2250770160118259112, guid: 5b380ebfdfee5184586dc0e014bc903d,
-        type: 3}
-    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 7
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1731130980099116965, guid: 98cd7e8f344209344a7cb9babefd9898, type: 3}

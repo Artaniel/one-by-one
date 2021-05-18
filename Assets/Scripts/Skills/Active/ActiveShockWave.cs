@@ -8,6 +8,7 @@ public class ActiveShockWave : ActiveSkill
     public float radius = 5f;
     public float force = 10f;
     public float delayedMaxTime = 0.3f;
+    public float maxDamage = 10f;
     public GameObject visualEffectPrefab = null;    
     private GameObject player;
     private SkillManager skillManager;
@@ -49,5 +50,6 @@ public class ActiveShockWave : ActiveSkill
     {
         yield return new WaitForSeconds(delayedMaxTime - power * delayedMaxTime);
         monster.GetComponent<AIAgent>().KnockBack((monster.transform.position - player.transform.position).normalized * force * Mathf.Lerp(0f, 1f, power));
+        monster.GetComponent<MonsterLife>().Damage(null, Mathf.Lerp(0f, 1f, power) * maxDamage);
     }
 }

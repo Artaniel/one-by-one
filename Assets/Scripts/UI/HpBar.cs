@@ -46,6 +46,7 @@ public abstract class HpBar : MonoBehaviour
 
     public void Active()
     {
+        if (!UIManager.showUI) return;
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             if (!transform.GetChild(i).gameObject.activeSelf)

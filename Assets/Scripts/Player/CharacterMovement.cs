@@ -19,6 +19,7 @@ public class CharacterMovement : MonoBehaviour
     
     private float dummySpeed = 0;
     private Vector3 dummyDestination;
+    private bool dummyReturnNormal;
 
     [HideInInspector] public bool shouldDoOOBCheck = true;
 
@@ -82,9 +83,12 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            shouldDoOOBCheck = true;
             dummySpeed = 0;
-            GetComponent<UnityEngine.Collider2D>().enabled = true;
+            if (dummyReturnNormal)
+            {
+                shouldDoOOBCheck = true;
+                GetComponent<UnityEngine.Collider2D>().enabled = true;
+            }
         }
     }
 
@@ -136,25 +140,32 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    public void DummyMovement(Vector3 dummyDestination, float timeToDestination = 0.5f, bool hidePlayer = false)
+    public void DummyMovement(Vector3 dummyDestination, float timeToDestination = 0.5f, bool dummyReturnNormal = true)
     {
+        this.dummyReturnNormal = dummyReturnNormal;
         this.dummyDestination = dummyDestination;
         GetComponent<UnityEngine.Collider2D>().enabled = false;
         dummySpeed = (dummyDestination - transform.position).magnitude / timeToDestination;
         shouldDoOOBCheck = false;
-        if (hidePlayer)
-        {
-            StartCoroutine(HideRevealDummyPlayer(timeToDestination));
-        }
     }
 
-    private IEnumerator HideRevealDummyPlayer(float timeSequence)
+    private IEnumerator RoomTransitionDummyInner(Vector3 dummyDoor1, Vector3 dummyDoor2, Vector3 destination, float timeToDestination)
     {
-        yield return new WaitForSeconds(0.1f);
+        if (timeToDestination < 0.15f + 0.25f) timeToDestination = 0.15f + 0.25f;
+        DummyMovement(dummyDoor1, 0.15f, dummyReturnNormal: false);
+        yield return new WaitForSeconds(0.15f);
         characterLife.HidePlayer();
-        yield return new WaitForSeconds(timeSequence - 0.2f);
+        yield return new WaitForSeconds(0.25f);
         characterLife.RevealPlayer();
+        transform.position = dummyDoor2;
+        DummyMovement(destination, timeToDestination - 0.15f - 0.25f, dummyReturnNormal: true);
     }
+
+    public void DummyRoomTransition(Vector3 dummyDoor1, Vector3 dummyDoor2, Vector3 destination, float timeToDestination = 0.7f)
+    {
+        StartCoroutine(RoomTransitionDummyInner(dummyDoor1, dummyDoor2, destination, timeToDestination));
+    }
+
 
     private void ApplyGravity(ref Vector2 moveVector)
     {

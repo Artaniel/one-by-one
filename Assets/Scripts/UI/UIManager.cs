@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static bool showUI = true;
 
     private static Renderer[] renderers;
+    private static MaskableGraphic[] images;
     
     void Start()
     {
         renderers = GetComponentsInChildren<Renderer>();
+        images = GetComponentsInChildren<MaskableGraphic>();
     }
 
     void Update()
@@ -24,10 +27,17 @@ public class UIManager : MonoBehaviour
     private static void ToggleUI()
     {
         showUI = !showUI;
-        foreach(var rend in renderers)
+
+        foreach (var image in images)
+        {
+            image.enabled = showUI;
+        }
+        foreach (var rend in renderers)
         {
             rend.enabled = showUI;
         }
+
+        
         CurrentEnemyUI.GetCanvasInstance().SetActive(showUI);
         CharacterShooting.GetCursor().gameObject.SetActive(showUI);
     }

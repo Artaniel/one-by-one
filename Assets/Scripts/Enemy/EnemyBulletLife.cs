@@ -83,6 +83,7 @@ public class EnemyBulletLife : MonoBehaviour
         {
             destroyed = true;
             sprite.color = Color.clear;
+            body.velocity = Vector2.zero;
 
             if (hasExplosion) PoolManager.GetPool(explosion, transform.position, transform.rotation);
 

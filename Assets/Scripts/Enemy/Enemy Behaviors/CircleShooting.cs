@@ -96,7 +96,7 @@ public class CircleShooting : MonoBehaviour
                 {
                     //ainmation swich to move?
                     status = Status.shoot;
-                    timer = moveTime;
+                    timer = shootTime;
                     Burrow();
                     spriteAnimation.Play("Attack");
                     shadowAnimation.Play("Attack");

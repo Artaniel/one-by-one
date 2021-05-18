@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     [SerializeField] public Direction.Side direction = Direction.Side.UNSET;
     public string sceneName=""; // name of scene to change on enter this door
     public bool isSpawned = false;
-    [SerializeField] private Transform doorVisual = null;
+    [SerializeField] public Transform doorVisual = null;
 
     [SerializeField] private GameObject arrowSprite = null;
     new private Camera camera;

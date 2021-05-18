@@ -67,8 +67,8 @@ public class Room : MonoBehaviour
         
         var player = GameObject.FindGameObjectWithTag("Player");
         var playerMove = player.GetComponent<CharacterMovement>();
-        float delay = 0.5f;
-        playerMove.DummyMovement(wayInDoor.transform.position, hidePlayer: true, timeToDestination: delay);
+        float delay = 0.6f;
+        playerMove.DummyRoomTransition(wayInDoor.connectedDoor.doorVisual.position, wayInDoor.doorVisual.position, wayInDoor.transform.position, timeToDestination: delay);
 
         Debug.Log($"Entering \"{wayInDoor.room.name}\"");
         StartCoroutine(DelayedEnterRoom(delay));
