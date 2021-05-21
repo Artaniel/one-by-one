@@ -16,7 +16,8 @@ public class FireBug : MonoBehaviour
     private void DeathCheck()
     {
         if (monsterLife.HP <= 0) {
-            FireOnTilemap.StartFire(transform.position, firePrefab);
+            FireOnTilemap.StartAreaFire(transform.position, 2, 2, firePrefab);
+            //FireOnTilemap.StartFire(transform.position, firePrefab);
         }
     }
 }

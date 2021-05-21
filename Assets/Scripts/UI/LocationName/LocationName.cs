@@ -28,18 +28,12 @@ public class LocationName : ScriptableObject
         ""
     };
 
-    private string chosenName = "";
-
     public virtual string GetRandomName()
     {
-        if (chosenName == "")
-        {
-            string randomZero = locationZero[Random.Range(0, locationZero.Length)];
-            string randomFirst = locationFirst[Random.Range(0, locationFirst.Length)];
-            string randomSecond = locationSecond[Random.Range(0, locationSecond.Length)];
-            string randomThird = locationThird[Random.Range(0, locationThird.Length)];
-            chosenName = $"{randomZero} {randomFirst} {randomSecond} {randomThird}";
-        }
-        return chosenName;
+        string randomZero = locationZero[Random.Range(0, locationZero.Length)];
+        string randomFirst = locationFirst[Random.Range(0, locationFirst.Length)];
+        string randomSecond = locationSecond[Random.Range(0, locationSecond.Length)];
+        string randomThird = locationThird[Random.Range(0, locationThird.Length)];
+        return $"{randomZero} {randomFirst} {randomSecond} {randomThird}";
     }
 }

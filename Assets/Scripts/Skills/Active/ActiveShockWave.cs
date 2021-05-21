@@ -49,7 +49,7 @@ public class ActiveShockWave : ActiveSkill
     private IEnumerator DelayedKnockBack(float power, GameObject monster)
     {
         yield return new WaitForSeconds(delayedMaxTime - power * delayedMaxTime);
-        monster.GetComponent<AIAgent>().KnockBack((monster.transform.position - player.transform.position).normalized * force * Mathf.Lerp(0f, 1f, power));
-        monster.GetComponent<MonsterLife>().Damage(null, Mathf.Lerp(0f, 1f, power) * maxDamage);
+        monster.GetComponent<AIAgent>().KnockBack((monster.transform.position - player.transform.position).normalized * force * Mathf.Lerp(0.25f, 1f, power));
+        monster.GetComponent<MonsterLife>().Damage(null, Mathf.Lerp(0.25f, 1f, power) * maxDamage);
     }
 }

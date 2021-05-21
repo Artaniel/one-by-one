@@ -74,7 +74,7 @@ public class AIAgent : MonoBehaviour
         {
             orientation += 360.0f;
         }
-        transform.rotation = Quaternion.Euler(0, 0, -orientation);
+        rigidbody.rotation = -orientation;
 
         Vector2 movement = Vector2.zero;
         foreach (var i in moveBehaviours)
@@ -134,8 +134,7 @@ public class AIAgent : MonoBehaviour
 
     private void ResumeKnockback()
     {
-        orientation = -transform.rotation.eulerAngles.z;
-        var rigidbody = GetComponent<Rigidbody2D>();
+        orientation = -rigidbody.rotation;
         rigidbody.WakeUp();
         rigidbody.isKinematic = false;
     }

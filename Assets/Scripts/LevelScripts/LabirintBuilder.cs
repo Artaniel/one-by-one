@@ -28,7 +28,7 @@ public class LabirintBuilder : MonoBehaviour
 
     private Labirint labirint;
     private int[,] map; //room position to room id
-    private Dictionary<int, Vector2Int> allRoomsPositions; // room id to room position
+    public Dictionary<int, Vector2Int> allRoomsPositions { get; private set; } // room id to room position
     private List<Vector2Int> correctPathRoomsPositions;
     private Vector2Int startPosition;
     private Vector2Int endPosition;

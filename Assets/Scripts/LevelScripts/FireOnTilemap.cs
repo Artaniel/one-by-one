@@ -17,7 +17,7 @@ public class FireOnTilemap : MonoBehaviour
     static public bool damageMobsAllowed = false;
 
     private List<GameObject> activeFires;
-    private Vector3Int arrayToTilemap;
+    private static Vector3Int arrayToTilemap;
     private List<GameObject> trees;
 
     public bool dryRoom = false;
@@ -26,6 +26,8 @@ public class FireOnTilemap : MonoBehaviour
     private GameObject player;
     private CharacterLife characterLife;
     private CurrentEnemySelector currentEnemySelector;
+
+    private const float flamableProbabilityBoost = 3f;
 
     private void Awake()
     {
@@ -60,24 +62,27 @@ public class FireOnTilemap : MonoBehaviour
             GameObject.FindWithTag("Player").transform.position + new Vector3(10, 10, 0), Color.red, 999f); // и отладочная линия чтобы было видно где эта область
     }
 
-    static public void StartFire(Vector2 firePosition, GameObject firePrefab) {
+    static public void StartAreaFire(Vector2 firePosition, int radiusX, int radiusY, GameObject firePrefab)
+    {
         if (!firePrefabStatic) firePrefabStatic = firePrefab;
-        if (Labirint.GetCurrentRoom().GetComponent<Room>().RectIsInbounds(firePosition.x, firePosition.y, 0, 0)) //if in this room, to deny spawn after move to another room
+        if (Labirint.currentRoom.RectIsInbounds(firePosition.x, firePosition.y, 0, 0)) //if in this room, to deny spawn after move to another room
         {
-            if (!Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>())
+            if (!Labirint.currentRoom.TryGetComponent(out FireOnTilemap currentScript))
             {
-                FireOnTilemap currentScript = Labirint.GetCurrentRoom().AddComponent<FireOnTilemap>();
+                currentScript = Labirint.GetCurrentRoom().AddComponent<FireOnTilemap>();
                 currentScript.room = Labirint.currentRoom;
-                Labirint.GetCurrentRoom().GetComponent<Room>().fireScript = currentScript;
+                Labirint.currentRoom.fireScript = currentScript;
                 currentScript.firePrefab = firePrefab;
                 currentScript.Init();
-                currentScript.StartFireInternal(firePosition);
             }
-            else
-            {
-                Labirint.GetCurrentRoom().GetComponent<FireOnTilemap>().StartFireInternal(firePosition);
-            }
+            currentScript.FlamableRect(firePosition.x, firePosition.y, radiusX, radiusY);
+            currentScript.StartFireInternal(firePosition);
         }
+    }
+
+
+    static public void StartFire(Vector2 firePosition, GameObject firePrefab) {
+        StartAreaFire(firePosition, 0, 0, firePrefab);
     }
 
     private void Init()
@@ -118,19 +123,27 @@ public class FireOnTilemap : MonoBehaviour
         }
     }
 
-    private void StartFireInternal(Vector2 firePosition) {
+    private void StartFireInternal(Vector2 firePosition, int radiusX = 0, int radiusY = 0) {
         Vector3Int tilemapPosition = room.wallsTilemap.WorldToCell(firePosition) - arrayToTilemap;
-        int fireStatusIndex = fireMap[tilemapPosition.x, tilemapPosition.y];
-        if (fireStatusIndex == 2 || fireStatusIndex == 3 || fireStatusIndex == 6) // if default state or flamable
+        for (int x = tilemapPosition.x - radiusX; x <= tilemapPosition.x + radiusX; x++)
         {
-            fireMap[tilemapPosition.x, tilemapPosition.y] = 4;
-            GameObject newFire = PoolManager.GetPool(firePrefab, room.wallsTilemap.CellToWorld(tilemapPosition + arrayToTilemap), Quaternion.identity);
-            newFire.transform.parent = room.transform;
-            activeFires.Add(newFire);
-            foreach (GameObject tree in trees) 
-                if ((room.wallsTilemap.WorldToCell(tree.transform.position) - arrayToTilemap) == tilemapPosition) 
-                    LitTree(tree);
+            for (int y = tilemapPosition.y - radiusY; y <= tilemapPosition.y + radiusY; y++)
+            {
+                int fireStatusIndex = fireMap[x, y];
+                if (fireStatusIndex == 2 || fireStatusIndex == 3 || fireStatusIndex == 6) // if default state or flamable
+                {
+                    fireMap[x, y] = 4;
+                    var tilemapIterPosition = new Vector3Int(x, y, 0);
+                    GameObject newFire = PoolManager.GetPool(firePrefab, room.wallsTilemap.CellToWorld(tilemapIterPosition + arrayToTilemap), Quaternion.identity);
+                    newFire.transform.parent = room.transform;
+                    activeFires.Add(newFire);
+                    foreach (GameObject tree in trees)
+                        if ((room.wallsTilemap.WorldToCell(tree.transform.position) - arrayToTilemap) == tilemapIterPosition)
+                            LitTree(tree);
+                }
+            }
         }
+
     }
 
     private void LitTree(GameObject tree) { // сюда надо поместить поведение для подожженных деревьев
@@ -164,7 +177,7 @@ public class FireOnTilemap : MonoBehaviour
     private void BurnOutTree(GameObject tree) { // сюда логику выгорания деревьев
         if (tree.TryGetComponent(out BurningTree burningTreeComponent)) // because that one exception from testing 05.11.2020 (Fake trees bug)
         {
-            tree.GetComponent<BurningTree>().FinishBurning();
+            burningTreeComponent.FinishBurning();
         }
     }
 
@@ -212,27 +225,37 @@ public class FireOnTilemap : MonoBehaviour
         if (cleanedRoom) currentSpreadProbability = 0f;
         if (dryRoom) currentSpreadProbability *= 2f;
         if (activeFires.Count > 0)
-            if (Random.Range(0f, 1f) <= currentSpreadProbability) {
-            List<Vector3Int> fireSpreadPossiblePositions = new List<Vector3Int>();
-            List<Vector3Int> flamableCellsPositions = new List<Vector3Int>();
-            Vector3Int currentFlamePosition, testedPosition; 
-            foreach (GameObject flame in activeFires) {
-                currentFlamePosition = room.wallsTilemap.WorldToCell(flame.transform.position) - arrayToTilemap;
-                foreach (Vector3Int side in Direction.eightDirectionsVectors) {
-                    testedPosition = currentFlamePosition + side;
-                    if (fireMap[testedPosition.x, testedPosition.y] == 6) // flamable
-                        flamableCellsPositions.Add(testedPosition);
-                    if (fireMap[testedPosition.x, testedPosition.y] == 2 || (fireMap[testedPosition.x, testedPosition.y] == 3)) {
-                        fireSpreadPossiblePositions.Add(testedPosition);
+        {
+            float random = Random.Range(0f, 1f);
+            if (random <= currentSpreadProbability + currentSpreadProbability * activeFires.Count / 10f)
+            {
+
+                fireSpreadPossiblePositions.Clear();
+                flamableCellsPositions.Clear();
+
+                Vector3Int currentFlamePosition, testedPosition;
+                foreach (GameObject flame in activeFires)
+                {
+                    currentFlamePosition = room.wallsTilemap.WorldToCell(flame.transform.position) - arrayToTilemap;
+                    foreach (Vector3Int side in Direction.eightDirectionsVectors)
+                    {
+                        testedPosition = currentFlamePosition + side;
+                        if (fireMap[testedPosition.x, testedPosition.y] == 6) // flamable
+                            flamableCellsPositions.Add(testedPosition);
+                        if (fireMap[testedPosition.x, testedPosition.y] == 2 || (fireMap[testedPosition.x, testedPosition.y] == 3))
+                        {
+                            fireSpreadPossiblePositions.Add(testedPosition);
+                        }
                     }
                 }
-            }
-            if (flamableCellsPositions.Count > 0)
-            {
-                StartFireInternal(room.wallsTilemap.CellToWorld(flamableCellsPositions[Random.Range(0, flamableCellsPositions.Count)] + arrayToTilemap));
-            }
-            else if(fireSpreadPossiblePositions.Count > 0) {
-                StartFireInternal(room.wallsTilemap.CellToWorld(fireSpreadPossiblePositions[Random.Range(0, fireSpreadPossiblePositions.Count - 1)]+ arrayToTilemap));
+                if (flamableCellsPositions.Count > 0)
+                {
+                    StartFireInternal(room.wallsTilemap.CellToWorld(flamableCellsPositions[Random.Range(0, flamableCellsPositions.Count)] + arrayToTilemap));
+                }
+                if (fireSpreadPossiblePositions.Count > 0)
+                {
+                    StartFireInternal(room.wallsTilemap.CellToWorld(fireSpreadPossiblePositions[Random.Range(0, fireSpreadPossiblePositions.Count)] + arrayToTilemap));
+                }
             }
         }
     }
@@ -284,4 +307,7 @@ public class FireOnTilemap : MonoBehaviour
             EndFireInternal(activeFires[i], false);
         }
     }
+
+    List<Vector3Int> fireSpreadPossiblePositions = new List<Vector3Int>();
+    List<Vector3Int> flamableCellsPositions = new List<Vector3Int>();
 }
