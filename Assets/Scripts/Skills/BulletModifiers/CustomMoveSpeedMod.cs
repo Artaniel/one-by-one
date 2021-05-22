@@ -32,7 +32,7 @@ public class CustomMoveSpeedMod : BulletModifier
         }
         else
         {
-            timeParameter = (1 - bullet.TTDLeft / bulletLength);
+            timeParameter = 1 - (bullet.TTDLeft / bulletLength);
         }
         float value = animationCurve.Evaluate(timeParameter);
         bullet.speedMultiplier = value;

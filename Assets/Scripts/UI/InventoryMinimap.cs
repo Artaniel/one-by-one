@@ -9,19 +9,26 @@ public class InventoryMinimap : MonoBehaviour
     Image[] mapIcons;
     int iconsCount;
 
-    [SerializeField] private Sprite verticalLine;
-    [SerializeField] private Sprite horizontalLine;
+    [SerializeField] private Sprite verticalLine = null;
+    [SerializeField] private Sprite horizontalLine = null;
 
     float iconOffsetX = 4.55f;
     float iconOffsetY = -4.25f;
     float iconSizeX = 5.7f;
     float iconSizeY = 5.7f;
 
+    private const int mapSize = 21;
+    private Vector2Int center = new Vector2Int(10, 10);
+
     void Start()
     {
         if (!Labirint.instance.OneRoomMode)
         {
             mapIcons = GetComponentsInChildren<Image>();
+            foreach (var icon in mapIcons)
+            {
+                icon.enabled = false;
+            }
             iconsCount = mapIcons.Length;
             labirintBuilder = Labirint.instance.GetComponent<LabirintBuilder>();
             Room.OnAnyRoomEnter.AddListener(UpdateMap);
@@ -36,20 +43,15 @@ public class InventoryMinimap : MonoBehaviour
         int currentRoomID = Labirint.instance.currentRoomID;
         Vector2Int currentRoomPosition = allRoomPositions[currentRoomID];
 
-        for (int i = 0; i < iconsCount; i++)
-        {
-            mapIcons[i].color = Color.clear;
-        }
-
-        print(roomBlueprints.Length);
-        print(allRoomPositions.Count);
+        int j = 0;
 
         for (int i = 0; i < allRoomPositions.Count; i++)
         {
             var position = ToMapSpace(currentRoomPosition, allRoomPositions[i]);
-            if (position >= 0 && position < iconsCount)
+            if (ValidPosition(position))
             {
-                mapIcons[position].color = Color.white;
+                mapIcons[i].enabled = true;
+                mapIcons[i].rectTransform.anchoredPosition = new Vector2(iconOffsetX + iconSizeX * position.x, -(iconOffsetY + iconSizeY * position.y));
             }
             //print($"{i} {allRoomPositions[i]} {position}");
 
@@ -60,35 +62,37 @@ public class InventoryMinimap : MonoBehaviour
                     if (roomBlueprints[i].rooms[side] != -1)
                     {
                         var neighborPosition = ToMapSpace(currentRoomPosition, allRoomPositions[roomBlueprints[i].rooms[side]]);
+                        if (!ValidPosition(neighborPosition)) continue;
                         var difference = position - neighborPosition;
-                        if (difference == 2 || difference == -2)
+                        var halfDifference = difference;
+                        halfDifference.x /= 2;
+                        halfDifference.y /= 2;
+                        Vector2Int linePosition = position - halfDifference;
+                        if (difference.x == 2 || difference.x == -2)
                         {
-                            int linePosition = position - difference / 2;
-                            if (linePosition >= 0 && linePosition < iconsCount)
-                            {
-                                mapIcons[linePosition].sprite = horizontalLine;
-                                mapIcons[linePosition].color = Color.white;
-                            }
+                            mapIcons[allRoomPositions.Count + j].sprite = horizontalLine;
                         }
                         else
                         {
-                            int linePosition = position - difference / 2;
-                            if (linePosition >= 0 && linePosition < iconsCount)
-                            {
-                                mapIcons[linePosition].sprite = verticalLine;
-                                mapIcons[linePosition].color = Color.white;
-                            }
+                            mapIcons[allRoomPositions.Count + j].sprite = verticalLine;
                         }
+                        mapIcons[allRoomPositions.Count + j].enabled = true;
+                        mapIcons[allRoomPositions.Count + j].rectTransform.anchoredPosition = 
+                            new Vector2(iconOffsetX + iconSizeX * linePosition.x, -(iconOffsetY + iconSizeY * linePosition.y));
+                        j++;
                     }
                 }
             }
         }
     }
 
-    int ToMapSpace(Vector2Int currentPosition, Vector2Int coordinates) // 60 is a center, 11 elements in rows and columns 
+    Vector2Int ToMapSpace(Vector2Int currentPosition, Vector2Int coordinates) // 60 is a center, 11 elements in rows and columns 
     {
-        int xDiff = coordinates.x - currentPosition.x;
-        if (Mathf.Abs(xDiff) > 21) return 999999;
-        return iconsCount / 2 + ((currentPosition.y - coordinates.y) * 42) + ((coordinates.x - currentPosition.x) * 2);
+        Vector2Int newPosition = currentPosition; // because UI map is Y-inverted
+        newPosition.x = coordinates.x - currentPosition.x;
+        newPosition.y = currentPosition.y - coordinates.y;
+        return center + (newPosition * 2);
     }
+
+    bool ValidPosition(Vector2Int position) => position.x >= 0 && position.y >= 0 && position.x < mapSize && position.y < mapSize;
 }

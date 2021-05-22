@@ -20,7 +20,9 @@ public class TutorialManager : MonoBehaviour
     public Transform[] spawnPositions;
 
     private bool phase3started = false;
-    private GameObject[] mobArray;
+    private MonsterLife[] mobArray;
+
+    public GameObject enemyHintPrefab;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class TutorialManager : MonoBehaviour
                 animation.Play("Open");
             }
             phase = 1;
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<CurrentEnemySelector>().SpawnHint(enemyHintPrefab);
         }
     }
 
@@ -81,7 +84,7 @@ public class TutorialManager : MonoBehaviour
     public void Phase3StartTrigger() {
         if (!phase3started)
         {
-            mobArray = new GameObject[spawnPositions.Length];
+            mobArray = new MonsterLife[spawnPositions.Length];
             //mobList = new List<GameObject>();
             //foreach (Transform targetTransform in spawnPositions)
             for (int i = 0; i < spawnPositions.Length; i++)
@@ -99,7 +102,7 @@ public class TutorialManager : MonoBehaviour
             bool dead = false;
             if (mobArray[i] == null) { // exception to prevent call of MonsterLife on deleted gobject
                 dead = true;
-            }else if (mobArray[i].GetComponent<MonsterLife>().HP <= 0)
+            }else if (mobArray[i].HP <= 0)
                 dead = true;
             if (dead)
                 mobArray[i] = null;
@@ -117,17 +120,17 @@ public class TutorialManager : MonoBehaviour
         for (int i = 0; i < spawnPositions.Length; i++) {
             if (mobArray[i] == null)
                 Spawn(spawnPositions[i], mobPrefab, i);
+            else if (mobArray[i].HP < mobArray[i].maxHP && mobArray[i].HP > 0)
+                mobArray[i].HP = mobArray[i].maxHP;
         }
     }
 
     private void Spawn(Transform targetTransform, GameObject mobPrefab, int id) {
         GameObject mob = Instantiate(mobPrefab, targetTransform.position, targetTransform.rotation);
-        mobArray[id] = mob;
         MonsterLife monsterlife = mob.GetComponent<MonsterLife>();
+        mobArray[id] = monsterlife;
         monsterlife.OnThisDead.AddListener(Phase3Kill);
         monsterlife.OnThisAbsorb.AddListener(Phase3Absorb);
-        monsterlife.maxHP = 1;
-        monsterlife.HP = 1;
         mob.GetComponent<MoveForward>().enabled = false;
     }
 

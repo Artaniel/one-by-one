@@ -7641,6 +7641,7 @@ GameObject:
   - component: {fileID: 7557523555709609448}
   - component: {fileID: 4849212450367341107}
   - component: {fileID: 4849212450367341104}
+  - component: {fileID: 2418978956781356602}
   m_Layer: 0
   m_Name: RoomEmpty
   m_TagString: Room
@@ -7740,6 +7741,31 @@ MonoBehaviour:
   maxvalue: 0
   roomClearedLight: 0.7
   DefaultLight: 0.25
+--- !u!114 &2418978956781356602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7557523555709609451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bf1d570aec33f489213f9aaf8577e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToEachSpawn: 5
+  timeToNextSpawn: 0
+  enemyWaves: []
+  spawnZones: []
+  killsToOpen: 999
+  RoomBounds: {x: 14.5, y: 9.5}
+  spawnAvailable: 0
+  roomLighting: {fileID: 0}
+  strayMonsters: []
+  monsterList: []
+  room: {fileID: 0}
+  monsterRoomModifiers: []
+  AllowEarlySpawns: 1
 --- !u!1001 &1974029219691494657
 PrefabInstance:
   m_ObjectHideFlags: 0

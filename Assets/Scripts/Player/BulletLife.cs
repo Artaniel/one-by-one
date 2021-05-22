@@ -25,10 +25,7 @@ public class BulletLife : MonoBehaviour
     public static List<GameObject> bullets = new List<GameObject>();
     protected float ignoreTime = 0.5f;
     public SkillManager.EquippedWeapon sourceGun = null;
-
-    public bool chained = false;
-    public bool allowChained = true;
-
+    
     public GameObject afterEffect;
 
     static BulletLife()
@@ -41,7 +38,7 @@ public class BulletLife : MonoBehaviour
 
     protected virtual void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
         bulletLight = GetComponentInChildren<Light2D>();
         coll2D = GetComponent<UnityEngine.Collider2D>();
         dynamicLightInOut = GetComponent<DynamicLightInOut>();
@@ -62,8 +59,7 @@ public class BulletLife : MonoBehaviour
         if (selfInit) InitializeBullet();
     }
     
-    public void InitializeBullet(bool chained = false) {
-        this.chained = chained;
+    public void InitializeBullet() {
         destroyed = false;
         copiedBullet = false;
         speedMultiplier = 1f;
@@ -127,7 +123,7 @@ public class BulletLife : MonoBehaviour
     protected virtual void Move()
     {
         ActivateMoveModsBefore();
-        body.velocity = transform.right * speed * speedMultiplier;
+        rigidbody.velocity = transform.right * speed * speedMultiplier;
         ActivateMoveModsAfter();
     }
 
@@ -157,14 +153,13 @@ public class BulletLife : MonoBehaviour
         if (damage <= 0) return;
         ActivateDamageEnemyMods(monster);
 
-        MonsterLife.DamageType damaged = monster.Damage(gameObject, damage * damageMultiplier, ignoreSourceTime: ignoreSource == -1 ? ignoreTime : ignoreSource, ignoreInvulurability: chained);
+        MonsterLife.DamageType damaged = monster.Damage(gameObject, damage * damageMultiplier, ignoreSourceTime: ignoreSource == -1 ? ignoreTime : ignoreSource);
         if (monster.HP <= 0)
         {
             ActivateKillMods(monster);
         }
         if (damaged != MonsterLife.DamageType.None)
         {
-            if (damaged == MonsterLife.DamageType.Damaged && CharacterShooting.allowChainDamage && allowChained) chained = true;
             if (monster.TryGetComponent(out AIAgent enemy))
             {
                 KnockBack(enemy);
@@ -275,7 +270,7 @@ public class BulletLife : MonoBehaviour
         
         if (!bulletComp.selfInit)
         {
-            bulletComp.InitializeBullet(chained: chained);
+            bulletComp.InitializeBullet();
         }
         
         bulletComp.copiedBullet = true;
@@ -292,7 +287,7 @@ public class BulletLife : MonoBehaviour
     public virtual void DestroyBullet()
     {
         if (destroyed) return;
-        body.velocity = Vector2.zero;
+        rigidbody.velocity = Vector2.zero;
         destroyed = true;
         DeactivateMods();
         ActivateDestroyMods();
@@ -366,5 +361,5 @@ public class BulletLife : MonoBehaviour
     [HideInInspector]
     public AudioSource audioSource;
 
-    private Rigidbody2D body;
+    [HideInInspector] new public Rigidbody2D rigidbody;
 }

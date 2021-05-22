@@ -19,7 +19,7 @@ public class CurrentEnemySelector : MonoBehaviour
         MonsterLife.OnEnemyDead.AddListener(CheckBoyOnDemand);
         difficulty = SaveLoading.difficulty.ToString();
 
-        if (enemyHintPrefab && difficulty != "2") enemyHint = Instantiate(enemyHintPrefab).GetComponent<CurrentEnemyHint>();
+        if (enemyHintPrefab && difficulty != "2") SpawnHint(enemyHintPrefab);
     }
 
     private void Update()
@@ -115,6 +115,11 @@ public class CurrentEnemySelector : MonoBehaviour
     {
         CurrentEnemyUI.SetCurrentEnemy("");
         if (enemyHint) enemyHint.SetupHint(null);
+    }
+
+    public void SpawnHint(GameObject hint)
+    {
+        enemyHint = Instantiate(hint).GetComponent<CurrentEnemyHint>();
     }
 
     private float timeToNextScan = float.PositiveInfinity;

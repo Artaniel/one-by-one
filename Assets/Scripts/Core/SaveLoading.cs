@@ -15,7 +15,7 @@ public class SaveRecord {
 public class PermanentSaveRecord
 {
     public Dictionary<string, int> achivements = new Dictionary<string, int>();
-    public Dictionary<string, string> formatedDictionary = new Dictionary<string, string>(); // если нам понащдобится не int, чтобы не менять формат сохранения
+    public Dictionary<string, string> formatedDictionary = new Dictionary<string, string>(); // если нам понадобится не int, чтобы не менять формат сохранения
 }
 
 public class SaveLoading : MonoBehaviour

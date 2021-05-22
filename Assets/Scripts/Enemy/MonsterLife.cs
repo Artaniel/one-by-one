@@ -134,6 +134,7 @@ public class MonsterLife : MonoBehaviour
                 else
                 {
                     HP = Mathf.Max(minHpValue, HP - (damage / 3f));
+                    OnThisAbsorb?.Invoke();
                     BulletAbsorb();
                 }
                 
