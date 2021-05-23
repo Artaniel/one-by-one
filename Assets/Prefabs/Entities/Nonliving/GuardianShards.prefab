@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6295829420731065479}
   - component: {fileID: 6295829420731065478}
+  - component: {fileID: 2557838240105582901}
+  - component: {fileID: 8435846276359141854}
   m_Layer: 0
   m_Name: GuardianShards
   m_TagString: Untagged
@@ -48,3 +50,32 @@ MonoBehaviour:
   shard: {fileID: 7556247329906426865, guid: 4392ba14941ec4b4393fdcd0ca5c18bb, type: 3}
   shardDistribution: 2
   randomAngle: 15
+--- !u!114 &2557838240105582901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295829420731065476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd408f46330d0ed4293756893de034c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPlaySound: 1
+  audioClip: {fileID: 8300000, guid: 0df5d32113f75574baba6e02489429a2, type: 3}
+  clipName: 
+--- !u!114 &8435846276359141854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295829420731065476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a787897ab74364da1a0d354af796b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 1
+  toPool: 1

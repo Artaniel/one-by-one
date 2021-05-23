@@ -25,7 +25,6 @@ public class Chapter1BossMonsterLife : MonsterLife
     protected override void PreDestroyEffect()
     {
         base.PreDestroyEffect();
-        AudioManager.PauseSource("Chapter1BossMusic", null);
         var lightController = Labirint.GetCurrentRoom().GetComponent<RoomLighting>();
         lightController.AddToLight(100);
     }

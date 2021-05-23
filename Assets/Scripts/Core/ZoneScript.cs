@@ -9,11 +9,17 @@ public class ZoneScript : MonoBehaviour
 
     private void Start()
     {
-        if (!used) Debug.LogWarning("Is Zone attached to anything? Ping it or add it in inspector.");
         sprite = GetComponent<SpriteRenderer>();
         Color color1 = sprite.color;
         color1.a = 0f;
         sprite.color = color1;
+        StartCoroutine(WarningIfUnused());
+    }
+
+    private IEnumerator WarningIfUnused()
+    {
+        yield return new WaitForSeconds(5f);
+        if (!used) Debug.LogWarning($"Is Zone {gameObject.name} attached to anything? Call UseZone() or add in inspector where necessary.");
     }
 
     public Vector2 RandomZonePosition()

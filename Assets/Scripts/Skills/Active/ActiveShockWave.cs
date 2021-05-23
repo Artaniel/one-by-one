@@ -27,12 +27,14 @@ public class ActiveShockWave : ActiveSkill
             PoolManager.ReturnToPool(createdObject, 4f);
         }
 
-        float distance = 0;
+        Vector3 distanceVector;
         if (Labirint.instance)
         {
             foreach (GameObject monster in Labirint.currentRoom.GetComponent<MonsterManager>().monsterList)
             {
-                distance = Vector3.Distance(player.transform.position, monster.transform.position);
+                distanceVector = player.transform.position - monster.transform.position;
+                distanceVector.z = 0;
+                float distance = distanceVector.magnitude;
                 if (distance <= radius)
                 {
                     skillManager.StartCoroutine(DelayedKnockBack(1 - distance / radius, monster));

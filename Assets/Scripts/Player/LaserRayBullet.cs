@@ -10,6 +10,9 @@ public class LaserRayBullet : BulletLife
     private Transform playerTransform;
     private Vector2 lineSize;
 
+    [SerializeField] private AudioClip laserInitiate;
+    [SerializeField] private AudioSource laserSource;
+
     protected override void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -79,7 +82,9 @@ public class LaserRayBullet : BulletLife
     }
 
     protected override void CustomInitializeBullet() {
-        transform.localScale = startSize; 
+        transform.localScale = startSize;
+        AudioManager.Play(laserInitiate);
+        AudioManager.PlaySource("laserBullet", laserSource);
     }
 
     public override void DestroyBullet() {

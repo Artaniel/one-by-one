@@ -127,7 +127,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (rigidbody.velocity.sqrMagnitude == 0f)
         {
-            AudioManager.PauseSource("Walk", audio);
+            AudioManager.PauseSource(audio);
             anim.SetBool("Moves", false);
         }
         else

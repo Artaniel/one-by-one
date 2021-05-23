@@ -98,7 +98,7 @@ public class CharacterLife : MonoBehaviour
             shooting.enabled = false;
         isDeath = true;
         audio = GetComponent<AudioSource>();
-        AudioManager.PauseSource("Walk", audio);
+        AudioManager.PauseSource(audio);
         EventManager.OnMoneyChange.Invoke((int) (-MoneyManager.MoneyAmount * 0.05f));
         Metrics.OnDeath();
     }

@@ -185,7 +185,7 @@ public class AudioManager : MonoBehaviour
         source.Play();
     }
 
-    public static void PauseSource(string name, AudioSource source)
+    public static void PauseSource(AudioSource source)
     {
         if (source != null)
         {

@@ -17,6 +17,19 @@ public class InventoryMinimap : MonoBehaviour
     float iconSizeX = 5.7f;
     float iconSizeY = 5.7f;
 
+    float iconSizeCurrentRoomX = 8.5f;
+    float iconSizeCurrentRoomY = 8.5f;
+
+    [SerializeField] private Color currentRoomColor = Color.white;
+    [SerializeField] private Color visitedRoomColor = new Color32(255, 238, 224, 255);
+    [SerializeField] private Color treasureRoomColor = new Color32(253, 251, 171, 255);
+    [SerializeField] private Color exitColor = new Color32(142, 77, 77, 255);
+    [SerializeField] private Color32 nonVisitedColor = new Color32(173, 141, 114, 255);
+    [SerializeField] private Color32 startRoomColor = new Color32(255, 117, 117, 255);
+    [SerializeField] private Color32 nonVisitedTransitionColor = new Color32(138, 145, 171, 255);
+    [SerializeField] private Color32 visitedTransitionColor = new Color32(255, 255, 255, 255);
+
+
     private const int mapSize = 21;
     private Vector2Int center = new Vector2Int(10, 10);
 
@@ -39,21 +52,18 @@ public class InventoryMinimap : MonoBehaviour
     void UpdateMap()
     {
         var allRoomPositions = labirintBuilder.allRoomsPositions;
-        var roomBlueprints = Labirint.instance.blueprints;
-        int currentRoomID = Labirint.instance.currentRoomID;
+        var labirint = Labirint.instance;
+        var roomBlueprints = labirint.blueprints;
+        int currentRoomID = labirint.currentRoomID;
         Vector2Int currentRoomPosition = allRoomPositions[currentRoomID];
 
+        // this cycle draws lines between rooms
+        // lines should be drawn beneath the icons. That is why we do it in two cycles
         int j = 0;
-
         for (int i = 0; i < allRoomPositions.Count; i++)
         {
             var position = ToMapSpace(currentRoomPosition, allRoomPositions[i]);
-            if (ValidPosition(position))
-            {
-                mapIcons[i].enabled = true;
-                mapIcons[i].rectTransform.anchoredPosition = new Vector2(iconOffsetX + iconSizeX * position.x, -(iconOffsetY + iconSizeY * position.y));
-            }
-            //print($"{i} {allRoomPositions[i]} {position}");
+            if (!ValidPosition(position)) continue;
 
             foreach (Direction.Side side in Direction.sides)
             {
@@ -68,22 +78,73 @@ public class InventoryMinimap : MonoBehaviour
                         halfDifference.x /= 2;
                         halfDifference.y /= 2;
                         Vector2Int linePosition = position - halfDifference;
+                        var icon = mapIcons[j];
                         if (difference.x == 2 || difference.x == -2)
                         {
-                            mapIcons[allRoomPositions.Count + j].sprite = horizontalLine;
+                            icon.sprite = horizontalLine;
                         }
                         else
                         {
-                            mapIcons[allRoomPositions.Count + j].sprite = verticalLine;
+                            icon.sprite = verticalLine;
                         }
-                        mapIcons[allRoomPositions.Count + j].enabled = true;
-                        mapIcons[allRoomPositions.Count + j].rectTransform.anchoredPosition = 
+                        icon.enabled = true;
+                        icon.rectTransform.anchoredPosition =
                             new Vector2(iconOffsetX + iconSizeX * linePosition.x, -(iconOffsetY + iconSizeY * linePosition.y));
+                        icon.color = roomBlueprints[i].visited || i == currentRoomID ? visitedTransitionColor : nonVisitedTransitionColor;
+
                         j++;
                     }
                 }
             }
         }
+
+        // this cycle draws rooms on minimap
+        for (int i = 0; i < allRoomPositions.Count; i++)
+        {
+            var position = ToMapSpace(currentRoomPosition, allRoomPositions[i]);
+            if (ValidPosition(position))
+            {
+                var icon = mapIcons[j + i];
+                icon.enabled = true;
+
+                icon.rectTransform.sizeDelta = new Vector2(iconSizeX, iconSizeY);
+                icon.rectTransform.anchoredPosition = new Vector2(iconOffsetX + iconSizeX * position.x, -(iconOffsetY + iconSizeY * position.y));
+                if (roomBlueprints[i].contanerPrefab != null) // treasure room
+                {
+                    icon.color = treasureRoomColor;
+                }
+                else if (roomBlueprints[i].exitSceneName != "")
+                {
+                    icon.color = exitColor;
+                }
+                else if (i == 0)
+                {
+                    icon.color = startRoomColor;
+                }
+                else if (roomBlueprints[i].visited)
+                {
+                    icon.color = visitedRoomColor;
+                }
+                else
+                {
+                    icon.color = nonVisitedColor;
+                }
+                    
+
+
+                if (currentRoomPosition == allRoomPositions[i])
+                {
+                    icon.rectTransform.sizeDelta = new Vector2(iconSizeCurrentRoomX, iconSizeCurrentRoomY);
+                    icon.rectTransform.anchoredPosition = 
+                        new Vector2(
+                            iconOffsetX + ((iconSizeX - iconSizeCurrentRoomX) / 2f) + iconSizeX * position.x,
+                            -(iconOffsetY + ((iconSizeY - iconSizeCurrentRoomY) / 2f) + iconSizeY * position.y)); // it just works
+                    icon.color = currentRoomColor;
+                }
+            }
+        }
+
+        
     }
 
     Vector2Int ToMapSpace(Vector2Int currentPosition, Vector2Int coordinates) // 60 is a center, 11 elements in rows and columns 

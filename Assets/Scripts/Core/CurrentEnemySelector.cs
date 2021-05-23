@@ -19,7 +19,7 @@ public class CurrentEnemySelector : MonoBehaviour
         MonsterLife.OnEnemyDead.AddListener(CheckBoyOnDemand);
         difficulty = SaveLoading.difficulty.ToString();
 
-        if (enemyHintPrefab && difficulty != "2") SpawnHint(enemyHintPrefab);
+        if (enemyHintPrefab) SpawnHint(enemyHintPrefab);
     }
 
     private void Update()

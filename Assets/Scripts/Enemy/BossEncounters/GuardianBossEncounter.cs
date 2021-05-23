@@ -43,6 +43,8 @@ public class GuardianBossEncounter : BossEncounter
     public GameObject slamEffect;
     public AudioClip rockFallSlamAudio;
 
+    public AudioSource tramplingSource;
+
     [HideInInspector]
     public ShakeCameraExternal cameraShaker;
     [HideInInspector]
@@ -367,6 +369,7 @@ public class GuardianBossEncounter : BossEncounter
         {
             base.AttackStart();
             bossData.GetComponent<Align>().target = crystalToMoveTo;
+            AudioManager.PlaySource("Trampling", bossData.tramplingSource);
         }
 
         protected override void AttackUpdate()
@@ -399,6 +402,8 @@ public class GuardianBossEncounter : BossEncounter
             moveFrom = crystalToMoveTo.transform.position;
             mouthOffset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
             bossData.PlayIdleAnimation();
+            AudioManager.PauseSource(bossData.tramplingSource);
+            AudioManager.Play(bossData.crystalConsumeAudio);
         }
 
         protected override void AttackUpdate()

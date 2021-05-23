@@ -138,7 +138,8 @@ public class PoolManager : MonoBehaviour
                 }
                 catch (System.Exception)
                 {
-                    print($"ERROR: {toPoolBuffer[i].name} not found in dictionary!");
+                    Debug.LogWarning($"Can't return non-pooled {toPoolBuffer[i].name}.");
+                    Destroy(toPoolBuffer[i].obj);
                     toPoolBuffer.RemoveAt(i);
                     i--;
                     continue;

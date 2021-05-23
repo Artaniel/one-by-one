@@ -19,9 +19,9 @@ public class TentacleAreaGrabber : MonoBehaviour
         enemies.Clear();
         enemyBodies.Clear();
 
-        for (int i = 0; i < transform.childCount; i++)
+        while (transform.childCount > 0)
         {
-            GameObject child = transform.GetChild(i).gameObject;
+            GameObject child = transform.GetChild(0).gameObject;
             if (child.gameObject.activeSelf)
             {
                 child.transform.SetParent(null);
@@ -50,12 +50,16 @@ public class TentacleAreaGrabber : MonoBehaviour
     {
         for (int i = 0; i < tentacles.Count; i++)
         {
+            
             if (tentacles[i].gameObject.activeSelf && enemies[i].HP > 0
-                && Vector3.Distance(enemies[i].transform.position, transform.position) < radius + 3f)
+                && Vector2.Distance(enemies[i].transform.position, transform.position) < radius + 3f)
             {
+                Vector2 toEnemy = (transform.position - enemies[i].transform.position);
                 SetTentacleTransform(tentacles[i], transform.position, enemies[i].transform.position);
-                if (Vector3.Distance(enemies[i].transform.position, transform.position) > 1.5f)
-                    enemyBodies[i].KnockBack((transform.position - enemies[i].transform.position).normalized * pullPower * Time.deltaTime);
+                if (toEnemy.magnitude > 1.5f)
+                {
+                    enemyBodies[i].KnockBack(toEnemy.normalized * pullPower * Time.deltaTime);
+                }
             }
             else if (tentacles[i].gameObject.activeSelf)
             {
@@ -68,6 +72,8 @@ public class TentacleAreaGrabber : MonoBehaviour
     private void SetTentacleTransform(SpriteRenderer tentacle, Vector3 from, Vector3 to)
     {
         Quaternion rotation = Quaternion.LookRotation(Vector3.forward, to - from);
+        from.z = 0;
+        to.z = 0;
         Vector3 position = (from + to) / 2f;
         tentacle.transform.SetPositionAndRotation(position, rotation);
         tentacle.transform.Rotate(0, 0, 90);

@@ -29,10 +29,9 @@ public class MonsterLife : MonoBehaviour
     [SerializeField] private float timeKillToDestroyGObject = 0.5f;
     [SerializeField] private float timeKillToHideGObject = 0.15f;
 
-    [SerializeField] private AudioClip hitSound = null;
     [SerializeField] private AudioClip[] hitSounds = null;
     [SerializeField] private float pauseBetweenConsecutiveSounds = 1f;
-    private float lastHitSoundTime = 0;
+    private float lastHitSoundTime = -999;
 
     protected virtual bool ReceiveFullDamage()
     {
@@ -91,15 +90,11 @@ public class MonsterLife : MonoBehaviour
 
     private void _FullHitEffect()
     {
-        if (hitSound && Time.time - lastHitSoundTime > pauseBetweenConsecutiveSounds)
+        if (hitSounds.Length > 0 && Time.time - lastHitSoundTime > pauseBetweenConsecutiveSounds)
         {
             lastHitSoundTime = Time.time;
-            if (hitSounds.Length > 0)
-            {
-                var sound = hitSounds[Random.Range(0, hitSounds.Length)];
-                AudioManager.Play(sound, audioSource);
-            }
-            AudioManager.Play(hitSound, audioSource);
+            var sound = hitSounds[Random.Range(0, hitSounds.Length)];
+            AudioManager.Play(sound, audioSource);
         }
         FullHitEffect();
     }

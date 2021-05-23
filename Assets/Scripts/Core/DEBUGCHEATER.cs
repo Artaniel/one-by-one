@@ -36,7 +36,8 @@ public class DEBUGCHEATER : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.T))
             {
-                characterLife.transform.position = CharacterShooting.GetCursor().transform.position;
+                Vector2 cursorPosition = CharacterShooting.GetCursor().transform.position;
+                characterLife.transform.position = cursorPosition;
             }
             if (Input.GetKeyDown(KeyCode.N))
             {

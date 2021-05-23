@@ -53,7 +53,7 @@ public class Container : MonoBehaviour
             }
         }
         else {
-            Debug.Log("Empty Drop List. Maybe after duplicate exclution.");
+            Debug.Log("Nothing to offer. Empty Drop List, sorry :(.");
         }
     }
 

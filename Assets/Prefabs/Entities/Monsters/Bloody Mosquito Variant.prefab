@@ -901,6 +901,7 @@ MonoBehaviour:
   agroBlockTime: 2
   cooldownRange: {x: 999, y: 999}
   attackSpeedModifier: 1
+  attackSound: {fileID: 0}
   castTime: 1
   simpleMoveForward: {fileID: 2101101372}
   otherMoveForward: {fileID: 2101101368}
@@ -1246,6 +1247,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: hitSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: maxHP
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 2e14e9e288cc5f942aba92de7fa95011, type: 3}
+    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: hitSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2e14e9e288cc5f942aba92de7fa95011, type: 3}
     - target: {fileID: 8624421033595261174, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1316,16 +1337,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817045, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8f3519b4bed10294f9ea200e0792fc3a, type: 2}
     - target: {fileID: 5750572624706775277, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: maxSpeed
       value: 8.58333
       objectReference: {fileID: 0}
-    - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: m_Mesh
-      value: 
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 6267769188258830449, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1549628111085345013, guid: ee13bdb5471f6124fb7368f44577b78a,
+        type: 3}
     - target: {fileID: 8985563269723331831, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1346,32 +1393,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 8985563269723331825, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
-      propertyPath: maxHP
-      value: 8
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7908233129714637035, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: hitSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 2e14e9e288cc5f942aba92de7fa95011, type: 3}
-    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8516253945559817048, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1549628111085345013, guid: ee13bdb5471f6124fb7368f44577b78a,
-        type: 3}
-    - target: {fileID: 8516253945559817047, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 8f3519b4bed10294f9ea200e0792fc3a, type: 2}
     - target: {fileID: 2243364324628924419, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Offset.y
@@ -1417,7 +1443,7 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1035709932181455956, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 1225790468889400222, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Layer
       value: 12
@@ -1447,26 +1473,6 @@ PrefabInstance:
       propertyPath: timeToLoseAggro
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5749680861489563573, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3849849318250332381, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1225790468889400222, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8516253945559817045, guid: 98cd7e8f344209344a7cb9babefd9898,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 8985563269723331829, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Layer
@@ -1477,7 +1483,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 6267769188258830449, guid: 98cd7e8f344209344a7cb9babefd9898,
+    - target: {fileID: 5749680861489563573, guid: 98cd7e8f344209344a7cb9babefd9898,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849849318250332381, guid: 98cd7e8f344209344a7cb9babefd9898,
         type: 3}
       propertyPath: m_Layer
       value: 12

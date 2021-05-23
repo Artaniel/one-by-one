@@ -347,11 +347,31 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: needsOOBCheck
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: hitSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: maxHP
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7057133712264955137, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: hitSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 15615a936098ce541816bdd2eb5f682d, type: 3}
     - target: {fileID: 8669062463246606619, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_audioClip
@@ -412,20 +432,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
+    - target: {fileID: 3325605106829218352, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
-      propertyPath: maxSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4872449274570011911, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: needsOOBCheck
+      propertyPath: bypassAngleAccumulationSpeed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8134463785630515486, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 1.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289666643154393673, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8826921468404025023, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134463785630515487, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 148580491432581566, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
@@ -437,19 +467,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 8134463785630515487, guid: 0aa1b81b52f950047969568a2592a7b9,
+    - target: {fileID: 6533561181308650907, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 8826921468404025023, guid: 0aa1b81b52f950047969568a2592a7b9,
+    - target: {fileID: 8826921468404025010, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289666643154393673, guid: 0aa1b81b52f950047969568a2592a7b9,
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6617880080247477084, guid: c08c719ab8449bf4d916c43302ae354d,
         type: 3}
-      propertyPath: m_Controller
+    - target: {fileID: 8134463785630515483, guid: 0aa1b81b52f950047969568a2592a7b9,
+        type: 3}
+      propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1151797650709385371, guid: 0aa1b81b52f950047969568a2592a7b9,
@@ -482,18 +513,7 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.29
       objectReference: {fileID: 0}
-    - target: {fileID: 8134463785630515483, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8826921468404025010, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -6617880080247477084, guid: c08c719ab8449bf4d916c43302ae354d,
-        type: 3}
-    - target: {fileID: 6533561181308650907, guid: 0aa1b81b52f950047969568a2592a7b9,
+    - target: {fileID: 4871401516588849759, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}
       propertyPath: m_Layer
       value: 12
@@ -502,16 +522,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4871401516588849759, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325605106829218352, guid: 0aa1b81b52f950047969568a2592a7b9,
-        type: 3}
-      propertyPath: bypassAngleAccumulationSpeed
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6746035944223259000, guid: 0aa1b81b52f950047969568a2592a7b9,
         type: 3}

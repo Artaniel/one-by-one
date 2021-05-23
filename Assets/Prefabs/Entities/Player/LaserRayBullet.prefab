@@ -4814,10 +4814,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
+  speedMultiplier: 1
   timeToDestruction: 1
   damage: 0.4
   TTDLeft: 0.5
-  bulletMods: []
+  selfBulletMods: []
   piercing: 0
   phasing: 0
   copiedBullet: 0
@@ -4829,8 +4830,6 @@ MonoBehaviour:
     lastTimeEquipped: 0
     weaponIndex: 0
     attackSound: {fileID: 0}
-  chained: 0
-  allowChained: 0
   afterEffect: {fileID: 0}
   initializeDefault: 0
   particlesEmitter: {fileID: 9086751683071405359}
@@ -4839,7 +4838,11 @@ MonoBehaviour:
   emitterStartColor: {r: 0, g: 0, b: 0, a: 0}
   lightStartColor: {r: 0, g: 0, b: 0, a: 0}
   startSize: {x: 1, y: 1, z: 1}
+  audioSource: {fileID: 0}
+  rigidbody: {fileID: 0}
   startPoint: {fileID: 0}
+  laserInitiate: {fileID: 8300000, guid: 15e74e238215e174089aef3d9ce8ec68, type: 3}
+  laserSource: {fileID: 788851632085257763}
 --- !u!50 &4794280771516729851
 Rigidbody2D:
   serializedVersion: 4
@@ -4886,11 +4889,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e6f67c4fe00a11b4cabc4975e8e2539f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.7
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
