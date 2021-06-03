@@ -110,7 +110,6 @@ public class MainMenuScript : MonoBehaviour
             default:
                 break;
         }
-        Metrics.OnNewGame();
     }
 
     public void NewYear()

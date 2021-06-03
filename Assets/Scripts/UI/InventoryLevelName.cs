@@ -9,6 +9,6 @@ public class InventoryLevelName : MonoBehaviour
     void Start()
     {
         textUI = GetComponent<TMPro.TextMeshProUGUI>();
-        textUI.text = SaveLoading.currentLocationName;
+        textUI.text = SaveLoading.currentLocationName.ToUpper();
     }
 }

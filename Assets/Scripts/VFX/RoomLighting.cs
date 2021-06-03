@@ -43,7 +43,7 @@ public class RoomLighting : MonoBehaviour
     private void RecalculateLight()
     {
         previousLight = Light;
-        Light = Mathf.Lerp(DefaultLight, roomClearedLight, Mathf.Pow(Mathf.Clamp01(TotalValue / maxvalue), 1.7f));
+        Light = Mathf.Lerp(DefaultLight, roomClearedLight, Mathf.Pow(Mathf.Clamp01(TotalValue / maxvalue), 1.3f));
         t = 0.0f;
     }
 
@@ -169,7 +169,7 @@ public class RoomLighting : MonoBehaviour
             else // initial light
             {
                 Light = DefaultLight;
-                if (arena) maxvalue = arena.EnemyCount();
+                if (arena) maxvalue = arena.EnemyCount() - 1;
 
                 if (swampPrefab) SetSwampMaterial();
 
@@ -180,10 +180,10 @@ public class RoomLighting : MonoBehaviour
         }
     }
 
-    private const float maxT = 0.35f;
+    private const float maxT = 0.65f;
 
     private float previousLight = 0;
-    private float TotalValue = 1;
+    private float TotalValue = 0;
     private float CurrentVal;
     private float t = 0.0f;
     private float Light;

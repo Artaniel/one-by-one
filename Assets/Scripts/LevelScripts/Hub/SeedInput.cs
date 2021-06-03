@@ -13,7 +13,7 @@ public class SeedInput : MonoBehaviour
 
     private void Awake()
     {
-        UpdateSeedText();
+        SetSeed();
     }
 
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
@@ -34,7 +34,7 @@ public class SeedInput : MonoBehaviour
         }
         else
             LabirintBuilder.ResetSeed();
-        UpdateSeedText();
+        UpdateSeedText(seedInput.text);
         CloseMenu();
     }
 
@@ -46,7 +46,7 @@ public class SeedInput : MonoBehaviour
     public void ResetSeed() {
         seedInput.text = "";
         LabirintBuilder.ResetSeed();
-        UpdateSeedText();
+        UpdateSeedText(seedInput.text);
         CloseMenu();
     }
 
@@ -57,13 +57,12 @@ public class SeedInput : MonoBehaviour
         UnityEngine.Cursor.visible = false;
     }
 
-    private void UpdateSeedText()
+    private void UpdateSeedText(string seed)
     {
-        string s = SaveLoading.seed;
-        if (s != "")
+        if (seed != "")
         {
-            seedInput.text = s;
-            outerSeededText.text = $"Seed: {s}";
+            seedInput.text = seed;
+            outerSeededText.text = $"Seed: {seed}";
         }
         else
         {

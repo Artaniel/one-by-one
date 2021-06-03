@@ -11,6 +11,7 @@ public class InventoryMinimap : MonoBehaviour
 
     [SerializeField] private Sprite verticalLine = null;
     [SerializeField] private Sprite horizontalLine = null;
+    [SerializeField] private Image minimapImageForNoLabirint = null;
 
     float iconOffsetX = 4.55f;
     float iconOffsetY = -4.25f;
@@ -46,6 +47,7 @@ public class InventoryMinimap : MonoBehaviour
             labirintBuilder = Labirint.instance.GetComponent<LabirintBuilder>();
             Room.OnAnyRoomEnter.AddListener(UpdateMap);
             UpdateMap();
+            minimapImageForNoLabirint.enabled = false; 
         }
     }
 

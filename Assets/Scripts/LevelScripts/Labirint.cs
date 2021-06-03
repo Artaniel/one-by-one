@@ -68,14 +68,15 @@ public class Labirint : MonoBehaviour
         {
             if (SaveLoading.sceneNameForCurrentLocation == SceneManager.GetActiveScene().name)
             {
-                EventManager.Notify(SaveLoading.currentLocationName, 1);
+                EventManager.Notify($"I am entering {SaveLoading.currentLocationName}...", 1);
+                print($"{SaveLoading.sceneNameForCurrentLocation}  {SaveLoading.currentLocationName}");
             }
             else
             {
                 locationName = Instantiate(locationName);
                 string locationNameString = locationName.GetRandomName();
                 SaveLoading.SaveLocationName(locationNameString);
-                EventManager.Notify(locationNameString, 1);
+                EventManager.Notify($"I am entering {SaveLoading.currentLocationName}...", 1);
             }
         }
     }

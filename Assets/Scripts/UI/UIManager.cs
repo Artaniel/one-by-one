@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public bool showUIFromStart = true;
     public static bool showUI = true;
 
     private static Renderer[] renderers;
@@ -14,6 +15,10 @@ public class UIManager : MonoBehaviour
     {
         renderers = GetComponentsInChildren<Renderer>();
         images = GetComponentsInChildren<MaskableGraphic>();
+        if (!showUIFromStart)
+        {
+            ToggleUI();
+        }
     }
 
     void Update()

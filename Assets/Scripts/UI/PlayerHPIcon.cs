@@ -8,6 +8,7 @@ public class PlayerHPIcon : MonoBehaviour
     
     public void UpdateHP(int hp, int maxHp)
     {
+        if (!UIManager.showUI) return;
         for (int i = 0; i < hp; i++)
         {
             hpIcons[i].transform.GetChild(0).gameObject.SetActive(true);

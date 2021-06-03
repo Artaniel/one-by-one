@@ -25,7 +25,9 @@ public class HubEnterLabyrinth : MonoBehaviour
 
     private void LoadSceneFromHub()
     {
+        SaveLoading.ResetNonPermanentSaveData();
         RelodScene.OnSceneChange?.Invoke();
+        Metrics.OnNewGame();
         SceneLoading.LoadScene(sceneToLoad);
     }
 
@@ -43,6 +45,7 @@ public class HubEnterLabyrinth : MonoBehaviour
         player.GetComponent<CharacterMovement>().enabled = false;
         AudioManager.PauseSource(player.GetComponent<AudioSource>());
         player.GetComponent<Rigidbody2D>().Sleep();
+        player.GetComponent<Collider2D>().enabled = false;
         var playerLife = player.GetComponent<CharacterLife>();
         playerLife.HidePlayer();
         var dummy = Instantiate(

@@ -5,7 +5,7 @@ using Cinemachine;
 
 public class CameraFocusOn : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
         mainCam = Camera.main;
         cineCamera = mainCam.GetComponentInChildren<CinemachineVirtualCamera>();
@@ -50,13 +50,19 @@ public class CameraFocusOn : MonoBehaviour
         DisableOtherScripts();
         focusing = true;
         length = focusDuration;
-        timeLeft = focusDuration;
-        doubleSpeedTimeLeft = focusDuration;
 
         focusStartPosition = transform.position;
         focusEndPosition = new Vector3(focusOn.x, focusOn.y, transform.position.z);
         lensOrthoStart = cineCamera.m_Lens.OrthographicSize;
         lensOrthoEnd = cineCamera.m_Lens.OrthographicSize / zoomMultiplier;
+
+        if (focusDuration == 0)
+        {
+            mainCam.transform.position = focusEndPosition;
+            cineCamera.m_Lens.OrthographicSize = lensOrthoEnd;
+        }
+        timeLeft = focusDuration;
+        doubleSpeedTimeLeft = focusDuration;
     }
 
     public void UnFocus(float unfocusDuration)

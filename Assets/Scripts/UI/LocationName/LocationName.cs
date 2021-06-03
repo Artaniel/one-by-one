@@ -34,6 +34,11 @@ public class LocationName : ScriptableObject
         string randomFirst = locationFirst[Random.Range(0, locationFirst.Length)];
         string randomSecond = locationSecond[Random.Range(0, locationSecond.Length)];
         string randomThird = locationThird[Random.Range(0, locationThird.Length)];
-        return $"{randomZero} {randomFirst} {randomSecond} {randomThird}";
+        string locationName = "";
+        if (randomZero != "") locationName = locationName + " " + randomZero;
+        if (randomFirst != "") locationName = locationName + " " + randomFirst;
+        if (randomSecond != "") locationName = locationName + " " + randomSecond;
+        if (randomThird != "") locationName = locationName + " " + randomThird;
+        return locationName;
     }
 }
