@@ -751,8 +751,14 @@ public class MirrorBossEncounter : BossEncounter
         {
             if (!BD.bossInstance) return;
             base.AttackStart();
-            moveTo = movePosition.RandomZonePosition();
             moveFrom = BD.bossInstance.position;
+            int counterExit = 0;
+            moveTo = moveFrom;
+            while (Vector3.Distance(moveTo, moveFrom) < 6 && counterExit != 10)
+            {
+                moveTo = movePosition.RandomZonePosition();
+                counterExit++;
+            }
             float distanceToMove = Vector3.Distance(moveFrom, moveTo);
             moveTime = Mathf.Lerp(minMoveTime, maxPossibleMoveTime,
                 (Mathf.Clamp(distanceToMove, minnDTimeFactor, maxDTimeFactor) - minnDTimeFactor) / (maxDTimeFactor - minnDTimeFactor));
@@ -782,9 +788,11 @@ public class MirrorBossEncounter : BossEncounter
             {
                 Destroy(infusedBullet);
             }
-            newBullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+            newBullet.GetComponent<EnemyBulletLife>().SetIgnoreCollisionTime(10f);
             newBullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
-            newBullet.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
+            var light = newBullet.GetComponentInChildren<Light2D>();
+            light.color = BD.mirrorColor;
+            light.intensity = 0.1f;
 
             var newBullet2 = PoolManager.GetPool(projectile, BD.bossInstance.position,
                 Quaternion.Euler(0, 0, BD.bossInstance.rotation.eulerAngles.z + 90 + ((Random.Range(0, 2) == 0 ? 1 : -1) * Random.Range(20f, 30f))));
@@ -792,9 +800,11 @@ public class MirrorBossEncounter : BossEncounter
             {
                 Destroy(infusedBullet2);
             }
-            newBullet2.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+            newBullet2.GetComponent<EnemyBulletLife>().SetIgnoreCollisionTime(10f);
             newBullet2.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
-            newBullet2.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
+            var light2 = newBullet2.GetComponentInChildren<Light2D>();
+            light2.color = BD.mirrorColor;
+            light2.intensity = 0.1f;
 
             if (BD.difficulty == "2")
             {
@@ -804,18 +814,22 @@ public class MirrorBossEncounter : BossEncounter
                 {
                     Destroy(infusedBullet3);
                 }
-                newBullet3.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+                newBullet3.GetComponent<EnemyBulletLife>().SetIgnoreCollisionTime(10f);
                 newBullet3.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
-                newBullet3.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
+                var light3 = newBullet3.GetComponentInChildren<Light2D>();
+                light3.color = BD.mirrorColor;
+                light3.intensity = 0.1f;
             }
 
             float angleOffset = Random.Range(0, 90f);
             for (int i = 0; i < BD.outrageProjectileCount; i++)
             {
                 var bullet = PoolManager.GetPool(projectile, BD.bossInstance.position, Quaternion.Euler(0, 0, angleOffset + ((360f * i) / BD.outrageProjectileCount)));
-                bullet.GetComponent<EnemyBulletLife>().ignoreCollisionTime = 10f;
+                bullet.GetComponent<EnemyBulletLife>().SetIgnoreCollisionTime(10f);
                 bullet.GetComponentInChildren<SpriteRenderer>().color = BD.mirrorColor;
-                bullet.GetComponentInChildren<Light2D>().color = BD.mirrorColor;
+                light = bullet.GetComponentInChildren<Light2D>();
+                light.color = BD.mirrorColor;
+                light.intensity = 0.1f;
             }
 
             timeToNextShot = Random.Range(timeToShot.x, timeToShot.y);
@@ -908,6 +922,7 @@ public class MirrorBossEncounter : BossEncounter
             AudioManager.PlayMusic(BD.GetComponent<AudioSource>(), 33f);
             BD.bossInstance.gameObject.SetActive(true);
             BD.bossInstance.position = BD.bossSpawnPosition.position;
+            BD.mirrorBulletInfuser.infuseEnemyBullets = true;
         }
 
         private EllipseBulletData SpawnBulletOnEllipseEdge(float xPos, float R, bool leftSemisphere, bool topSemisphere)

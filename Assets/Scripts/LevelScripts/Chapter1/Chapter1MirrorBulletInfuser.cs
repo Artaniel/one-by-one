@@ -23,9 +23,11 @@ public class Chapter1MirrorBulletInfuser : MonoBehaviour
             var eBulletLife = coll.gameObject.GetComponent<EnemyBulletLife>();
             if (infuseEnemyBullets && eBulletLife)
             {
-                eBulletLife.ignoreCollisionTime = 0;
+                eBulletLife.GetComponent<EnemyBulletLife>().SetIgnoreCollisionTime(0.15f);
                 eBulletLife.GetComponentInChildren<SpriteRenderer>().color = enemyBulletColor;
-                eBulletLife.GetComponentInChildren<Light2D>().color = enemyBulletColor;
+                var bulletLight = eBulletLife.GetComponentInChildren<Light2D>();
+                bulletLight.intensity = 0.5f;
+                bulletLight.color = enemyBulletColor;
                 // reflect
                 RaycastHit2D hit = Physics2D.Raycast(eBulletLife.transform.position, transform.up,
                 float.PositiveInfinity, LayerMask.GetMask("Default"));

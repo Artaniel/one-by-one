@@ -66,7 +66,8 @@ public class CharacterShooting : MonoBehaviour
         {
             lastMousePosition = Input.mousePosition;
             controllerControl = false;
-            MouseCursor.state = MouseCursor.CursorState.SoftwareRendered;
+            if (UIManager.showUI) MouseCursor.state = MouseCursor.CursorState.SoftwareRendered;
+            else MouseCursor.state = MouseCursor.CursorState.Hidden;
         }
     }
 

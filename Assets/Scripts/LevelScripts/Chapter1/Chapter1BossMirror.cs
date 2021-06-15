@@ -7,6 +7,8 @@ public class Chapter1BossMirror : MirrorTriggerScript
 {
     [SerializeField] private SpriteRenderer BossSprite = null;
     [SerializeField] private ParticleSystem mirrorActivateParticles = null;
+    [SerializeField] private Light2D roomLight = null;
+    [SerializeField] private float targetRoomLight = 0.3f;
 
     private bool isActive = false;
 
@@ -28,6 +30,7 @@ public class Chapter1BossMirror : MirrorTriggerScript
     {
         lightSource = GetComponentInParent<Light2D>();
         startingLightIntensity = lightSource.intensity;
+        initialRoomLightIntensity = roomLight.intensity;
     }
 
     private void Update()
@@ -46,10 +49,11 @@ public class Chapter1BossMirror : MirrorTriggerScript
         timer = isActive ? timer + Time.deltaTime : 0;
 
         if (timer == 0) return;
-        lightSource.intensity = Mathf.Lerp(startingLightIntensity, 2, timer / (timeToActivate * 0.8f));
+        float effectParameter = timer / (timeToActivate * 0.8f);
+        lightSource.intensity = Mathf.Lerp(startingLightIntensity, 2, effectParameter);
         BossSprite.color = new Color(
-            BossSprite.color.r, BossSprite.color.g, BossSprite.color.b,
-            Mathf.Lerp(0, 1, timer / (timeToActivate * 0.8f)));
+            BossSprite.color.r, BossSprite.color.g, BossSprite.color.b, Mathf.Lerp(0, 1, effectParameter));
+        roomLight.intensity = Mathf.Lerp(initialRoomLightIntensity, targetRoomLight, effectParameter);
         if (timer / timeToActivate > 1)
         {
             finallyActivated = true;
@@ -67,4 +71,5 @@ public class Chapter1BossMirror : MirrorTriggerScript
 
     private Light2D lightSource;
     private float startingLightIntensity;
+    private float initialRoomLightIntensity;
 }

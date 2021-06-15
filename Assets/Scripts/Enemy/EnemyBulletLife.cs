@@ -99,6 +99,11 @@ public class EnemyBulletLife : MonoBehaviour
         bulletLifeLeft = newTimeLeft;
     }
 
+    public void SetIgnoreCollisionTime(float time)
+    {
+        ignoreCollisionTimeLeft = time;
+    }
+
     protected bool destroyed = false;
     private SpriteRenderer sprite;
     private Color startingColor;
