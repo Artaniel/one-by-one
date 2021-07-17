@@ -41,4 +41,6 @@ public class EvilDictionary : ScriptableObject
 
         "Coronavirus", "Covid", "Infection", "Desease", "Virus", "Pandemic", "Epidemy"
     };
+
+    public LocalizationManager.Locale language = LocalizationManager.Locale.EN;
 }

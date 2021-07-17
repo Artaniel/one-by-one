@@ -17,7 +17,7 @@ public class MonsterLife : MonoBehaviour
     [SerializeField] private bool autoChooseName = true;
     [SerializeField] private bool hitPlayerOnContact = true;
 
-    [SerializeField] private EvilDictionary evilDictionary = null;
+    [SerializeField] private List<EvilDictionary> evilDictionarys = null;
 
     // Apply listeners on start!!
     public static UnityEvent OnEnemyDead = new UnityEvent();
@@ -225,7 +225,7 @@ public class MonsterLife : MonoBehaviour
     private void ChooseMyName()
     {
         if (!autoChooseName) return;
-        List<string> possibleNames = evilDictionary.EvilNames();
+        List<string> possibleNames = LocalizationManager.GetEvilDictionaryFromList(evilDictionarys).EvilNames();
         for (int i = 0; i < 200; i++) // Any ideas how to make this better?
         {
             var possibleName = possibleNames[Random.Range(0, possibleNames.Count)];

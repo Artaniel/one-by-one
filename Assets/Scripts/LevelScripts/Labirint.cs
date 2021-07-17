@@ -29,7 +29,8 @@ public class Labirint : MonoBehaviour
     private Vector3 respawnPoint;
     public string difficultySetting = "1";
     public List<MonsterRoomModifier> commonMRMods;
-    [SerializeField] public LocationName locationName = null;
+    [SerializeField] public List<LocationName> locationNames = null;
+    private  LocationName currentLocationName = null;
     [HideInInspector] static public Room currentRoom;
     [HideInInspector] public bool OneRoomMode = false;
     public AudioClip music = null;
@@ -64,19 +65,20 @@ public class Labirint : MonoBehaviour
         }
 
         StartingRoomSpawn();
-        if (locationName)
+        if (locationNames.Count > 0)
         {
             if (SaveLoading.sceneNameForCurrentLocation == SceneManager.GetActiveScene().name)
             {
-                EventManager.Notify($"I am entering {SaveLoading.currentLocationName}...", 1);
+                EventManager.Notify(LocalizationManager.GetTranlationENtoCurrent("I am entering") + " " + SaveLoading.currentLocationName + "...", 1);
                 print($"{SaveLoading.sceneNameForCurrentLocation}  {SaveLoading.currentLocationName}");
             }
             else
             {
-                locationName = Instantiate(locationName);
-                string locationNameString = locationName.GetRandomName();
+                currentLocationName = LocalizationManager.GetLocationNameFromList(locationNames);
+                currentLocationName = Instantiate(currentLocationName);
+                string locationNameString = currentLocationName.GetRandomName();
                 SaveLoading.SaveLocationName(locationNameString);
-                EventManager.Notify($"I am entering {SaveLoading.currentLocationName}...", 1);
+                EventManager.Notify(LocalizationManager.GetTranlationENtoCurrent("I am entering") + " " + SaveLoading.currentLocationName + "...", 1);
             }
         }
     }

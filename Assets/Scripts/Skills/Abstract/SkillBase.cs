@@ -15,7 +15,9 @@ public abstract class SkillBase : ScriptableObject
     public Sprite miniIcon;
     public int price = 0;
 
-    public virtual string GetDescription() => fullDescriprion;
+    public virtual string GetDescription() { 
+        return LocalizationManager.GetTranlationENtoCurrent(fullDescriprion);
+    }
 
     public string SkillName() => $"{GetType()}:{this.name.Substring(0, this.name.IndexOf("(Clone)") == -1 ? this.name.Length : (this.name.IndexOf("(Clone)")))}";
 

@@ -28,6 +28,9 @@ public class LocationName : ScriptableObject
         ""
     };
 
+    [SerializeField]
+    public LocalizationManager.Locale language = LocalizationManager.Locale.EN;
+
     public virtual string GetRandomName()
     {
         string randomZero = locationZero[Random.Range(0, locationZero.Length)];
